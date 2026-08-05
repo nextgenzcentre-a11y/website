@@ -851,13 +851,55 @@ return `https://lh3.googleusercontent.com/d/${trimmed}`;
 return trimmed;
 }
 
+// Image overrides (which image URL admin picked for each editable picture on the site) work
+// exactly like site_content/textOverrides above: a live Firebase listener keeps one shared
+// cache that every visitor reads from, and any admin write is pushed to Firebase immediately
+// so the change appears for everyone, on every browser and device, right away - not just in
+// the browser that made the change.
+let __imageOverridesCache: Record<string, string> = {};
 function readImageOverrides(): Record<string, string> {
-try {
-const saved = localStorage.getItem('nextgenz_image_overrides');
-return saved ? JSON.parse(saved) : {};
-} catch (e) {
-return {};
+return __imageOverridesCache;
 }
+function broadcastImageOverrides() {
+window.dispatchEvent(new CustomEvent('nextgenz-image-overrides', { detail: __imageOverridesCache }));
+}
+try {
+firebase.database().ref('site_content/imageOverrides').on('value', (snapshot: any) => {
+__imageOverridesCache = snapshot.val() || {};
+broadcastImageOverrides();
+});
+} catch (e) {
+console.error('Could not attach live image-content listener:', e);
+}
+function saveImageOverrides(map: Record<string, string>) {
+__imageOverridesCache = map;
+broadcastImageOverrides();
+firebase
+.database()
+.ref('site_content/imageOverrides')
+.set(map)
+.catch((err: any) => console.error('Failed to save image edit:', err));
+}
+// Every EditableImage/EditableBackgroundImage/EditableProfilePhoto instance calls this once to
+// stay in sync with live Firebase updates (e.g. admin changes a photo in another tab/browser).
+function useImageOverrides(id: string, fallback: string): [string, boolean] {
+const [value, setValue] = useState(() => readImageOverrides()[id] || fallback);
+const [hasOverride, setHasOverride] = useState(() => !!readImageOverrides()[id]);
+useEffect(() => {
+const handler = (e: any) => {
+const map = e.detail || {};
+setValue(map[id] || fallback);
+setHasOverride(!!map[id]);
+};
+window.addEventListener('nextgenz-image-overrides', handler);
+const already = readImageOverrides()[id];
+if (already) {
+setValue(already);
+setHasOverride(true);
+}
+return () => window.removeEventListener('nextgenz-image-overrides', handler);
+}, [id, fallback]);
+return [value, hasOverride];
 }
 
 // Any image on the site wrapped in this component becomes admin-editable. The entire image
@@ -873,7 +915,7 @@ wrapperClassName?: string;
 imgClassName?: string;
 }> = ({ id, src, alt, wrapperClassName, imgClassName }) => {
 const [adminMode, setAdminMode] = useState(__adminModeActive);
-const [currentSrc, setCurrentSrc] = useState(() => readImageOverrides()[id] || src);
+const [currentSrc] = useImageOverrides(id, src);
 useEffect(() => {
 const handler = (e: any) => setAdminMode(e.detail);
 window.addEventListener('nextgenz-admin-mode', handler);
@@ -888,22 +930,14 @@ const input = window.prompt(
 );
 if (input === null || !input.trim()) return;
 const resolved = resolveImageUrl(input);
-setCurrentSrc(resolved);
-const map = readImageOverrides();
-map[id] = resolved;
-try {
-localStorage.setItem('nextgenz_image_overrides', JSON.stringify(map));
-} catch (e) { /* ignore storage errors */ }
+saveImageOverrides({ ...readImageOverrides(), [id]: resolved });
 };
 const handleReset = (e: React.MouseEvent) => {
 e.preventDefault();
 e.stopPropagation();
-setCurrentSrc(src);
-const map = readImageOverrides();
+const map = { ...readImageOverrides() };
 delete map[id];
-try {
-localStorage.setItem('nextgenz_image_overrides', JSON.stringify(map));
-} catch (e) { /* ignore storage errors */ }
+saveImageOverrides(map);
 };
 return (
 <div className={`relative group/editableimg ${wrapperClassName || ''} ${adminMode ? 'z-40 ring-2 ring-[#C5A059] ring-offset-1 rounded' : ''}`}>
@@ -959,7 +993,7 @@ className?: string;
 children?: React.ReactNode;
 }> = ({ id, src, className, children }) => {
 const [adminMode, setAdminMode] = useState(__adminModeActive);
-const [currentSrc, setCurrentSrc] = useState(() => readImageOverrides()[id] || src);
+const [currentSrc] = useImageOverrides(id, src);
 useEffect(() => {
 const handler = (e: any) => setAdminMode(e.detail);
 window.addEventListener('nextgenz-admin-mode', handler);
@@ -974,22 +1008,14 @@ const input = window.prompt(
 );
 if (input === null || !input.trim()) return;
 const resolved = resolveImageUrl(input);
-setCurrentSrc(resolved);
-const map = readImageOverrides();
-map[id] = resolved;
-try {
-localStorage.setItem('nextgenz_image_overrides', JSON.stringify(map));
-} catch (e) { /* ignore storage errors */ }
+saveImageOverrides({ ...readImageOverrides(), [id]: resolved });
 };
 const handleReset = (e: React.MouseEvent) => {
 e.preventDefault();
 e.stopPropagation();
-setCurrentSrc(src);
-const map = readImageOverrides();
+const map = { ...readImageOverrides() };
 delete map[id];
-try {
-localStorage.setItem('nextgenz_image_overrides', JSON.stringify(map));
-} catch (e) { /* ignore storage errors */ }
+saveImageOverrides(map);
 };
 return (
 <div
@@ -1149,7 +1175,7 @@ icon?: string;
 canEdit: boolean;
 sizeClassName?: string;
 }> = ({ id, fallbackDriveLink, icon = 'fa-user', canEdit, sizeClassName = 'w-32 h-32' }) => {
-const [manualOverride, setManualOverride] = useState(() => readImageOverrides()[id] || '');
+const [manualOverride] = useImageOverrides(id, '');
 const effectiveSrc = manualOverride || (fallbackDriveLink ? resolveImageUrl(fallbackDriveLink) : '');
 const handleEdit = (e: React.MouseEvent) => {
 e.preventDefault();
@@ -1159,18 +1185,13 @@ const input = window.prompt(
 ''
 );
 if (input === null) return;
-const map = readImageOverrides();
+const map = { ...readImageOverrides() };
 if (!input.trim()) {
 delete map[id];
-setManualOverride('');
 } else {
-const resolved = resolveImageUrl(input);
-map[id] = resolved;
-setManualOverride(resolved);
+map[id] = resolveImageUrl(input);
 }
-try {
-localStorage.setItem('nextgenz_image_overrides', JSON.stringify(map));
-} catch (e) { /* ignore storage errors */ }
+saveImageOverrides(map);
 };
 return (
 <div
@@ -1978,8 +1999,9 @@ className="px-3.5 py-1.5 bg-[#0F1F38] hover:bg-[#1a2f50] text-white font-bold te
 // ==== components/HeroSection.tsx ====
 const HeroSection: React.FC = () => {
 const [adminMode, setAdminMode] = useState(__adminModeActive);
-const [posterUrl, setPosterUrl] = useState(
-() => readImageOverrides()['hero-video-poster'] || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=2070&q=80'
+const [posterUrl] = useImageOverrides(
+'hero-video-poster',
+'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=2070&q=80'
 );
 useEffect(() => {
 const handler = (e: any) => setAdminMode(e.detail);
@@ -1993,12 +2015,7 @@ const input = window.prompt(
 );
 if (input === null || !input.trim()) return;
 const resolved = resolveImageUrl(input);
-setPosterUrl(resolved);
-const map = readImageOverrides();
-map['hero-video-poster'] = resolved;
-try {
-localStorage.setItem('nextgenz_image_overrides', JSON.stringify(map));
-} catch (e) { /* ignore storage errors */ }
+saveImageOverrides({ ...readImageOverrides(), 'hero-video-poster': resolved });
 };
 return (
 <section className="relative h-screen min-h-[700px] flex items-center justify-center clip-path-slant bg-[#0F1F38]">
