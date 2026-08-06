@@ -851,11 +851,7 @@ return `https://lh3.googleusercontent.com/d/${trimmed}`;
 return trimmed;
 }
 
-// Image overrides (which image URL admin picked for each editable picture on the site) work
-// exactly like site_content/textOverrides above: a live Firebase listener keeps one shared
-// cache that every visitor reads from, and any admin write is pushed to Firebase immediately
-// so the change appears for everyone, on every browser and device, right away - not just in
-// the browser that made the change.
+// Image overrides now sync via Firebase like text overrides do — shared globally, not per-browser.
 let __imageOverridesCache: Record<string, string> = {};
 function readImageOverrides(): Record<string, string> {
 return __imageOverridesCache;
@@ -863,43 +859,33 @@ return __imageOverridesCache;
 function broadcastImageOverrides() {
 window.dispatchEvent(new CustomEvent('nextgenz-image-overrides', { detail: __imageOverridesCache }));
 }
+// Attach live Firebase listener at startup (before any component mounts) so we catch updates immediately.
 try {
 firebase.database().ref('site_content/imageOverrides').on('value', (snapshot: any) => {
-__imageOverridesCache = snapshot.val() || {};
+const val = snapshot.val() || {};
+if (JSON.stringify(val) !== JSON.stringify(__imageOverridesCache)) {
+__imageOverridesCache = val;
 broadcastImageOverrides();
+console.log('Image overrides updated from Firebase:', val);
+}
 });
 } catch (e) {
 console.error('Could not attach live image-content listener:', e);
 }
-function saveImageOverrides(map: Record<string, string>) {
+// Saves an image override to Firebase and waits for confirmation before resolving.
+// Shows user feedback if the save fails.
+async function saveImageOverridesAsync(map: Record<string, string>): Promise<boolean> {
+try {
 __imageOverridesCache = map;
 broadcastImageOverrides();
-firebase
-.database()
-.ref('site_content/imageOverrides')
-.set(map)
-.catch((err: any) => console.error('Failed to save image edit:', err));
+await firebase.database().ref('site_content/imageOverrides').set(map);
+console.log('Image overrides saved to Firebase successfully:', map);
+return true;
+} catch (err: any) {
+console.error('Failed to save image overrides to Firebase:', err);
+alert(`Error saving image: ${err.message || 'Unknown error'}. Please try again.`);
+return false;
 }
-// Every EditableImage/EditableBackgroundImage/EditableProfilePhoto instance calls this once to
-// stay in sync with live Firebase updates (e.g. admin changes a photo in another tab/browser).
-function useImageOverrides(id: string, fallback: string): [string, boolean] {
-const [value, setValue] = useState(() => readImageOverrides()[id] || fallback);
-const [hasOverride, setHasOverride] = useState(() => !!readImageOverrides()[id]);
-useEffect(() => {
-const handler = (e: any) => {
-const map = e.detail || {};
-setValue(map[id] || fallback);
-setHasOverride(!!map[id]);
-};
-window.addEventListener('nextgenz-image-overrides', handler);
-const already = readImageOverrides()[id];
-if (already) {
-setValue(already);
-setHasOverride(true);
-}
-return () => window.removeEventListener('nextgenz-image-overrides', handler);
-}, [id, fallback]);
-return [value, hasOverride];
 }
 
 // Any image on the site wrapped in this component becomes admin-editable. The entire image
@@ -915,13 +901,24 @@ wrapperClassName?: string;
 imgClassName?: string;
 }> = ({ id, src, alt, wrapperClassName, imgClassName }) => {
 const [adminMode, setAdminMode] = useState(__adminModeActive);
-const [currentSrc] = useImageOverrides(id, src);
+const [currentSrc, setCurrentSrc] = useState(() => readImageOverrides()[id] || src);
+const [isSaving, setIsSaving] = useState(false);
 useEffect(() => {
-const handler = (e: any) => setAdminMode(e.detail);
-window.addEventListener('nextgenz-admin-mode', handler);
-return () => window.removeEventListener('nextgenz-admin-mode', handler);
-}, []);
-const handleEditClick = (e: React.MouseEvent) => {
+const adminHandler = (e: any) => setAdminMode(e.detail);
+const imageHandler = (e: any) => {
+const map = e.detail || {};
+setCurrentSrc(map[id] || src);
+};
+window.addEventListener('nextgenz-admin-mode', adminHandler);
+window.addEventListener('nextgenz-image-overrides', imageHandler);
+const already = readImageOverrides()[id];
+if (already) setCurrentSrc(already);
+return () => {
+window.removeEventListener('nextgenz-admin-mode', adminHandler);
+window.removeEventListener('nextgenz-image-overrides', imageHandler);
+};
+}, [id, src]);
+const handleEditClick = async (e: React.MouseEvent) => {
 e.preventDefault();
 e.stopPropagation();
 const input = window.prompt(
@@ -929,15 +926,27 @@ const input = window.prompt(
 ''
 );
 if (input === null || !input.trim()) return;
+setIsSaving(true);
 const resolved = resolveImageUrl(input);
-saveImageOverrides({ ...readImageOverrides(), [id]: resolved });
+const success = await saveImageOverridesAsync({ ...readImageOverrides(), [id]: resolved });
+setIsSaving(false);
+if (success) {
+setCurrentSrc(resolved);
+alert('Image saved successfully!');
+}
 };
-const handleReset = (e: React.MouseEvent) => {
+const handleReset = async (e: React.MouseEvent) => {
 e.preventDefault();
 e.stopPropagation();
+setIsSaving(true);
 const map = { ...readImageOverrides() };
 delete map[id];
-saveImageOverrides(map);
+const success = await saveImageOverridesAsync(map);
+setIsSaving(false);
+if (success) {
+setCurrentSrc(src);
+alert('Image reset to original.');
+}
 };
 return (
 <div className={`relative group/editableimg ${wrapperClassName || ''} ${adminMode ? 'z-40 ring-2 ring-[#C5A059] ring-offset-1 rounded' : ''}`}>
@@ -993,13 +1002,24 @@ className?: string;
 children?: React.ReactNode;
 }> = ({ id, src, className, children }) => {
 const [adminMode, setAdminMode] = useState(__adminModeActive);
-const [currentSrc] = useImageOverrides(id, src);
+const [currentSrc, setCurrentSrc] = useState(() => readImageOverrides()[id] || src);
+const [isSaving, setIsSaving] = useState(false);
 useEffect(() => {
-const handler = (e: any) => setAdminMode(e.detail);
-window.addEventListener('nextgenz-admin-mode', handler);
-return () => window.removeEventListener('nextgenz-admin-mode', handler);
-}, []);
-const handleEditClick = (e: React.MouseEvent) => {
+const adminHandler = (e: any) => setAdminMode(e.detail);
+const imageHandler = (e: any) => {
+const map = e.detail || {};
+setCurrentSrc(map[id] || src);
+};
+window.addEventListener('nextgenz-admin-mode', adminHandler);
+window.addEventListener('nextgenz-image-overrides', imageHandler);
+const already = readImageOverrides()[id];
+if (already) setCurrentSrc(already);
+return () => {
+window.removeEventListener('nextgenz-admin-mode', adminHandler);
+window.removeEventListener('nextgenz-image-overrides', imageHandler);
+};
+}, [id, src]);
+const handleEditClick = async (e: React.MouseEvent) => {
 e.preventDefault();
 e.stopPropagation();
 const input = window.prompt(
@@ -1007,15 +1027,27 @@ const input = window.prompt(
 ''
 );
 if (input === null || !input.trim()) return;
+setIsSaving(true);
 const resolved = resolveImageUrl(input);
-saveImageOverrides({ ...readImageOverrides(), [id]: resolved });
+const success = await saveImageOverridesAsync({ ...readImageOverrides(), [id]: resolved });
+setIsSaving(false);
+if (success) {
+setCurrentSrc(resolved);
+alert('Background image saved successfully!');
+}
 };
-const handleReset = (e: React.MouseEvent) => {
+const handleReset = async (e: React.MouseEvent) => {
 e.preventDefault();
 e.stopPropagation();
+setIsSaving(true);
 const map = { ...readImageOverrides() };
 delete map[id];
-saveImageOverrides(map);
+const success = await saveImageOverridesAsync(map);
+setIsSaving(false);
+if (success) {
+setCurrentSrc(src);
+alert('Background image reset to original.');
+}
 };
 return (
 <div
@@ -1175,9 +1207,20 @@ icon?: string;
 canEdit: boolean;
 sizeClassName?: string;
 }> = ({ id, fallbackDriveLink, icon = 'fa-user', canEdit, sizeClassName = 'w-32 h-32' }) => {
-const [manualOverride] = useImageOverrides(id, '');
+const [manualOverride, setManualOverride] = useState(() => readImageOverrides()[id] || '');
+const [isSaving, setIsSaving] = useState(false);
 const effectiveSrc = manualOverride || (fallbackDriveLink ? resolveImageUrl(fallbackDriveLink) : '');
-const handleEdit = (e: React.MouseEvent) => {
+useEffect(() => {
+const imageHandler = (e: any) => {
+const map = e.detail || {};
+setManualOverride(map[id] || '');
+};
+window.addEventListener('nextgenz-image-overrides', imageHandler);
+const already = readImageOverrides()[id];
+if (already) setManualOverride(already);
+return () => window.removeEventListener('nextgenz-image-overrides', imageHandler);
+}, [id]);
+const handleEdit = async (e: React.MouseEvent) => {
 e.preventDefault();
 e.stopPropagation();
 const input = window.prompt(
@@ -1185,13 +1228,26 @@ const input = window.prompt(
 ''
 );
 if (input === null) return;
+setIsSaving(true);
 const map = { ...readImageOverrides() };
 if (!input.trim()) {
 delete map[id];
-} else {
-map[id] = resolveImageUrl(input);
+const success = await saveImageOverridesAsync(map);
+setIsSaving(false);
+if (success) {
+setManualOverride('');
+alert('Profile photo reset to document photo.');
 }
-saveImageOverrides(map);
+} else {
+const resolved = resolveImageUrl(input);
+map[id] = resolved;
+const success = await saveImageOverridesAsync(map);
+setIsSaving(false);
+if (success) {
+setManualOverride(resolved);
+alert('Profile photo saved successfully!');
+}
+}
 };
 return (
 <div
@@ -1999,23 +2055,39 @@ className="px-3.5 py-1.5 bg-[#0F1F38] hover:bg-[#1a2f50] text-white font-bold te
 // ==== components/HeroSection.tsx ====
 const HeroSection: React.FC = () => {
 const [adminMode, setAdminMode] = useState(__adminModeActive);
-const [posterUrl] = useImageOverrides(
-'hero-video-poster',
-'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=2070&q=80'
+const [posterUrl, setPosterUrl] = useState(
+() => readImageOverrides()['hero-video-poster'] || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=2070&q=80'
 );
+const [isSaving, setIsSaving] = useState(false);
 useEffect(() => {
-const handler = (e: any) => setAdminMode(e.detail);
-window.addEventListener('nextgenz-admin-mode', handler);
-return () => window.removeEventListener('nextgenz-admin-mode', handler);
+const adminHandler = (e: any) => setAdminMode(e.detail);
+const imageHandler = (e: any) => {
+const map = e.detail || {};
+setPosterUrl(map['hero-video-poster'] || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=2070&q=80');
+};
+window.addEventListener('nextgenz-admin-mode', adminHandler);
+window.addEventListener('nextgenz-image-overrides', imageHandler);
+const already = readImageOverrides()['hero-video-poster'];
+if (already) setPosterUrl(already);
+return () => {
+window.removeEventListener('nextgenz-admin-mode', adminHandler);
+window.removeEventListener('nextgenz-image-overrides', imageHandler);
+};
 }, []);
-const handleEditPoster = () => {
+const handleEditPoster = async () => {
 const input = window.prompt(
 'Paste an image URL, a Google Drive share link, or just the Google Drive File ID for the hero background photo:',
 ''
 );
 if (input === null || !input.trim()) return;
+setIsSaving(true);
 const resolved = resolveImageUrl(input);
-saveImageOverrides({ ...readImageOverrides(), 'hero-video-poster': resolved });
+const success = await saveImageOverridesAsync({ ...readImageOverrides(), 'hero-video-poster': resolved });
+setIsSaving(false);
+if (success) {
+setPosterUrl(resolved);
+alert('Hero background photo saved successfully!');
+}
 };
 return (
 <section className="relative h-screen min-h-[700px] flex items-center justify-center clip-path-slant bg-[#0F1F38]">
