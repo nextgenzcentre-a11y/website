@@ -8884,21 +8884,43 @@ const [authReady, setAuthReady] = useState(false);
 // valid auth token to satisfy that rule, without changing how the app-level portal login
 // works. A real Admin sign-in later simply replaces this anonymous session.
 useEffect(() => {
-if (firebase.auth().currentUser) {
+let cancelled = false;
+// A truthy currentUser only means a user OBJECT is cached locally - it does not guarantee
+// the ID token attached to it is fresh/valid yet. Explicitly fetching (and, if needed,
+// force-refreshing) the token before flipping authReady closes that gap: by the time any
+// database read/write is allowed to fire, we KNOW a verified token exists, not just an
+// object reference that looks logged in.
+const confirmReady = (user: any, forceRefresh: boolean) => {
+user.getIdToken(forceRefresh)
+.then(() => { if (!cancelled) setAuthReady(true); })
+.catch((err: any) => {
+console.error('Failed to obtain a valid auth token:', err);
+if (!cancelled) {
+setFirebaseError(
+'Could not verify the database session (' + (err && err.message ? err.message : 'unknown error') + '). Try reloading the page.'
+);
 setAuthReady(true);
-return;
 }
+});
+};
+if (firebase.auth().currentUser) {
+confirmReady(firebase.auth().currentUser, true);
+} else {
 firebase.auth().signInAnonymously()
-.then(() => setAuthReady(true))
+.then((cred: any) => confirmReady(cred.user, false))
 .catch((err: any) => {
 console.error('Anonymous auth failed:', err);
+if (!cancelled) {
 setFirebaseError(
 'Could not establish a database session (' + (err && err.message ? err.message : 'unknown error') +
 '). Changes made in this session may not be saved - please check Firebase Authentication has "Anonymous" sign-in enabled.'
 );
 // Still let the app proceed (in degraded, read-mostly mode) instead of hanging forever.
 setAuthReady(true);
+}
 });
+}
+return () => { cancelled = true; };
 }, []);
 useEffect(() => {
 if (!authReady) return;
@@ -9131,32 +9153,36 @@ window.dispatchEvent(new CustomEvent('nextgenz-admin-mode', { detail: isAdminAct
 const [showAdminAuthModal, setShowAdminAuthModal] = useState(false);
 // Sync state changes back up to Firebase (skipped until each collection's initial load
 // has completed, so we never clobber live data with the local default/starter arrays).
+const describeAuthState = () => {
+const u = firebase.auth().currentUser;
+return u ? `signed in as ${u.isAnonymous ? 'anonymous' : 'admin'} uid ${u.uid.slice(0, 8)}...` : 'NOT signed in';
+};
 useEffect(() => {
 if (!usersLoadedRef.current) return;
 firebase.database().ref('users').set(users).catch((err: any) => {
-console.error('Failed to save users:', err);
-setFirebaseError('Could not save an account change (' + (err && err.message ? err.message : 'unknown error') + '). Please try again or contact support.');
+console.error('Failed to save users:', err, '| auth state:', describeAuthState());
+setFirebaseError('Could not save an account change (' + (err && err.message ? err.message : 'unknown error') + ' - ' + describeAuthState() + '). Please try again or contact support.');
 });
 }, [users]);
 useEffect(() => {
 if (!studentsLoadedRef.current) return;
 firebase.database().ref('students').set(students).catch((err: any) => {
-console.error('Failed to save students:', err);
-setFirebaseError('Could not save a student record (' + (err && err.message ? err.message : 'unknown error') + '). Please try again or contact support.');
+console.error('Failed to save students:', err, '| auth state:', describeAuthState());
+setFirebaseError('Could not save a student record (' + (err && err.message ? err.message : 'unknown error') + ' - ' + describeAuthState() + '). Please try again or contact support.');
 });
 }, [students]);
 useEffect(() => {
 if (!requestsLoadedRef.current) return;
 firebase.database().ref('requests').set(requests).catch((err: any) => {
-console.error('Failed to save requests:', err);
-setFirebaseError('Could not save an access request (' + (err && err.message ? err.message : 'unknown error') + '). Please try again or contact support.');
+console.error('Failed to save requests:', err, '| auth state:', describeAuthState());
+setFirebaseError('Could not save an access request (' + (err && err.message ? err.message : 'unknown error') + ' - ' + describeAuthState() + '). Please try again or contact support.');
 });
 }, [requests]);
 useEffect(() => {
 if (!messagesLoadedRef.current) return;
 firebase.database().ref('messages').set(messages).catch((err: any) => {
-console.error('Failed to save messages:', err);
-setFirebaseError('Could not save a chat message (' + (err && err.message ? err.message : 'unknown error') + '). Please try again or contact support.');
+console.error('Failed to save messages:', err, '| auth state:', describeAuthState());
+setFirebaseError('Could not save a chat message (' + (err && err.message ? err.message : 'unknown error') + ' - ' + describeAuthState() + '). Please try again or contact support.');
 });
 }, [messages]);
 // Keep active logged-in session user details automatically synchronized with updated users list
