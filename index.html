@@ -8938,14 +8938,22 @@ senderName
 });
 };
 const handleSendTestTrigger = () => {
-triggerEmailAlert(
-'chat',
-'Test Email Notification Trigger',
-'john.doe@example.com',
-'System Dispatcher',
-'[NEXTGENZ Test Alert] Email Notification System Online',
-'This is a test notification trigger confirming email alerts to nextgenzcentre@gmail.com and student email are operational!'
-);
+// Sends only to ADMIN_EMAIL - previously this also cc'd a hardcoded
+// 'john.doe@example.com', which Resend always rejects (422) because
+// example.com is a reserved, non-deliverable domain. That produced a
+// permanent false-alarm failure in the Resend logs on every test click.
+dispatchAppEmailToMany({
+recipients: [ADMIN_EMAIL],
+subject: '[NEXTGENZ Test Alert] Email Notification System Online',
+body: formatEmailBody({
+heading: 'Test Email Notification Trigger',
+intro: 'This is a test notification trigger confirming email alerts to nextgenzcentre@gmail.com are operational!',
+lines: []
+}),
+triggerType: 'chat',
+title: 'Test Email Notification Trigger',
+senderName: 'System Dispatcher'
+});
 };
 // Fires when a Student, Agent, or Admin clicks "Notify My Advisor" inside the "Find Your
 // Program" tool. Emails Admin (+ the requester, if we know their address) with exactly which
