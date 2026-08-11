@@ -8866,7 +8866,42 @@ const [firebaseReady, setFirebaseReady] = useState(false);
 const [firebaseError, setFirebaseError] = useState('');
 // Current authenticated Firebase admin user (null = not logged in as admin)
 const [adminAuthUser, setAdminAuthUser] = useState<any>(null);
+// True once we KNOW there's a live Firebase Auth session (anonymous or real admin) and the
+// Realtime Database connection has had a chance to pick it up. Data listeners (and therefore
+// every write-back effect, since those only run after a listener's initial snapshot arrives)
+// are held off until this is true - without this gate, a fast action right after page load
+// could send a write a moment before the auth token had actually reached the database
+// connection, and get rejected with PERMISSION_DENIED even though the rules were correct.
+const [authReady, setAuthReady] = useState(false);
+// Agent/Student portal logins are a plain app-level username+password check (see
+// handleLoginSubmit) - they never call firebase.auth(), so on their own that visitor has
+// NO Firebase Auth session at all. If the Realtime Database security rules require
+// "auth != null" to write (a very common default), every write an agent or student makes
+// - registering a student, submitting a request, sending a chat message - gets silently
+// rejected. The local screen still looks like it worked because React state updates first,
+// but nothing is actually saved, so it's gone on refresh and Admin never sees it either.
+// Signing everyone in anonymously (only if nobody is signed in yet) gives every visitor a
+// valid auth token to satisfy that rule, without changing how the app-level portal login
+// works. A real Admin sign-in later simply replaces this anonymous session.
 useEffect(() => {
+if (firebase.auth().currentUser) {
+setAuthReady(true);
+return;
+}
+firebase.auth().signInAnonymously()
+.then(() => setAuthReady(true))
+.catch((err: any) => {
+console.error('Anonymous auth failed:', err);
+setFirebaseError(
+'Could not establish a database session (' + (err && err.message ? err.message : 'unknown error') +
+'). Changes made in this session may not be saved - please check Firebase Authentication has "Anonymous" sign-in enabled.'
+);
+// Still let the app proceed (in degraded, read-mostly mode) instead of hanging forever.
+setAuthReady(true);
+});
+}, []);
+useEffect(() => {
+if (!authReady) return;
 const collections: [string, React.Dispatch<React.SetStateAction<any>>, any, React.MutableRefObject<boolean>][] = [
 ['users', setUsers, INITIAL_USERS, usersLoadedRef],
 ['students', setStudents, INITIAL_STUDENTS, studentsLoadedRef],
@@ -8905,7 +8940,7 @@ return () => {
 cancelled = true;
 refs.forEach((r) => r.off());
 };
-}, []);
+}, [authReady]);
 // Track real Firebase Auth session; only a signed-in admin account can activate Admin Mode.
 useEffect(() => {
 const unsubscribe = firebase.auth().onAuthStateChanged((user: any) => {
@@ -8914,29 +8949,9 @@ setIsAdminActive(!!user);
 });
 return () => unsubscribe();
 }, []);
-// Agent/Student portal logins are a plain app-level username+password check (see
-// handleLoginSubmit) - they never call firebase.auth(), so on their own that visitor has
-// NO Firebase Auth session at all. If the Realtime Database security rules require
-// "auth != null" to write (a very common default), every write an agent or student makes
-// - registering a student, submitting a request, sending a chat message - gets silently
-// rejected. The local screen still looks like it worked because React state updates first,
-// but nothing is actually saved, so it's gone on refresh and Admin never sees it either.
-// Signing everyone in anonymously (only if nobody is signed in yet) gives every visitor a
-// valid auth token to satisfy that rule, without changing how the app-level portal login
-// works. A real Admin sign-in later simply replaces this anonymous session.
-useEffect(() => {
-if (!firebase.auth().currentUser) {
-firebase.auth().signInAnonymously().catch((err: any) => {
-console.error('Anonymous auth failed:', err);
-setFirebaseError(
-'Could not establish a database session (' + (err && err.message ? err.message : 'unknown error') +
-'). Changes made in this session may not be saved - please check Firebase Authentication has "Anonymous" sign-in enabled.'
-);
-});
-}
-}, []);
 // Load the saved layout (section order + hidden sections) and keep it live-synced.
 useEffect(() => {
+if (!authReady) return;
 const dbRef = firebase.database().ref('site_content/layout');
 const listener = dbRef.on(
 'value',
@@ -8951,14 +8966,17 @@ setHiddenSections(val.hidden || []);
 (err: any) => console.error('Firebase read error on "site_content/layout":', err)
 );
 return () => dbRef.off('value', listener);
-}, []);
+}, [authReady]);
 useEffect(() => {
 if (!layoutLoadedRef.current) return;
 firebase
 .database()
 .ref('site_content/layout')
 .set({ order: sectionOrder, hidden: hiddenSections })
-.catch((err: any) => console.error('Failed to save layout:', err));
+.catch((err: any) => {
+console.error('Failed to save layout:', err);
+setFirebaseError('Could not save the page layout (' + (err && err.message ? err.message : 'unknown error') + '). Please try again or contact support.');
+});
 }, [sectionOrder, hiddenSections]);
 const [emailAlerts, setEmailAlerts] = useState<EmailAlertLog[]>(() => {
 const saved = localStorage.getItem('nextgenz_email_alerts');
