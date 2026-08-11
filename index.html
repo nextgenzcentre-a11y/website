@@ -8903,9 +8903,7 @@ setAuthReady(true);
 }
 });
 };
-if (firebase.auth().currentUser) {
-confirmReady(firebase.auth().currentUser, true);
-} else {
+const establishAnonymousSession = () => {
 firebase.auth().signInAnonymously()
 .then((cred: any) => confirmReady(cred.user, false))
 .catch((err: any) => {
@@ -8919,8 +8917,31 @@ setFirebaseError(
 setAuthReady(true);
 }
 });
+};
+// Single source of truth for the Firebase Auth session. This fires on initial load AND
+// every time the session changes afterward - critically including the moment Admin signs
+// out. Signing out (handleAdminSignOut -> firebase.auth().signOut()) tears down whatever
+// session is active, anonymous or not, leaving the tab with NO session at all. Without a
+// listener reacting to that "user is now null" transition, every write an agent/student
+// makes afterward gets rejected with PERMISSION_DENIED ("NOT signed in") because the old
+// one-time-on-mount sign-in effect never runs again. Re-establishing an anonymous session
+// here every time `user` comes back null (fresh load OR just signed out) closes that gap.
+//
+// isAdminActive is intentionally keyed off `!!user && !user.isAnonymous` rather than just
+// `!!user` - now that ordinary visitors also carry an anonymous Firebase session (needed to
+// satisfy the "auth != null" database rule), `!!user` alone would wrongly flag any signed-in
+// visitor - including anonymous ones - as Admin. Only a real (non-anonymous) sign-in counts.
+const unsubscribe = firebase.auth().onAuthStateChanged((user: any) => {
+if (cancelled) return;
+setAdminAuthUser(user);
+setIsAdminActive(!!user && !user.isAnonymous);
+if (user) {
+confirmReady(user, true);
+} else {
+establishAnonymousSession();
 }
-return () => { cancelled = true; };
+});
+return () => { cancelled = true; unsubscribe(); };
 }, []);
 useEffect(() => {
 if (!authReady) return;
@@ -8963,14 +8984,6 @@ cancelled = true;
 refs.forEach((r) => r.off());
 };
 }, [authReady]);
-// Track real Firebase Auth session; only a signed-in admin account can activate Admin Mode.
-useEffect(() => {
-const unsubscribe = firebase.auth().onAuthStateChanged((user: any) => {
-setAdminAuthUser(user);
-setIsAdminActive(!!user);
-});
-return () => unsubscribe();
-}, []);
 // Load the saved layout (section order + hidden sections) and keep it live-synced.
 useEffect(() => {
 if (!authReady) return;
