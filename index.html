@@ -8914,6 +8914,27 @@ setIsAdminActive(!!user);
 });
 return () => unsubscribe();
 }, []);
+// Agent/Student portal logins are a plain app-level username+password check (see
+// handleLoginSubmit) - they never call firebase.auth(), so on their own that visitor has
+// NO Firebase Auth session at all. If the Realtime Database security rules require
+// "auth != null" to write (a very common default), every write an agent or student makes
+// - registering a student, submitting a request, sending a chat message - gets silently
+// rejected. The local screen still looks like it worked because React state updates first,
+// but nothing is actually saved, so it's gone on refresh and Admin never sees it either.
+// Signing everyone in anonymously (only if nobody is signed in yet) gives every visitor a
+// valid auth token to satisfy that rule, without changing how the app-level portal login
+// works. A real Admin sign-in later simply replaces this anonymous session.
+useEffect(() => {
+if (!firebase.auth().currentUser) {
+firebase.auth().signInAnonymously().catch((err: any) => {
+console.error('Anonymous auth failed:', err);
+setFirebaseError(
+'Could not establish a database session (' + (err && err.message ? err.message : 'unknown error') +
+'). Changes made in this session may not be saved - please check Firebase Authentication has "Anonymous" sign-in enabled.'
+);
+});
+}
+}, []);
 // Load the saved layout (section order + hidden sections) and keep it live-synced.
 useEffect(() => {
 const dbRef = firebase.database().ref('site_content/layout');
@@ -9094,19 +9115,31 @@ const [showAdminAuthModal, setShowAdminAuthModal] = useState(false);
 // has completed, so we never clobber live data with the local default/starter arrays).
 useEffect(() => {
 if (!usersLoadedRef.current) return;
-firebase.database().ref('users').set(users).catch((err: any) => console.error('Failed to save users:', err));
+firebase.database().ref('users').set(users).catch((err: any) => {
+console.error('Failed to save users:', err);
+setFirebaseError('Could not save an account change (' + (err && err.message ? err.message : 'unknown error') + '). Please try again or contact support.');
+});
 }, [users]);
 useEffect(() => {
 if (!studentsLoadedRef.current) return;
-firebase.database().ref('students').set(students).catch((err: any) => console.error('Failed to save students:', err));
+firebase.database().ref('students').set(students).catch((err: any) => {
+console.error('Failed to save students:', err);
+setFirebaseError('Could not save a student record (' + (err && err.message ? err.message : 'unknown error') + '). Please try again or contact support.');
+});
 }, [students]);
 useEffect(() => {
 if (!requestsLoadedRef.current) return;
-firebase.database().ref('requests').set(requests).catch((err: any) => console.error('Failed to save requests:', err));
+firebase.database().ref('requests').set(requests).catch((err: any) => {
+console.error('Failed to save requests:', err);
+setFirebaseError('Could not save an access request (' + (err && err.message ? err.message : 'unknown error') + '). Please try again or contact support.');
+});
 }, [requests]);
 useEffect(() => {
 if (!messagesLoadedRef.current) return;
-firebase.database().ref('messages').set(messages).catch((err: any) => console.error('Failed to save messages:', err));
+firebase.database().ref('messages').set(messages).catch((err: any) => {
+console.error('Failed to save messages:', err);
+setFirebaseError('Could not save a chat message (' + (err && err.message ? err.message : 'unknown error') + '). Please try again or contact support.');
+});
 }, [messages]);
 // Keep active logged-in session user details automatically synchronized with updated users list
 useEffect(() => {
