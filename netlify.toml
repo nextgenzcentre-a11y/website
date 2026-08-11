@@ -1,0 +1,13 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Belt-and-suspenders redirect: makes the endpoint reachable at /api/send-email too,
+# in case that's ever preferred over the default /.netlify/functions/send-email path.
+[[redirects]]
+  from = "/api/send-email"
+  to = "/.netlify/functions/send-email"
+  status = 200
