@@ -1092,12 +1092,39 @@ const SEND_EMAIL_ENDPOINT = '/.netlify/functions/send-email';
 // Wraps a plain-text notification body (already nicely formatted by formatEmailBody) in a
 // branded HTML email shell - navy header, gold accent, card layout - so every notification
 // sent via Resend looks like a real NEXTGENZ CENTRE email instead of a plain text dump.
-function buildBrandedEmailHtml(subject: string, bodyText: string): string {
+function buildBrandedEmailHtml(
+subject: string,
+bodyText: string,
+credentials?: { username: string; password: string; loginUrl?: string }
+): string {
   const escaped = bodyText
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/\n/g, '<br>');
+  // When credentials are supplied, render them as a bordered card with each value on its
+  // own line in a monospace font - on mobile this lets the recipient just tap-and-hold a
+  // single value to select+copy it, instead of hunting for it inside a paragraph of text.
+  const credentialsHtml = credentials ? `
+    <div style="margin-top:24px;border:1px solid #C5A059;border-radius:12px;overflow:hidden;">
+      <div style="background:#FBF6EA;padding:10px 18px;font-size:11px;font-weight:800;color:#8a6d1f;letter-spacing:0.06em;">
+        LOGIN CREDENTIALS &mdash; TAP &amp; HOLD A VALUE TO COPY
+      </div>
+      <div style="padding:18px;">
+        <div style="margin-bottom:14px;">
+          <div style="font-size:11px;color:#8a94a3;font-weight:700;letter-spacing:0.04em;margin-bottom:4px;">USERNAME</div>
+          <div style="font-family:Consolas,Menlo,'Courier New',monospace;font-size:16px;background:#F5F7FA;border:1px solid #e7ebf0;border-radius:8px;padding:10px 12px;color:#0F1F38;word-break:break-all;">${credentials.username}</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:#8a94a3;font-weight:700;letter-spacing:0.04em;margin-bottom:4px;">TEMPORARY PASSWORD</div>
+          <div style="font-family:Consolas,Menlo,'Courier New',monospace;font-size:16px;background:#F5F7FA;border:1px solid #e7ebf0;border-radius:8px;padding:10px 12px;color:#0F1F38;word-break:break-all;">${credentials.password}</div>
+        </div>
+        ${credentials.loginUrl ? `
+        <div style="margin-top:16px;">
+          <a href="${credentials.loginUrl}" style="display:inline-block;background:#0F1F38;color:#ffffff;text-decoration:none;font-weight:700;font-size:13px;padding:11px 18px;border-radius:8px;">Open Portal Login &rarr;</a>
+        </div>` : ''}
+      </div>
+    </div>` : '';
   return `
 <div style="background:#F5F7FA;padding:32px 16px;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">
   <div style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(15,31,56,0.12);">
@@ -1108,6 +1135,7 @@ function buildBrandedEmailHtml(subject: string, bodyText: string): string {
     <div style="padding:28px;">
       <h2 style="margin:0 0 16px 0;color:#0F1F38;font-size:18px;">${subject}</h2>
       <div style="color:#33415c;font-size:14px;line-height:1.7;white-space:pre-line;">${escaped}</div>
+      ${credentialsHtml}
     </div>
     <div style="background:#F5F7FA;padding:16px 28px;border-top:1px solid #e7ebf0;color:#8a94a3;font-size:12px;">
       NEXTGENZ CENTRE &middot; admission@nextgenzcentre.space &middot; wa.me/60108768308
@@ -1119,7 +1147,13 @@ function buildBrandedEmailHtml(subject: string, bodyText: string): string {
 // Sends one email through the Netlify Function above (Resend under the hood). Never throws -
 // network/API failures resolve to { ok:false } so callers can log the status without a
 // try/catch on every call site.
-async function sendEmailViaResend(params: { to: string; subject: string; text: string; replyTo?: string }): Promise<{ ok: boolean; error?: string }> {
+async function sendEmailViaResend(params: {
+to: string;
+subject: string;
+text: string;
+replyTo?: string;
+credentials?: { username: string; password: string; loginUrl?: string };
+}): Promise<{ ok: boolean; error?: string }> {
   try {
     const res = await fetch(SEND_EMAIL_ENDPOINT, {
       method: 'POST',
@@ -1128,7 +1162,7 @@ async function sendEmailViaResend(params: { to: string; subject: string; text: s
         to: params.to,
         subject: params.subject,
         text: params.text,
-        html: buildBrandedEmailHtml(params.subject, params.text),
+        html: buildBrandedEmailHtml(params.subject, params.text, params.credentials),
         reply_to: params.replyTo || 'nextgenzcentre@gmail.com'
       })
     });
@@ -1147,12 +1181,28 @@ heading: string;
 intro?: string;
 lines: { label: string; value?: string }[];
 note?: string;
+credentials?: { username: string; password: string; loginUrl?: string };
 }): string {
 const cleanLines = opts.lines.filter(
 (l) => l.value !== undefined && l.value !== null && String(l.value).trim() !== ''
 );
 const maxLabelLen = cleanLines.reduce((max, l) => Math.max(max, l.label.length), 0);
 const rows = cleanLines.map((l) => `${l.label.padEnd(maxLabelLen, ' ')} : ${l.value}`).join('\n');
+// Plain-text fallback for the credentials card (used by clients that don't render HTML).
+// Each value sits alone on its own line so it's still easy to select and copy manually.
+const credentialsBlock = opts.credentials
+? [
+'',
+'LOGIN CREDENTIALS',
+'--------------------------------',
+'Username:',
+opts.credentials.username,
+'',
+'Temporary Password:',
+opts.credentials.password,
+opts.credentials.loginUrl ? `\nPortal Link:\n${opts.credentials.loginUrl}` : ''
+].join('\n')
+: '';
 const timestamp = new Date().toLocaleString('en-US', {
 year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
 });
@@ -1163,6 +1213,7 @@ opts.heading,
 opts.intro || '',
 '',
 rows,
+credentialsBlock,
 '',
 opts.note || '',
 '',
@@ -1195,8 +1246,9 @@ body: string;
 triggerType: EmailTriggerType;
 title: string;
 senderName: string;
+credentials?: { username: string; password: string; loginUrl?: string };
 }) {
-const { to, subject, body, triggerType, title, senderName } = params;
+const { to, subject, body, triggerType, title, senderName, credentials } = params;
 const formattedDate = new Date().toLocaleString('en-US', {
 year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
 });
@@ -1224,7 +1276,7 @@ window.dispatchEvent(new CustomEvent('nextgenz-email-alert', { detail: alertLog 
 
 (async () => {
 let finalStatus = 'sent';
-const result = await sendEmailViaResend({ to, subject, text: body, replyTo: 'admission@nextgenzcentre.space' });
+const result = await sendEmailViaResend({ to, subject, text: body, replyTo: 'admission@nextgenzcentre.space', credentials });
 if (result.ok) {
 finalStatus = 'delivered';
 } else {
@@ -1252,6 +1304,7 @@ body: string;
 triggerType: EmailTriggerType;
 title: string;
 senderName: string;
+credentials?: { username: string; password: string; loginUrl?: string };
 }) {
 const unique = Array.from(new Set(params.recipients.filter((r): r is string => !!r && r.includes('@'))));
 unique.forEach((to) => dispatchAppEmail({ ...params, to }));
@@ -9277,8 +9330,6 @@ setStudents((prev) => [newStd, ...prev]);
 const existingUser = users.find((u) => u.email.toLowerCase() === newStudentData.studentEmail.toLowerCase());
 const genUsername = (newStudentData.name.replace(/[^a-zA-Z]/g, '').toLowerCase().slice(0, 8) || 'std') + Math.floor(100 + Math.random() * 900);
 const genPassword = generateSecurePassword();
-let finalUsername = existingUser ? existingUser.username : genUsername;
-let finalPassword = existingUser ? existingUser.password : genPassword;
 if (!existingUser) {
 const newStudentUser: PortalUser = {
 id: 'usr-' + Date.now(),
@@ -9293,26 +9344,27 @@ createdAt: new Date().toISOString()
 };
 setUsers((prev) => [...prev, newStudentUser]);
 }
-const agentEmail = currentUser?.email;
+// Agent-registered students don't get a credentials email - the agent already has direct,
+// one-click access into this student's portal from their own "Students Under Management"
+// table (see handleOpenStudentByEmail below), so there's nothing for the student to log in
+// with separately at this stage. Only Admin gets a heads-up, and it never includes a password.
 const body = formatEmailBody({
 heading: `New Student File Registered: ${newStudentData.name}`,
-intro: `A new student file has been registered by an agent. Portal login credentials are included below.`,
+intro: `${currentUser?.name || 'An agent'} registered a new student file. No password is included in this notification - the agent manages this student directly from their portal.`,
 lines: [
 { label: 'Student ID', value: newStd.id },
 { label: 'Student Name', value: newStudentData.name },
 { label: 'Student Email', value: newStudentData.studentEmail },
 { label: 'University', value: newStudentData.university },
 { label: 'Program', value: newStudentData.program },
-{ label: 'Registered By Agent', value: currentUser?.name || 'Agent' },
-{ label: 'Portal Username', value: finalUsername },
-{ label: 'Temporary Password', value: existingUser ? '(existing account - unchanged)' : finalPassword }
+{ label: 'Registered By Agent', value: currentUser?.name || 'Agent' }
 ],
 note: existingUser
-? 'This student already had a portal account, so their existing login was reused.'
-: 'The student can log in to the Student Portal immediately with the username and temporary password above. We recommend they change it after first login.'
+? 'This student already had a portal account under this email, so their existing account was linked - no new login was created.'
+: 'A portal account was created in the background for this student, but no credentials were emailed out as part of this registration.'
 });
 dispatchAppEmailToMany({
-recipients: [ADMIN_EMAIL, agentEmail, newStudentData.studentEmail],
+recipients: [ADMIN_EMAIL],
 subject: `[NEXTGENZ] Student Registered: ${newStudentData.name} (ID: ${newStd.id})`,
 body,
 triggerType: 'new_student',
@@ -9590,17 +9642,20 @@ createdAt: new Date().toISOString()
 };
 setUsers((prev) => [...prev, newUser]);
 setRequests((prev) => prev.map((r) => (r.id === requestId ? { ...r, status: 'approved' } : r)));
+// Only shown to the person logging in directly (self-registered student or agent) - this is
+// the ONE path that emails a username/password, since the recipient has no other way in.
+const loginUrl = typeof window !== 'undefined' ? window.location.origin + window.location.pathname : undefined;
+const credentials = { username: genUsername, password: genPassword, loginUrl };
 const body = formatEmailBody({
 heading: `Portal Access Approved: ${req.name} (${req.type === 'agent' ? 'Agent' : 'Student'})`,
 intro: `Great news! Your NEXTGENZ CENTRE portal access request has been approved. Your login details are below.`,
 lines: [
 { label: 'Name', value: req.name },
 { label: 'Email', value: req.email },
-{ label: 'Account Type', value: req.type },
-{ label: 'Username', value: genUsername },
-{ label: 'Temporary Password', value: genPassword }
+{ label: 'Account Type', value: req.type }
 ],
-note: 'You can now log in to your portal with the username and temporary password above. We recommend changing your password after first login.'
+credentials,
+note: `How to log in:\n1. Open the NEXTGENZ CENTRE website (button below, or the link in this email).\n2. Click "${req.type === 'agent' ? 'Agent' : 'Student'} Login" near the top of the page.\n3. Enter the Username and Temporary Password above exactly as shown.\n4. Once inside, we recommend changing your password from your profile settings.\nIf anything doesn't work, just reply to this email and we'll help you get in.`
 });
 dispatchAppEmailToMany({
 recipients: [ADMIN_EMAIL, req.email],
@@ -9608,7 +9663,8 @@ subject: `[NEXTGENZ] Portal Access Approved for ${req.name}`,
 body,
 triggerType: 'access_request',
 title: 'Portal Access Request Approved',
-senderName: 'NEXTGENZ Admin'
+senderName: 'NEXTGENZ Admin',
+credentials
 });
 alert(`Approved! Account generated:\nUsername: ${genUsername}\nPassword: ${genPassword}\n\n(These credentials were also emailed to ${req.email}.)`);
 };
