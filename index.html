@@ -630,22 +630,33 @@
         const bodyHTML = escapeHtml(message).split('\n').map(line => {
             if (!line.trim()) return '';
             const m = line.match(/^([A-Za-z ]{2,20}):\s*(.*)$/);
-            return m
-                ? `<span style="color:#10233B;font-weight:600;">${m[1]}:</span> ${m[2]}`
-                : line;
+            return m ? `<strong>${m[1]}:</strong> ${m[2]}` : line;
         }).join('<br>');
+        const dateStr = new Date().toLocaleString('en-GB', {
+            day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+        const waLink = 'https://wa.me/' + CONFIG.CALLMEBOT_PHONE.replace(/[^0-9]/g, '');
         return `
-        <div style="font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;max-width:600px;margin:0 auto;color:#1C2B3A;background-color:#ffffff;border:1px solid #E5E7EB;border-radius:8px;overflow:hidden;box-shadow:0 4px 6px rgba(0,0,0,0.05);">
-            <div style="background-color:#10233B;padding:22px 20px;text-align:center;border-bottom:4px solid #C5A059;">
-                <h1 style="color:#ffffff;font-size:18px;margin:0;letter-spacing:1.5px;text-transform:uppercase;">NEXTGENZ Hub</h1>
-                <p style="color:#C5A059;font-size:10px;margin:5px 0 0 0;letter-spacing:2px;">INTERNAL NOTIFICATION</p>
+        <div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;color:#1C2B3A;">
+            <div style="background-color:#10233B;padding:20px 25px;border-radius:6px;margin-bottom:20px;">
+                <div style="color:#C5A059;font-weight:700;font-size:20px;letter-spacing:0.5px;">NEXTGENZ CENTRE</div>
+                <div style="color:#AEB9C7;font-size:13px;margin-top:3px;">NEXTGENZ Hub &middot; Internal Notification</div>
             </div>
-            <div style="padding:28px 25px;line-height:1.7;font-size:14px;color:#374151;">
-                <p style="margin:0 0 16px 0;font-size:16px;font-weight:700;color:#10233B;">${escapeHtml(subject)}</p>
-                ${bodyHTML}
-            </div>
-            <div style="background-color:#F9FAFB;padding:14px 25px;border-top:1px solid #E5E7EB;font-size:11px;color:#9CA3AF;text-align:center;">
-                Automated notification from NEXTGENZ Hub &middot; nextgenzcentre.space
+            <div style="padding:0 5px;font-size:14px;line-height:1.75;">
+                <h2 style="margin:0 0 12px 0;font-size:17px;color:#10233B;">${escapeHtml(subject)}</h2>
+                <p style="margin:0 0 12px 0;color:#9CA3AF;">${'='.repeat(50)}</p>
+                <p style="margin:0 0 16px 0;">An update has just been recorded in NEXTGENZ Hub. Please see the summary below.</p>
+                <p style="margin:0 0 16px 0;">${bodyHTML}</p>
+                <p style="margin:0 0 16px 0;color:#4B5563;">This is an automated notification. If this wasn't expected, please review the record in the Hub.</p>
+                <p style="margin:0 0 20px 0;">Date: ${dateStr}</p>
+                <p style="margin:0;">
+                    --<br>
+                    Kind regards,<br>
+                    NEXTGENZ Hub<br>
+                    <strong>NEXTGENZ CENTRE</strong><br>
+                    <a href="mailto:${CONFIG.SENDER_EMAIL}" style="color:#2563EB;text-decoration:none;">${CONFIG.SENDER_EMAIL}</a> |
+                    <a href="${waLink}" style="color:#2563EB;text-decoration:none;">wa.me/${CONFIG.CALLMEBOT_PHONE}</a>
+                </p>
             </div>
         </div>`;
     }
