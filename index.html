@@ -1084,10 +1084,10 @@ services: 'Services & Portals',
 process: 'Workflow & Agent Partner Section',
 faq: 'FAQ & Free Advisory Contact Form'
 };
-// Server-side email dispatch endpoint (Netlify Function backed by Resend). Replaces the old
-// client-side EmailJS integration - see netlify/functions/send-email.js. The Resend API key
-// itself lives only in Netlify's environment variables, never in this file.
-const SEND_EMAIL_ENDPOINT = '/.netlify/functions/send-email';
+// Server-side email dispatch endpoint (Vercel Function backed by Resend). Replaces the old
+// client-side EmailJS integration - see api/send-email.js. The Resend API key
+// itself lives only in Vercel's environment variables, never in this file.
+const SEND_EMAIL_ENDPOINT = '/api/send-email';
 
 // Wraps a plain-text notification body (already nicely formatted by formatEmailBody) in a
 // branded HTML email shell - navy header, gold accent, card layout - so every notification
