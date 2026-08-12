@@ -1610,7 +1610,15 @@ const EditableText: React.FC<{
 id: string;
 defaultText: string;
 className?: string;
-}> = ({ id, defaultText, className }) => {
+// Optional: if provided, the whole thing renders as a clickable link whose destination is
+// derived from the CURRENT text (not a separately hardcoded href), so editing the visible
+// number/address always updates where the link actually goes too. For WhatsApp links pass
+// linkPrefix="https://wa.me/" and digitsOnly to strip everything except numbers from the URL.
+linkPrefix?: string;
+linkHref?: string; // used as-is instead of linkPrefix+digits (e.g. for a mailto: link)
+digitsOnly?: boolean;
+linkClassName?: string;
+}> = ({ id, defaultText, className, linkPrefix, linkHref, digitsOnly, linkClassName }) => {
 const [adminMode, setAdminMode] = useState(__adminModeActive);
 const [currentText, setCurrentText] = useState(() => readTextOverrides()[id] || defaultText);
 const [hasOverride, setHasOverride] = useState(() => !!readTextOverrides()[id]);
@@ -1659,12 +1667,21 @@ const map = { ...readTextOverrides() };
 delete map[id];
 saveOverrides(map);
 };
+const computedHref = linkHref
+? linkHref
+: linkPrefix
+? linkPrefix + (digitsOnly ? currentText.replace(/[^0-9]/g, '') : currentText)
+: undefined;
+const textNode = <span className={className}>{currentText}</span>;
+const wrapped = computedHref
+? <a contentEditable={false} suppressContentEditableWarning href={computedHref} target="_blank" rel="noreferrer" className={linkClassName}>{textNode}</a>
+: textNode;
 if (!adminMode) {
-return <span className={className}>{currentText}</span>;
+return wrapped;
 }
 return (
 <span className="relative inline-flex items-center gap-1.5">
-<span className={className}>{currentText}</span>
+{wrapped}
 <button
 contentEditable={false}
 suppressContentEditableWarning
@@ -3426,22 +3443,12 @@ Start your journey today. Reach out for 100% free university and English school 
 </div>
 <div>
 <p className="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-1">Direct WhatsApp</p>
-<a contentEditable={false} suppressContentEditableWarning
-href="https://wa.me/60108768308"
-target="_blank"
-rel="noreferrer"
+<EditableText id="contact-phone-1" defaultText="+60 10-876 8308" linkPrefix="https://wa.me/" digitsOnly
 className="block text-white font-bold text-xl hover:text-[#C5A059] transition mb-1"
->
-<EditableText id="contact-phone-1" defaultText="+60 10-876 8308" />
-</a>
-<a contentEditable={false} suppressContentEditableWarning
-href="https://wa.me/60105579913"
-target="_blank"
-rel="noreferrer"
+linkClassName="block text-white font-bold text-xl hover:text-[#C5A059] transition mb-1" />
+<EditableText id="contact-phone-2" defaultText="+60 10-557 9913" linkPrefix="https://wa.me/" digitsOnly
 className="block text-white font-bold text-xl hover:text-[#C5A059] transition"
->
-<EditableText id="contact-phone-2" defaultText="+60 10-557 9913" />
-</a>
+linkClassName="block text-white font-bold text-xl hover:text-[#C5A059] transition" />
 </div>
 </div>
 <div className="flex items-start gap-5">
@@ -3450,12 +3457,9 @@ className="block text-white font-bold text-xl hover:text-[#C5A059] transition"
 </div>
 <div>
 <p className="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-1">Official Email</p>
-<a contentEditable={false} suppressContentEditableWarning
-href="mailto:admission@nextgenzcentre.space"
+<EditableText id="contact-email" defaultText="Admission@nextgenzcentre.space" linkPrefix="mailto:"
 className="text-white font-bold text-lg hover:text-[#C5A059] transition break-all"
->
-<EditableText id="contact-email" defaultText="Admission@nextgenzcentre.space" />
-</a>
+linkClassName="text-white font-bold text-lg hover:text-[#C5A059] transition break-all" />
 </div>
 </div>
 <div className="flex items-start gap-5">
