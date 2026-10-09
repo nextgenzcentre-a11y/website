@@ -3621,6 +3621,8 @@ messages?: ChatMessage[];
 isAdminActive?: boolean;
 isAdminPreview?: boolean;
 onClosePortal: () => void;
+portalIntent?: 'login' | 'request';
+onModeChange?: (mode: 'login' | 'request', type: 'student' | 'agent') => void;
 onLoginSubmit: (username: string, pass: string, portalType: 'student' | 'agent') => boolean;
 onRequestAccess: (req: Omit<AccessRequest, 'id' | 'status' | 'submittedAt'>) => void;
 onAddStudent: (newStudent: Omit<StudentRecord, 'id' | 'createdAt' | 'status'>) => void;
@@ -6315,6 +6317,8 @@ messages = [],
 isAdminActive,
 isAdminPreview = false,
 onClosePortal,
+portalIntent = 'login',
+onModeChange,
 onLoginSubmit,
 onRequestAccess,
 onAddStudent,
@@ -6367,7 +6371,7 @@ const [formError, setFormError] = useState('');
 React.useEffect(() => {
 if (activePortal && (!currentUser || currentUser.type !== activePortal)) {
 setLoginGateType(activePortal);
-setLoginMode('login');
+setLoginMode(portalIntent);
 setUsernameInput('');
 setPasswordInput('');
 setLoginError('');
@@ -6375,7 +6379,7 @@ setShowLoginModal(true);
 } else if (!activePortal) {
 setShowLoginModal(false);
 }
-}, [activePortal, currentUser]);
+}, [activePortal, currentUser, portalIntent]);
 const handleLoginSubmit = (e: React.FormEvent) => {
 e.preventDefault();
 setLoginError('');
@@ -6537,7 +6541,7 @@ Login to Portal
 </button>
 <button contentEditable={false} suppressContentEditableWarning
 type="button"
-onClick={() => setLoginMode('request')}
+onClick={() => { setLoginMode('request'); onModeChange && onModeChange('request', loginGateType); }}
 className="w-full text-center text-sm text-[#C5A059] font-bold hover:underline cursor-pointer"
 >
 Don't have an account? Request Access
@@ -6589,7 +6593,7 @@ Submit Access Request
 </button>
 <button contentEditable={false} suppressContentEditableWarning
 type="button"
-onClick={() => setLoginMode('login')}
+onClick={() => { setLoginMode('login'); onModeChange && onModeChange('login', loginGateType); }}
 className="w-full text-center text-sm text-[#0F1F38] font-bold hover:underline cursor-pointer"
 >
 Back to Login
@@ -9359,14 +9363,68 @@ window.addEventListener('keydown', handleKeyDown);
 return () => window.removeEventListener('keydown', handleKeyDown);
 }, [undoStack, redoStack, users, students, requests]);
 // Handle portal open/close
+// ---- Separate shareable links: /student, /agent, /registerasstudent, /registerasagent ----
+const [portalIntent, setPortalIntent] = useState<'login' | 'request'>('login');
+const goToPath = (path: string) => {
+try {
+if (window.location.protocol.indexOf('http') === 0 && window.location.pathname !== path) {
+window.history.pushState({}, '', path);
+}
+} catch (e) { /* ignore (e.g. opened as a local file) */ }
+};
+const readRoute = (): { type: 'student' | 'agent'; mode: 'login' | 'request' } | null => {
+const raw = (window.location.hash && window.location.hash.length > 1 ? window.location.hash : window.location.pathname);
+const seg = raw.split('/').filter(Boolean).pop() || '';
+const key = seg.toLowerCase().replace(/\.html?$/, '').replace(/[^a-z]/g, '');
+const map: Record<string, { type: 'student' | 'agent'; mode: 'login' | 'request' }> = {
+student: { type: 'student', mode: 'login' },
+studentportal: { type: 'student', mode: 'login' },
+agent: { type: 'agent', mode: 'login' },
+agentportal: { type: 'agent', mode: 'login' },
+registerasstudent: { type: 'student', mode: 'request' },
+registerstudent: { type: 'student', mode: 'request' },
+registerasagent: { type: 'agent', mode: 'request' },
+registeragent: { type: 'agent', mode: 'request' }
+};
+return map[key] || null;
+};
 const handleOpenPortal = (type: 'student' | 'agent') => {
+setPortalIntent('login');
 setActivePortal(type);
+goToPath('/' + type);
 };
 const handleClosePortal = () => {
 setActivePortal(null);
 setCurrentUser(null);
 setIsAdminPreview(false);
+setPortalIntent('login');
+goToPath('/');
 };
+const handlePortalModeChange = (mode: 'login' | 'request', type: 'student' | 'agent') => {
+setPortalIntent(mode);
+goToPath(mode === 'request' ? '/registeras' + type : '/' + type);
+};
+// Open the right portal straight from the link, and follow the browser back/forward buttons.
+useEffect(() => {
+const applyRoute = (isInitial: boolean) => {
+const r = readRoute();
+if (r) {
+setPortalIntent(r.mode);
+setActivePortal(r.type);
+document.title = (r.mode === 'request' ? (r.type === 'agent' ? 'Become an Agent' : 'Student Registration') : (r.type === 'agent' ? 'Agent Portal' : 'Student Portal')) + ' | NEXTGENZ CENTRE';
+} else if (!isInitial) {
+setActivePortal(null);
+setCurrentUser(null);
+setIsAdminPreview(false);
+document.title = 'NEXTGENZ CENTRE | Free University Placement & Study in Malaysia';
+}
+};
+applyRoute(true);
+const onPop = () => applyRoute(false);
+window.addEventListener('popstate', onPop);
+window.addEventListener('hashchange', onPop);
+return () => { window.removeEventListener('popstate', onPop); window.removeEventListener('hashchange', onPop); };
+}, []);
 // Login handler
 const handleLoginSubmit = (username: string, pass: string, portalType: 'student' | 'agent'): boolean => {
 const found = users.find(
@@ -9738,7 +9796,7 @@ setUsers((prev) => [...prev, newUser]);
 setRequests((prev) => prev.map((r) => (r.id === requestId ? { ...r, status: 'approved' } : r)));
 // Only shown to the person logging in directly (self-registered student or agent) - this is
 // the ONE path that emails a username/password, since the recipient has no other way in.
-const loginUrl = typeof window !== 'undefined' ? window.location.origin + window.location.pathname : undefined;
+const loginUrl = typeof window !== 'undefined' ? (window.location.protocol.indexOf('http') === 0 ? window.location.origin + '/' + req.type : window.location.origin + window.location.pathname) : undefined;
 const credentials = { username: genUsername, password: genPassword, loginUrl };
 const body = formatEmailBody({
 heading: `Portal Access Approved: ${req.name} (${req.type === 'agent' ? 'Agent' : 'Student'})`,
@@ -9978,6 +10036,8 @@ title="Redo change (Ctrl+Y / Cmd+Shift+Z)"
 {/* Student / Agent Portal Overlays & Login Modal */}
 <PortalOverlays
 activePortal={activePortal}
+portalIntent={portalIntent}
+onModeChange={handlePortalModeChange}
 currentUser={currentUser}
 users={users}
 students={students}
