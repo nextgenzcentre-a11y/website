@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    { "source": "/student", "destination": "/index.html" },
+    { "source": "/studentportal", "destination": "/index.html" },
+    { "source": "/agent", "destination": "/index.html" },
+    { "source": "/agentportal", "destination": "/index.html" },
+    { "source": "/registerasstudent", "destination": "/index.html" },
+    { "source": "/registerasagent", "destination": "/index.html" }
+  ]
+}
