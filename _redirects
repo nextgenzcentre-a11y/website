@@ -1,0 +1,7 @@
+# Each link serves the same app; the app reads the address and opens the right portal.
+/student            /index.html  200
+/studentportal      /index.html  200
+/agent              /index.html  200
+/agentportal        /index.html  200
+/registerasstudent  /index.html  200
+/registerasagent    /index.html  200
