@@ -2738,7 +2738,7 @@ const TrustStatsAndMarquee: React.FC = () => {
       <div className="ng-inner">
         <div className="ng-metric-bar ng-reveal">
           <div className="ng-metric"><span className="ng-metric-icon"><i className="fa-solid fa-building-columns"></i></span><div><strong>{rawData.length} universities</strong><small>In our existing programme finder</small></div></div>
-          <div className="ng-metric"><span className="ng-metric-icon"><i className="fa-solid fa-book-open-reader"></i></span><div><strong>{totalProgrammes.toLocaleString()}+ course listings</strong><small>Browse degrees and pathways</small></div></div>
+          <div className="ng-metric"><span className="ng-metric-icon"><i className="fa-solid fa-book-open-reader"></i></span><div><strong>{totalProgrammes.toLocaleString()} course listings</strong><small>Browse degrees and pathways</small></div></div>
           <div className="ng-metric"><span className="ng-metric-icon"><i className="fa-solid fa-hand-holding-heart"></i></span><div><strong>Free advisory</strong><small>Core placement guidance for students</small></div></div>
         </div>
         <div className="ng-destination">
@@ -2749,7 +2749,7 @@ const TrustStatsAndMarquee: React.FC = () => {
             <div className="ng-dest-facts">
               <div className="ng-dest-fact"><strong>{rawData.length}</strong><small>University listings</small></div>
               <div className="ng-dest-fact"><strong>{totalProgrammes.toLocaleString()}</strong><small>Programme entries</small></div>
-              <div className="ng-dest-fact"><strong>MYR + USD</strong><small>Original fee currencies</small></div>
+              <div className="ng-dest-fact"><strong>Fee clarity</strong><small>Compare total study costs</small></div>
             </div>
             <a contentEditable={false} suppressContentEditableWarning href="#universities" className="ng-cta inline-flex items-center gap-3 mt-7" style={{background:'#e85167',color:'white',padding:'13px 24px',borderRadius:99,fontWeight:800}}>Explore Malaysian universities <i className="fa-solid fa-arrow-right"></i></a>
           </div>
@@ -2804,7 +2804,7 @@ const TrustStatsAndMarquee: React.FC = () => {
               <article className="ng-uni-card" key={u.shortName}>
                 <div className="ng-uni-top">
                   <div className="ng-uni-profile">
-                    <span className="ng-logo-cell"><img src={ngUniversityIcon(u.website)} alt={u.university + ' website icon'} loading="lazy" onError={(e) => { e.currentTarget.style.display = 'none'; }} /></span>
+                    <span className="ng-logo-cell"><img src={ngUniversityIcon(u.website)} alt={u.university + ' website icon'} loading="lazy" onError={(e) => { e.currentTarget.style.display = 'none'; }} /><b className="ng-card-fallback">{u.shortName.slice(0,3)}</b></span>
                     <div><h3>{u.university}</h3><span className="ng-uni-location"><i className="fa-solid fa-location-dot"></i> {u.location}, Malaysia</span></div>
                   </div>
                   <div className="ng-uni-badges"><span>{u.type} university</span><span>{Object.keys(u.programmes || {}).length} programmes</span><span>Intakes: {u.intakes || 'Confirm'}</span></div>
