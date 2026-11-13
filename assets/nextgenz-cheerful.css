@@ -209,3 +209,9 @@
 .ng-logo-btn:hover,.ng-scholarship-card:hover,.ng-guide-card:hover,.ng-uni-card:hover{transform:none!important}
 html{scroll-behavior:auto!important}
 }
+
+/* Show initials only when a university's official-site icon fails to load */
+.ng-logo-btn .ng-logo-initial{display:none}
+.ng-logo-btn img[style*="display: none"] + .ng-logo-initial{display:grid}
+.ng-uni-profile .ng-card-fallback{display:none}
+.ng-uni-profile img[style*="display: none"] + .ng-card-fallback{display:block}
