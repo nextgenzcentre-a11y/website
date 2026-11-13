@@ -673,6 +673,10 @@ display: none !important;
 ]
 }
 </script>
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap">
+<link rel="stylesheet" href="/assets/nextgenz-cheerful.css">
+<script src="/assets/nextgenz-motion.js" defer></script>
 </head>
 <body class="font-sans text-gray-800 antialiased bg-[#F5F7FA] overflow-x-hidden">
 <!-- Static Google Translate Target Element -->
@@ -2000,10 +2004,10 @@ NEXTGENZ <span className="text-[#C5A059]">CENTRE</span>
 {/* Desktop Navigation Links */}
 <div className="hidden lg:flex items-center space-x-6">
 <a contentEditable={false} suppressContentEditableWarning
-href="#about"
+href="#universities"
 className="text-white hover:text-[#C5A059] transition font-medium text-xs sm:text-sm uppercase tracking-wide"
 >
-About
+Universities
 </a>
 <a contentEditable={false} suppressContentEditableWarning
 href="#services"
@@ -2061,11 +2065,11 @@ aria-label="Toggle menu"
 <div className="lg:hidden glass-nav absolute w-full top-full left-0 border-t border-gray-700 shadow-xl">
 <div className="px-4 pt-2 pb-6 space-y-2 text-center">
 <a contentEditable={false} suppressContentEditableWarning
-href="#about"
+href="#universities"
 onClick={() => setMobileMenuOpen(false)}
 className="block text-white hover:bg-[#1a2f50] hover:text-[#C5A059] px-3 py-2.5 rounded-md font-medium"
 >
-About Us
+Explore Universities
 </a>
 <a contentEditable={false} suppressContentEditableWarning
 href="#services"
@@ -2591,9 +2595,9 @@ alert('Hero background photo saved successfully!');
 }
 };
 return (
-<section className="relative h-screen min-h-[700px] flex items-center justify-center clip-path-slant bg-[#0F1F38]">
+<section className="ng-hero relative h-screen min-h-[700px] flex items-center justify-center clip-path-slant bg-[#0F1F38]">
 {/* Video Background (with Poster Fallback) */}
-<div className="absolute inset-0 w-full h-full overflow-hidden group/herobg">
+<div className="ng-hero-backdrop absolute inset-0 w-full h-full overflow-hidden group/herobg">
 <video
 autoPlay
 loop
@@ -2607,7 +2611,7 @@ src="https://assets.mixkit.co/videos/preview/mixkit-group-of-students-walking-on
 type="video/mp4"
 />
 </video>
-<div className="absolute inset-0 hero-overlay z-10"></div>
+<div className="ng-hero-overlay absolute inset-0 hero-overlay z-10"></div>
 {adminMode && (
 <div
 contentEditable={false}
@@ -2622,43 +2626,47 @@ className="absolute inset-0 bg-black/50 opacity-0 group-hover/herobg:opacity-100
 )}
 </div>
 {/* Hero Content */}
-<div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
-<div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-[#C5A059]/40 text-[#C5A059] mb-8 backdrop-blur-md shadow-lg">
+<div className="ng-hero-content relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
+<div className="ng-hero-kicker inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-[#C5A059]/40 text-[#C5A059] mb-8 backdrop-blur-md shadow-lg">
 <i className="fa-solid fa-shield-halved"></i>
 <span className="text-xs sm:text-sm font-semibold tracking-widest uppercase">
 SSM Registered: 202603180524
 </span>
 </div>
 <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-extrabold text-white leading-tight mb-6 drop-shadow-lg">
-<span>Building the Next </span>
+<span>Study in Malaysia.</span>
 <br className="hidden sm:block" />
-<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C5A059] via-yellow-200 to-[#C5A059]">
-Generation of Leaders
-</span>
+<span className="ng-hero-highlight">Dream bigger. Go further.</span>
 </h1>
-<p className="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-gray-200 mb-10 font-light leading-relaxed drop-shadow-md">
-Learn how to apply to university in Malaysia for free. 100% FREE University Placement, English School Admissions, and full EMGS student visa process support for students in Malaysia and globally.
+<p className="ng-hero-copy mt-4 max-w-3xl mx-auto text-lg md:text-xl text-gray-200 mb-10 font-light leading-relaxed drop-shadow-md">
+Compare real Malaysian university programmes, understand fees and intakes, and plan your next chapter with free core admissions advice and visa guidance.
 </p>
 <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
 <a contentEditable={false} suppressContentEditableWarning
 href="https://wa.me/601167701210"
 target="_blank"
 rel="noreferrer"
-className="bg-[#C5A059] hover:bg-[#D4AF37] text-[#0F1F38] font-bold text-lg px-8 py-4 rounded-full shadow-[0_0_20px_rgba(197,160,89,0.5)] transition transform hover:-translate-y-1 flex items-center justify-center gap-2 group"
+className="ng-hero-primary bg-[#C5A059] hover:bg-[#D4AF37] text-[#0F1F38] font-bold text-lg px-8 py-4 rounded-full shadow-[0_0_20px_rgba(197,160,89,0.5)] transition transform hover:-translate-y-1 flex items-center justify-center gap-2 group"
 >
 <i className="fa-brands fa-whatsapp text-2xl group-hover:scale-110 transition"></i>
 <span>Start Your Journey</span>
 </a>
 <a contentEditable={false} suppressContentEditableWarning
-href="#services"
-className="bg-transparent border-2 border-white/50 text-white hover:bg-white hover:text-[#0F1F38] font-bold text-lg px-8 py-4 rounded-full backdrop-blur-sm transition transform hover:-translate-y-1 flex items-center justify-center gap-2"
+href="#universities"
+className="ng-hero-secondary bg-transparent border-2 border-white/50 text-white hover:bg-white hover:text-[#0F1F38] font-bold text-lg px-8 py-4 rounded-full backdrop-blur-sm transition transform hover:-translate-y-1 flex items-center justify-center gap-2"
 >
-<span>Explore Services</span> <i className="fa-solid fa-arrow-down"></i>
+<span>Explore Universities</span> <i className="fa-solid fa-arrow-down"></i>
 </a>
 </div>
+<div className="ng-hero-chips">
+<span><i className="fa-solid fa-graduation-cap"></i> University degrees</span>
+<span><i className="fa-solid fa-language"></i> English pathways</span>
+<span><i className="fa-solid fa-passport"></i> Visa guidance</span>
 </div>
+</div>
+<div className="ng-photo-caption"><i className="fa-solid fa-location-dot"></i><div><strong>Malaysia is calling</strong><small>Explore a new chapter</small></div></div>
 {/* Scroll Indicator */}
-<div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block z-20">
+<div className="ng-scroll-down absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block z-20">
 <a contentEditable={false} suppressContentEditableWarning href="#stats" className="text-[#C5A059]/80 hover:text-[#C5A059] transition">
 <i className="fa-solid fa-chevron-down text-3xl"></i>
 </a>
@@ -2667,62 +2675,199 @@ className="bg-transparent border-2 border-white/50 text-white hover:bg-white hov
 );
 };
 
-// ==== components/TrustStatsAndMarquee.tsx ====
+// ==== components/TrustStatsAndMarquee.tsx (NextGenz 2026 discovery experience) ====
+const NG_FEATURED_CODES = ['UM','APU','UCSI','UniKL','MSU','IMU','MMU','UPM','UTM','LUC','UniRazak','MAHSA','UNITEN','USM'];
+function ngUniversityIcon(website: string) {
+  try { return 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(new URL(website).hostname) + '&sz=128'; }
+  catch (_err) { return ''; }
+}
+function ngCourseLevelMatches(title: string, level: string) {
+  if (level === 'All levels') return true;
+  const lower = title.toLowerCase();
+  if (level === 'Bachelor') return /bachelor|\bbsc\b|\bba \b|\bbeng\b|\bbba\b/.test(lower);
+  if (level === 'Master') return /master|\bmba\b|\bmsc\b|\bma \b/.test(lower);
+  if (level === 'PhD') return /phd|doctor of philosophy|\bdoctoral\b/.test(lower);
+  if (level === 'Diploma') return /diploma/.test(lower);
+  if (level === 'Foundation') return /foundation|pre-university|a-level/.test(lower);
+  return true;
+}
 const TrustStatsAndMarquee: React.FC = () => {
-return (
-<>
-{/* Trust Stats Bar */}
-<div id="stats" className="bg-white py-10 shadow-2xl relative z-30 -mt-16 mx-4 md:mx-auto max-w-6xl rounded-3xl border border-gray-100">
-<div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-gray-200 px-4">
-<div className="p-4 hover:scale-105 transition transform">
-<div className="w-16 h-16 mx-auto bg-[#0F1F38]/5 text-[#C5A059] rounded-full flex items-center justify-center text-3xl mb-4">
-<i className="fa-solid fa-graduation-cap"></i>
-</div>
-<h3 className="font-heading font-bold text-[#0F1F38] text-2xl">Top Universities</h3>
-<p className="text-gray-500 text-sm mt-2 font-medium">Neutral & global placement</p>
-</div>
-<div className="p-4 hover:scale-105 transition transform">
-<div className="w-16 h-16 mx-auto bg-[#0F1F38]/5 text-[#C5A059] rounded-full flex items-center justify-center text-3xl mb-4">
-<i className="fa-solid fa-hand-holding-dollar"></i>
-</div>
-<h3 className="font-heading font-bold text-[#0F1F38] text-2xl">Zero-Cost Model</h3>
-<p className="text-gray-500 text-sm mt-2 font-medium">100% Free core advisory</p>
-</div>
-<div className="p-4 hover:scale-105 transition transform">
-<div className="w-16 h-16 mx-auto bg-[#0F1F38]/5 text-[#C5A059] rounded-full flex items-center justify-center text-3xl mb-4">
-<i className="fa-solid fa-passport"></i>
-</div>
-<h3 className="font-heading font-bold text-[#0F1F38] text-2xl">EMGS / MDAC</h3>
-<p className="text-gray-500 text-sm mt-2 font-medium">Full visa processing support</p>
-</div>
-</div>
-</div>
-{/* Universities Marquee */}
-<div className="bg-[#F5F7FA] py-10 overflow-hidden border-b border-gray-200">
-<p className="text-center text-sm font-bold text-gray-400 uppercase tracking-widest mb-6 px-4">Partnering with Leading Institutions</p>
-<div className="relative flex overflow-x-hidden w-full">
-<div className="flex space-x-12 animate-marquee whitespace-nowrap px-6 opacity-60">
-<span className="text-xl md:text-2xl font-heading font-bold text-[#0F1F38] flex items-center"><i className="fa-solid fa-building-columns text-[#C5A059] mr-2"></i> UM</span>
-<span className="text-xl md:text-2xl font-heading font-bold text-[#0F1F38] flex items-center"><i className="fa-solid fa-building-columns text-[#C5A059] mr-2"></i> Taylor's University</span>
-<span className="text-xl md:text-2xl font-heading font-bold text-[#0F1F38] flex items-center"><i className="fa-solid fa-building-columns text-[#C5A059] mr-2"></i> UCSI</span>
-<span className="text-xl md:text-2xl font-heading font-bold text-[#0F1F38] flex items-center"><i className="fa-solid fa-building-columns text-[#C5A059] mr-2"></i> Sunway University</span>
-<span className="text-xl md:text-2xl font-heading font-bold text-[#0F1F38] flex items-center"><i className="fa-solid fa-building-columns text-[#C5A059] mr-2"></i> APU</span>
-<span className="text-xl md:text-2xl font-heading font-bold text-[#0F1F38] flex items-center"><i className="fa-solid fa-building-columns text-[#C5A059] mr-2"></i> Monash Malaysia</span>
-<span className="text-xl md:text-2xl font-heading font-bold text-[#0F1F38] flex items-center"><i className="fa-solid fa-building-columns text-[#C5A059] mr-2"></i> ELS Language Centers</span>
-</div>
-<div className="flex space-x-12 animate-marquee whitespace-nowrap px-6 opacity-60 absolute top-0">
-<span className="text-xl md:text-2xl font-heading font-bold text-[#0F1F38] flex items-center"><i className="fa-solid fa-building-columns text-[#C5A059] mr-2"></i> UM</span>
-<span className="text-xl md:text-2xl font-heading font-bold text-[#0F1F38] flex items-center"><i className="fa-solid fa-building-columns text-[#C5A059] mr-2"></i> Taylor's University</span>
-<span className="text-xl md:text-2xl font-heading font-bold text-[#0F1F38] flex items-center"><i className="fa-solid fa-building-columns text-[#C5A059] mr-2"></i> UCSI</span>
-<span className="text-xl md:text-2xl font-heading font-bold text-[#0F1F38] flex items-center"><i className="fa-solid fa-building-columns text-[#C5A059] mr-2"></i> Sunway University</span>
-<span className="text-xl md:text-2xl font-heading font-bold text-[#0F1F38] flex items-center"><i className="fa-solid fa-building-columns text-[#C5A059] mr-2"></i> APU</span>
-<span className="text-xl md:text-2xl font-heading font-bold text-[#0F1F38] flex items-center"><i className="fa-solid fa-building-columns text-[#C5A059] mr-2"></i> Monash Malaysia</span>
-<span className="text-xl md:text-2xl font-heading font-bold text-[#0F1F38] flex items-center"><i className="fa-solid fa-building-columns text-[#C5A059] mr-2"></i> ELS Language Centers</span>
-</div>
-</div>
-</div>
-</>
-);
+  const featured = React.useMemo(() => NG_FEATURED_CODES.map(code => rawData.find(u => u.shortName === code)).filter(Boolean), []);
+  const [search, setSearch] = useState('');
+  const [sector, setSector] = useState('All universities');
+  const [level, setLevel] = useState('All levels');
+  const [slide, setSlide] = useState(0);
+  const [expanded, setExpanded] = useState('');
+  const totalProgrammes = React.useMemo(() => rawData.reduce((n, u) => n + Object.keys(u.programmes || {}).length, 0), []);
+  const filtered = React.useMemo(() => {
+    const searchText = search.trim().toLowerCase();
+    return rawData.filter(u => {
+      if (sector !== 'All universities' && u.type !== sector) return false;
+      const titles = Object.keys(u.programmes || {});
+      const matchesSearch = !searchText || u.university.toLowerCase().includes(searchText) || u.shortName.toLowerCase().includes(searchText) || u.location.toLowerCase().includes(searchText) || titles.some(t => t.toLowerCase().includes(searchText));
+      const matchesLevel = level === 'All levels' || titles.some(t => ngCourseLevelMatches(t, level));
+      return matchesSearch && matchesLevel;
+    }).sort((a, b) => {
+      const aIdx = NG_FEATURED_CODES.indexOf(a.shortName), bIdx = NG_FEATURED_CODES.indexOf(b.shortName);
+      return (aIdx < 0 ? 999 : aIdx) - (bIdx < 0 ? 999 : bIdx);
+    });
+  }, [search, sector, level]);
+  useEffect(() => { setSlide(0); setExpanded(''); }, [search, sector, level]);
+  useEffect(() => {
+    if (filtered.length <= 3 || search || sector !== 'All universities' || level !== 'All levels') return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = window.setInterval(() => { if (!document.hidden) setSlide(v => (v + 1) % filtered.length); }, 6400);
+    return () => window.clearInterval(timer);
+  }, [filtered.length, search, sector, level]);
+  const shown = filtered.length ? Array.from({length: Math.min(3, filtered.length)}, (_, i) => filtered[(slide + i) % filtered.length]) : [];
+  const chooseUni = (short: string) => {
+    setSearch(short); setSector('All universities'); setLevel('All levels');
+    const el = document.getElementById('universities');
+    if (el) el.scrollIntoView({behavior: 'smooth',block: 'start'});
+  };
+  const examplesFor = (u: any) => {
+    const q = search.trim().toLowerCase();
+    const list = Object.entries(u.programmes || {}).filter(([title]) => ngCourseLevelMatches(title, level));
+    const prioritised = q && !(u.university.toLowerCase().includes(q) || u.shortName.toLowerCase().includes(q) || u.location.toLowerCase().includes(q))
+      ? list.filter(([title]) => title.toLowerCase().includes(q)) : list;
+    return prioritised.length ? prioritised : list;
+  };
+  return (
+  <>
+    <div id="stats" className="ng-blended-intro">
+      <div className="ng-inner">
+        <div className="ng-metric-bar ng-reveal">
+          <div className="ng-metric"><span className="ng-metric-icon"><i className="fa-solid fa-building-columns"></i></span><div><strong>{rawData.length} universities</strong><small>In our existing programme finder</small></div></div>
+          <div className="ng-metric"><span className="ng-metric-icon"><i className="fa-solid fa-book-open-reader"></i></span><div><strong>{totalProgrammes.toLocaleString()}+ course listings</strong><small>Browse degrees and pathways</small></div></div>
+          <div className="ng-metric"><span className="ng-metric-icon"><i className="fa-solid fa-hand-holding-heart"></i></span><div><strong>Free advisory</strong><small>Core placement guidance for students</small></div></div>
+        </div>
+        <div className="ng-destination">
+          <div className="ng-dest-copy ng-reveal">
+            <span className="ng-topline"><span className="ng-flag" aria-hidden="true">🇲🇾</span> YOUR STUDY DESTINATION</span>
+            <h2 className="ng-title">Hello, <em>Malaysia.</em><br/>Hello, possibility.</h2>
+            <p className="ng-lead">Imagine yourself studying in Kuala Lumpur, Selangor, Penang or beyond. Discover real Malaysian programmes, compare institutions and plan a confident move.</p>
+            <div className="ng-dest-facts">
+              <div className="ng-dest-fact"><strong>{rawData.length}</strong><small>University listings</small></div>
+              <div className="ng-dest-fact"><strong>{totalProgrammes.toLocaleString()}</strong><small>Programme entries</small></div>
+              <div className="ng-dest-fact"><strong>MYR + USD</strong><small>Original fee currencies</small></div>
+            </div>
+            <a contentEditable={false} suppressContentEditableWarning href="#universities" className="ng-cta inline-flex items-center gap-3 mt-7" style={{background:'#e85167',color:'white',padding:'13px 24px',borderRadius:99,fontWeight:800}}>Explore Malaysian universities <i className="fa-solid fa-arrow-right"></i></a>
+          </div>
+          <div className="ng-dest-visual ng-reveal" aria-label="Kuala Lumpur skyline illustration with a vibrant Malaysia theme">
+            <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=1300&q=85" alt="Colourful view of Kuala Lumpur in Malaysia" loading="lazy"/>
+            <span className="ng-dest-sticker">Learn. Explore. Grow.</span>
+          </div>
+        </div>
+        <div className="ng-logo-area ng-reveal">
+          <p className="ng-logo-note">Explore universities listed in our programme finder · tap a name to see courses</p>
+          <div className="ng-marquee-clip">
+            <div className="ng-logo-track">
+              {[...featured, ...featured].map((u: any, i: number) => (
+                <button type="button" key={u.shortName + '-' + i} onClick={() => chooseUni(u.shortName)} className="ng-logo-btn" aria-label={'Explore ' + u.university + ' programmes'}>
+                  <img src={ngUniversityIcon(u.website)} alt="" loading="lazy" onError={(e) => { e.currentTarget.style.display = 'none'; }}/>
+                  <span className="ng-logo-initial">{u.shortName.slice(0,3)}</span>
+                  <span><strong>{u.shortName}</strong><small>{u.university}</small></span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section id="universities" className="ng-universities-section">
+      <div className="ng-inner">
+        <div className="ng-universities-heading ng-reveal">
+          <div className="max-w-3xl">
+            <span className="ng-topline"><i className="fa-solid fa-magnifying-glass"></i> REAL PROGRAMMES · REAL OPTIONS</span>
+            <h2 className="ng-title">Find a university that <em>feels right for you.</em></h2>
+            <p className="ng-lead">Explore university names, locations and programme listings directly from our existing finder. Your original university data stays where it is.</p>
+          </div>
+          <div className="ng-uni-arrows">
+            <button type="button" title="Previous universities" aria-label="Previous universities" disabled={filtered.length < 2} onClick={() => setSlide(v => (v + filtered.length - 1) % filtered.length)}><i className="fa-solid fa-arrow-left"></i></button>
+            <button type="button" title="Next universities" aria-label="Next universities" disabled={filtered.length < 2} onClick={() => setSlide(v => (v + 1) % filtered.length)}><i className="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+        <div className="ng-university-controls ng-reveal">
+          <label><i className="fa-solid fa-magnifying-glass"></i><input aria-label="Search universities or programmes" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Try Computer Science, UniKL or Kuala Lumpur..." /></label>
+          <label><i className="fa-solid fa-layer-group"></i><select aria-label="Filter by study level" value={level} onChange={(e) => setLevel(e.target.value)}>
+            {['All levels','Foundation','Diploma','Bachelor','Master','PhD'].map(v => <option key={v} value={v}>{v}</option>)}
+          </select></label>
+          <label><i className="fa-solid fa-school"></i><select aria-label="Filter public or private universities" value={sector} onChange={(e) => setSector(e.target.value)}>
+            {['All universities','Public','Private'].map(v => <option key={v} value={v}>{v}</option>)}
+          </select></label>
+        </div>
+        {shown.length ? (
+          <div className="ng-uni-grid">
+          {shown.map((u: any) => {
+            const matches = examplesFor(u);
+            return (
+              <article className="ng-uni-card" key={u.shortName}>
+                <div className="ng-uni-top">
+                  <div className="ng-uni-profile">
+                    <span className="ng-logo-cell"><img src={ngUniversityIcon(u.website)} alt={u.university + ' website icon'} loading="lazy" onError={(e) => { e.currentTarget.style.display = 'none'; }} /></span>
+                    <div><h3>{u.university}</h3><span className="ng-uni-location"><i className="fa-solid fa-location-dot"></i> {u.location}, Malaysia</span></div>
+                  </div>
+                  <div className="ng-uni-badges"><span>{u.type} university</span><span>{Object.keys(u.programmes || {}).length} programmes</span><span>Intakes: {u.intakes || 'Confirm'}</span></div>
+                </div>
+                <div className="ng-uni-programs">
+                  {matches.slice(0,2).map(([title,fee]) => (
+                    <div className="ng-course" key={title}>
+                      <strong>{title}</strong>
+                      <span className="ng-course-fee">{u.currency} {String(fee)}</span>
+                      <small className="ng-course-hint">Listed fee · billing period and current amount to confirm</small>
+                    </div>
+                  ))}
+                  {!matches.length && <p className="text-sm text-gray-500">Programme details available from the university.</p>}
+                </div>
+                {expanded === u.shortName && (
+                  <div className="ng-uni-expand">
+                    <p className="text-xs font-bold text-[#147369] mb-2">More courses from the existing finder</p>
+                    {matches.slice(2,10).map(([title,fee]) => (<div className="ng-expanded-row" key={title}><strong>{title}</strong><small>{u.currency} {String(fee)} · verify fee period</small></div>))}
+                    {matches.length < 3 && <p className="text-xs text-gray-500">Use the search filters to explore more programmes.</p>}
+                  </div>
+                )}
+                <div className="ng-uni-footer">
+                  <button type="button" onClick={() => setExpanded(v => v === u.shortName ? '' : u.shortName)} aria-expanded={expanded === u.shortName}>{expanded === u.shortName ? 'Show less' : 'View more courses'} <i className="fa-solid fa-chevron-down ml-1"></i></button>
+                  <a href={u.website} target="_blank" rel="noopener noreferrer" title={'Official website for '+u.university}>University site <i className="fa-solid fa-arrow-up-right-from-square ml-1"></i></a>
+                </div>
+              </article>
+            );
+          })}
+          </div>
+        ) : (<div className="ng-search-empty"><i className="fa-solid fa-magnifying-glass text-3xl mb-4"></i><h3 className="font-bold text-xl">No matches for those filters</h3><p>Try another programme, university or level.</p><button type="button" onClick={() => {setSearch('');setLevel('All levels');setSector('All universities');}} className="mt-4 ng-cta">Clear filters</button></div>)}
+        <p className="ng-uni-disclaimer"><i className="fa-solid fa-circle-info"></i><span>Figures are copied from the existing programme finder and are for orientation only. The original dataset does not consistently identify whether each fee is per semester, per year or the full programme. Confirm currency, billing period, current fees, entry requirements and intakes with the university before relying on an estimate. University listings are not a claim of an official partnership.</span></p>
+        <div className="mt-8 flex flex-wrap gap-3"><a href="https://wa.me/601167701210" target="_blank" rel="noopener noreferrer" className="ng-cta">Talk to an admissions advisor <i className="fa-brands fa-whatsapp"></i></a><a href="/guides/how-to-study-in-malaysia.html" className="ng-cta" style={{background:'#fff',color:'#245468',border:'1px solid #dce9e5'}}>Read admissions guide <i className="fa-solid fa-arrow-right"></i></a></div>
+      </div>
+    </section>
+    <section id="scholarships" className="ng-scholarships">
+      <div className="ng-inner">
+        <div className="ng-reveal text-center max-w-3xl mx-auto">
+          <span className="ng-topline" style={{background:'rgba(255,255,255,.18)',color:'#fff',borderColor:'rgba(255,255,255,.4)'}}>SCHOLARSHIP AND FEES GUIDANCE</span>
+          <h2 className="ng-title">A brighter future begins with <span style={{color:'#ffeaa5'}}>smarter choices.</span></h2>
+          <p className="ng-lead" style={{color:'rgba(255,255,255,.94)'}}>Scholarships aren't one-size-fits-all. Our team can help you ask the right questions about partial fee awards, tuition schedules and university entry requirements.</p>
+        </div>
+        <div className="ng-scholarship-panels">
+          <div className="ng-scholarship-card ng-reveal"><span className="ng-s-icon"><i className="fa-solid fa-award"></i></span><h3>Partial scholarships</h3><p>Explore partial awards of up to 25% when offered to eligible applicants.</p><strong>Availability depends on university and course</strong></div>
+          <div className="ng-scholarship-card ng-reveal"><span className="ng-s-icon"><i className="fa-solid fa-receipt"></i></span><h3>Transparent tuition</h3><p>Ask whether the published tuition is per semester, year or programme, plus deposits and additional charges.</p><strong>Understand the actual cost</strong></div>
+          <div className="ng-scholarship-card ng-reveal"><span className="ng-s-icon"><i className="fa-solid fa-route"></i></span><h3>Admission planning</h3><p>Compare programme intakes, English requirements and the documents you need before applying.</p><strong>Prepare your next step</strong></div>
+        </div>
+        <p className="ng-scholarship-disclaimer">Partial awards are not guaranteed and may not be available at every institution or intake. NextGenz Centre does not advertise guaranteed full scholarships. Confirm all offers in writing with the university.</p>
+        <div className="text-center mt-7"><a className="ng-cta" href="/guides/scholarships-malaysia-international-students.html" style={{background:'#fff',color:'#af3851'}}>Understand scholarship options <i className="fa-solid fa-arrow-right"></i></a></div>
+      </div>
+    </section>
+    <section className="ng-journey-links">
+      <div className="ng-inner">
+        <span className="ng-topline">GOOD ADVICE. GREAT NEXT STEPS.</span><h2 className="ng-title">Curious about your <em>next chapter?</em></h2>
+        <p className="ng-lead">Explore our free, practical guides before you choose a campus.</p>
+        <div className="ng-guide-grid">
+          <a className="ng-guide-card ng-reveal" href="/guides/how-to-study-in-malaysia.html"><i className="fa-solid fa-graduation-cap"></i><span><strong>How to study in Malaysia</strong><small>Admissions and documents ↗</small></span></a>
+          <a className="ng-guide-card ng-reveal" href="/guides/cost-of-studying-in-malaysia.html"><i className="fa-solid fa-wallet"></i><span><strong>Understanding tuition and costs</strong><small>Budget with confidence ↗</small></span></a>
+          <a className="ng-guide-card ng-reveal" href="/guides/malaysia-student-visa-emgs-guide.html"><i className="fa-solid fa-passport"></i><span><strong>Student visa and EMGS</strong><small>Prepare for the next step ↗</small></span></a>
+        </div>
+      </div>
+    </section>
+  </>
+  );
 };
 
 // ==== components/AboutAndWhyMalaysia.tsx ====
@@ -9945,7 +10090,7 @@ return (
 <div
 contentEditable={isAdminActive}
 suppressContentEditableWarning
-className="font-sans text-gray-800 antialiased bg-[#F5F7FA] overflow-x-hidden min-h-screen"
+className="ng-cheerful font-sans text-gray-800 antialiased bg-[#FFF9F1] overflow-x-hidden min-h-screen"
 >
 {/* Navigation Bar */}
 <HeaderNavbar onOpenPortal={handleOpenPortal} />
