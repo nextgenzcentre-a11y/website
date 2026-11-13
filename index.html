@@ -14,8 +14,6 @@
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="https://www.nextgenzcentre.space/">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Study in Malaysia | Free University Placement | NextGenz Centre">
-<meta name="twitter:description" content="Explore Malaysian universities, English courses and student visa guidance. Free core university placement advisory.">
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -618,22 +616,6 @@ display: none !important;
   color: #065f46; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px;
 }
 
-
-/* NextGenz 2026: lively, accessible student discovery */
-.ng-fresh .ng-hero .hero-overlay{background:linear-gradient(106deg,rgba(7,27,51,.90),rgba(6,53,85,.73) 55%,rgba(12,79,84,.58))}
-.ng-fresh .ng-hero h1{letter-spacing:-.045em;text-wrap:balance}
-.ng-fresh .ng-hero .ng-accent{background:linear-gradient(105deg,#ffe28d,#83f6dc 51%,#c3c7ff);color:transparent;-webkit-background-clip:text;background-clip:text}
-.ng-fresh .ng-guides{background:radial-gradient(circle at 9% 18%,#c9f7eab5,transparent 33%),radial-gradient(circle at 91% 10%,#ffecd7,transparent 34%),#f8fcff}
-.ng-fresh .ng-tag{display:inline-block;background:#dcfff3;border:1px solid #a9edda;color:#066b61;border-radius:99px;padding:7px 14px;font-size:12px;font-weight:800;letter-spacing:.09em}
-.ng-fresh .ng-tile{display:flex;flex-direction:column;min-height:275px;background:white;border:1px solid rgba(20,57,78,.1);border-radius:27px;padding:27px;box-shadow:0 12px 30px rgba(15,55,78,.07);transition:transform .25s,box-shadow .25s}
-.ng-fresh .ng-tile:nth-child(1){border-top:6px solid #0a9c90}.ng-fresh .ng-tile:nth-child(2){border-top:6px solid #557ce9}.ng-fresh .ng-tile:nth-child(3){border-top:6px solid #f18a59}
-.ng-fresh .ng-tile:hover{transform:translateY(-7px);box-shadow:0 22px 55px rgba(15,55,78,.16)}
-.ng-fresh .ng-tile .ng-icon{width:54px;height:54px;display:flex;align-items:center;justify-content:center;border-radius:16px;font-size:23px;background:#d8faf0;color:#06766e;margin-bottom:17px}
-.ng-fresh .ng-tile:nth-child(2) .ng-icon{background:#e7eeff;color:#5474d1}.ng-fresh .ng-tile:nth-child(3) .ng-icon{background:#fff0e4;color:#b8663f}
-.ng-fresh .ng-tile .ng-read{margin-top:auto;color:#076c73;font-weight:800}
-.ng-fresh .ng-cta{display:inline-flex;align-items:center;gap:10px;background:#102e50;color:white;padding:14px 25px;border-radius:99px;font-weight:800;box-shadow:0 8px 23px #173b5a24;transition:transform .25s,background .25s}
-.ng-fresh .ng-cta:hover{background:#047e85;transform:translateY(-3px)}
-@media(prefers-reduced-motion:reduce){.ng-fresh .ng-tile,.ng-fresh .ng-cta{transition:none}.ng-fresh .ng-tile:hover,.ng-fresh .ng-cta:hover{transform:none}}
 </style>
 <script type="application/ld+json">
 {
@@ -755,7 +737,6 @@ if (sweeps > 40) clearInterval(interval);
 })();
 </script>
 <div id="root"></div>
-<noscript><div style="font-family:Arial,sans-serif;margin:30px auto;max-width:800px;padding:22px;color:#123452;background:#eff8f8;border-radius:14px"><h1>Study in Malaysia with NextGenz Centre</h1><p>Find guidance on Malaysian universities, English courses, student visa requirements and university placement.</p><p><a href="/guides/">Read our free study guides</a> or <a href="https://wa.me/601167701210">contact our team</a>.</p></div></noscript>
 
 <script type="text/plain" id="app-source">
 
@@ -1099,14 +1080,13 @@ const ADMIN_EMAIL = 'nextgenzcentre@gmail.com';
 // Reorderable / hideable main page sections (Nav and Footer are structural and stay fixed).
 // Order + hidden list are persisted to Firebase (site_content/layout) so layout changes are
 // permanent and visible to every visitor, exactly like the text overrides above.
-const DEFAULT_SECTION_ORDER = ['hero', 'trust', 'about', 'services', 'process', 'guides', 'faq'];
+const DEFAULT_SECTION_ORDER = ['hero', 'trust', 'about', 'services', 'process', 'faq'];
 const SECTION_LABELS: Record<string, string> = {
 hero: 'Hero Banner',
 trust: 'Trust Stats & University Marquee',
 about: 'About Us & Why Study in Malaysia',
 services: 'Services & Portals',
 process: 'Workflow & Agent Partner Section',
-guides: 'Study Guides & Blog Articles',
 faq: 'FAQ & Free Advisory Contact Form'
 };
 // Server-side email dispatch endpoint (Vercel Function backed by Resend). Replaces the old
@@ -2049,7 +2029,7 @@ className="text-white hover:text-[#C5A059] transition font-medium text-xs sm:tex
 >
 Agents
 </a>
-<a contentEditable={false} suppressContentEditableWarning href="/guides/" className="text-[#8ff0d6] hover:text-white transition font-extrabold text-xs sm:text-sm uppercase tracking-wide">Study Guides</a>
+<a contentEditable={false} suppressContentEditableWarning href="/guides/" className="text-white hover:text-[#C5A059] transition font-medium text-xs sm:text-sm uppercase tracking-wide">Study Guides</a>
 {/* Custom Language Selector */}
 <LanguageSelector />
 {/* Direct WhatsApp Call To Action */}
@@ -2115,7 +2095,7 @@ className="block text-white hover:bg-[#1a2f50] hover:text-[#C5A059] px-3 py-2.5 
 >
 Become an Agent
 </a>
-<a contentEditable={false} suppressContentEditableWarning href="/guides/" onClick={() => setMobileMenuOpen(false)} className="block text-[#91f5dd] hover:bg-[#1a2f50] hover:text-white px-3 py-2.5 rounded-md font-bold">Study Guides & Blog</a>
+<a contentEditable={false} suppressContentEditableWarning href="/guides/" onClick={() => setMobileMenuOpen(false)} className="block text-white hover:bg-[#1a2f50] hover:text-[#C5A059] px-3 py-2.5 rounded-md font-medium">Study Guides &amp; Blog</a>
 <a contentEditable={false} suppressContentEditableWarning
 href="#faq"
 onClick={() => setMobileMenuOpen(false)}
@@ -2202,7 +2182,7 @@ Building the Next Generation of Leaders through transparent, zero-cost education
 <li><a contentEditable={false} suppressContentEditableWarning href="#portals" className="text-gray-400 hover:text-[#C5A059] transition text-sm">Portals & Access</a></li>
 <li><a contentEditable={false} suppressContentEditableWarning href="#agents" className="text-gray-400 hover:text-[#C5A059] transition text-sm">Become an Agent</a></li>
 <li><a contentEditable={false} suppressContentEditableWarning href="#faq" className="text-gray-400 hover:text-[#C5A059] transition text-sm">FAQ</a></li>
-<li><a contentEditable={false} suppressContentEditableWarning href="/guides/" className="text-gray-300 hover:text-[#8ff0d6] transition text-sm">Study Guides & Blog</a></li>
+<li><a contentEditable={false} suppressContentEditableWarning href="/guides/" className="text-gray-400 hover:text-[#C5A059] transition text-sm">Study Guides</a></li>
 </ul>
 </div>
 {/* Links Col 2 */}
@@ -2611,7 +2591,7 @@ alert('Hero background photo saved successfully!');
 }
 };
 return (
-<section className="ng-hero relative h-screen min-h-[700px] flex items-center justify-center clip-path-slant bg-[#0F1F38]">
+<section className="relative h-screen min-h-[700px] flex items-center justify-center clip-path-slant bg-[#0F1F38]">
 {/* Video Background (with Poster Fallback) */}
 <div className="absolute inset-0 w-full h-full overflow-hidden group/herobg">
 <video
@@ -2650,12 +2630,14 @@ SSM Registered: 202603180524
 </span>
 </div>
 <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-extrabold text-white leading-tight mb-6 drop-shadow-lg">
-<span>Study in Malaysia.</span>
+<span>Building the Next </span>
 <br className="hidden sm:block" />
-<span className="ng-accent">Your future starts here.</span>
+<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C5A059] via-yellow-200 to-[#C5A059]">
+Generation of Leaders
+</span>
 </h1>
 <p className="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-gray-200 mb-10 font-light leading-relaxed drop-shadow-md">
-Explore university degrees, English courses and student visa guidance in Malaysia. Our team helps you compare options and apply with free core university placement advisory.
+Learn how to apply to university in Malaysia for free. 100% FREE University Placement, English School Admissions, and full EMGS student visa process support for students in Malaysia and globally.
 </p>
 <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
 <a contentEditable={false} suppressContentEditableWarning
@@ -3307,50 +3289,6 @@ className="w-full bg-[#C5A059] hover:bg-[#D4AF37] text-[#0F1F38] font-extrabold 
 </>
 );
 };
-
-// ==== components/StudyGuidesSection.tsx ====
-const StudyGuidesSection: React.FC = () => (
-<section id="guides" className="ng-guides py-20 md:py-28 overflow-hidden">
-<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div className="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-7 mb-11">
-<div className="max-w-2xl">
-<span className="ng-tag">YOUR STUDY JOURNEY, MADE CLEAR</span>
-<h2 className="mt-5 font-heading text-[#123452] font-extrabold text-4xl md:text-5xl leading-tight">Not just a university search. <span className="text-[#057e82]">A plan for your future.</span></h2>
-<p className="mt-4 text-lg text-[#425c70] leading-relaxed">Start with the questions that matter: courses, student visas, scholarships and the real costs of studying in Malaysia.</p>
-</div>
-<a contentEditable={false} suppressContentEditableWarning href="/guides/" className="ng-cta whitespace-nowrap self-start lg:self-auto">Explore all six guides <i className="fa-solid fa-arrow-right"></i></a>
-</div>
-<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-<a contentEditable={false} suppressContentEditableWarning href="/guides/how-to-study-in-malaysia.html" className="ng-tile group">
-<span className="ng-icon"><i className="fa-solid fa-graduation-cap"></i></span>
-<span className="text-xs font-extrabold uppercase tracking-widest text-[#138a7c]">University admissions</span>
-<h3 className="font-heading font-extrabold text-[#123452] text-2xl my-3">How to study in Malaysia</h3>
-<p className="text-[#50677c] mb-6">Choose universities, prepare documents and understand the full application journey.</p>
-<span className="ng-read">Read the guide <i className="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform ml-1"></i></span>
-</a>
-<a contentEditable={false} suppressContentEditableWarning href="/guides/malaysia-student-visa-emgs-guide.html" className="ng-tile group">
-<span className="ng-icon"><i className="fa-solid fa-passport"></i></span>
-<span className="text-xs font-extrabold uppercase tracking-widest text-[#5473c9]">Visa and arrival</span>
-<h3 className="font-heading font-extrabold text-[#123452] text-2xl my-3">EMGS visa steps, explained</h3>
-<p className="text-[#50677c] mb-6">Understand eVAL, document checks and the steps before travelling to Malaysia.</p>
-<span className="ng-read">Read the guide <i className="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform ml-1"></i></span>
-</a>
-<a contentEditable={false} suppressContentEditableWarning href="/guides/cost-of-studying-in-malaysia.html" className="ng-tile group">
-<span className="ng-icon"><i className="fa-solid fa-wallet"></i></span>
-<span className="text-xs font-extrabold uppercase tracking-widest text-[#c26842]">Study budget</span>
-<h3 className="font-heading font-extrabold text-[#123452] text-2xl my-3">How much will studying cost?</h3>
-<p className="text-[#50677c] mb-6">Compare tuition, accommodation, visa costs and the fees that students overlook.</p>
-<span className="ng-read">Read the guide <i className="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform ml-1"></i></span>
-</a>
-</div>
-<div className="mt-9 flex flex-wrap gap-3 text-sm font-semibold text-[#265069]">
-<a href="/guides/english-courses-in-malaysia.html" className="bg-white hover:bg-[#e2f5ee] border border-[#d5eae5] px-4 py-2 rounded-full">English language courses ↗</a>
-<a href="/guides/scholarships-malaysia-international-students.html" className="bg-white hover:bg-[#e2f5ee] border border-[#d5eae5] px-4 py-2 rounded-full">Scholarships and fee discounts ↗</a>
-<a href="/guides/summer-winter-camps-malaysia.html" className="bg-white hover:bg-[#e2f5ee] border border-[#d5eae5] px-4 py-2 rounded-full">Summer and winter camps ↗</a>
-</div>
-</div>
-</section>
-);
 
 // ==== components/FaqAndContact.tsx ====
 interface FaqAndContactProps {
@@ -9072,14 +9010,7 @@ const listener = dbRef.on(
 const val = snapshot.val();
 layoutLoadedRef.current = true;
 if (val) {
-setSectionOrder(() => {
-const saved = Array.isArray(val.order) && val.order.length ? val.order : DEFAULT_SECTION_ORDER;
-if (saved.includes('guides')) return saved;
-const next = [...saved];
-const faqAt = next.indexOf('faq');
-next.splice(faqAt < 0 ? next.length : faqAt, 0, 'guides');
-return next;
-});
+setSectionOrder(Array.isArray(val.order) && val.order.length ? val.order.filter((id: string) => DEFAULT_SECTION_ORDER.includes(id)) : DEFAULT_SECTION_ORDER);
 setHiddenSections(val.hidden || []);
 }
 },
@@ -10014,7 +9945,7 @@ return (
 <div
 contentEditable={isAdminActive}
 suppressContentEditableWarning
-className="ng-fresh font-sans text-gray-800 antialiased bg-[#F5F7FA] overflow-x-hidden min-h-screen"
+className="font-sans text-gray-800 antialiased bg-[#F5F7FA] overflow-x-hidden min-h-screen"
 >
 {/* Navigation Bar */}
 <HeaderNavbar onOpenPortal={handleOpenPortal} />
@@ -10035,8 +9966,6 @@ case 'process':
 return <ProcessAndAgents key={id} onRequestAccess={handleRequestAccess} />;
 case 'faq':
 return <FaqAndContact key={id} onRequestAccess={handleRequestAccess} />;
-case 'guides':
-return <StudyGuidesSection key={id} />;
 default:
 return null;
 }
