@@ -1,0 +1,217 @@
+/* NextGenz Centre — 2026 cheerful blended website experience
+   Scoped to the public-facing marketing sections. Portal UI and data are untouched. */
+:root{--ng-ink:#19344e;--ng-coral:#ed5869;--ng-sun:#ffd578;--ng-mint:#65dbc6;--ng-purple:#9d87d5;--ng-cream:#fffaf1}
+.ng-cheerful{background:#fffaf5}
+.ng-cheerful #navbar{background:rgba(20,38,62,.96)!important;border-bottom:1px solid rgba(255,255,255,.10)!important;box-shadow:0 8px 30px rgba(12,32,52,.15)!important}
+.ng-cheerful #navbar a:focus-visible,.ng-cheerful a:focus-visible,.ng-cheerful button:focus-visible,.ng-cheerful input:focus-visible,.ng-cheerful select:focus-visible{outline:3px solid #ffbf54;outline-offset:3px}
+.ng-cheerful #navbar .glass-nav{background:rgba(20,38,62,.96)}
+.ng-cheerful #navbar a[href="#universities"],.ng-cheerful #navbar a[href="#scholarships"]{color:#96f1d5!important}
+.ng-cheerful .ng-hero{min-height:740px!important;max-height:none!important;height:auto!important;padding:95px 0 80px;clip-path:none!important;isolation:isolate;background:radial-gradient(ellipse at 7% 6%,#ffe2c7 0,transparent 35%),radial-gradient(ellipse at 44% 110%,#b8eee5 0,transparent 40%),linear-gradient(115deg,#fff8ec 0%,#fff1e8 53%,#fce7df 100%)!important}
+.ng-cheerful .ng-hero:before{content:"";position:absolute;width:370px;height:370px;left:-190px;top:130px;border-radius:50%;border:66px solid rgba(237,88,105,.08);pointer-events:none}
+.ng-cheerful .ng-hero:after{content:"";position:absolute;width:165px;height:165px;right:8%;top:12%;border-radius:42% 58% 66% 34%;background:linear-gradient(135deg,#ffba73aa,#ff6c8099);filter:blur(12px);z-index:-1;animation:ng-float 9s ease-in-out infinite}
+.ng-cheerful .ng-hero .ng-hero-backdrop{left:auto!important;right:0!important;width:51%!important;height:100%;top:0;mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.36) 16%,#000 42%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.36) 16%,#000 42%);opacity:.94;pointer-events:none}
+.ng-cheerful .ng-hero .ng-hero-backdrop video{width:100%;height:100%;filter:saturate(1.12) brightness(1.12)}
+.ng-cheerful .ng-hero .ng-hero-overlay{background:linear-gradient(0deg,rgba(255,248,235,.78) 0%,rgba(255,248,235,.06) 45%)!important}
+.ng-cheerful .ng-hero .ng-hero-content{text-align:left!important;margin-left:auto;margin-right:auto;padding-right:min(44%,520px)!important;max-width:1280px!important;padding-top:80px!important;padding-bottom:50px!important}
+.ng-cheerful .ng-hero h1{font-family:'Outfit','Poppins',sans-serif!important;letter-spacing:-.055em;line-height:1.06!important;font-weight:800!important;font-size:clamp(3rem,5.25vw,5.8rem)!important;color:#173552!important;text-shadow:none!important;filter:none!important;max-width:750px}
+.ng-cheerful .ng-hero .ng-hero-highlight{color:#dc455d;position:relative;white-space:normal}
+.ng-cheerful .ng-hero .ng-hero-highlight:after{content:"";position:absolute;left:1%;right:5%;height:13px;bottom:1px;background:#ffd37699;border-radius:50%;transform:rotate(-1deg);z-index:-1}
+.ng-cheerful .ng-hero .ng-hero-kicker{font-size:12px!important;background:#fff!important;box-shadow:0 6px 26px #e87a6720!important;border-color:#ffc7a9!important;color:#a52a49!important;letter-spacing:.08em}
+.ng-cheerful .ng-hero .ng-hero-copy{max-width:620px!important;color:#486078!important;text-shadow:none!important;font-size:clamp(1rem,1.35vw,1.2rem)!important;font-weight:500!important;line-height:1.8!important}
+.ng-cheerful .ng-hero .ng-hero-primary{color:white!important;background:linear-gradient(115deg,#e84961,#f37261)!important;border:0!important;box-shadow:0 12px 30px #eb647044!important}
+.ng-cheerful .ng-hero .ng-hero-primary:hover{box-shadow:0 18px 40px #e85a6a55!important}
+.ng-cheerful .ng-hero .ng-hero-secondary{background:#fff!important;color:#21455e!important;border:1px solid #e6d8d6!important;box-shadow:0 8px 25px #79575618!important;backdrop-filter:none!important}
+.ng-cheerful .ng-hero .ng-hero-chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:34px;color:#2a5966}
+.ng-cheerful .ng-hero .ng-hero-chips span{background:rgba(255,255,255,.83);border:1px solid rgba(32,103,113,.11);border-radius:100px;padding:10px 15px;font-size:12px;font-weight:800;box-shadow:0 5px 24px #294d5511;display:inline-flex;align-items:center;gap:7px}
+.ng-cheerful .ng-hero .ng-hero-chips i{color:#d94b65}
+.ng-cheerful .ng-hero .ng-photo-caption{position:absolute;bottom:15%;right:3%;z-index:24;display:flex;gap:11px;align-items:center;border:1px solid #ffffff80;background:#fffefaed;backdrop-filter:blur(10px);border-radius:20px;box-shadow:0 16px 42px #34435226;padding:14px 20px;animation:ng-float 6s ease-in-out infinite}
+.ng-cheerful .ng-hero .ng-photo-caption i{color:#d94b65;font-size:22px}
+.ng-cheerful .ng-hero .ng-photo-caption strong{display:block;font-size:15px;color:#173552}
+.ng-cheerful .ng-hero .ng-photo-caption small{display:block;color:#567181;font-size:12px}
+.ng-cheerful .ng-hero .ng-scroll-down{display:none!important}
+.ng-blended-intro{background:linear-gradient(180deg,#fffaf1,#fff 55%,#f6fbfc);position:relative;overflow:hidden}
+.ng-blended-intro:before{content:"";position:absolute;top:-78px;left:-3%;width:106%;height:130px;background:#fffaf1;border-radius:0 0 54% 46% / 0 0 100% 100%;pointer-events:none}
+.ng-inner{max-width:1250px;margin:auto;padding-left:24px;padding-right:24px}
+.ng-topline{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:100px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:#126f70;background:#e4f9f1;border:1px solid #a9eadf}
+.ng-title{font-family:'Outfit','Poppins',sans-serif;font-size:clamp(2rem,3.4vw,3.5rem);font-weight:800;line-height:1.12;letter-spacing:-.045em;color:var(--ng-ink);margin:14px 0 16px}
+.ng-title em{font-style:normal;background:linear-gradient(110deg,#e45368,#fa9970);color:transparent;-webkit-background-clip:text;background-clip:text}
+.ng-lead{font-size:clamp(1rem,1.45vw,1.12rem);line-height:1.8;color:#5a6d7f}
+.ng-pill{border-radius:999px!important}
+.ng-metric-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative;z-index:4;transform:translateY(-32px);background:#fff;border:1px solid #eaf1ee;border-radius:26px;box-shadow:0 20px 60px #2453601a;overflow:hidden}
+.ng-metric{padding:26px 22px;display:flex;gap:14px;align-items:center;justify-content:center}
+.ng-metric:not(:last-child){border-right:1px solid #e9f0ed}
+.ng-metric-icon{width:52px;height:52px;flex:0 0 52px;display:grid;place-items:center;border-radius:17px;background:#e7faf4;color:#0b8b7c;font-size:23px}
+.ng-metric:nth-child(2) .ng-metric-icon{background:#fff1e0;color:#d96f46}
+.ng-metric:nth-child(3) .ng-metric-icon{background:#f1edff;color:#8261bd}
+.ng-metric strong{font-family:Outfit,sans-serif;color:#153951;font-size:clamp(1.25rem,2.2vw,1.75rem);line-height:1.15;display:block}
+.ng-metric small{display:block;font-size:12px;color:#587084;margin-top:3px;line-height:1.5}
+.ng-destination{padding:62px 0 82px;display:grid;grid-template-columns:1fr 1.14fr;align-items:center;gap:32px;position:relative}
+.ng-dest-copy{z-index:2;position:relative}
+.ng-dest-copy .ng-flag{font-size:31px;filter:drop-shadow(0 3px 7px #142c4433)}
+.ng-dest-facts{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.ng-dest-fact{border-radius:18px;background:#fff;box-shadow:0 8px 28px #31586612;border:1px solid #e3eeea;padding:15px 18px;min-width:130px}
+.ng-dest-fact strong{display:block;color:#1d3e53;font-weight:900;font-size:20px;font-family:Outfit,sans-serif}
+.ng-dest-fact small{display:block;color:#668091;font-size:12px;line-height:1.4;margin-top:4px}
+.ng-dest-visual{min-height:350px;position:relative;align-self:stretch;border-radius:50% 36% 38% 24%;overflow:hidden;background:linear-gradient(140deg,#baf1ed,#feeac7 69%,#f9c5b8);box-shadow:inset 0 0 0 2px #fff8}
+.ng-dest-visual img{position:absolute;inset:9% -2% 0 -2%;width:104%;height:100%;object-fit:cover;mask-image:linear-gradient(0deg,#000 25%,rgba(0,0,0,.84) 80%,transparent 100%);-webkit-mask-image:linear-gradient(0deg,#000 25%,rgba(0,0,0,.84) 80%,transparent 100%)}
+.ng-dest-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#fff8ef 1%,transparent 37%);pointer-events:none}
+.ng-dest-sticker{position:absolute;z-index:2;right:5%;top:10%;background:#fffef1;color:#be4150;border:1px solid #ffe4c9;padding:11px 19px;border-radius:99px;font-weight:900;transform:rotate(8deg);box-shadow:0 10px 30px #13404e20}
+.ng-logo-area{margin:0 0 70px;text-align:center}
+.ng-logo-note{text-transform:uppercase;letter-spacing:.15em;font-size:11px;font-weight:900;color:#7890a0;margin-bottom:22px}
+.ng-marquee-clip{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.ng-logo-track{display:flex;width:max-content;gap:16px;animation:ng-marquee 36s linear infinite;padding:5px 0 19px}
+.ng-logo-track:hover{animation-play-state:paused}
+.ng-logo-btn{border:1px solid #e0eae9;background:white;box-shadow:0 7px 20px #21495a0a;border-radius:17px;min-height:72px;min-width:210px;padding:10px 15px;display:flex;align-items:center;gap:11px;text-align:left;transition:transform .2s,border-color .2s;cursor:pointer}
+.ng-logo-btn:hover{transform:translateY(-4px);border-color:#8de0cb}
+.ng-logo-btn img{width:37px;height:37px;object-fit:contain;border-radius:7px;flex:0 0 37px}
+.ng-logo-btn .ng-logo-initial{width:37px;height:37px;flex:0 0 37px;display:grid;place-items:center;border-radius:10px;background:#f8efe9;color:#bd5270;font-size:11px;font-weight:900}
+.ng-logo-btn strong{display:block;font-size:15px;color:#25445d;font-weight:900}
+.ng-logo-btn small{display:block;font-size:10px;color:#76899a;max-width:144px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+.ng-universities-section{padding:92px 0 99px;background:radial-gradient(circle at 90% 1%,#fce1d2,transparent 35%),linear-gradient(#fffaf4,#f7fbfd 70%,#fff);position:relative}
+.ng-universities-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:31px}
+.ng-university-controls{display:grid;grid-template-columns:1fr 180px 160px;gap:12px;margin-bottom:24px}
+.ng-university-controls label{display:flex;align-items:center;gap:10px;padding:0 15px;background:white;border:1px solid #dce8ec;border-radius:17px;min-height:53px;box-shadow:0 9px 25px #23495e0a;color:#6494a5}
+.ng-university-controls input,.ng-university-controls select{border:0!important;outline:0!important;background:transparent!important;color:#254962;font-weight:700;width:100%;font-size:14px;box-shadow:none!important}
+.ng-uni-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:19px;align-items:stretch}
+.ng-uni-card{background:#fff;border:1px solid #e9eff0;border-radius:24px;overflow:hidden;box-shadow:0 9px 27px rgba(25,55,77,.08);display:flex;flex-direction:column;animation:ng-card-enter .45s ease both;min-width:0}
+.ng-uni-card:nth-child(2){animation-delay:.06s}.ng-uni-card:nth-child(3){animation-delay:.12s}
+.ng-uni-top{padding:21px 20px 17px;background:linear-gradient(130deg,#fff,#fffaf6);border-bottom:1px solid #ebeff0}
+.ng-uni-profile{display:flex;align-items:center;gap:13px;min-height:72px}
+.ng-uni-profile .ng-logo-cell{width:59px;height:59px;border-radius:17px;display:grid;place-items:center;flex:0 0 59px;background:#f1f6f6;border:1px solid #e1eaec}
+.ng-uni-profile .ng-logo-cell img{width:43px;height:43px;object-fit:contain}
+.ng-uni-profile .ng-logo-cell b{color:#165b70;font-size:15px}
+.ng-uni-profile h3{font-size:16px;font-family:Outfit,sans-serif;font-weight:800;color:#183955;line-height:1.2;margin:0}
+.ng-uni-profile .ng-uni-location{display:block;color:#7a8c99;font-size:12px;margin-top:6px;line-height:1.4}
+.ng-uni-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.ng-uni-badges span{font-size:10px;font-weight:800;background:#e9f7f1;color:#1a7d6b;border-radius:8px;padding:6px 9px}
+.ng-uni-badges span:nth-child(2){background:#f1edff;color:#785bac}
+.ng-uni-badges span:nth-child(3){background:#fff0e2;color:#b77a3a}
+.ng-uni-programs{padding:15px 20px 16px;flex:1}
+.ng-uni-programs .ng-course{padding:12px 0;border-bottom:1px dashed #e1ebed}
+.ng-uni-programs .ng-course:last-child{border-bottom:0}
+.ng-course strong{display:block;font-size:12px;line-height:1.5;font-weight:800;color:#344e60;min-height:38px}
+.ng-course .ng-course-fee{color:#0c866e;font-size:13px;font-weight:900;display:block;margin-top:3px}
+.ng-course .ng-course-hint{font-size:10px;color:#8595a1;display:block;margin-top:3px;line-height:1.45}
+.ng-uni-footer{padding:15px 20px;border-top:1px solid #e9edef;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ng-uni-footer button{background:#143754;color:white;border:0;border-radius:999px;padding:10px 15px;font-weight:800;font-size:12px;cursor:pointer;transition:background .2s}
+.ng-uni-footer button:hover{background:#007d89}
+.ng-uni-footer a{font-size:12px;font-weight:800;color:#c44964;text-decoration:none}
+.ng-uni-expand{background:#f3faf8;border-top:1px solid #d8ebe7;padding:14px 20px;max-height:280px;overflow:auto}
+.ng-uni-expand .ng-expanded-row{padding:9px 0;border-bottom:1px solid #e1edeb;display:grid;gap:4px}
+.ng-uni-expand .ng-expanded-row strong{font-size:11px;color:#284a5a;line-height:1.45}
+.ng-uni-expand .ng-expanded-row small{font-size:11px;color:#167b72}
+.ng-uni-arrows{display:flex;gap:9px;align-items:center}
+.ng-uni-arrows button{width:43px;height:43px;display:grid;place-items:center;border-radius:50%;border:1px solid #d5e5e6;background:white;color:#245772;transition:.2s;cursor:pointer}
+.ng-uni-arrows button:hover:not(:disabled){background:#20536e;color:white}
+.ng-uni-arrows button:disabled{opacity:.3;cursor:not-allowed}
+.ng-uni-disclaimer{display:flex;gap:9px;align-items:flex-start;color:#697d89;font-size:12px;line-height:1.6;margin-top:17px}
+.ng-uni-disclaimer i{color:#c07947;margin-top:2px}
+.ng-search-empty{text-align:center;padding:60px 20px;color:#526c7b;background:#fff;border-radius:24px}
+.ng-scholarships{position:relative;overflow:hidden;background:linear-gradient(117deg,#c42a46 0%,#e8485b 39%,#ff8e71 70%,#ffc780 100%);padding:100px 0 92px;color:#fff;isolation:isolate}
+.ng-scholarships:before{content:"";position:absolute;width:620px;height:620px;border-radius:50%;border:105px solid #fff1;left:-200px;bottom:-400px;animation:ng-float 11s ease-in-out infinite;z-index:-1}
+.ng-scholarships:after{content:"";position:absolute;right:-120px;top:-150px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,#ffdbba6b,transparent 70%);z-index:-1}
+.ng-scholarships .ng-title{color:#fff;text-shadow:0 2px 18px #a92c3b22}
+.ng-scholarships .ng-lead{color:#fff7}
+.ng-scholarship-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px;margin-top:31px}
+.ng-scholarship-card{background:#ffffffed;color:#234157;border:1px solid #fff;min-height:230px;padding:26px;border-radius:24px;box-shadow:0 15px 32px #76294021;transition:transform .24s,box-shadow .24s}
+.ng-scholarship-card:hover{transform:translateY(-7px);box-shadow:0 25px 50px #76294035}
+.ng-scholarship-card .ng-s-icon{width:49px;height:49px;display:grid;place-items:center;border-radius:15px;background:#ffeff0;color:#cb3b59;font-size:23px;margin-bottom:15px}
+.ng-scholarship-card h3{font-family:Outfit,sans-serif;color:#183751;font-weight:850;font-size:20px;margin:0 0 8px}
+.ng-scholarship-card p{color:#657583;font-size:13px;line-height:1.7}
+.ng-scholarship-card strong{color:#be3b57;font-size:14px}
+.ng-scholarship-disclaimer{font-size:12px;margin-top:22px;color:#fff;opacity:.9;max-width:900px;line-height:1.65}
+.ng-journey-links{background:linear-gradient(180deg,#fff8ef,#f2fbf8);padding:83px 0}
+.ng-guide-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px;margin-top:28px}
+.ng-guide-card{display:flex;align-items:center;gap:13px;border:1px solid #dfeee8;border-radius:20px;background:#fff;padding:24px;box-shadow:0 12px 28px #29546310;color:#26465a;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.ng-guide-card i{font-size:24px;color:#dd5b69}
+.ng-guide-card strong{font-size:15px;font-family:Outfit,sans-serif}
+.ng-guide-card small{display:block;color:#7a8d99;font-size:11px;margin-top:5px}
+.ng-guide-card:hover{transform:translateY(-4px);box-shadow:0 19px 36px #29546320}
+.ng-cheerful #about{background:linear-gradient(115deg,#fffaf5,#fff)!important}
+.ng-cheerful #about .img-zoom-container>.absolute{background:#fecb8d!important}
+.ng-cheerful #about .font-heading,.ng-cheerful #services .font-heading,.ng-cheerful #process .font-heading,.ng-cheerful #faq .font-heading{letter-spacing:-.035em}
+.ng-cheerful #services{background:linear-gradient(170deg,#f3fbf9,#fffaf6)!important}
+.ng-cheerful #services .card-hover{border:1px solid #e3eeeb!important;box-shadow:0 17px 40px #22445911!important;border-radius:26px!important}
+.ng-cheerful #process{background:linear-gradient(180deg,#f7fbfd,#fff9f3)!important}
+.ng-cheerful #faq{background:linear-gradient(160deg,#fff9f0,#f1faf7)!important}
+.ng-cheerful #faq .rounded-2xl{border-color:#dfebe8!important}
+.ng-cheerful .card-hover:hover{transform:translateY(-6px);box-shadow:0 22px 50px #28546725!important}
+.ng-cheerful footer{background:linear-gradient(130deg,#133651,#0c203d 55%,#152847)!important}
+.ng-reveal.ng-motion-enabled{opacity:0;transform:translateY(22px);transition:opacity .76s ease,transform .76s cubic-bezier(.2,.75,.25,1)}
+.ng-reveal.ng-motion-enabled.ng-visible{opacity:1;transform:translateY(0)}
+@keyframes ng-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes ng-float{0%,100%{transform:translateY(0) rotate(1deg)}50%{transform:translateY(-14px) rotate(-2deg)}}
+@keyframes ng-card-enter{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:1100px){
+.ng-cheerful .ng-hero .ng-hero-content{padding-right:42%!important}
+.ng-cheerful .ng-hero h1{font-size:clamp(2.8rem,5vw,4.3rem)!important}
+.ng-destination{gap:12px}
+.ng-logo-btn{min-width:190px}
+}
+@media(max-width:880px){
+.ng-cheerful .ng-hero{min-height:630px!important;padding-top:82px}
+.ng-cheerful .ng-hero .ng-hero-backdrop{width:100%!important;opacity:.2;mask-image:linear-gradient(90deg,transparent,#000 50%);-webkit-mask-image:linear-gradient(90deg,transparent,#000 50%)}
+.ng-cheerful .ng-hero .ng-hero-content{padding-right:24px!important;max-width:760px!important}
+.ng-cheerful .ng-hero .ng-photo-caption{display:none}
+.ng-cheerful .ng-hero h1{max-width:690px}
+.ng-university-controls{grid-template-columns:1fr 160px}
+.ng-university-controls label:first-child{grid-column:1 / -1}
+.ng-uni-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.ng-uni-card:nth-child(3){display:none}
+.ng-scholarship-panels{grid-template-columns:repeat(2,minmax(0,1fr))}
+.ng-scholarship-card:last-child{grid-column:1 / -1}
+.ng-metric-bar{transform:translateY(-15px)}
+.ng-metric{padding:21px 12px}
+.ng-destination{grid-template-columns:1fr 1fr}
+.ng-dest-visual{min-height:300px}
+}
+@media(max-width:600px){
+.ng-inner{padding-left:18px;padding-right:18px}
+.ng-cheerful .ng-hero{min-height:690px!important;padding:83px 0 72px}
+.ng-cheerful .ng-hero .ng-hero-backdrop{opacity:.11}
+.ng-cheerful .ng-hero .ng-hero-content{padding:48px 19px 40px!important;text-align:left!important}
+.ng-cheerful .ng-hero h1{font-size:clamp(2.8rem,11vw,4.1rem)!important}
+.ng-cheerful .ng-hero .ng-hero-kicker{padding:10px 14px!important;margin-bottom:24px}
+.ng-cheerful .ng-hero .ng-hero-copy{font-size:1.02rem!important}
+.ng-cheerful .ng-hero .ng-hero-chips{gap:6px}
+.ng-cheerful .ng-hero .ng-hero-chips span{font-size:10px;padding:9px 11px}
+.ng-cheerful .ng-hero .ng-hero-content .flex.flex-col.sm\:flex-row{gap:10px}
+.ng-cheerful .ng-hero .ng-hero-content .flex.flex-col.sm\:flex-row a{font-size:15px!important;padding:13px 22px!important;min-height:50px}
+.ng-metric-bar{grid-template-columns:1fr;transform:translateY(-20px);gap:0}
+.ng-metric{padding:16px 20px;justify-content:flex-start}
+.ng-metric:not(:last-child){border-right:0;border-bottom:1px solid #e9f0ed}
+.ng-destination{padding:33px 0 50px;grid-template-columns:1fr}
+.ng-dest-visual{min-height:250px}
+.ng-logo-area{margin-bottom:49px}
+.ng-logo-btn{min-width:182px;padding:9px 11px}
+.ng-universities-section{padding:56px 0 69px}
+.ng-universities-heading{align-items:flex-start}
+.ng-uni-grid{grid-template-columns:1fr}
+.ng-uni-card:nth-child(3){display:none}
+.ng-uni-card:nth-child(2){display:none}
+.ng-university-controls{grid-template-columns:1fr 1fr}
+.ng-university-controls label:first-child{grid-column:1 / -1}
+.ng-university-controls label{padding:0 10px;min-height:50px}
+.ng-university-controls select{font-size:12px}
+.ng-scholarships{padding:69px 0 70px}
+.ng-scholarship-panels{grid-template-columns:1fr}
+.ng-scholarship-card:last-child{grid-column:auto}
+.ng-scholarship-card{min-height:190px;padding:22px}
+.ng-journey-links{padding:56px 0}
+.ng-guide-grid{grid-template-columns:1fr}
+.ng-cheerful #about,.ng-cheerful #services,.ng-cheerful #process,.ng-cheerful #faq{padding-top:55px!important;padding-bottom:55px!important}
+.ng-cheerful #about .img-zoom-container{width:100%}
+}
+@media(prefers-reduced-motion:reduce){
+.ng-logo-track,.ng-cheerful .ng-hero:after,.ng-cheerful .ng-hero .ng-photo-caption{animation:none!important}
+.ng-reveal.ng-motion-enabled{opacity:1!important;transform:none!important;transition:none!important}
+.ng-uni-card,.ng-tile,.ng-scholarship-card,.ng-guide-card{animation:none!important;transition:none!important}
+.ng-logo-btn:hover,.ng-scholarship-card:hover,.ng-guide-card:hover,.ng-uni-card:hover{transform:none!important}
+html{scroll-behavior:auto!important}
+}
+
+/* Show initials only when a university's official-site icon fails to load */
+.ng-logo-btn .ng-logo-initial{display:none}
+.ng-logo-btn img[style*="display: none"] + .ng-logo-initial{display:grid}
+.ng-uni-profile .ng-card-fallback{display:none}
+.ng-uni-profile img[style*="display: none"] + .ng-card-fallback{display:block}
