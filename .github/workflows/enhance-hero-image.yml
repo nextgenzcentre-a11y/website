@@ -1,0 +1,50 @@
+name: Enhance and publish 8K homepage hero
+
+on:
+  push:
+    branches: [mai]
+    paths:
+      - .github/workflows/enhance-hero-image.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  enhance-homepage-hero:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out website
+        uses: actions/checkout@v4
+        with:
+          ref: mai
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install image processor
+        run: python -m pip install --disable-pip-version-check 'Pillow==11.3.0'
+
+      - name: Create 8K master and fast-loading homepage hero
+        run: python scripts/enhance_hero.py
+
+      - name: Verify original and generated files
+        run: |
+          test -s assets/nextgenz-v7/sections/hero-original.webp
+          test -s assets/nextgenz-v7/sections/hero.webp
+          test -s assets/nextgenz-v7/sections/hero-8k.webp
+          test -s assets/nextgenz-v7/sections/hero-mobile.webp
+
+      - name: Commit updated images to website branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/nextgenz-v7/sections/hero.webp assets/nextgenz-v7/sections/hero-original.webp assets/nextgenz-v7/sections/hero-8k.webp assets/nextgenz-v7/sections/hero-mobile.webp
+          if ! git diff --cached --quiet; then
+            git commit -m "Enhance landing hero: optimized image plus 8K master"
+            git push origin HEAD:mai
+          fi
