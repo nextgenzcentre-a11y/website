@@ -28,7 +28,7 @@ const section=root.closest("section")||root.parentElement;
 const search=section.querySelector("[data-field=search]")?.value.trim()||"",level=section.querySelector("[data-field=level]")?.value||"All levels",kind=section.querySelector("[data-field=kind]")?.value||"All universities";
 let list=unis.filter(u=>(kind==="All universities"||kind===u.type)&&(search===""||(u.name+" "+u.code+" "+u.city).toLowerCase().includes(search.toLowerCase())||u.courses.some(c=>c.title.toLowerCase().includes(search.toLowerCase())))&&(level==="All levels"||courseRows(u,"",level).length>0));
 const count=section.querySelector("[data-result-count]");if(count)count.textContent=list.length+" universities found";
-const per=Number(root.dataset.per)||3;const current=Number(root.dataset.index)||0;const max=Math.max(0,list.length-per);const index=Math.min(current,max);root.dataset.index=index;
+const per=window.matchMedia('(max-width:760px)').matches?1:(Number(root.dataset.per)||3);const current=Number(root.dataset.index)||0;const max=Math.max(0,list.length-per);const index=Math.min(current,max);root.dataset.index=index;
 const subset=list.slice(index,index+per);
 root.innerHTML=subset.length?subset.map(u=>card(u,document.body.dataset.concept||"a",search,level)).join(""):"<div class='uni-empty'><h3>No matching universities</h3><p>Try another programme, study level or location.</p></div>";
 const controls=section.querySelectorAll("[data-slide]");controls.forEach(btn=>{btn.disabled=list.length<=per;btn.onclick=()=>{root.dataset.index=String(Math.max(0,Math.min(max,Number(root.dataset.index||0)+(btn.dataset.slide==="next"?1:-1))));render(root)}});
