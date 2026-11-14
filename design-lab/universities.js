@@ -1,8 +1,8 @@
 window.NG_PROTOTYPE_DATA = {
   "universities": [],
-  "datasetNote": "Source: existing public website programme finder, 0 institutions, 0 listed programmes. Values are raw listings and may not be annual fees.",
+  "datasetNote": "Source: existing public website programme finder; 24 institutions, 1189 course listings. Fees are raw listings with unspecified billing periods.",
   "fullCounts": {
-    "universities": 0,
-    "programmes": 0
+    "universities": 24,
+    "programmes": 1189
   }
 };
