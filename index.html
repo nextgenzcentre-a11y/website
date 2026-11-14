@@ -997,7 +997,8 @@ display: none !important;
 .ng-market .ng-v7-uni-footer{display:flex;justify-content:space-between;gap:10px;border-top:1px solid #e7edf2;padding-top:12px;color:#0A1633;font:800 12px Montserrat,sans-serif;align-items:center}
 .ng-market .ng-v7-uni-footer i{color:#9c742c}
 .ng-market .ng-v7-featured-card{padding:0!important;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
-.ng-market .ng-v7-featured-body{min-width:0}.ng-market .ng-v7-uni-action{background:#0A1633;color:#fff;border-radius:12px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;font:800 12px Montserrat,sans-serif;width:100%;gap:8px}
+.ng-market .ng-v7-featured-body{min-width:0}
+.ng-market .ng-v7-uni-action{background:#0A1633;color:#fff;border-radius:12px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;font:800 12px Montserrat,sans-serif;width:100%;gap:8px}
 .ng-market .ng-v7-uni-action i{color:#C5A059}
 .ng-market .ng-v7-uni-action:hover{background:#1c2c51}
 .ng-market .ng-logo-ribbon-track{animation:ngMarquee 32s linear infinite!important}
@@ -1996,7 +1997,8 @@ className="bg-white/90 text-red-600 text-xs w-6 h-6 sm:w-7 sm:h-7 rounded-full f
 <i className="fa-solid fa-rotate-left"></i>
 </button>
 </div>
-<buttoncontentEditable={false}
+<button
+contentEditable={false}
 suppressContentEditableWarning
 onClick={handleEditClick}
 title="Change Background"
@@ -2995,6 +2997,7 @@ return (
 </section>
 );
 };
+
 // ==== components/TrustStatsAndMarquee.tsx ====
 // The public university directory is sourced from the existing Program Finder's rawData.
 // The separate 'other institutions' group is informational only and is NOT counted as a verified partner.
@@ -3994,7 +3997,8 @@ setEditing(true);
 className="text-[#C5A059] hover:text-[#0A1633] text-xs cursor-pointer"
 title={`Edit ${label}`}
 >
-<i className="fa-solid fa-pen"></i></button>
+<i className="fa-solid fa-pen"></i>
+</button>
 </div>
 </div>
 );
@@ -7983,7 +7987,8 @@ className="px-4 py-2 text-gray-500 hover:text-gray-800 font-medium text-sm disab
 Cancel
 </button>
 <button contentEditable={false} suppressContentEditableWarning
-type="submit"disabled={authLoading}
+type="submit"
+disabled={authLoading}
 className="px-6 py-2 bg-[#0A1633] text-white font-bold rounded-xl hover:bg-[#1a2f50] transition text-sm disabled:opacity-60 flex items-center gap-2"
 >
 {authLoading && <i className="fa-solid fa-circle-notch fa-spin"></i>}
@@ -8982,7 +8987,8 @@ title="Delete message"
 </div>
 </div>
 )}
-</div></div>
+</div>
+</div>
 )}
 {/* FIND YOUR PROGRAM TOOL (Admin browse view) */}
 <ProgramFinderModal
@@ -9981,7 +9987,8 @@ name: updatedData.name,
 email: newEmail,
 phone: updatedData.phone,
 username: updatedData.username,
-password: updatedData.password || currentUser.password});
+password: updatedData.password || currentUser.password
+});
 }
 triggerEmailAlert(
 'account_update',
