@@ -20,7 +20,7 @@ const rows=courseRows(u,query,level);
 const first=rows.slice(0,2).map(p=>"<div class='sample-course'><strong>"+safe(p.title)+"</strong><span class='fee'>"+feeText(u,p)+"</span><span class='fee-caption'>Listed programme fee · verify period</span></div>").join("");
 const top="<div class='uni-card-header'><span class='uni-symbol'><span>"+initial(u)+"</span><img loading='lazy' src='"+icon(u)+"' alt='' onerror='this.style.display=\"none\"'></span><div><h3>"+safe(u.name)+"</h3><span class='location'>"+safe(u.city)+", Malaysia · "+safe(u.type)+"</span></div></div>";
 const extra="<span class='university-count'>"+nf.format(u.courses.length)+" programmes in source finder</span>";
-const controls="<div class='card-footer'><button type='button' data-expand='"+safe(u.code)+"'>"+(rows.length>2?"View more courses +":"Course details +")+"</button><button type='button' class='compare' data-compare='"+safe(u.code)+"' aria-label='Add "+safe(u.name)+" to comparison'>"+(selected.has(u.code)?"✓ Added":"+Compare")+"</button></div>";
+const controls="<div class='card-footer'><button type='button' data-expand='"+safe(u.code)+"'>"+(rows.length>2?"View more courses +":"Course details +")+"</button><button type='button' class='compare' data-compare='"+safe(u.code)+"' aria-label='Add "+safe(u.name)+" to comparison'>"+(selected.has(u.code)?"✓ Added":"Compare")+"</button></div>";
 return "<article class='uni-card style-"+style+"' data-uni='"+safe(u.code)+"'><div class='card-art'><span>"+safe(u.code)+"</span></div><div class='uni-card-content'>"+top+"<div class='uni-body'><div class='uni-mini'>"+badge(u)+extra+"</div>"+first+"<div class='course-expanded' hidden></div>"+controls+"</div></div></article>";
 }
 function render(root){
