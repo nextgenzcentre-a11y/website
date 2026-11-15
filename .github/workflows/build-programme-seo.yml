@@ -1,0 +1,64 @@
+name: Publish crawlable university programme SEO pages
+on:
+  workflow_dispatch:
+  push:
+    branches: [mai]
+    paths:
+      - 'index.html'
+      - 'scripts/build_programme_seo.py'
+      - '.github/workflows/build-programme-seo.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nextgenz-programme-seo-mai
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the public website
+        uses: actions/checkout@v4
+        with:
+          ref: mai
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Generate programme pages directly from index.html database
+        run: |
+          python -m py_compile scripts/build_programme_seo.py
+          python scripts/build_programme_seo.py
+      - name: Validate sitemap and representative programme pages
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          import xml.etree.ElementTree as ET
+          data=json.loads(Path("programmes/catalog-manifest.json").read_text())
+          assert data["universities"] == 25
+          assert data["programme_listings"] >= 1100
+          assert data["detailed_programme_pages"] >= 40
+          assert len(list(Path("programmes/universities").glob("*.html"))) == 25
+          assert Path("programmes/levels/foundation.html").is_file()
+          assert Path("programmes/index.html").is_file()
+          root=ET.parse("sitemap.xml").getroot()
+          assert len(root) > 80, len(root)
+          print("PASS: all", len(root), "URLs,",
+                data["programme_listings"], "programme entries")
+          PY
+      - name: Commit only generated programme content and sitemap
+        run: |
+          git config user.name "nextgenzcentre-a11y"
+          git config user.email "nextgenzcentre@gmail.com"
+          git add --all programmes/ sitemap.xml
+          if git diff --cached --quiet; then
+            echo "No generated changes"
+            exit 0
+          fi
+          git commit -m "Publish search-readable university and programme directories"
+          git pull --rebase origin mai
+          git push origin HEAD:mai
