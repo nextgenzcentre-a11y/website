@@ -10,6 +10,12 @@ on:
       - 'scripts/programme_level_subjects.py'
       - 'scripts/programme_subject_enrichment.py'
       - 'scripts/programme_verified_facts.py'
+      - 'guides/style.css'
+      - 'guides/**/*.html'
+      - 'services/**/*.html'
+      - 'ar/**/*.html'
+      - 'zh/**/*.html'
+      - 'about-nextgenz-centre.html'
       - '.github/workflows/build-programme-seo.yml'
 
 permissions:
@@ -60,6 +66,50 @@ jobs:
           assert len(root) > 80, len(root)
           print("PASS: all", len(root), "URLs,",
                 data["programme_listings"], "programme entries")
+          PY
+      - name: Check every public page matches the NextGenz design and uses existing photo assets
+        run: |
+          python - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          import re
+          class Page(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.images=[]
+                  self.h1=0
+                  self.styles=[]
+              def handle_starttag(self, tag, attrs):
+                  a=dict(attrs)
+                  if tag=="img":
+                      self.images.append(a)
+                  elif tag=="h1":
+                      self.h1+=1
+                  elif tag=="link" and a.get("rel")=="stylesheet":
+                      self.styles.append(a.get("href",""))
+          docs = list(Path("programmes").rglob("*.html"))
+          docs += [p for path in ("guides","services","ar","zh")
+                   for p in Path(path).rglob("*.html")]
+          docs += [Path("about-nextgenz-centre.html")]
+          assert len(docs) >= 155, "Unexpectedly missing SEO pages"
+          for file in docs:
+              raw=file.read_text(encoding="utf-8")
+              parsed=Page()
+              parsed.feed(raw)
+              assert parsed.h1==1, f"{file}: expected one H1, got {parsed.h1}"
+              assert parsed.images, f"{file}: missing photography"
+              assert "/guides/style.css" in parsed.styles, f"{file}: inconsistent shared theme"
+              for entry in parsed.images:
+                  src=entry.get("src","")
+                  if src.startswith("/assets/"):
+                      local=Path(src.split("?",1)[0].lstrip("/"))
+                      assert local.is_file(), f"{file}: missing image asset {src}"
+                  assert entry.get("alt", "").strip(), f"{file}: photo without descriptive alt text"
+              if str(file).startswith("programmes/"):
+                  assert "ng-hero-media" in raw, f"{file}: missing homepage-style photo hero"
+          css=Path("guides/style.css").read_text()
+          assert "Montserrat" in css and "#C5A059" in css
+          print("PASS: checked",len(docs),"public pages, typography and all local image paths")
           PY
       - name: Commit only generated programme content and sitemap
         run: |
