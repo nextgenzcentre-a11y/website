@@ -356,7 +356,7 @@ LEVEL_KEYWORDS = {
     "Diploma": "Diploma in",
     "Bachelor": "Bachelor in",
     "Master": "Master in",
-    "Doctorate": "PhD in"
+    "Doctorate": "Doctorate in"
 }
 LEVEL_GUIDANCE = {
     "Foundation": {
