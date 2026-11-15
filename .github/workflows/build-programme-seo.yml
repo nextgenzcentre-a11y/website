@@ -6,6 +6,7 @@ on:
     paths:
       - 'index.html'
       - 'scripts/build_programme_seo.py'
+      - 'scripts/site_header.py'
       - 'scripts/programme_topics.py'
       - 'scripts/programme_level_subjects.py'
       - 'scripts/programme_subject_enrichment.py'
@@ -72,6 +73,9 @@ jobs:
           python - <<'PY'
           from html.parser import HTMLParser
           from pathlib import Path
+          import sys
+          sys.path.insert(0,"scripts")
+          from site_header import header_html, BRAND_CREST
           import re
           class Page(HTMLParser):
               def __init__(self):
@@ -96,9 +100,17 @@ jobs:
               raw=file.read_text(encoding="utf-8")
               parsed=Page()
               parsed.feed(raw)
+              # Every SEO page must use the exact original homepage crest,
+              # matching white/gold wordmark and the canonical navbar.
+              path=str(file)
+              lang="ar" if path.startswith("ar/") else "zh" if path.startswith("zh/") else "en"
+              assert "<header class=\"nav ng-brand-header\" dir=\"ltr\">" in raw, f"{file}: old text-only header remains"
+              header=raw[raw.index('<header class="nav ng-brand-header"'):raw.index("</header>")+len("</header>")]
+              assert header == header_html(lang), f"{file}: navigation drift from original brand template"
+              assert BRAND_CREST in header, f"{file}: original crest missing"
               assert parsed.h1==1, f"{file}: expected one H1, got {parsed.h1}"
               assert parsed.images, f"{file}: missing photography"
-              assert any(v.split("?",1)[0]=="/guides/style.css" for v in parsed.styles), f"{file}: inconsistent shared theme"
+              assert "/guides/style.css?v=20261115-v9-original-logo" in parsed.styles, f"{file}: outdated or inconsistent stylesheet"
               for entry in parsed.images:
                   src=entry.get("src","")
                   if src.startswith("/assets/"):
