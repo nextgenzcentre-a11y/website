@@ -9,6 +9,7 @@ from __future__ import annotations
 from collections import defaultdict
 import re
 from urllib.parse import quote
+from programme_verified_facts import VERIFIED_PROGRAMMES
 
 BASE = "https://www.nextgenzcentre.space"
 
@@ -233,6 +234,26 @@ def generate_topic_pages(records, selected_urls, uni_slugs, write, wrap_page, pa
               '<td><span class="catalog-money">' + h(e["currency"]) + ' ' + h(e["raw_fee"]) + '</span></td></tr>'
             )
         main += '</tbody></table></div>'
+        # Link to primary university sources where the exact course listing has
+        # been individually verified, rather than treating finder entries as
+        # official university statements.
+        verified_examples = [(e, VERIFIED_PROGRAMMES[(e["short"], e["name"])])
+                             for e in visible if (e["short"], e["name"]) in VERIFIED_PROGRAMMES]
+        if verified_examples:
+            main += '<h2>Examples checked against official university sources</h2><p>These particular programme entries have been compared with the universities’ own published programme pages. Other listings above are still finder references; do not infer their availability from these examples.</p>'
+            for entry, verified in verified_examples[:4]:
+                link = selected_urls.get((entry["uni"],entry["name"]))
+                main += '<section class="catalog-verified"><h3>' + h(verified["official_name"]) + ' — ' + h(entry["uni"]) + '</h3>'
+                main += '<ul>'
+                for label, fact in verified["facts"][:2]:
+                    main += '<li><strong>' + h(label) + ':</strong> ' + h(fact) + '</li>'
+                fee = next((x for x in verified["facts"] if "fee" in x[0].lower() or "tuition" in x[0].lower()), None)
+                if fee and fee not in verified["facts"][:2]:
+                    main += '<li><strong>' + h(fee[0]) + ':</strong> ' + h(fee[1]) + '</li>'
+                main += '</ul><p><a href="' + h(verified["source_url"]) + '" target="_blank" rel="noopener noreferrer">Read official university source ↗</a>'
+                if link:
+                    main += ' · <a href="' + h(link) + '">View NextGenz programme details</a>'
+                main += '</p></section>'
         main += (
           '<h2>How to choose the right ' + h(topic["label"]) + ' option</h2>'
           '<p>The following are specific checks to make before submitting an application or paying a deposit. When comparing institutions, ask the admissions team to confirm the answers in writing.</p>'
