@@ -119,3 +119,179 @@ a:focus-visible,.button:focus-visible,.catalog-field-tile:focus-visible{outline:
 @media(max-width:760px){.nav-inner{min-height:68px;flex-direction:column;align-items:stretch;padding:13px 0;gap:10px}.nav-actions{display:flex;overflow:auto;max-width:100%;flex-wrap:nowrap;scrollbar-width:none}.nav-actions::-webkit-scrollbar{display:none}.nav-actions a{font-size:.72rem;flex-shrink:0}.nav-actions .cta{padding:9px 16px}.hero{grid-template-columns:1fr}.hero>.wrap,[dir=rtl] .hero>.wrap{padding:52px 22px 27px}.hero h1{font-size:clamp(2rem,8vw,3rem)}.hero .lead{font-size:.99rem}.ng-hero-media,[dir=rtl] .ng-hero-media{min-height:235px;height:260px;padding:0 22px 22px}.ng-hero-media img,[dir=rtl] .ng-hero-media img{height:238px;border-radius:15px;width:100%;object-position:center}.ng-hero-media:before{inset:0 22px 22px;border-radius:15px}.ng-hero-media .ng-media-label{left:35px;bottom:35px}.hero .eyebrow{font-size:.63rem}.article-layout{grid-template-columns:1fr;gap:24px}.aside{position:static}.ng-related-media{gap:12px}.ng-related-media img{height:145px}}
 @media(max-width:510px){.wrap{padding-left:17px;padding-right:17px}.hero>.wrap,[dir=rtl] .hero>.wrap{padding:42px 18px 26px}.hero h1{font-size:clamp(1.83rem,8.4vw,2.6rem)}.hero .ng-hero-media{min-height:225px}.ng-hero-media,[dir=rtl] .ng-hero-media{padding:0 14px 14px;height:235px}.ng-hero-media img{height:220px}.ng-hero-media .ng-media-label{left:24px;bottom:26px;font-size:.65rem;padding:8px 11px}.ng-related-media{grid-template-columns:1fr}.ng-related-media img{height:170px}.ng-editorial-cover{height:220px}.ng-editorial-cover .ng-editorial-cover-caption{max-width:84%}.article{padding:22px}.catalog-table{font-size:.8rem}.section{padding:34px 0}}
 @media(prefers-reduced-motion:reduce){.ng-card-photo img,.tile,.button{transition:none!important}.tile:hover,.button:hover{transform:none}}
+
+
+/* NEXTGENZ V8: authentic homepage-inspired full-bleed hero and expressive type */
+/* Main site art direction: one panoramic image BEHIND the entire hero,
+   legible left-side copy, mixed Montserrat/Bangers typography and gold CTA.
+   This replaces the previous split column with the photo vertically centred. */
+.hero{
+  display:flex!important;position:relative;isolation:isolate;overflow:hidden;
+  align-items:center;min-height:clamp(500px,47vw,660px)!important;
+  padding:0!important;background:#0A1633!important;
+}
+.hero:before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  width:100%;height:100%;border:0;border-radius:0;
+  background:radial-gradient(ellipse at 8% 15%,rgba(197,160,89,.13),transparent 43%);
+}
+.hero:after{
+  content:"";position:absolute;pointer-events:none;z-index:1;
+  width:440px;height:440px;right:-160px;top:-300px;border-radius:50%;
+  border:1px solid rgba(197,160,89,.18);background:transparent;
+  box-shadow:0 0 0 55px rgba(197,160,89,.035),0 0 0 110px rgba(197,160,89,.018);
+}
+.hero>.wrap{
+  width:100%;max-width:1260px!important;margin:0 auto!important;
+  padding:clamp(62px,6.4vw,96px) clamp(23px,4.6vw,56px)!important;
+  position:relative;z-index:3;min-height:inherit;
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+  text-align:start;
+}
+.hero .ng-hero-media{
+  position:absolute!important;inset:0!important;width:100%!important;
+  height:100%!important;min-height:0!important;padding:0!important;
+  display:block!important;pointer-events:none;z-index:0;
+}
+.hero .ng-hero-media img{
+  position:absolute;inset:0;display:block;width:100%!important;
+  height:100%!important;max-height:none!important;min-height:0!important;
+  object-fit:cover!important;object-position:64% 48%!important;
+  border-radius:0!important;box-shadow:none!important;filter:saturate(1.05);
+}
+.hero .ng-hero-media:before{
+  content:"";position:absolute;inset:0!important;z-index:1;
+  border-radius:0!important;pointer-events:none;
+  background:
+    linear-gradient(90deg,#0A1633 0%,rgba(10,22,51,.98) 20%,rgba(10,22,51,.91) 40%,rgba(10,22,51,.65) 58%,rgba(10,22,51,.1) 87%,rgba(10,22,51,.04) 100%),
+    linear-gradient(0deg,rgba(10,22,51,.36),transparent 33%);
+}
+.hero .ng-hero-media:after{display:none!important}
+.hero .ng-hero-media .ng-media-label{display:none!important}
+.hero .eyebrow{
+  border:1px solid rgba(197,160,89,.52);
+  background:rgba(197,160,89,.12);
+  color:#ffdf93;font:800 .68rem/1.35 Montserrat,Arial,sans-serif;
+  letter-spacing:.16em;max-width:min(96%,680px);padding:9px 15px;
+  box-shadow:none;text-shadow:none;
+}
+.hero h1,.hero .ng-seo-headline{
+  display:block;color:#fff!important;
+  max-width:780px!important;min-width:0;margin:23px 0 22px;
+  font-family:Montserrat,Arial,sans-serif!important;
+  font-weight:850!important;
+  letter-spacing:-.052em!important;
+  font-size:clamp(2.45rem,4.1vw,4.45rem)!important;
+  line-height:1.08!important;text-wrap:balance;
+  text-shadow:0 3px 18px rgba(0,0,0,.15);
+}
+.hero h1 .ng-hero-kicker{
+  display:block;color:#fff!important;
+  font-family:Montserrat,Arial,sans-serif!important;
+  font-weight:800!important;font-size:.73em;
+  letter-spacing:-.04em!important;line-height:1.2!important;
+  text-transform:none;margin-bottom:8px;
+}
+.hero h1 .accent,.hero h1 .ng-gold-display{
+  display:block;max-width:850px;color:#ffd974!important;
+  background:none!important;-webkit-text-fill-color:#ffd974!important;
+  font:400 1.06em/1.03 Bangers,Impact,"Arial Narrow",sans-serif!important;
+  letter-spacing:.045em!important;text-transform:uppercase;
+  text-wrap:balance;text-shadow:0 2px 15px rgba(0,0,0,.25);
+  margin-top:4px;
+}
+.hero .lead,.hero p.lead{
+  color:#e6eaf1!important;max-width:630px!important;
+  font:500 clamp(.98rem,1.12vw,1.08rem)/1.81 Montserrat,Arial,sans-serif!important;
+  margin:0 0 23px!important;letter-spacing:0!important;
+  text-shadow:0 2px 9px rgba(0,0,0,.18);
+}
+.hero .catalog-stats{display:flex;flex-wrap:wrap;gap:9px;margin:8px 0 17px}
+.hero .catalog-stats span{
+  border:1px solid rgba(255,220,116,.28)!important;
+  background:rgba(10,22,51,.55)!important;
+  padding:7px 12px;color:#f9f9fb!important;
+  border-radius:999px;font-size:.73rem;
+  font-weight:700!important;letter-spacing:0;
+}
+.hero .button{
+  margin:5px 12px 0 0;background:#fbd56e!important;color:#0A1633!important;
+  border-radius:12px;font:800 .86rem/1.3 Montserrat,Arial,sans-serif;
+  padding:15px 22px;box-shadow:0 12px 30px rgba(4,9,21,.22);
+}
+.hero .button:hover{background:#ffe49e!important;color:#0a1633!important;transform:translateY(-2px)}
+.hero .button.secondary{background:rgba(10,22,51,.5)!important;color:#fff!important;border-color:#c5a059!important}
+.hero .button.secondary:hover{background:rgba(197,160,89,.24)!important}
+/* Homepage-style article hierarchy, readable text with purposeful gold accents */
+.article h2{font-weight:850!important;letter-spacing:-.036em!important}
+.article h2:before{content:"";display:inline-block;width:4px;height:.82em;
+  margin-inline-end:10px;border-radius:4px;vertical-align:baseline;
+  background:linear-gradient(#ffdc78,#c5a059)}
+.article h3{font-weight:750!important;letter-spacing:-.025em!important}
+.article .catalog-verified h2:before,.article .catalog-verified h3:before{display:none}
+.article p,.article li{font-weight:450;line-height:1.9!important}
+.crumb{font-weight:650}
+.ng-card-photo{height:170px}
+.tile h2{font-weight:850!important}
+.catalog-verified{border-color:#e3d7ba!important}
+[dir=rtl] .hero h1,[lang=zh-CN] .hero h1{letter-spacing:normal!important;line-height:1.33!important}
+[dir=rtl] .hero h1 .accent,[lang=zh-CN] .hero h1 .accent{
+ font-family:inherit!important;font-weight:800!important;
+ font-size:.91em!important;letter-spacing:normal!important;text-transform:none;
+ line-height:1.35!important
+}
+[dir=rtl] .hero>.wrap{text-align:right;align-items:flex-start}
+[dir=rtl] .hero .ng-hero-media img{object-position:35% 52%!important}
+[dir=rtl] .hero .ng-hero-media:before{
+ background:linear-gradient(270deg,#0A1633 0%,rgba(10,22,51,.97) 35%,rgba(10,22,51,.78) 58%,rgba(10,22,51,.10) 100%)
+}
+[lang=zh-CN] .hero h1 .accent{font-family:"Noto Sans SC",sans-serif!important}
+@media(max-width:1000px){
+ .hero{min-height:535px!important}
+ .hero>.wrap{padding:65px 30px!important}
+ .hero h1{max-width:640px!important;font-size:clamp(2.4rem,4.7vw,3.7rem)!important}
+ .hero .ng-hero-media img{object-position:69% 50%!important}
+ .hero .ng-hero-media:before{
+  background:linear-gradient(90deg,#0A1633 0%,rgba(10,22,51,.97) 38%,rgba(10,22,51,.68) 70%,rgba(10,22,51,.25) 100%)
+ }
+}
+@media(max-width:760px){
+ .hero{display:flex!important;min-height:560px!important}
+ .hero>.wrap,[dir=rtl] .hero>.wrap{
+  min-height:560px;padding:58px 22px 65px!important;
+  align-items:flex-start;justify-content:center;
+ }
+ .hero .ng-hero-media,[dir=rtl] .hero .ng-hero-media{
+  position:absolute!important;inset:0!important;height:100%!important;
+  min-height:0!important;padding:0!important
+ }
+ .hero .ng-hero-media img,[dir=rtl] .hero .ng-hero-media img{
+  height:100%!important;width:100%!important;object-position:68% 53%!important;
+  border-radius:0!important
+ }
+ .hero .ng-hero-media:before{
+  background:linear-gradient(180deg,rgba(10,22,51,.9) 0%,rgba(10,22,51,.95) 21%,rgba(10,22,51,.86) 57%,rgba(10,22,51,.68) 100%)
+ }
+ .hero h1{font-size:clamp(2.15rem,8.1vw,3.25rem)!important;
+  max-width:670px!important;line-height:1.08!important;margin:19px 0!important}
+ .hero h1 .ng-hero-kicker{font-size:.77em}
+ .hero h1 .accent{font-size:1.05em!important}
+ .hero .lead,.hero p.lead{font-size:.91rem!important;line-height:1.68!important}
+ .hero .eyebrow{font-size:.58rem;letter-spacing:.11em}
+ .hero .catalog-stats{gap:7px;margin:5px 0 15px}
+ .hero .catalog-stats span{font-size:.66rem!important;padding:6px 10px}
+ .hero .button{margin-top:8px!important}
+ .nav-actions a{font-size:.74rem}
+ [dir=rtl] .hero .ng-hero-media:before{
+  background:linear-gradient(180deg,rgba(10,22,51,.91),rgba(10,22,51,.86) 65%,rgba(10,22,51,.65))
+ }
+}
+@media(max-width:460px){
+ .hero>.wrap,[dir=rtl] .hero>.wrap{padding:44px 19px 52px!important;min-height:520px}
+ .hero{min-height:520px!important}
+ .hero h1{font-size:clamp(2rem,8.2vw,2.65rem)!important;letter-spacing:-.042em!important}
+ .hero h1 .accent{line-height:1.07!important}
+ .hero .lead,.hero p.lead{font-size:.85rem!important}
+ .hero .button{width:auto;max-width:100%;padding:13px 16px;font-size:.79rem}
+}
+@media(prefers-reduced-motion:reduce){.hero .button{transition:none!important}}
