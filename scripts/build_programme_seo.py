@@ -21,6 +21,7 @@ from urllib.parse import quote
 import json
 import re
 import unicodedata
+from programme_topics import TOPICS, matching_topics, generate_topic_pages
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_BASE = "https://www.nextgenzcentre.space"
@@ -217,6 +218,7 @@ CSS = """
 .catalog-fact span{font-size:.96rem;color:#445b72}
 .catalog-search{max-width:560px;width:100%;border:1px solid #b8d6de;border-radius:12px;padding:13px 16px;font:inherit}
 .catalog-count{color:#476579;font-weight:700;font-size:.9rem}
+.catalog-comparison{overflow-x:auto;border:1px solid #dce8ef;border-radius:16px;margin:25px 0}.catalog-table{border-collapse:collapse;width:100%;min-width:620px;font-size:.94rem}.catalog-table th{text-align:left;background:#e7f8f6;color:#1a3c53;padding:13px 15px;font-weight:800}.catalog-table td{border-bottom:1px solid #e5edf2;padding:13px 15px;vertical-align:top}.catalog-table tr:last-child td{border-bottom:0}.catalog-table a{font-weight:700}.catalog-loc{display:block;color:#667d8d;margin-top:3px;font-size:.77rem}.catalog-money{font-weight:700;color:#3b5872;white-space:nowrap}
 @media(max-width:650px){.catalog-facts{grid-template-columns:1fr}.catalog-wide{padding:20px}.catalog-list li{display:block}.catalog-list .fee{display:block;margin-top:4px}}
 """
 
@@ -308,6 +310,7 @@ def main() -> None:
 
     outputs = set()
     write("programmes/catalog.css", CSS, outputs)
+    topic_pages = generate_topic_pages(records, selected_urls, uni_slugs, write, wrap_page, page_head, h, outputs)
     # English language centres also appear in the website's public directory,
     # separately from the original 25-university portal programme finder.
     english_path = "/programmes/english-language-centres.html"
@@ -359,6 +362,12 @@ def main() -> None:
         about += ('<a class="tile" data-tone="teal" href="' + href + '"><span class="tag">Malaysia degree pathways</span>'
                   '<h2>' + LABELS[level] + '</h2><p>' + str(counts[level]) + ' programme listings from the finder, organized by university.</p>'
                   '<span class="arrow">Explore programmes →</span></a>')
+    about += '</div><h2>Compare popular programme subjects</h2><p>Use these focused course comparisons to weigh real programme names across different Malaysian universities. They are reference listings, not guarantees of current admission or tuition.</p><div class="grid">' 
+    for topic in TOPICS:
+        if topic["slug"] not in topic_pages:
+            continue
+        info = topic_pages[topic["slug"]]
+        about += ('<a class="tile" data-tone="purple" href="' + info["url"] + '"><span class="tag">Compare Malaysia courses</span><h2>' + h(topic["label"]) + '</h2><p>' + str(info["entries"]) + ' listed options across ' + str(info["universities"]) + ' universities, with decision checks and admissions questions.</p><span class="arrow">Compare programmes →</span></a>')
     about += '</div><p><a class="button secondary" href="/programmes/english-language-centres.html">Explore English language courses and centres →</a></p><h2>Browse programmes by university</h2><div class="grid">'
     for uni in unis:
         name = uni["university"]
@@ -444,6 +453,12 @@ def main() -> None:
           '<section class="section"><div class="wrap"><div class="catalog-note">' + h(level_note(lev)) + ' All names and fee amounts come from the NextGenz Centre finder. They require verification with the institution before applying or paying.</div>'
           '<p><a class="button" href="/services/education-consultant-malaysia.html">Talk to an education consultant</a><a class="button secondary" href="/programmes/">Browse all study levels</a></p>'
         )
+        related_topics = [t for t in TOPICS if t["level"] == lev and t["slug"] in topic_pages]
+        if related_topics:
+            main += '<h2>Compare related ' + h(lev.lower()) + ' programme types</h2><div class="catalog-links">'
+            for topic in related_topics:
+                main += '<a href="' + topic_pages[topic["slug"]]["url"] + '">' + h(topic["label"]) + '</a>'
+            main += '</div>'
         for uni in unis:
             name = str(uni["university"])
             entries = [e for e in by_uni[name] if e["level"] == lev]
@@ -494,6 +509,20 @@ def main() -> None:
           '</article><aside class="aside"><h2>Ask about this course</h2><p>Tell us your qualifications, study budget and intended intake so we can discuss what to confirm with the university.</p>'
           '<a class="button" href="https://wa.me/601167701210?text=' + quote("Please guide me on " + e["name"] + " at " + e["uni"]) + '">Free programme advice ↗</a><p><small>Our advisory fee is free. Official charges may apply.</small></p></aside></div></div></section>'
         )
+        if '</article><aside' not in main:
+            raise RuntimeError("Could not insert relevant course comparison links")
+        cross_links = [t for t in matching_topics(e) if t["slug"] in topic_pages]
+        related = '<h2>Explore similar university options</h2>'
+        for t in cross_links:
+            related += '<p><a href="' + topic_pages[t["slug"]]["url"] + '">Compare ' + h(t["label"]) + ' courses across Malaysian universities</a></p>'
+        sibling = [a for a in by_uni[e["uni"]] if a["level"] == e["level"] and a["name"] != e["name"]][:4]
+        if sibling:
+            related += '<p>Other ' + h(e["level"].lower()) + ' titles at ' + h(e["uni"]) + ' worth checking as alternatives:</p><ul>'
+            for other in sibling:
+                alt_url = selected_urls.get((other["uni"], other["name"]), '/programmes/universities/' + other["uslug"] + '.html#' + other["id"])
+                related += '<li><a href="' + h(alt_url) + '">' + h(other["name"]) + '</a></li>'
+            related += '</ul>'
+        main = main.replace('</article><aside', related + '</article><aside', 1)
         write(dest.lstrip("/"),wrap_page(page_head(
             seo_program_title(e["name"], e["short"]),
             "Explore " + e["name"] + " at " + e["uni"] + " in Malaysia. Compare finder fee reference, university admissions and student application steps.",
@@ -521,6 +550,7 @@ def main() -> None:
       "programme_listings": len(records),
       "distinct_programme_names": unique_names,
       "detailed_programme_pages": len(selected),
+      "topic_comparison_pages": len(topic_pages),
       "english_language_centres": len(english_centres),
       "english_course_reference_entries": english_count,
       "generated_files": sorted(outputs)
@@ -544,7 +574,7 @@ def main() -> None:
 
     print(json.dumps({
         "universities":len(unis),"source_listings":len(records),
-        "distinct_names":unique_names,"detailed_pages":len(selected),
+        "distinct_names":unique_names,"detailed_pages":len(selected),"topic_pages":len(topic_pages),
         "university_pages":len(unis),"study_level_pages":len(LEVELS),
         "published_html":len(links),"sitemap_total":sm.count("<url>")
     },ensure_ascii=False))
