@@ -184,7 +184,264 @@ TOPICS = [
             ("Which Malaysian universities offer software engineering options?", "The finder directory below lists course names containing 'software engineering'; it is a reference list rather than confirmed current admissions availability."),
             ("Are online software degrees eligible for a Malaysian student pass?", "Visa eligibility depends on delivery mode and official rules. Check with the university and EMGS rather than assuming online programmes qualify.")
         ]
-    }
+    },
+    {
+    "slug": "psychology-degree-malaysia",
+    "label": "Psychology Degree Malaysia",
+    "title": "Psychology Degree Malaysia | Compare Universities",
+    "description": "Compare bachelor's psychology degree programme titles in Malaysia, study options, admissions checks and differences between psychology and related business pathways.",
+    "level": "Bachelor",
+    "pattern": "psycholog",
+    "exclude": "marketing with psychology|^bachelor of business \\(hons\\)|psychology / communication",
+    "lead": "If you are interested in a psychology degree in Malaysia, compare the actual programme award, research modules and career goals—not just the word 'psychology' in the title.",
+    "intro": "A bachelor's psychology pathway may emphasise developmental, social, cognitive or research approaches. Another degree might combine psychology with human resource development or management; that can have a different academic focus. International students should compare degree titles, assessment requirements, campus and possible postgraduate pathways.",
+    "choose": [
+        [
+            "Actual degree title",
+            "Check whether the award is specifically Psychology, Psychology with another discipline, or a broader social science qualification."
+        ],
+        [
+            "Professional pathways",
+            "A psychology undergraduate degree does not, by itself, guarantee eligibility to practise as a clinical psychologist or counsellor; professional registration and postgraduate requirements may apply."
+        ],
+        [
+            "Research and placement",
+            "Ask about research methods, statistics, supervised projects, fieldwork and internship availability."
+        ],
+        [
+            "Admission and budget",
+            "Confirm accepted school qualifications, language evidence, full tuition basis and availability for international applicants."
+        ]
+    ],
+    "questions": [
+        [
+            "Can I become a clinical psychologist with a bachelor's degree in psychology?",
+            "Clinical practice commonly involves additional postgraduate training and applicable professional standards. Verify requirements in the country where you plan to practise."
+        ],
+        [
+            "Is psychology the same as counselling?",
+            "No. The two areas can overlap, but qualifications, training and professional rules differ. Compare official modules and future certification requirements."
+        ],
+        [
+            "Which universities list a psychology degree in Malaysia?",
+            "The reference table includes bachelor-level psychology titles recorded in the NextGenz finder. Ask the university to confirm its current programme and international admissions conditions."
+        ]
+    ]
+},
+    {
+    "slug": "diploma-in-nursing-malaysia",
+    "label": "Diploma in Nursing Malaysia",
+    "title": "Diploma in Nursing Malaysia | Compare Colleges",
+    "description": "Compare Malaysian nursing diploma programmes and explore clinical practice, licensing, English requirements, tuition and progression questions for international students.",
+    "level": "Diploma",
+    "pattern": "diploma.*nursing",
+    "exclude": "advanced diploma| / |diploma \\(",
+    "lead": "A nursing diploma requires careful checks about training placements, professional registration and whether international applicants can enter the programme.",
+    "intro": "Diploma in Nursing courses are a different academic level from nursing bachelor's degrees. A programme may include substantial supervised clinical training, which can affect admissions, language and immigration eligibility. Ask the provider whether its specific course and clinical arrangement are available to international students.",
+    "choose": [
+        [
+            "Clinical practice",
+            "Confirm where nursing placements occur, how many practice hours are required and whether international students meet placement eligibility rules."
+        ],
+        [
+            "Professional licensing",
+            "Ask which country's nursing registration the qualification supports; an overseas nursing diploma does not automatically confer a licence elsewhere."
+        ],
+        [
+            "Progression to degree",
+            "Check credit transfer or top-up options and whether any additional bridging requirements apply."
+        ],
+        [
+            "Complete fee schedule",
+            "Compare tuition, placement-related costs, uniforms, medical checks and any official charges in a university quotation."
+        ]
+    ],
+    "questions": [
+        [
+            "Is a nursing diploma the same as a nursing degree?",
+            "No. They are different levels of qualification and may have different licensing, career and progression consequences."
+        ],
+        [
+            "Can international students study a nursing diploma in Malaysia?",
+            "Eligibility depends on the institution, course accreditation, clinical arrangements and current immigration conditions. Confirm directly before paying."
+        ],
+        [
+            "How do I choose between different nursing diplomas?",
+            "Ask about the exact award, published programme recognition, supervised practice and rules for working where you intend to live."
+        ]
+    ]
+},
+    {
+    "slug": "mechanical-engineering-degree-malaysia",
+    "label": "Mechanical Engineering Degree Malaysia",
+    "title": "Mechanical Engineering Degree Malaysia | University Options",
+    "description": "Compare mechanical engineering bachelor degree names in Malaysia, including engineering versus engineering technology, professional recognition and admissions.",
+    "level": "Bachelor",
+    "pattern": "mechanical engineering",
+    "exclude": " / ",
+    "lead": "For mechanical engineering in Malaysia, check whether the award is Engineering or Engineering Technology and what professional recognition applies to that exact degree.",
+    "intro": "Mechanical engineering programmes commonly involve mathematics, mechanics, thermodynamics, materials and design. Engineering Technology degrees may have a different applied emphasis. University course names alone are not sufficient evidence of professional registration or accreditation.",
+    "choose": [
+        [
+            "Engineering or engineering technology",
+            "Understand the precise degree awarded and how it relates to the professional accreditation route relevant to you."
+        ],
+        [
+            "Practical learning",
+            "Compare laboratories, engineering design projects, industrial training and software tools described in official programme guides."
+        ],
+        [
+            "Accreditation and recognition",
+            "Check current accreditation information with the university and the appropriate Malaysian professional body for the exact course."
+        ],
+        [
+            "Maths, physics and study costs",
+            "Confirm subject prerequisites, international English requirements and the total amount payable over the degree."
+        ]
+    ],
+    "questions": [
+        [
+            "Are all mechanical engineering degrees in Malaysia professionally accredited?",
+            "No. Recognition must be checked for the specific course, campus, mode and current accreditation period."
+        ],
+        [
+            "What is the difference between mechanical engineering and mechanical engineering technology?",
+            "Their curricula and professional routes may differ. Review official published modules and the degree title."
+        ],
+        [
+            "Can I apply with a foundation qualification?",
+            "Some universities accept qualifying foundations, but progression grades and subject prerequisites must match the target degree."
+        ]
+    ]
+},
+    {
+    "slug": "logistics-degree-malaysia",
+    "label": "Logistics and Supply Chain Degree Malaysia",
+    "title": "Logistics Degree Malaysia | Compare University Courses",
+    "description": "Compare industrial logistics, logistics and supply-chain bachelor's degree listings across Malaysian universities and review admissions, work experience and fees.",
+    "level": "Bachelor",
+    "pattern": "logistics|supply chain",
+    "exclude": "^bachelor of business \\(hons\\) - accounting|bsc \\(hons\\) finance & investment /",
+    "lead": "Industrial logistics and supply-chain management degrees can lead to different roles; compare operations, transportation, procurement and analytics modules.",
+    "intro": "Logistics degrees may be offered as a specialised industrial qualification, a business degree with transportation focus or a logistics and supply-chain management award. These programme names signal different curricula. If your goals include manufacturing logistics, freight forwarding or procurement, review module lists and industry placements before choosing a university.",
+    "choose": [
+        [
+            "Course specialisation",
+            "Compare industrial logistics, transportation management, procurement, warehouse management and supply-chain analytics modules."
+        ],
+        [
+            "Industry connections",
+            "Ask about industrial training, internship availability and whether the course includes operational case studies."
+        ],
+        [
+            "Qualification level and campus",
+            "Confirm the bachelor's award, study duration, teaching campus and latest intake, especially where universities operate multiple campuses."
+        ],
+        [
+            "Fee basis",
+            "Some programme fee listings are annual while others are full-course totals. Request an official written international student payment schedule."
+        ]
+    ],
+    "questions": [
+        [
+            "Is industrial logistics the same as supply-chain management?",
+            "They overlap but are not identical in emphasis. Industrial logistics may focus more on the movement and handling of goods in operational settings."
+        ],
+        [
+            "What can I study after a logistics foundation or diploma?",
+            "Progression depends on the university and the prior qualification, including credit-transfer requirements."
+        ],
+        [
+            "How can I compare UniKL logistics fees fairly?",
+            "Check UniKL's current international fee schedule and whether each published amount is per year, semester or entire programme before comparing another university."
+        ]
+    ]
+},
+    {
+    "slug": "foundation-in-business-malaysia",
+    "label": "Foundation in Business Malaysia",
+    "title": "Foundation in Business Malaysia | Compare Pathways",
+    "description": "Explore foundation in business and management pathways in Malaysia, compare progression to bachelor degrees and check entry requirements and fees.",
+    "level": "Foundation",
+    "pattern": "foundation.*business",
+    "lead": "A business foundation can be a route into management, accounting and related bachelor's degrees, but the exact accepted progression depends on the university.",
+    "intro": "Foundation programmes may combine business with other subjects, so a 'Foundation in Business' title should not be assumed to have the same syllabus at every institution. Some finder records group business, accounting and computing tracks together; students need to check the individual pathway with the provider.",
+    "choose": [
+        [
+            "Bachelor's degree goal",
+            "Identify whether your intended future degree is business management, finance, marketing, accounting or a different pathway and verify its foundation entry rules."
+        ],
+        [
+            "Modules and skills",
+            "Compare mathematics, introductory economics, accounting, communication, computing and academic English requirements."
+        ],
+        [
+            "Progression policy",
+            "Ask for the minimum grade and subject-specific requirements and whether the foundation transfers between universities."
+        ],
+        [
+            "International cost",
+            "Obtain a dated tuition schedule with stated fee basis, registration deposits and any government charges."
+        ]
+    ],
+    "questions": [
+        [
+            "Can a Foundation in Business lead to accounting?",
+            "Potentially, if the destination programme accepts the particular qualification and minimum grades. Confirm with the university."
+        ],
+        [
+            "Is a business foundation more suitable than a diploma?",
+            "They generally serve different learning and progression purposes; compare programme length, qualification award and the bachelor's route you want."
+        ],
+        [
+            "What if a finder programme shows several foundation subjects in one title?",
+            "Treat it as a grouped listing until the university confirms the separate award name and actual academic pathway."
+        ]
+    ]
+},
+    {
+    "slug": "masters-data-science-malaysia",
+    "label": "Master's in Data Science Malaysia",
+    "title": "Master's in Data Science Malaysia | Compare Courses",
+    "description": "Compare master-level data science and analytics programme listings in Malaysia, coursework and research formats, entry requirements and university options.",
+    "level": "Master",
+    "pattern": "data science",
+    "exclude": "various specialisations|health info \\(executive\\)|by research\\).*innovations",
+    "lead": "Data science master's degrees in Malaysia vary in their computing depth, research component and programme format. Start with the real curriculum and entry prerequisites.",
+    "intro": "A postgraduate data science qualification can combine statistics, programming, machine learning, data engineering and business analytics. Some programme titles focus on applied data analytics, while others are more research-oriented. Check whether a course is designed for graduates already experienced in computing or for applicants moving from related fields.",
+    "choose": [
+        [
+            "Academic prerequisites",
+            "Check statistics, calculus, programming and relevant undergraduate qualification requirements."
+        ],
+        [
+            "Coursework versus research",
+            "Understand project-based, coursework, mixed-mode and research routes, particularly if further PhD study is a goal."
+        ],
+        [
+            "Computing resources",
+            "Ask about practical datasets, software facilities, industry collaboration and the capstone or dissertation."
+        ],
+        [
+            "International tuition and study mode",
+            "Verify per-semester versus total fees, campus attendance rules and whether any online pathway supports your intended immigration status."
+        ]
+    ],
+    "questions": [
+        [
+            "Can I study data science with a non-computing bachelor's degree?",
+            "Some universities may consider related degrees or bridging study. Assess the published course-specific prerequisites."
+        ],
+        [
+            "Is a data science MSc the same as a business analytics MSc?",
+            "They can overlap but differ in statistical, computational and business emphasis. Compare actual module structures."
+        ],
+        [
+            "Which Malaysian universities list a master's data science course?",
+            "The comparison table is drawn from finder entries and must be checked against current university admissions pages."
+        ]
+    ]
+}
 ]
 
 
