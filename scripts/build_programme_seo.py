@@ -122,6 +122,18 @@ def subject_note(name: str) -> str:
             return note
     return "Before selecting any programme, compare its curriculum, university award, entry requirements and the latest intake information from the official provider."
 
+def seo_program_title(title: str, uni_code: str) -> str:
+    """Keep concise titles without losing the complete visible H1 name."""
+    suffix = " | " + uni_code + " Malaysia"
+    max_name = max(20, 60 - len(suffix))
+    if len(title) <= max_name:
+        return title + suffix
+    shortened = title[:max_name]
+    if " " in shortened:
+        shortened = shortened.rsplit(" ", 1)[0]
+    shortened = shortened.rstrip(" -/(,")
+    return shortened + suffix
+
 def page_head(title: str, desc: str, path: str, schema: dict | None = None) -> str:
     canonical = PUBLIC_BASE + path
     jsonld = ""
@@ -363,7 +375,7 @@ def main() -> None:
           '<script>document.getElementById("courseFilter").addEventListener("input",function(){var q=this.value.toLowerCase().trim();document.querySelectorAll(".finder-program").forEach(function(item){item.hidden=!!q&&!item.dataset.title.includes(q)});});</script>'
         )
         write(dest.lstrip("/"),wrap_page(page_head(
-            h(name) + " Programmes in Malaysia | NextGenz Centre",
+            name + " Programmes in Malaysia | NextGenz Centre",
             "Explore " + str(len(by_uni[name])) + " programme names at " + name + ". Compare foundation, degree, postgraduate and admissions options for international students.",
             dest, {"@context":"https://schema.org","@type":"CollectionPage","name":name+" study programmes in Malaysia","url":PUBLIC_BASE+dest}
         ),main),outputs)
@@ -430,7 +442,7 @@ def main() -> None:
           '<a class="button" href="https://wa.me/601167701210?text=' + quote("Please guide me on " + e["name"] + " at " + e["uni"]) + '">Free programme advice ↗</a><p><small>Our advisory fee is free. Official charges may apply.</small></p></aside></div></div></section>'
         )
         write(dest.lstrip("/"),wrap_page(page_head(
-            e["name"] + " at " + e["short"] + " Malaysia | NextGenz",
+            seo_program_title(e["name"], e["short"]),
             "Explore " + e["name"] + " at " + e["uni"] + " in Malaysia. Compare finder fee reference, university admissions and student application steps.",
             dest,
             {"@context":"https://schema.org","@type":"WebPage","name":e["name"]+" at "+e["uni"],"url":PUBLIC_BASE+dest,"about":{"@type":"EducationalOrganization","name":e["uni"]}}
