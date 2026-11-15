@@ -179,7 +179,65 @@ def page_head(title: str, desc: str, path: str, schema: dict | None = None) -> s
       + jsonld + '</head><body>' + MARKER
     )
 
+# Existing NextGenz website photos keep the SEO pages visually consistent.
+UNIVERSITY_IMAGE_CODES = ("APU","IIUM","IMU","IUKL","LUC","MAHSA","MEDIU","MMU","MSU","Nilai","OUM","UCSI","UKM","UM","UMPSA","UNITEN","UPM","UPSI","USIM","USM","UTM","UTeM","UUM","UniKL","UniRazak")
+PHOTO_BASE = "/assets/nextgenz-v7"
+
+def brand_photo(path: str) -> tuple[str,str]:
+    slugged = path.casefold()
+    for segment in ("/programmes/universities/", "/programmes/courses/"):
+        if segment in slugged:
+            suffix = slugged.split(segment,1)[1].split("/",1)[0].split(".",1)[0]
+            for code in UNIVERSITY_IMAGE_CODES:
+                if slug(code) == suffix:
+                    return (PHOTO_BASE + "/universities/" + code + ".webp",
+                            code + " university campus imagery from NextGenz Centre")
+    if "english-language" in slugged or "english-course" in slugged:
+        return PHOTO_BASE+"/sections/serviceEnglish.webp", "English language education in Malaysia"
+    if any(x in slugged for x in ("nursing","medicine","dentistry","pharmacy","public-health")):
+        return PHOTO_BASE+"/sections/support.webp", "Student support for health studies in Malaysia"
+    if any(x in slugged for x in ("engineering","architecture","technology","computer","science","cybersecurity","artificial-intelligence")):
+        return PHOTO_BASE+"/sections/whyMalaysia.webp", "Explore university campuses in Malaysia"
+    if any(x in slugged for x in ("tourism","hospitality","psychology","education","arts","biotechnology")):
+        return PHOTO_BASE+"/sections/journal.webp", "Student experiences and university education in Malaysia"
+    if any(x in slugged for x in ("mba","business","accounting","management","finance","marketing","logistics")):
+        return PHOTO_BASE+"/sections/servicePlacement.webp", "University education consultancy in Malaysia"
+    return PHOTO_BASE+"/sections/universities.webp", "Malaysian universities and international students"
+
+def brand_media_panel(path: str) -> str:
+    src, alt = brand_photo(path)
+    return ('<div class="ng-hero-media"><img src="' + h(src) + '" alt="' + h(alt) +
+            '" width="900" height="620" loading="eager" fetchpriority="high" decoding="async">'
+            '<div class="ng-media-label"><span>NEXTGENZ CENTRE</span> · Study in Malaysia</div></div>')
+
+def brand_gallery(path: str) -> str:
+    src, alt = brand_photo(path)
+    second = PHOTO_BASE + "/sections/servicePlacement.webp"
+    if "servicePlacement" in src:
+        second = PHOTO_BASE + "/sections/whyMalaysia.webp"
+    return ('<div class="ng-related-media" aria-label="NextGenz education imagery">'
+            '<figure><img src="' + h(src) + '" alt="' + h(alt) +
+            '" width="760" height="500" loading="lazy" decoding="async">'
+            '<figcaption>Explore universities and programmes in Malaysia</figcaption></figure>'
+            '<figure><img src="' + h(second) +
+            '" alt="University placement guidance for international students"'
+            ' width="760" height="500" loading="lazy" decoding="async">'
+            '<figcaption>Compare programmes and request free guidance</figcaption></figure></div>')
+
 def wrap_page(head: str, main: str) -> str:
+    path_match = re.search(r'<link rel="canonical" href="https://www.nextgenzcentre.space([^"]+)"', head)
+    page_path = path_match.group(1) if path_match else "/programmes/"
+    if '<section class="hero">' not in main:
+        raise RuntimeError("SEO hero is missing from " + page_path)
+    main = main.replace('</div></section>',
+                        '</div>' + brand_media_panel(page_path) + '</section>', 1)
+    if '<article class="article">' in main:
+        gallery = brand_gallery(page_path)
+        target = '<h2>Questions for international applicants</h2>'
+        if target in main:
+            main = main.replace(target, gallery + target, 1)
+        else:
+            main = main.replace('</article>', gallery + '</article>', 1)
     return (
       head
       + '<header class="nav"><div class="wrap nav-inner">'
@@ -420,6 +478,7 @@ def main() -> None:
     for level in LEVELS:
         href = "/programmes/levels/" + LEVEL_SLUG[level] + ".html"
         about += ('<a class="tile" data-tone="teal" href="' + href + '"><span class="tag">Malaysia degree pathways</span>'
+                  '<div class="ng-card-photo"><img src="' + h(brand_photo("/programmes/levels/"+LEVEL_SLUG[level]+".html")[0]) + '" alt="Study ' + h(level) + ' programmes in Malaysia" width="560" height="360" loading="lazy" decoding="async"></div>'
                   '<h2>' + LABELS[level] + '</h2><p>' + str(counts[level]) + ' programme listings from the finder, organized by university.</p>'
                   '<span class="arrow">Explore programmes →</span></a>')
     about += '</div><h2>Find a Bachelor, Master or Diploma in your subject</h2><p>Whether you search for a Master in Computer Science, Bachelor in Pharmacy, Diploma in Information Technology or another qualification, start with the linked subject-and-level comparisons drawn from our programme finder.</p><p><a class="button" href="/programmes/subjects/">Find courses by subject and study level →</a></p><h2>Compare popular programme subjects</h2><p>Use these focused course comparisons to weigh real programme names across different Malaysian universities. They are reference listings, not guarantees of current admission or tuition.</p><div class="grid">' 
@@ -427,12 +486,12 @@ def main() -> None:
         if topic["slug"] not in topic_pages:
             continue
         info = topic_pages[topic["slug"]]
-        about += ('<a class="tile" data-tone="purple" href="' + info["url"] + '"><span class="tag">Compare Malaysia courses</span><h2>' + h(topic["label"]) + '</h2><p>' + str(info["entries"]) + ' listed options across ' + str(info["universities"]) + ' universities, with decision checks and admissions questions.</p><span class="arrow">Compare programmes →</span></a>')
+        about += ('<a class="tile" data-tone="purple" href="' + info["url"] + '"><div class="ng-card-photo"><img src="' + h(brand_photo(info["url"])[0]) + '" alt="' + h(topic["label"]) + ' in Malaysia" width="560" height="360" loading="lazy" decoding="async"></div><span class="tag">Compare Malaysia courses</span><h2>' + h(topic["label"]) + '</h2><p>' + str(info["entries"]) + ' listed options across ' + str(info["universities"]) + ' universities, with decision checks and admissions questions.</p><span class="arrow">Compare programmes →</span></a>')
     about += '</div><p><a class="button secondary" href="/programmes/english-language-centres.html">Explore English language courses and centres →</a></p><h2>Browse programmes by university</h2><div class="grid">'
     for uni in unis:
         name = uni["university"]
         href = "/programmes/universities/" + uni_slugs[name] + ".html"
-        about += ('<a class="tile" data-tone="blue" href="' + href + '"><span class="tag">'
+        about += ('<a class="tile" data-tone="blue" href="' + href + '"><div class="ng-card-photo"><img src="' + h(brand_photo(href)[0]) + '" alt="Campus of ' + h(name) + ' in Malaysia" width="560" height="360" loading="lazy" decoding="async"></div><span class="tag">'
                   + h(uni.get("location") or "Malaysia") + '</span><h2>' + h(name)
                   + '</h2><p>' + str(len(by_uni[name])) + ' programme titles available to explore.</p><span class="arrow">View course list →</span></a>')
     about += (
