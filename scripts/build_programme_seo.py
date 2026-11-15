@@ -11,6 +11,7 @@ creating 1,182 near-identical search pages would not help students or SEO.
 """
 from __future__ import annotations
 
+import ast
 from collections import defaultdict
 from datetime import date
 from hashlib import sha1
@@ -90,6 +91,24 @@ def normalize_unis() -> list[dict]:
     if len(unis) < 20 or sum(len(u.get("programmes", {})) for u in unis) < 900:
         raise RuntimeError("ProgramFinder data appears incomplete; aborting rather than losing listings")
     return unis
+
+def english_centres_from_finder() -> list[dict]:
+    """Read the original public university/English-centre directory block."""
+    src = (ROOT / "index.html").read_text(encoding="utf-8")
+    opening = "const NEXTGENZ_OTHER_INSTITUTIONS = ["
+    closing = "\n];\nconst NG_FEATURED_CODES"
+    at = src.find(opening)
+    end = src.find(closing, at)
+    if at < 0 or end < 0:
+        raise RuntimeError("English-centre reference block not found")
+    literal = src[at + len("const NEXTGENZ_OTHER_INSTITUTIONS = "):end+2]
+    literal = re.sub(r'([,{]\s*)(university|shortName|type|currency|website|location|programmes)\s*:', r'\1"\2":', literal)
+    literal = re.sub(r"\bnull\b", "None", literal)
+    data = ast.literal_eval(literal)
+    centres = [x for x in data if x.get("type") == "Language Centre" and isinstance(x.get("programmes"), dict)]
+    if len(centres) != 7:
+        raise RuntimeError("Unexpected English-centre count; aborting rather than publishing stale data")
+    return centres
 
 def safe_official_url(url: str) -> str:
     url = str(url or "").strip()
@@ -212,6 +231,7 @@ def write(relative: str, data: str, output: set[str]) -> None:
 
 def main() -> None:
     unis = normalize_unis()
+    english_centres = english_centres_from_finder()
     records = []
     by_uni = defaultdict(list)
     by_level = defaultdict(list)
@@ -288,6 +308,39 @@ def main() -> None:
 
     outputs = set()
     write("programmes/catalog.css", CSS, outputs)
+    # English language centres also appear in the website's public directory,
+    # separately from the original 25-university portal programme finder.
+    english_path = "/programmes/english-language-centres.html"
+    english_main = (
+        '<section class="hero"><div class="wrap"><span class="eyebrow">MALAYSIA ENGLISH LANGUAGE STUDY</span>'
+        '<h1>English language courses in Malaysia: <span class="accent">compare language centres</span></h1>'
+        '<p class="lead">Explore English study and IELTS preparation listings from seven language centres shown in the NextGenz Centre public institution directory. Compare listed course names, formats and potential pathways before verifying options with each provider.</p></div></section>'
+        '<section class="section"><div class="wrap"><div class="catalog-note">The course names and prices below are references from our existing public institution directory. Prices may use different units, and current availability or tuition has not been independently verified. Ask each centre for a current course schedule, quote, placement test details and any applicable visa arrangements before booking.</div>'
+        '<h2>Compare English language centres and their programmes</h2>'
+    )
+    english_count = 0
+    for centre in english_centres:
+        english_main += '<section class="catalog-wide"><h2>' + h(centre["university"]) + '</h2><p>' + h(centre.get("location", "Malaysia")) + ' · Programmes listed in NextGenz Centre public directory</p><ul class="catalog-list">'
+        for name, fee in centre["programmes"].items():
+            english_main += '<li><strong>' + h(name) + '</strong><span class="fee">Finder reference: ' + h(centre.get("currency") or "MYR") + ' ' + h(fee) + '</span></li>'
+            english_count += 1
+        english_main += '</ul>'
+        official = safe_official_url(centre.get("website") or "")
+        if official:
+            english_main += '<p><a target="_blank" rel="noopener noreferrer" href="' + h(official) + '">Visit the centre’s official website ↗</a></p>'
+        english_main += '</section>'
+    english_main += (
+        '<h2>Which English programme is right for an international student?</h2>'
+        '<p><strong>General English</strong> typically focuses on language development, while <strong>intensive English</strong> may involve more scheduled class time. <strong>IELTS preparation</strong> focuses on assessment preparation; it is not automatically an accepted university admission pathway. Ask about level placement, class duration, expected outcomes, class hours, availability and whether the specific centre supports an eligible student pass route.</p>'
+        '<p>Students planning to progress to a university should check the chosen university’s language requirements rather than assuming any centre course guarantees entry. Read our <a href="/guides/english-courses-in-malaysia.html">English courses guide</a> and <a href="/guides/malaysia-student-visa-emgs-guide.html">EMGS student visa overview</a>.</p>'
+        '<p><a class="button" href="https://wa.me/601167701210?text=Hello%20NextGenz%20Centre%2C%20I%20need%20English%20language%20course%20guidance%20in%20Malaysia.">Ask for English course guidance</a><a class="button secondary" href="/programmes/">Explore university programmes</a></p>'
+        '</div></section>'
+    )
+    write(english_path.lstrip("/"), wrap_page(page_head(
+        "English Language Courses in Malaysia | Centre Comparison",
+        "Compare English language courses, General English and IELTS preparation at seven language centres in Malaysia. Check course names, locations and admission guidance.",
+        english_path, {"@context":"https://schema.org","@type":"CollectionPage","name":"English Language Courses at Malaysia Language Centres","url":PUBLIC_BASE+english_path}
+    ),english_main),outputs)
     counts = defaultdict(int)
     for rec in records:
         counts[rec["level"]] += 1
@@ -306,7 +359,7 @@ def main() -> None:
         about += ('<a class="tile" data-tone="teal" href="' + href + '"><span class="tag">Malaysia degree pathways</span>'
                   '<h2>' + LABELS[level] + '</h2><p>' + str(counts[level]) + ' programme listings from the finder, organized by university.</p>'
                   '<span class="arrow">Explore programmes →</span></a>')
-    about += '</div><h2>Browse programmes by university</h2><div class="grid">'
+    about += '</div><p><a class="button secondary" href="/programmes/english-language-centres.html">Explore English language courses and centres →</a></p><h2>Browse programmes by university</h2><div class="grid">'
     for uni in unis:
         name = uni["university"]
         href = "/programmes/universities/" + uni_slugs[name] + ".html"
@@ -468,6 +521,8 @@ def main() -> None:
       "programme_listings": len(records),
       "distinct_programme_names": unique_names,
       "detailed_programme_pages": len(selected),
+      "english_language_centres": len(english_centres),
+      "english_course_reference_entries": english_count,
       "generated_files": sorted(outputs)
     },ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     outputs.add("programmes/catalog-manifest.json")
