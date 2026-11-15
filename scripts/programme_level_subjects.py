@@ -11,6 +11,7 @@ current availability, professional licensing, or a university partnership.
 from __future__ import annotations
 from collections import defaultdict
 from urllib.parse import quote
+from programme_subject_enrichment import SUBJECT_ENRICHMENT
 import re
 
 BASE = "https://www.nextgenzcentre.space"
@@ -447,15 +448,16 @@ def generate_level_subject_pages(records, selected_urls, write, wrap_page, page_
 
         page_path = f"/programmes/subjects/{level.lower()}-{field_slug}-malaysia.html"
         heading = _display_title(level, fld)
-        title = f"{heading} | NextGenz Centre"
+        enrichment = SUBJECT_ENRICHMENT.get((level, field_slug))
+        title = enrichment["title"] if enrichment else f"{heading} | NextGenz Centre"
         if len(title) > 67:
             title = heading[:48].rsplit(" ",1)[0] + " | NextGenz"
-        desc = f"Compare {LEVEL_LABELS[level].lower()} {fld['name'].lower()} programme names across {count_uni} Malaysian universities, with course links and entry, fee and pathway questions."
+        desc = enrichment["description"] if enrichment else f"Compare {LEVEL_LABELS[level].lower()} {fld['name'].lower()} programme names across {count_uni} Malaysian universities, with course links and entry, fee and pathway questions."
         intro = LEVEL_GUIDANCE[level]["overview"]
         main = (
             '<section class="hero"><div class="wrap"><span class="eyebrow">MALAYSIA UNIVERSITY PROGRAMME COMPARISON</span>'
             '<h1>' + h(heading) + '</h1>'
-            '<p class="lead">' + h(fld["overview"]) + '</p>'
+            '<p class="lead">' + h(enrichment["lead"] if enrichment else fld["overview"]) + '</p>'
             '<div class="catalog-stats"><span>' + str(count_uni) + ' listed universities</span><span>' + str(len(entries)) + ' relevant course names</span><span>' + h(LEVEL_LABELS[level]) + ' study level</span></div>'
             '<p><a class="button" href="https://wa.me/601167701210?text=' + quote("Hello NextGenz Centre. I am interested in " + heading + ". Please help me compare programmes.") + '">Ask for course guidance</a></p></div></section>'
             '<section class="section"><div class="wrap"><div class="article-layout"><article class="article">'
@@ -467,6 +469,11 @@ def generate_level_subject_pages(records, selected_urls, write, wrap_page, page_
             '<div class="catalog-comparison" role="region" aria-label="Compare actual listed university courses" tabindex="0">'
             '<table class="catalog-table"><thead><tr><th scope="col">University</th><th scope="col">Actual finder programme title</th><th scope="col">Reference fee — confirm basis</th></tr></thead><tbody>'
         )
+        if enrichment:
+            table_heading = '<h2>Compare universities with ' + h(LEVEL_LABELS[level].lower()) + ' ' + h(fld["name"].lower()) + ' programmes</h2>'
+            if main.count(table_heading) != 1:
+                raise RuntimeError("Could not place verified subject information for " + heading)
+            main = main.replace(table_heading, enrichment["before_table"] + table_heading, 1)
         for uni, recs in sorted(by_uni.items(),key=lambda x:x[0]):
             for rec in recs:
                 uh = "/programmes/universities/" + rec["uslug"] + ".html"
@@ -477,6 +484,8 @@ def generate_level_subject_pages(records, selected_urls, write, wrap_page, page_
                     '<td><span class="catalog-money">' + h(public_fee_note(rec)) + '</span></td></tr>'
                 )
         main += '</tbody></table></div>'
+        if enrichment:
+            main += enrichment["after_table"]
         main += '<h2>How to compare ' + h(fld["name"].lower()) + ' options</h2>'
         for check,body in fld["checks"]:
             main += '<h3>' + h(check) + '</h3><p>' + h(body) + '</p>'
