@@ -8,6 +8,7 @@ on:
       - 'scripts/build_programme_seo.py'
       - 'scripts/programme_topics.py'
       - 'scripts/programme_level_subjects.py'
+      - 'scripts/programme_subject_enrichment.py'
       - 'scripts/programme_verified_facts.py'
       - '.github/workflows/build-programme-seo.yml'
 
@@ -49,6 +50,10 @@ jobs:
           assert Path("programmes/levels/foundation.html").is_file()
           assert Path("programmes/index.html").is_file()
           assert Path("programmes/subjects/index.html").is_file()
+          master=Path("programmes/subjects/master-computer-science-malaysia.html").read_text()
+          assert "MMU's current programme page" in master
+          assert "Need a Master in Computer Science Malaysia education consultant?" in master
+          assert "https://admission.utm.my/programmes/master-of-computer-science-odl/" in master
           assert data["generated_level_subject_pages"] >= 20
           assert len(list(Path("programmes/subjects").glob("*-malaysia.html"))) >= 20
           root=ET.parse("sitemap.xml").getroot()
