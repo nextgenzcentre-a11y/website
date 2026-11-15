@@ -4,6 +4,8 @@
   "programme_listings": 1182,
   "distinct_programme_names": 1091,
   "detailed_programme_pages": 52,
+  "english_language_centres": 7,
+  "english_course_reference_entries": 24,
   "generated_files": [
     "programmes/catalog.css",
     "programmes/courses/apu/bsc-hons-in-architecture-44d035.html",
@@ -58,6 +60,7 @@
     "programmes/courses/utm/bachelor-of-computer-science-se-network-graphics-ai-1a4c82.html",
     "programmes/courses/utm/master-of-philosophy-software-engineering-computer-science-informatics-r-9939c6.html",
     "programmes/courses/uum/bachelor-of-computer-science-with-honours-51650d.html",
+    "programmes/english-language-centres.html",
     "programmes/index.html",
     "programmes/levels/bachelor.html",
     "programmes/levels/diploma.html",
