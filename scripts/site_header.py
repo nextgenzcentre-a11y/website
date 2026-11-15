@@ -6,7 +6,11 @@ All homepage section links resolve from subpages via "/#..." URLs.
 """
 from html import escape
 
-BRAND_CREST = "https://cdn.phototourl.com/free/2026-07-29-bc15283f-aa7c-4900-ba80-03dc631dd663.png"
+# The official homepage CDN has failed on some pages. Serve a first-party
+# screenshot-extracted copy of that exact crest to eliminate broken images.
+# A higher-resolution upload can replace the local file without changing pages.
+BRAND_CREST = "/assets/brand/nextgenz-official-crest-fallback.png"
+ORIGINAL_CREST_CDN = "https://cdn.phototourl.com/free/2026-07-29-bc15283f-aa7c-4900-ba80-03dc631dd663.png"
 NAV_LINKS = (
     ("Universities", "/#universities"),
     ("Why Malaysia", "/#why-malaysia"),
@@ -37,7 +41,7 @@ def header_html(lang: str = "en") -> str:
     brand = ('<a href="/" class="ng-brand-lockup" aria-label="NextGenz Centre home">'
              '<img src="' + escape(BRAND_CREST, quote=True) +
              '" width="46" height="46" loading="eager" decoding="async" '
-             'alt="NextGenz Centre official crest">'
+             'alt="NextGenz Centre official crest" data-logo-locked="true">'
              '<span class="ng-brand-wordmark">NEXTGENZ <span>CENTRE</span></span>'
              '</a>')
     languages = ''.join('<a href="' + escape(href, quote=True) +
