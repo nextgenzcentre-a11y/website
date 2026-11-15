@@ -176,7 +176,7 @@ def page_head(title: str, desc: str, path: str, schema: dict | None = None) -> s
       '<meta property="og:url" content="' + h(canonical) + '">'
       '<meta property="og:site_name" content="NextGenz Centre">'
       '<link rel="stylesheet" href="/programmes/catalog.css">'
-      '<link rel="stylesheet" href="/guides/style.css?v=20261115-v8-fullbleed">'
+      '<link rel="stylesheet" href="/guides/style.css?v=20261115-v9-original-logo">'
       + jsonld + '</head><body>' + MARKER
     )
 
