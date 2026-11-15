@@ -295,3 +295,135 @@ a:focus-visible,.button:focus-visible,.catalog-field-tile:focus-visible{outline:
  .hero .button{width:auto;max-width:100%;padding:13px 16px;font-size:.79rem}
 }
 @media(prefers-reduced-motion:reduce){.hero .button{transition:none!important}}
+
+
+/* NEXTGENZ CANONICAL HOMEPAGE HEADER — crest and navigation shared across SEO pages */
+/* Mirrors index.html HeaderNavbar: official crest, white NEXTGENZ / gold
+   CENTRE, eight homepage section links, Explore Programs, language,
+   and Free Advisory.  The old text-only logo is not used. */
+.ng-brand-header{
+  position:sticky;top:0;z-index:60;isolation:isolate;
+  width:100%;background:rgba(10,22,51,.98)!important;
+  border-bottom:1px solid rgba(197,160,89,.25);
+  box-shadow:0 7px 26px rgba(7,17,38,.19);
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  color:#fff;font-family:Montserrat,Arial,sans-serif;
+}
+.ng-brand-header .ng-brand-shell{
+  width:100%;max-width:1400px;margin:0 auto;padding:0 clamp(18px,2vw,35px);
+  min-height:70px;display:flex;align-items:center;
+  justify-content:space-between;gap:clamp(10px,1.2vw,20px);
+  position:relative;
+}
+.ng-brand-header .ng-brand-lockup{
+  display:inline-flex;flex:0 0 auto;align-items:center;gap:9px;
+  text-decoration:none;min-width:0;color:#fff!important;white-space:nowrap;
+}
+.ng-brand-header .ng-brand-lockup img{
+  display:block;width:46px;height:46px;object-fit:contain;flex-shrink:0;
+  background:none!important;border:0!important;border-radius:0!important;
+}
+.ng-brand-header .ng-brand-wordmark{
+  font-family:Montserrat,Arial,sans-serif!important;
+  font-size:clamp(.88rem,1.24vw,1.1rem);font-weight:900!important;
+  letter-spacing:-.055em!important;line-height:1!important;color:#fff!important;
+}
+.ng-brand-header .ng-brand-wordmark span{color:#C5A059!important}
+.ng-brand-header .ng-brand-primary{
+  display:flex;align-items:center;justify-content:center;gap:clamp(11px,1.35vw,19px);
+  white-space:nowrap;min-width:0;
+}
+.ng-brand-header .ng-brand-primary a{
+  font-size:clamp(.63rem,.76vw,.75rem);font-weight:700;line-height:1.4;
+  color:rgba(255,255,255,.88)!important;text-decoration:none;
+  transition:color .2s ease;
+}
+.ng-brand-header .ng-brand-primary a:hover{color:#C5A059!important}
+.ng-brand-header .ng-brand-tools{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.ng-brand-header .ng-brand-explore{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  min-height:41px;border:1px solid rgba(255,255,255,.24);
+  border-radius:13px;padding:10px 14px;
+  color:#fff!important;font:750 .71rem/1.2 Montserrat,Arial,sans-serif;
+  white-space:nowrap;text-decoration:none;
+  background:rgba(17,37,69,.36);transition:border-color .2s,background .2s;
+}
+.ng-brand-header .ng-brand-explore:hover{border-color:#C5A059;background:rgba(197,160,89,.12)}
+.ng-brand-header .ng-brand-language{position:relative;z-index:80}
+.ng-brand-header .ng-brand-language summary{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  border-radius:14px;border:1px solid #C5A059;
+  min-height:41px;min-width:90px;padding:9px 12px;cursor:pointer;
+  list-style:none;color:#fff;font:700 .69rem/1.3 Montserrat,Arial,sans-serif;
+  user-select:none;background:rgba(6,16,37,.38);
+}
+.ng-brand-header summary::-webkit-details-marker{display:none}
+.ng-brand-header .ng-drop-chevron{color:#C5A059;font-size:1.15rem;font-weight:700}
+.ng-brand-header .ng-brand-language-list{
+  position:absolute;top:calc(100% + 8px);right:0;display:grid;min-width:165px;
+  padding:7px;border:1px solid rgba(197,160,89,.28);border-radius:13px;
+  background:#102744;box-shadow:0 16px 30px rgba(0,0,0,.22)
+}
+.ng-brand-header .ng-brand-language-list a{
+  font-size:.78rem;font-weight:700;padding:9px 12px;border-radius:8px;
+  color:#fff!important;text-decoration:none;white-space:nowrap;
+}
+.ng-brand-header .ng-brand-language-list a:hover{background:#243d5d;color:#ffe1a2!important}
+.ng-brand-header .ng-brand-advisory{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  min-height:42px;padding:11px 16px;border:0;border-radius:13px;
+  background:#C5A059!important;color:#0A1633!important;
+  font:900 .72rem/1.3 Montserrat,Arial,sans-serif;text-decoration:none;
+  white-space:nowrap;box-shadow:0 9px 24px rgba(0,0,0,.09);
+  transition:transform .2s,background .2s;
+}
+.ng-brand-header .ng-brand-advisory:hover{background:#D4AF37!important;transform:translateY(-1px)}
+.ng-brand-header .ng-brand-mobile{display:none;position:relative;z-index:85}
+.ng-brand-header .ng-brand-mobile>summary{
+  display:flex;align-items:center;gap:9px;cursor:pointer;
+  color:#fff;font-size:.75rem;font-weight:800;list-style:none;
+  padding:11px;border:1px solid rgba(255,255,255,.2);border-radius:10px;
+  background:rgba(255,255,255,.06);
+}
+.ng-brand-header .ng-menu-icon{display:flex;flex-direction:column;gap:4px}
+.ng-brand-header .ng-menu-icon i{display:block;width:17px;height:2px;border-radius:3px;background:#C5A059}
+.ng-brand-header .ng-brand-mobile-list{
+  position:absolute;top:calc(100% + 13px);right:0;min-width:min(340px,calc(100vw - 32px));
+  max-height:calc(100vh - 100px);overflow-y:auto;
+  padding:16px;background:#102744;border:1px solid rgba(197,160,89,.35);
+  border-radius:17px;box-shadow:0 20px 50px rgba(0,0,0,.24);
+  display:flex;flex-direction:column;gap:2px;
+}
+.ng-brand-header .ng-brand-mobile-list>a:not(.ng-brand-advisory){
+  padding:10px 9px;font-size:.83rem;font-weight:750;color:#fff!important;
+  text-decoration:none;border-radius:8px
+}
+.ng-brand-header .ng-brand-mobile-list>a:hover{background:rgba(255,255,255,.09)}
+.ng-brand-header .ng-mobile-lang{
+  display:flex;gap:10px;flex-wrap:wrap;padding:10px 6px;
+  border-top:1px solid rgba(255,255,255,.12)
+}
+.ng-brand-header .ng-mobile-lang a{color:#ffe09b;text-decoration:none;font-weight:750;font-size:.79rem}
+.ng-brand-header .ng-brand-mobile-list .ng-brand-advisory{margin-top:6px;width:100%}
+.ng-brand-header a:focus-visible,.ng-brand-header summary:focus-visible{
+  outline:3px solid #ffe0a3;outline-offset:3px
+}
+@media(max-width:1340px){
+  .ng-brand-header .ng-brand-primary{display:none}
+  .ng-brand-header .ng-brand-mobile{display:block}
+  .ng-brand-header .ng-brand-shell{padding:0 23px}
+}
+@media(max-width:850px){
+  .ng-brand-header .ng-brand-shell{min-height:66px;padding:0 18px}
+  .ng-brand-header .ng-brand-tools{display:none}
+  .ng-brand-header .ng-brand-lockup img{width:41px;height:41px}
+  .ng-brand-header .ng-brand-wordmark{font-size:clamp(.83rem,2.2vw,1.02rem)}
+}
+@media(max-width:410px){
+  .ng-brand-header .ng-brand-shell{padding:0 13px}
+  .ng-brand-header .ng-brand-lockup{gap:6px}
+  .ng-brand-header .ng-brand-lockup img{width:38px;height:38px}
+  .ng-brand-header .ng-brand-wordmark{font-size:.78rem}
+  .ng-brand-header .ng-brand-mobile>summary{padding:8px}
+  .ng-brand-header .ng-mobile-label{font-size:.72rem}
+}
