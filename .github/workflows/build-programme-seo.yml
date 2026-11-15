@@ -6,6 +6,8 @@ on:
     paths:
       - 'index.html'
       - 'scripts/build_programme_seo.py'
+      - 'scripts/programme_topics.py'
+      - 'scripts/programme_verified_facts.py'
       - '.github/workflows/build-programme-seo.yml'
 
 permissions:
