@@ -7,6 +7,7 @@ on:
       - 'index.html'
       - 'scripts/build_programme_seo.py'
       - 'scripts/programme_topics.py'
+      - 'scripts/programme_level_subjects.py'
       - 'scripts/programme_verified_facts.py'
       - '.github/workflows/build-programme-seo.yml'
 
@@ -47,6 +48,9 @@ jobs:
           assert len(list(Path("programmes/universities").glob("*.html"))) == 25
           assert Path("programmes/levels/foundation.html").is_file()
           assert Path("programmes/index.html").is_file()
+          assert Path("programmes/subjects/index.html").is_file()
+          assert data["generated_level_subject_pages"] >= 20
+          assert len(list(Path("programmes/subjects").glob("*-malaysia.html"))) >= 20
           root=ET.parse("sitemap.xml").getroot()
           assert len(root) > 80, len(root)
           print("PASS: all", len(root), "URLs,",
