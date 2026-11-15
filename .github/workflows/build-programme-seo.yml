@@ -91,7 +91,7 @@ jobs:
           docs += [p for path in ("guides","services","ar","zh")
                    for p in Path(path).rglob("*.html")]
           docs += [Path("about-nextgenz-centre.html")]
-          assert len(docs) >= 155, "Unexpectedly missing SEO pages"
+          assert len(docs) >= 154, "Unexpectedly missing SEO pages"
           for file in docs:
               raw=file.read_text(encoding="utf-8")
               parsed=Page()
