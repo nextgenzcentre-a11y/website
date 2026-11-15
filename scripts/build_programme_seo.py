@@ -225,13 +225,20 @@ def brand_gallery(path: str) -> str:
             '<figcaption>Compare programmes and request free guidance</figcaption></figure></div>')
 
 def wrap_page(head: str, main: str) -> str:
-    # Keep SEO headings semantically as one H1, while composing their
-    # qualification and specialism with the same expressive display font
-    # treatment used in the homepage DREAM BIG / STUDY IN MALAYSIA hero.
+    # One H1 for SEO, with the homepage's Montserrat / Bangers
+    # mixed headline styling on degree and subject search pages.
     plain_heading = re.search(r'<h1>([^<]+)</h1>', main)
     if plain_heading:
         title = plain_heading.group(1).strip()
-        split = re.match(r'^(Master|Bachelor|Diploma|Foundation|PhD|Doctorate) in (.+) re.search(r'<link rel="canonical" href="https://www.nextgenzcentre.space([^"]+)"', head)
+        split = re.match(r'^(Master|Bachelor|Diploma|Foundation|PhD|Doctorate) in (.+)$', title, re.I)
+        if split:
+            top = h(split.group(1) + " in")
+            standout = h(split.group(2))
+            composed = ('<h1 class="ng-seo-headline">'
+                        '<span class="ng-hero-kicker">' + top + '</span>'
+                        '<span class="accent">' + standout + '</span></h1>')
+            main = main.replace(plain_heading.group(0), composed, 1)
+    path_match = re.search(r'<link rel="canonical" href="https://www.nextgenzcentre.space([^"]+)"', head)
     page_path = path_match.group(1) if path_match else "/programmes/"
     if '<section class="hero">' not in main:
         raise RuntimeError("SEO hero is missing from " + page_path)
