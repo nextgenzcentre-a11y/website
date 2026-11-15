@@ -231,7 +231,7 @@ def generate_topic_pages(records, selected_urls, uni_slugs, write, wrap_page, pa
             main += (
               '<tr><td><a href="' + h(university_url) + '">' + h(e["uni"]) + '</a><small class="catalog-loc">' + h(e["location"]) + '</small></td>'
               '<td><a href="' + h(programme_url) + '">' + h(e["name"]) + '</a></td>'
-              '<td><span class="catalog-money">' + h(e["currency"]) + ' ' + h(e["raw_fee"]) + '</span></td></tr>'
+              '<td><span class="catalog-money">' + h(VERIFIED_PROGRAMMES.get((e["short"],e["name"]),{}).get("public_fee_note") or (e["currency"] + " " + e["raw_fee"] + " (finder reference)")) + '</span></td></tr>'
             )
         main += '</tbody></table></div>'
         # Link to primary university sources where the exact course listing has
