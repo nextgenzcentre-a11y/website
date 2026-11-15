@@ -233,6 +233,11 @@ def write(relative: str, data: str, output: set[str]) -> None:
         path.write_text(data, encoding="utf-8")
     output.add(relative.lstrip("/"))
 
+def public_fee_note(e: dict) -> str:
+    """Prefer documented official estimate where legacy finder data conflicts."""
+    source = VERIFIED_PROGRAMMES.get((e["short"], e["name"]), {})
+    return source.get("public_fee_note") or (e["currency"] + " " + e["raw_fee"] + " (unverified finder reference)")
+
 def main() -> None:
     unis = normalize_unis()
     english_centres = english_centres_from_finder()
@@ -432,9 +437,9 @@ def main() -> None:
                     title = '<a href="' + h(path) + '">' + title + '</a>'
                 else:
                     title = '<strong>' + title + '</strong>'
-                fee = h(e["raw_fee"])
+                fee = h(public_fee_note(e))
                 main += ('<li id="' + e["id"] + '" class="finder-program" data-title="' + h(e["name"].lower()) + '"><span>' + title
-                         + '</span><span class="fee">Finder reference: ' + h(e["currency"]) + ' ' + fee + '</span></li>')
+                         + '</span><span class="fee">' + fee + '</span></li>')
             main += '</ul></section>'
         if official:
             main += '<p><a class="button secondary" target="_blank" rel="noopener noreferrer" href="' + h(official) + '">Check the university’s official website ↗</a></p>'
@@ -478,7 +483,7 @@ def main() -> None:
             main += '<section class="catalog-wide"><h2><a href="' + h(uhref) + '">' + h(name) + '</a></h2><p>' + h(uni.get("location", "Malaysia")) + ' · ' + str(len(entries)) + ' programmes in this study category.</p><ul class="catalog-list">'
             for e in entries:
                 href = selected_urls.get((name, e["name"]), uhref + "#" + e["id"])
-                main += ('<li><a href="' + h(href) + '">' + h(e["name"]) + '</a><span class="fee">' + h(e["currency"]) + ' ' + h(e["raw_fee"]) + ' (finder reference)</span></li>')
+                main += ('<li><a href="' + h(href) + '">' + h(e["name"]) + '</a><span class="fee">' + h(public_fee_note(e)) + '</span></li>')
             main += '</ul></section>'
         main += '<p>For applying to university in Malaysia, review our <a href="/guides/how-to-study-in-malaysia.html">international student admission guide</a> or <a href="/guides/malaysia-student-visa-emgs-guide.html">EMGS visa overview</a>.</p></div></section>'
         write(dest.lstrip("/"), wrap_page(page_head(
@@ -502,7 +507,7 @@ def main() -> None:
           '<div class="catalog-fact"><strong>Institution</strong><span>' + h(e["uni"]) + '</span></div>'
           '<div class="catalog-fact"><strong>Study level grouping</strong><span>' + h(e["level"]) + ' (categorised from title)</span></div>'
           '<div class="catalog-fact"><strong>University location</strong><span>' + h(e["location"]) + '</span></div>'
-          '<div class="catalog-fact"><strong>Finder fee reference</strong><span>' + h(e["currency"]) + ' ' + h(e["raw_fee"]) + '</span></div>'
+          '<div class="catalog-fact"><strong>Finder fee reference' + (' (superseded: see official estimate below)' if (e["short"],e["name"]) in VERIFIED_PROGRAMMES and VERIFIED_PROGRAMMES[(e["short"],e["name"])].get("public_fee_note") else '') + '</strong><span>' + h(e["currency"]) + ' ' + h(e["raw_fee"]) + '</span></div>'
           '<div class="catalog-fact"><strong>Intake reference</strong><span>' + h(e["intakes"] or "Not listed") + '</span></div></div>'
           '<div class="catalog-note"><strong>Fee and intake disclaimer:</strong> These values are taken from the NextGenz programme finder and have not been checked against the university’s current offer. The fee basis may be a semester, year, whole programme or other unit; the reference amount is not a final quotation. Check availability, fees and entry rules with the university before making decisions.</div>'
           '<h2>Is this programme right for you?</h2><p>' + h(level_note(e["level"])) + '</p><p>' + h(subject_note(e["name"])) + '</p>'
