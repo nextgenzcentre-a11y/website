@@ -1908,7 +1908,17 @@ alert('Image reset to original.');
 };
 return (
 <div className={`relative group/editableimg ${wrapperClassName || ''} ${adminMode ? 'z-40 ring-2 ring-[#C5A059] ring-offset-1 rounded' : ''}`}>
-{imageFailed && fallbackText ? <span className="w-full h-full flex items-center justify-center text-xs font-extrabold text-[#0A1633]">{fallbackText}</span> : <img src={currentSrc} alt={alt} onLoad={() => setImageFailed(false)} onError={() => setImageFailed(true)} className={imgClassName || 'w-full h-full object-cover'} />}
+{imageFailed && fallbackText ? <span className="w-full h-full flex items-center justify-center text-xs font-extrabold text-[#0A1633]">{fallbackText}</span> : <img src={currentSrc} alt={alt} onLoad={() => setImageFailed(false)} onError={() => {
+  // Logo lock: if the original external crest host fails, use the exact
+  // crest preserved from the official NextGenz homepage screenshot.
+  // This changes only the displayed image, never Firebase or saved overrides.
+  if (id === 'logo-header' && currentSrc !== '/assets/brand/nextgenz-official-crest-fallback.png') {
+    setCurrentSrc('/assets/brand/nextgenz-official-crest-fallback.png');
+    setImageFailed(false);
+  } else {
+    setImageFailed(true);
+  }
+}} className={imgClassName || 'w-full h-full object-cover'} />}
 {adminMode && (
 <>
 {/* Full-area clickable layer: covers the whole picture at all times (not just on
