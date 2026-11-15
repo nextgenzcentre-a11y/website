@@ -221,6 +221,7 @@ CSS = """
 .catalog-search{max-width:560px;width:100%;border:1px solid #b8d6de;border-radius:12px;padding:13px 16px;font:inherit}
 .catalog-count{color:#476579;font-weight:700;font-size:.9rem}
 .catalog-verified{background:#f3fbf9;border:1px solid #a7dace;border-radius:22px;padding:22px 25px;margin:30px 0}.catalog-verified h2{margin:12px 0 18px}.catalog-verified-eyebrow{font-size:.73rem;font-weight:900;letter-spacing:.05em;color:#086d66}.catalog-verified-list{margin:0 0 16px}.catalog-verified-list>div{margin:14px 0;padding-bottom:12px;border-bottom:1px solid #cce7df}.catalog-verified-list dt{font-weight:900;color:#0b504d}.catalog-verified-list dd{margin:5px 0 0;color:#264a56;line-height:1.75}.catalog-fact-date{color:#4c6f76;font-size:.82rem}.catalog-verified a{font-weight:800}
+.catalog-field-tile[hidden]{display:none!important}.catalog-wide[hidden]{display:none!important}.catalog-search-label{display:block;margin:22px 0 8px;color:#184960}
 .catalog-field-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}.catalog-field-tile{display:flex;flex-direction:column;gap:7px;background:#f6fafc;border:1px solid #cfe6ee;border-radius:15px;padding:18px;text-decoration:none;color:#123d50}.catalog-field-tile strong{font-weight:850;font-size:1rem;color:#125b63}.catalog-field-tile small{color:#547180}.catalog-field-tile span{font-weight:750;color:#0b7770;font-size:.85rem}.catalog-field-tile:hover{border-color:#089c92;background:#eafaf6}@media(max-width:810px){.catalog-field-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:550px){.catalog-field-grid{grid-template-columns:1fr}}
 .catalog-comparison{overflow-x:auto;border:1px solid #dce8ef;border-radius:16px;margin:25px 0}.catalog-table{border-collapse:collapse;width:100%;min-width:620px;font-size:.94rem}.catalog-table th{text-align:left;background:#e7f8f6;color:#1a3c53;padding:13px 15px;font-weight:800}.catalog-table td{border-bottom:1px solid #e5edf2;padding:13px 15px;vertical-align:top}.catalog-table tr:last-child td{border-bottom:0}.catalog-table a{font-weight:700}.catalog-loc{display:block;color:#667d8d;margin-top:3px;font-size:.77rem}.catalog-money{font-weight:700;color:#3b5872;white-space:nowrap}
 @media(max-width:650px){.catalog-facts{grid-template-columns:1fr}.catalog-wide{padding:20px}.catalog-list li{display:block}.catalog-list .fee{display:block;margin-top:4px}}
@@ -347,7 +348,7 @@ def main() -> None:
     for lev in ("Foundation","Diploma","Bachelor","Master","Doctorate"):
         if any(key[0] == lev for key in subject_pages):
             subject_body += '<a href="#' + lev.lower() + '-fields">' + h(LEVEL_LABELS[lev]) + ' programmes</a>'
-    subject_body += '</div>'
+    subject_body += '</div><label for="subjectSearch" class="catalog-search-label"><strong>Search fields and degree levels</strong></label><input type="search" class="catalog-search" id="subjectSearch" aria-label="Search all qualification subjects" placeholder="e.g. Computer Science, Pharmacy, Nursing..."><p id="subjectCount" class="catalog-count" aria-live="polite">' + str(len(subject_pages)) + ' study-level subject options</p>'
     for lev in ("Foundation","Diploma","Bachelor","Master","Doctorate"):
         in_level = [(field, subject_pages[(lev,field["slug"])]) for field in FIELDS if (lev,field["slug"]) in subject_pages]
         if not in_level:
@@ -357,6 +358,14 @@ def main() -> None:
             subject_body += ('<a class="catalog-field-tile" href="' + h(info["path"]) + '"><strong>' + h(field["name"]) + '</strong><small>' + str(info["entries"]) + ' course listings · ' + str(info["universities"]) + ' universities</small><span>Compare ' + h(LEVEL_LABELS[lev]) + ' programmes →</span></a>')
         subject_body += '</div></section>'
     subject_body += '<p>Not finding the exact course name? <a href="/programmes/">Browse all 1,182 university programme listings</a>, including courses that do not yet have a subject-specific comparison page. Our team can help clarify the official programme title and admission rules.</p><p><a class="button" href="/services/education-consultant-malaysia.html">Free education consultant guidance</a></p></div></section>'
+    subject_body += ('<script>document.getElementById("subjectSearch").addEventListener("input",function(){'
+                     'var q=this.value.trim().toLowerCase();var visible=0;'
+                     'document.querySelectorAll(".catalog-field-tile").forEach(function(el){'
+                     'var show=el.textContent.toLowerCase().includes(q);el.hidden=!show;if(show)visible++;});'
+                     'document.querySelectorAll(".catalog-field-grid").forEach(function(grid){'
+                     'var section=grid.closest(".catalog-wide");if(section)section.hidden=!grid.querySelector(".catalog-field-tile:not([hidden])");});'
+                     'document.getElementById("subjectCount").textContent=visible+" study-level subject options";'
+                     '});</script>')
     write("programmes/subjects/index.html", wrap_page(page_head(
       "Master, Bachelor, Diploma Courses in Malaysia | Subjects",
       "Compare Masters, Bachelors, Diploma, Foundation and PhD programmes in Malaysia by subject. Search real university titles and check admissions.",
