@@ -18,4 +18,5 @@
 .catalog-fact span{font-size:.96rem;color:#445b72}
 .catalog-search{max-width:560px;width:100%;border:1px solid #b8d6de;border-radius:12px;padding:13px 16px;font:inherit}
 .catalog-count{color:#476579;font-weight:700;font-size:.9rem}
+.catalog-comparison{overflow-x:auto;border:1px solid #dce8ef;border-radius:16px;margin:25px 0}.catalog-table{border-collapse:collapse;width:100%;min-width:620px;font-size:.94rem}.catalog-table th{text-align:left;background:#e7f8f6;color:#1a3c53;padding:13px 15px;font-weight:800}.catalog-table td{border-bottom:1px solid #e5edf2;padding:13px 15px;vertical-align:top}.catalog-table tr:last-child td{border-bottom:0}.catalog-table a{font-weight:700}.catalog-loc{display:block;color:#667d8d;margin-top:3px;font-size:.77rem}.catalog-money{font-weight:700;color:#3b5872;white-space:nowrap}
 @media(max-width:650px){.catalog-facts{grid-template-columns:1fr}.catalog-wide{padding:20px}.catalog-list li{display:block}.catalog-list .fee{display:block;margin-top:4px}}
