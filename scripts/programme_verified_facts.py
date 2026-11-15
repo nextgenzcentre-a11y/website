@@ -73,6 +73,7 @@ VERIFIED_PROGRAMMES = {
   },
   ("UCSI", "Foundation in Arts"): {
     "official_name": "Foundation in Arts",
+    "public_fee_note": "UCSI official approx. international total: MYR 44,940 (country-dependent); old finder reference MYR 20,000",
     "source_url": "https://www.ucsiuniversity.edu.my/programmes/foundation-in-arts",
     "source_label": "UCSI University official Foundation in Arts programme page",
     "facts": [
