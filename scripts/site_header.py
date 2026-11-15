@@ -6,10 +6,10 @@ All homepage section links resolve from subpages via "/#..." URLs.
 """
 from html import escape
 
-# The official homepage CDN has failed on some pages. Serve a first-party
-# screenshot-extracted copy of that exact crest to eliminate broken images.
-# A higher-resolution upload can replace the local file without changing pages.
-BRAND_CREST = "/assets/brand/nextgenz-official-crest-fallback.png"
+# Original artwork recovered from NextGenz Centre's own Google Drive Logo.png.
+# A transparent high-resolution crop of the genuine crest is hosted locally.
+# Use a versioned URL to prevent any stale low-resolution screenshot caches.
+BRAND_CREST = "/assets/brand/nextgenz-official-crest-fallback.png?v=drive-original-20261115"
 ORIGINAL_CREST_CDN = "https://cdn.phototourl.com/free/2026-07-29-bc15283f-aa7c-4900-ba80-03dc631dd663.png"
 NAV_LINKS = (
     ("Universities", "/#universities"),
