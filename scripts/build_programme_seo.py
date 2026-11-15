@@ -24,6 +24,7 @@ import unicodedata
 from programme_topics import TOPICS, matching_topics, generate_topic_pages
 from programme_verified_facts import VERIFIED_PROGRAMMES
 from programme_level_subjects import FIELDS, LEVEL_LABELS, generate_level_subject_pages
+from site_header import header_html
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_BASE = "https://www.nextgenzcentre.space"
@@ -253,14 +254,7 @@ def wrap_page(head: str, main: str) -> str:
             main = main.replace('</article>', gallery + '</article>', 1)
     return (
       head
-      + '<header class="nav"><div class="wrap nav-inner">'
-      '<a href="/" class="brand">NEXTGENZ <span>CENTRE</span></a>'
-      '<nav class="nav-actions" aria-label="Website navigation">'
-      '<a href="/">Home</a><a href="/programmes/">University programmes</a>'
-      '<a href="/services/education-consultant-malaysia.html">Education consultant</a>'
-      '<a href="/guides/">Study guides</a>'
-      '<a class="cta" href="https://wa.me/601167701210">Free guidance</a>'
-      '</nav></div></header><main>'
+      + header_html() + '<main>'
       + main +
       '</main><footer class="foot"><div class="wrap foot-flex">'
       '<div><strong>NEXTGENZ CENTRE</strong><p>Programme comparisons for international students planning to study in Malaysia.</p>'
