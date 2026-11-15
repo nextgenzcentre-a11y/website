@@ -22,6 +22,7 @@ import json
 import re
 import unicodedata
 from programme_topics import TOPICS, matching_topics, generate_topic_pages
+from programme_verified_facts import VERIFIED_PROGRAMMES
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_BASE = "https://www.nextgenzcentre.space"
@@ -218,6 +219,7 @@ CSS = """
 .catalog-fact span{font-size:.96rem;color:#445b72}
 .catalog-search{max-width:560px;width:100%;border:1px solid #b8d6de;border-radius:12px;padding:13px 16px;font:inherit}
 .catalog-count{color:#476579;font-weight:700;font-size:.9rem}
+.catalog-verified{background:#f3fbf9;border:1px solid #a7dace;border-radius:22px;padding:22px 25px;margin:30px 0}.catalog-verified h2{margin:12px 0 18px}.catalog-verified-eyebrow{font-size:.73rem;font-weight:900;letter-spacing:.05em;color:#086d66}.catalog-verified-list{margin:0 0 16px}.catalog-verified-list>div{margin:14px 0;padding-bottom:12px;border-bottom:1px solid #cce7df}.catalog-verified-list dt{font-weight:900;color:#0b504d}.catalog-verified-list dd{margin:5px 0 0;color:#264a56;line-height:1.75}.catalog-fact-date{color:#4c6f76;font-size:.82rem}.catalog-verified a{font-weight:800}
 .catalog-comparison{overflow-x:auto;border:1px solid #dce8ef;border-radius:16px;margin:25px 0}.catalog-table{border-collapse:collapse;width:100%;min-width:620px;font-size:.94rem}.catalog-table th{text-align:left;background:#e7f8f6;color:#1a3c53;padding:13px 15px;font-weight:800}.catalog-table td{border-bottom:1px solid #e5edf2;padding:13px 15px;vertical-align:top}.catalog-table tr:last-child td{border-bottom:0}.catalog-table a{font-weight:700}.catalog-loc{display:block;color:#667d8d;margin-top:3px;font-size:.77rem}.catalog-money{font-weight:700;color:#3b5872;white-space:nowrap}
 @media(max-width:650px){.catalog-facts{grid-template-columns:1fr}.catalog-wide{padding:20px}.catalog-list li{display:block}.catalog-list .fee{display:block;margin-top:4px}}
 """
@@ -304,6 +306,14 @@ def main() -> None:
         if len(seen_uni) >= 12:
             break
 
+    # Publish carefully fact-checked university programmes even when the
+    # staged SEO selector would otherwise pick a different course.
+    for e in records:
+        if (e["short"], e["name"]) in VERIFIED_PROGRAMMES:
+            selected[(e["uni"], e["name"])] = e
+    found_verified = {(e["short"], e["name"]) for e in selected.values() if (e["short"], e["name"]) in VERIFIED_PROGRAMMES}
+    if len(found_verified) != len(VERIFIED_PROGRAMMES):
+        raise RuntimeError("A verified programme entry disappeared from the finder: " + str(set(VERIFIED_PROGRAMMES)-found_verified))
     for e in selected.values():
         e["detail"] = "/programmes/courses/" + e["uslug"] + "/" + e["id"] + ".html"
     selected_urls = {k: v["detail"] for k, v in selected.items()}
@@ -509,6 +519,26 @@ def main() -> None:
           '</article><aside class="aside"><h2>Ask about this course</h2><p>Tell us your qualifications, study budget and intended intake so we can discuss what to confirm with the university.</p>'
           '<a class="button" href="https://wa.me/601167701210?text=' + quote("Please guide me on " + e["name"] + " at " + e["uni"]) + '">Free programme advice ↗</a><p><small>Our advisory fee is free. Official charges may apply.</small></p></aside></div></div></section>'
         )
+        # Independent source-check section. Finder's original amounts remain
+        # unchanged, while up-to-date university facts appear with attribution.
+        checked = VERIFIED_PROGRAMMES.get((e["short"], e["name"]))
+        if checked:
+            verified = '<section class="catalog-verified" aria-labelledby="verified-facts-heading"><div class="catalog-verified-eyebrow">OFFICIAL UNIVERSITY SOURCE · VERIFIED 15 NOVEMBER 2026</div>'
+            verified += '<h2 id="verified-facts-heading">Current information from ' + h(e["uni"]) + '</h2>'
+            if checked["official_name"] != e["name"]:
+                verified += '<p><strong>Official programme name:</strong> ' + h(checked["official_name"]) + '. The NextGenz finder title uses a slightly different label, so confirm the exact award on your application.</p>'
+            verified += '<dl class="catalog-verified-list">'
+            for label, fact in checked["facts"]:
+                verified += '<div><dt>' + h(label) + '</dt><dd>' + h(fact) + '</dd></div>'
+            verified += '</dl><p>' + h(checked["advice"]) + '</p>'
+            verified += '<p><a href="' + h(checked["source_url"]) + '" target="_blank" rel="noopener noreferrer">View original university programme source ↗</a></p>'
+            if checked.get("second_source_url"):
+                verified += '<p><a href="' + h(checked["second_source_url"]) + '" target="_blank" rel="noopener noreferrer">' + h(checked["second_source_label"]) + ' ↗</a></p>'
+            verified += '<p class="catalog-fact-date">Source reviewed 15 November 2026. University pages can change; verify the latest admissions and fee conditions before paying.</p></section>'
+            marker = '<h2>Is this programme right for you?</h2>'
+            if main.count(marker) != 1:
+                raise RuntimeError("Could not add official facts to programme "+ e["name"])
+            main = main.replace(marker, verified + marker, 1)
         if '</article><aside' not in main:
             raise RuntimeError("Could not insert relevant course comparison links")
         cross_links = [t for t in matching_topics(e) if t["slug"] in topic_pages]
@@ -551,6 +581,7 @@ def main() -> None:
       "distinct_programme_names": unique_names,
       "detailed_programme_pages": len(selected),
       "topic_comparison_pages": len(topic_pages),
+      "university_verified_programme_pages": len(found_verified),
       "english_language_centres": len(english_centres),
       "english_course_reference_entries": english_count,
       "generated_files": sorted(outputs)
@@ -574,7 +605,7 @@ def main() -> None:
 
     print(json.dumps({
         "universities":len(unis),"source_listings":len(records),
-        "distinct_names":unique_names,"detailed_pages":len(selected),"topic_pages":len(topic_pages),
+        "distinct_names":unique_names,"detailed_pages":len(selected),"topic_pages":len(topic_pages),"official_source_verified":len(found_verified),
         "university_pages":len(unis),"study_level_pages":len(LEVELS),
         "published_html":len(links),"sitemap_total":sm.count("<url>")
     },ensure_ascii=False))
