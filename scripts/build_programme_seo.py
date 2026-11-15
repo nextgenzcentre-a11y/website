@@ -23,6 +23,7 @@ import re
 import unicodedata
 from programme_topics import TOPICS, matching_topics, generate_topic_pages
 from programme_verified_facts import VERIFIED_PROGRAMMES
+from programme_level_subjects import FIELDS, LEVEL_LABELS, generate_level_subject_pages
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_BASE = "https://www.nextgenzcentre.space"
@@ -220,6 +221,7 @@ CSS = """
 .catalog-search{max-width:560px;width:100%;border:1px solid #b8d6de;border-radius:12px;padding:13px 16px;font:inherit}
 .catalog-count{color:#476579;font-weight:700;font-size:.9rem}
 .catalog-verified{background:#f3fbf9;border:1px solid #a7dace;border-radius:22px;padding:22px 25px;margin:30px 0}.catalog-verified h2{margin:12px 0 18px}.catalog-verified-eyebrow{font-size:.73rem;font-weight:900;letter-spacing:.05em;color:#086d66}.catalog-verified-list{margin:0 0 16px}.catalog-verified-list>div{margin:14px 0;padding-bottom:12px;border-bottom:1px solid #cce7df}.catalog-verified-list dt{font-weight:900;color:#0b504d}.catalog-verified-list dd{margin:5px 0 0;color:#264a56;line-height:1.75}.catalog-fact-date{color:#4c6f76;font-size:.82rem}.catalog-verified a{font-weight:800}
+.catalog-field-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}.catalog-field-tile{display:flex;flex-direction:column;gap:7px;background:#f6fafc;border:1px solid #cfe6ee;border-radius:15px;padding:18px;text-decoration:none;color:#123d50}.catalog-field-tile strong{font-weight:850;font-size:1rem;color:#125b63}.catalog-field-tile small{color:#547180}.catalog-field-tile span{font-weight:750;color:#0b7770;font-size:.85rem}.catalog-field-tile:hover{border-color:#089c92;background:#eafaf6}@media(max-width:810px){.catalog-field-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:550px){.catalog-field-grid{grid-template-columns:1fr}}
 .catalog-comparison{overflow-x:auto;border:1px solid #dce8ef;border-radius:16px;margin:25px 0}.catalog-table{border-collapse:collapse;width:100%;min-width:620px;font-size:.94rem}.catalog-table th{text-align:left;background:#e7f8f6;color:#1a3c53;padding:13px 15px;font-weight:800}.catalog-table td{border-bottom:1px solid #e5edf2;padding:13px 15px;vertical-align:top}.catalog-table tr:last-child td{border-bottom:0}.catalog-table a{font-weight:700}.catalog-loc{display:block;color:#667d8d;margin-top:3px;font-size:.77rem}.catalog-money{font-weight:700;color:#3b5872;white-space:nowrap}
 @media(max-width:650px){.catalog-facts{grid-template-columns:1fr}.catalog-wide{padding:20px}.catalog-list li{display:block}.catalog-list .fee{display:block;margin-top:4px}}
 """
@@ -326,6 +328,40 @@ def main() -> None:
     outputs = set()
     write("programmes/catalog.css", CSS, outputs)
     topic_pages = generate_topic_pages(records, selected_urls, uni_slugs, write, wrap_page, page_head, h, outputs)
+    subject_pages = generate_level_subject_pages(records, selected_urls, write, wrap_page, page_head, h, outputs, public_fee_note)
+    subject_count = sum(not info["editorial"] for info in subject_pages.values())
+    if subject_count < 20:
+        raise RuntimeError("Too few legitimate multi-university programme subject pages: " + str(subject_count))
+
+    # Navigable university subject index, grounded in real course titles.
+    subject_index = "/programmes/subjects/"
+    subject_body = (
+      '<section class="hero"><div class="wrap"><span class="eyebrow">FIND YOUR QUALIFICATION IN MALAYSIA</span>'
+      '<h1>Search <span class="accent">Bachelor, Master, Diploma and Foundation programmes</span> by subject</h1>'
+      '<p class="lead">Find an academic field, choose your study level and compare named programmes listed at Malaysian universities. This directory derives the subject choices directly from our programme finder; it includes only fields with multiple university options and clear course names.</p>'
+      '<div class="catalog-stats"><span>' + str(len(records)) + ' programme listings</span><span>' + str(len(unis)) + ' universities</span><span>' + str(len(subject_pages)) + ' subject and level pathways</span></div></div></section>'
+      '<section class="section"><div class="wrap">'
+      '<div class="catalog-note">A subject match does not prove the programme is currently offered, available to international applicants, or professionally recognised for a particular purpose. Check the exact award, campus, admissions rules and current written tuition information with each university.</div>'
+      '<div class="catalog-links">'
+    )
+    for lev in ("Foundation","Diploma","Bachelor","Master","Doctorate"):
+        if any(key[0] == lev for key in subject_pages):
+            subject_body += '<a href="#' + lev.lower() + '-fields">' + h(LEVEL_LABELS[lev]) + ' programmes</a>'
+    subject_body += '</div>'
+    for lev in ("Foundation","Diploma","Bachelor","Master","Doctorate"):
+        in_level = [(field, subject_pages[(lev,field["slug"])]) for field in FIELDS if (lev,field["slug"]) in subject_pages]
+        if not in_level:
+            continue
+        subject_body += ('<section class="catalog-wide" id="' + lev.lower() + '-fields"><h2>' + h(LEVEL_LABELS[lev]) + ' by subject in Malaysia</h2><p>Explore actual programme names and universities, then verify subject requirements and current admission dates for your preferred course.</p><div class="catalog-field-grid">')
+        for field,info in in_level:
+            subject_body += ('<a class="catalog-field-tile" href="' + h(info["path"]) + '"><strong>' + h(field["name"]) + '</strong><small>' + str(info["entries"]) + ' course listings · ' + str(info["universities"]) + ' universities</small><span>Compare ' + h(LEVEL_LABELS[lev]) + ' programmes →</span></a>')
+        subject_body += '</div></section>'
+    subject_body += '<p>Not finding the exact course name? <a href="/programmes/">Browse all 1,182 university programme listings</a>, including courses that do not yet have a subject-specific comparison page. Our team can help clarify the official programme title and admission rules.</p><p><a class="button" href="/services/education-consultant-malaysia.html">Free education consultant guidance</a></p></div></section>'
+    write("programmes/subjects/index.html", wrap_page(page_head(
+      "Master, Bachelor, Diploma Courses in Malaysia | Subjects",
+      "Compare Masters, Bachelors, Diploma, Foundation and PhD programmes in Malaysia by subject. Search real university titles and check admissions.",
+      subject_index, {"@context":"https://schema.org","@type":"CollectionPage","name":"Malaysian University Programmes by Study Level and Subject","url":PUBLIC_BASE+subject_index}
+    ),subject_body), outputs)
     # English language centres also appear in the website's public directory,
     # separately from the original 25-university portal programme finder.
     english_path = "/programmes/english-language-centres.html"
@@ -377,7 +413,7 @@ def main() -> None:
         about += ('<a class="tile" data-tone="teal" href="' + href + '"><span class="tag">Malaysia degree pathways</span>'
                   '<h2>' + LABELS[level] + '</h2><p>' + str(counts[level]) + ' programme listings from the finder, organized by university.</p>'
                   '<span class="arrow">Explore programmes →</span></a>')
-    about += '</div><h2>Compare popular programme subjects</h2><p>Use these focused course comparisons to weigh real programme names across different Malaysian universities. They are reference listings, not guarantees of current admission or tuition.</p><div class="grid">' 
+    about += '</div><h2>Find a Bachelor, Master or Diploma in your subject</h2><p>Whether you search for a Master in Computer Science, Bachelor in Pharmacy, Diploma in Information Technology or another qualification, start with the linked subject-and-level comparisons drawn from our programme finder.</p><p><a class="button" href="/programmes/subjects/">Find courses by subject and study level →</a></p><h2>Compare popular programme subjects</h2><p>Use these focused course comparisons to weigh real programme names across different Malaysian universities. They are reference listings, not guarantees of current admission or tuition.</p><div class="grid">' 
     for topic in TOPICS:
         if topic["slug"] not in topic_pages:
             continue
@@ -473,6 +509,13 @@ def main() -> None:
             main += '<h2>Compare related ' + h(lev.lower()) + ' programme types</h2><div class="catalog-links">'
             for topic in related_topics:
                 main += '<a href="' + topic_pages[topic["slug"]]["url"] + '">' + h(topic["label"]) + '</a>'
+            main += '</div>'
+        subject_links = [(field, subject_pages[(lev,field["slug"])])
+                         for field in FIELDS if (lev,field["slug"]) in subject_pages]
+        if subject_links:
+            main += '<h2>Search ' + h(lev.lower()) + ' courses by subject</h2><div class="catalog-links">'
+            for field, info in subject_links:
+                main += '<a href="' + h(info["path"]) + '">' + h(field["name"]) + '</a>'
             main += '</div>'
         for uni in unis:
             name = str(uni["university"])
@@ -586,6 +629,8 @@ def main() -> None:
       "distinct_programme_names": unique_names,
       "detailed_programme_pages": len(selected),
       "topic_comparison_pages": len(topic_pages),
+      "generated_level_subject_pages": subject_count,
+      "all_subject_level_paths": len(subject_pages),
       "university_verified_programme_pages": len(found_verified),
       "english_language_centres": len(english_centres),
       "english_course_reference_entries": english_count,
@@ -600,7 +645,7 @@ def main() -> None:
     sm = re.sub(r"\s+</urlset>", "\n</urlset>", sm)
     links = sorted(x for x in outputs if x.endswith(".html"))
     auto_xml = SITEMAP_START + "\n" + "\n".join(
-      "  <url><loc>" + PUBLIC_BASE + ("/programmes/" if url == "programmes/index.html" else "/" + url)
+      "  <url><loc>" + PUBLIC_BASE + ("/" + url[:-len("index.html")] if url.endswith("/index.html") else "/" + url)
       + "</loc><lastmod>" + TODAY + "</lastmod></url>" for url in links
     ) + "\n" + SITEMAP_END + "\n"
     if "</urlset>" not in sm:
@@ -610,7 +655,7 @@ def main() -> None:
 
     print(json.dumps({
         "universities":len(unis),"source_listings":len(records),
-        "distinct_names":unique_names,"detailed_pages":len(selected),"topic_pages":len(topic_pages),"official_source_verified":len(found_verified),
+        "distinct_names":unique_names,"detailed_pages":len(selected),"topic_pages":len(topic_pages),"subject_level_pages":subject_count,"official_source_verified":len(found_verified),
         "university_pages":len(unis),"study_level_pages":len(LEVELS),
         "published_html":len(links),"sitemap_total":sm.count("<url>")
     },ensure_ascii=False))
