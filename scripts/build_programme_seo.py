@@ -169,6 +169,8 @@ def page_head(title: str, desc: str, path: str, schema: dict | None = None) -> s
       '<title>' + h(title) + '</title>'
       '<meta name="description" content="' + h(desc[:155]) + '">'
       '<meta name="robots" content="index,follow,max-image-preview:large">'
+      '<link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">'
+      '<link rel="shortcut icon" type="image/png" href="/favicon.png">'
       '<link rel="canonical" href="' + h(canonical) + '">'
       '<meta property="og:type" content="website">'
       '<meta property="og:title" content="' + h(title) + '">'
