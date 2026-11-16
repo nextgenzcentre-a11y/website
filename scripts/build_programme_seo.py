@@ -480,6 +480,8 @@ def main() -> None:
       '<div class="catalog-stats"><span>' + str(len(unis)) + ' universities</span><span>' + str(len(records)) + ' listed university programmes</span><span>' + str(unique_names) + ' distinct programme names</span></div></div></section>'
       '<section class="section"><div class="wrap">'
       '<div class="catalog-note"><strong>Important:</strong> These are reference records in our programme finder, not a live official university admissions database. Some programme names group multiple awards. Fees, campus availability, study mode, intakes and entry requirements must be verified directly with the institution. Inclusion does not imply a confirmed university recruitment partnership.</div>'
+      '<h2>Start with university admission guidance</h2>'
+      '<p>New to studying in Malaysia? Read our <a href="/guides/how-to-study-in-malaysia.html">international student application guide</a>, learn what an <a href="/services/education-consultant-malaysia.html">education consultant in Malaysia</a> can help with, or explore <a href="/guides/english-courses-in-malaysia.html">English language courses</a> before selecting a university. Compare <a href="/programmes/levels/bachelor.html">bachelor degree programmes in Malaysia</a> by university using the level directory below.</p>'
       '<h2>Search by study level</h2><div class="grid">'
     )
     for level in LEVELS:
@@ -579,6 +581,9 @@ def main() -> None:
           '<section class="section"><div class="wrap"><div class="catalog-note">' + h(level_note(lev)) + ' All names and fee amounts come from the NextGenz Centre finder. They require verification with the institution before applying or paying.</div>'
           '<p><a class="button" href="/services/education-consultant-malaysia.html">Talk to an education consultant</a><a class="button secondary" href="/programmes/">Browse all study levels</a></p>'
         )
+        if lev == "Bachelor":
+            main += ('<h2>How to compare bachelor degree programmes in Malaysia</h2>'
+                     '<p>Start by checking whether your academic qualification meets each university\'s entry rules, then compare campus, teaching language, tuition basis and current intake dates. Read the <a href="/guides/how-to-study-in-malaysia.html">international student university application guide</a>, see <a href="/services/education-consultant-malaysia.html">education consultant guidance</a>, or explore <a href="/guides/english-courses-in-malaysia.html">English preparation pathways</a> if needed. These finder entries are reference listings; confirm the current programme details with the institution.</p>')
         related_topics = [t for t in TOPICS if t["level"] == lev and t["slug"] in topic_pages]
         if related_topics:
             main += '<h2>Compare related ' + h(lev.lower()) + ' programme types</h2><div class="catalog-links">'
