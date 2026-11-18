@@ -145,18 +145,6 @@ def subject_note(name: str) -> str:
             return note
     return "Before selecting any programme, compare its curriculum, university award, entry requirements and the latest intake information from the official provider."
 
-def seo_program_title(title: str, uni_code: str) -> str:
-    """Keep concise titles without losing the complete visible H1 name."""
-    suffix = " | " + uni_code + " Malaysia"
-    max_name = max(20, 60 - len(suffix))
-    if len(title) <= max_name:
-        return title + suffix
-    shortened = title[:max_name]
-    if " " in shortened:
-        shortened = shortened.rsplit(" ", 1)[0]
-    shortened = shortened.rstrip(" -/(,")
-    return shortened + suffix
-
 def page_head(title: str, desc: str, path: str, schema: dict | None = None) -> str:
     canonical = PUBLIC_BASE + path
     jsonld = ""
@@ -467,7 +455,7 @@ def main() -> None:
         '</div></section>'
     )
     write(english_path.lstrip("/"), wrap_page(page_head(
-        "English Language Courses in Malaysia | Centre Comparison",
+        "English Courses in Malaysia: Compare 7 Language Centres",
         "Compare English language courses, General English and IELTS preparation at seven language centres in Malaysia. Check course names, locations and admission guidance.",
         english_path, {"@context":"https://schema.org","@type":"CollectionPage","name":"English Language Courses at Malaysia Language Centres","url":PUBLIC_BASE+english_path}
     ),english_main),outputs)
@@ -484,7 +472,7 @@ def main() -> None:
       '<div class="catalog-note"><strong>Important:</strong> These are reference records in our programme finder, not a live official university admissions database. Some programme names group multiple awards. Fees, campus availability, study mode, intakes and entry requirements must be verified directly with the institution. Inclusion does not imply a confirmed university recruitment partnership.</div>'
       '<h2>Start with university admission guidance</h2>'
       '<p>New to studying in Malaysia? Read our <a href="/guides/how-to-study-in-malaysia.html">international student application guide</a>, learn what an <a href="/services/education-consultant-malaysia.html">education consultant in Malaysia</a> can help with, or explore <a href="/guides/english-courses-in-malaysia.html">English language courses</a> before selecting a university. Compare <a href="/programmes/levels/bachelor.html">bachelor degree programmes in Malaysia</a> by university using the level directory below.</p>'
-      '<h2>Search by study level</h2><div class="grid">'
+      '<h2>Find a specific course</h2><p>Compare <a href="/programmes/english-language-centres.html">English courses and IELTS preparation at seven language centres</a>, or review individual university options including <a href="/programmes/courses/um/foundation-in-life-sciences-a5be48.html">Foundation in Life Sciences at Universiti Malaya</a> and <a href="/programmes/courses/apu/foundation-in-engineering-f881b5.html">Foundation in Engineering at APU</a>.</p><h2>Search by study level</h2><div class="grid">'
     )
     for level in LEVELS:
         href = "/programmes/levels/" + LEVEL_SLUG[level] + ".html"
@@ -513,7 +501,7 @@ def main() -> None:
       '</div></section>'
     )
     write("programmes/index.html", wrap_page(page_head(
-        "Malaysia University Programmes | NextGenz Centre Finder",
+        "University Courses in Malaysia: Compare Programmes by University",
         "Explore 1,182 university programme listings across 25 Malaysian universities. Search foundation, diploma, bachelor's, master's and PhD courses by university.",
         "/programmes/", {"@context":"https://schema.org","@type":"CollectionPage","name":"Malaysia University Programmes","url":PUBLIC_BASE+"/programmes/","isPartOf":{"@type":"WebSite","name":"NextGenz Centre","url":PUBLIC_BASE}}
     ),about),outputs)
@@ -612,7 +600,7 @@ def main() -> None:
             main += '</ul></section>'
         main += '<p>For applying to university in Malaysia, review our <a href="/guides/how-to-study-in-malaysia.html">international student admission guide</a> or <a href="/guides/malaysia-student-visa-emgs-guide.html">EMGS visa overview</a>.</p></div></section>'
         write(dest.lstrip("/"), wrap_page(page_head(
-            LABELS[lev] + " in Malaysia | NextGenz Centre",
+            ("Bachelor’s Degrees in Malaysia by Subject and University" if lev == "Bachelor" else LABELS[lev] + " in Malaysia | NextGenz Centre"),
             "Search " + LABELS[lev].lower() + " at Malaysian universities. Explore official institutions, named programmes and admissions guidance for international students.",
             dest, {"@context":"https://schema.org","@type":"CollectionPage","name":LABELS[lev]+" in Malaysia","url":PUBLIC_BASE+dest}
         ),main),outputs)
@@ -684,7 +672,7 @@ def main() -> None:
             related += '</ul>'
         main = main.replace('</article><aside', related + '</article><aside', 1)
         write(dest.lstrip("/"),wrap_page(page_head(
-            seo_program_title(e["name"], e["short"]),
+            e["name"] + " at " + e["uni"],
             "Explore " + e["name"] + " at " + e["uni"] + " in Malaysia. Compare finder fee reference, university admissions and student application steps.",
             dest,
             {"@context":"https://schema.org","@type":"WebPage","name":e["name"]+" at "+e["uni"],"url":PUBLIC_BASE+dest,"about":{"@type":"EducationalOrganization","name":e["uni"]}}
