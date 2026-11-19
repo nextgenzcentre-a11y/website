@@ -6399,6 +6399,7 @@ function ProgramFinderApp({ currentUser, onSelectProgram }) {
                  <button className="download-btn" onClick={downloadCSV}>
                    📥 {t("Download CSV", "تحميل CSV")}
                  </button>
+                 {sortOption.startsWith("price") && matchingUniversities.every(u => !Number.isFinite(u.minPrice)) && <small>{t("These fees have no comparable international annual basis. Results remain in catalogue order.","لا تتوفر رسوم سنوية للطلاب الدوليين قابلة للمقارنة. تظهر النتائج بترتيب الدليل.")}</small>}
                  <span className="input-label" style={{marginBottom:0}}>
                    {t("Sort By:", "ترتيب حسب:")}
                  </span>
@@ -6472,7 +6473,7 @@ function ProgramFinderApp({ currentUser, onSelectProgram }) {
                               <div style={{display:'flex', flexDirection:'column'}}>
                                 <span className="spec-badge">📝 {t("IELTS:", "الآيلتس:")} {specs.ielts}</span>
                                 {specs.ielts && specs.ielts !== "Check Website" && specs.ielts !== "راجع الموقع" && (
-                                  <a href={`https://wa.link/12k9wf?text=${ieltsWa}`} target="_blank" rel="noopener noreferrer" className="ielts-upsell">
+                                  <a href={makeWhatsAppHref(decodeURIComponent(ieltsWa))} target="_blank" rel="noopener noreferrer" className="ielts-upsell">
                                     {t("Need help reaching this score?", "هل تحتاج مساعدة للوصول لهذه الدرجة؟")}
                                   </a>
                                 )}
@@ -6497,9 +6498,10 @@ function ProgramFinderApp({ currentUser, onSelectProgram }) {
                       </div>
                       
                       <div className="card-actions">
-                        <a href={`https://wa.link/12k9wf?text=${waText}`} target="_blank" rel="noopener noreferrer" className="consult-btn">
-                          {t("Consult an Expert", "استشر خبيراً")}
+                        <a href={makeWhatsAppHref(decodeURIComponent(waText))} target="_blank" rel="noopener noreferrer" className="consult-btn">
+                          {t("Free Consultation on WhatsApp", "استشارة مجانية عبر واتساب")}
                         </a>
+                        <WhatsAppLink className="website-link" message={t("Please start my free application to " + u.university, "أرغب في بدء طلب التقديم إلى " + u.university)}>{t("Apply Now","قدّم الآن")}</WhatsAppLink>
                         <a href={u.website} target="_blank" rel="noopener noreferrer" className="website-link">
                           {t("Visit Website", "زيارة الموقع")}
                         </a>
@@ -6521,6 +6523,7 @@ function ProgramFinderApp({ currentUser, onSelectProgram }) {
 
         </div> 
         
+        <NGCatalogueActions topic={selectedSpecialty || search || t("university programmes in Malaysia","البرامج الجامعية في ماليزيا")} arabic={lang === "ar"}/>
         {/* COMPARE BAR */}
         {shortlist.length > 0 && (
           <div className="compare-bar">

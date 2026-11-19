@@ -23,9 +23,8 @@ import re
 import unicodedata
 from programme_topics import TOPICS, matching_topics, generate_topic_pages
 from programme_verified_facts import VERIFIED_PROGRAMMES
-from programme_level_subjects import FIELDS, LEVEL_LABELS, generate_level_subject_pages
+from programme_level_subjects import FIELDS, LEVEL_LABELS, field_for, generate_level_subject_pages
 from programme_actions import add_page_actions, fee_link
-from programme_level_subjects import field_for
 from site_header import header_html
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -415,7 +414,7 @@ def main() -> None:
         for field,info in in_level:
             subject_body += ('<a class="catalog-field-tile" href="' + h(info["path"]) + '"><strong>' + h(field["name"]) + '</strong><small>' + str(info["entries"]) + ' course listings · ' + str(info["universities"]) + ' universities</small><span>Compare ' + h(LEVEL_LABELS[lev]) + ' programmes →</span></a>')
         subject_body += '</div></section>'
-    subject_body += '<p>Not finding the exact course name? <a href="/programmes/">Browse all 1,182 university programme listings</a>, including courses that do not yet have a subject-specific comparison page. Our team can help clarify the official programme title and admission rules.</p><p><a class="button" href="/services/education-consultant-malaysia.html">Free education consultant guidance</a></p></div></section>'
+    subject_body += '<p>Not finding the exact course name? <a href="/programmes/">Browse all ' + format(len(records), ",") + ' university programme listings</a>, including courses that do not yet have a subject-specific comparison page. Our team can help clarify the official programme title and admission rules.</p><p><a class="button" href="/services/education-consultant-malaysia.html">Free education consultant guidance</a></p></div></section>'
     subject_body += ('<script>document.getElementById("subjectSearch").addEventListener("input",function(){'
                      'var q=this.value.trim().toLowerCase();var visible=0;'
                      'document.querySelectorAll(".catalog-field-tile").forEach(function(el){'
@@ -469,7 +468,7 @@ def main() -> None:
     about = (
       '<section class="hero"><div class="wrap"><span class="eyebrow">UNIVERSITIES · FOUNDATION · BACHELOR · MASTER</span>'
       '<h1>Study in Malaysia: <span class="accent">explore university programmes</span></h1>'
-      '<p class="lead catalog-lead">Browse actual programme names from the NextGenz Centre programme finder. Explore foundation, diploma, bachelor’s, master’s and doctoral options across 25 Malaysian universities, then ask our education consultancy team for free placement guidance.</p>'
+      '<p class="lead catalog-lead">Browse actual programme names from the NextGenz Centre programme finder. Explore foundation, diploma, bachelor’s, master’s and doctoral options across ' + str(len(unis)) + ' Malaysian universities, then ask our education consultancy team for free placement guidance.</p>'
       '<div class="catalog-stats"><span>' + str(len(unis)) + ' universities</span><span>' + str(len(records)) + ' listed university programmes</span><span>' + str(unique_names) + ' distinct programme names</span></div></div></section>'
       '<section class="section"><div class="wrap">'
       '<div class="catalog-note"><strong>Important:</strong> These are reference records in our programme finder, not a live official university admissions database. Some programme names group multiple awards. Fees, campus availability, study mode, intakes and entry requirements must be verified directly with the institution. Inclusion does not imply a confirmed university recruitment partnership.</div>'
@@ -505,7 +504,7 @@ def main() -> None:
     )
     write("programmes/index.html", wrap_page(page_head(
         "University Courses in Malaysia: Compare Programmes by University",
-        "Explore 1,182 university programme listings across 25 Malaysian universities. Search foundation, diploma, bachelor's, master's and PhD courses by university.",
+        f"Explore {len(records):,} university programme listings across {len(unis)} Malaysian universities. Search foundation, diploma, bachelor's, master's and PhD courses by university.",
         "/programmes/", {"@context":"https://schema.org","@type":"CollectionPage","name":"Malaysia University Programmes","url":PUBLIC_BASE+"/programmes/","isPartOf":{"@type":"WebSite","name":"NextGenz Centre","url":PUBLIC_BASE}}
     ),about),outputs)
 
