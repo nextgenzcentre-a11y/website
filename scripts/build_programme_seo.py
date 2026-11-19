@@ -537,7 +537,8 @@ def main() -> None:
             if not entries:
                 continue
             main += '<section class="catalog-wide" id="' + LEVEL_SLUG[lev] + '"><h2>' + h(LABELS[lev]) + ' at ' + h(name) + '</h2>'
-            main += '<p>Review these ' + str(len(entries)) + ' listed titles. <a href="/programmes/levels/' + LEVEL_SLUG[lev] + '.html">Compare ' + h(lev.lower()) + ' choices across Malaysian universities</a>.</p>'
+            main += '<p><a href="/programmes/levels/' + LEVEL_SLUG[lev] + '.html">Browse ' + h(LABELS[lev].lower()) + ' across Malaysian universities</a></p>'
+            related_fields = {}
             main += '<ul class="catalog-list">'
             for e in entries:
                 title = h(e["name"])
@@ -546,13 +547,20 @@ def main() -> None:
                     title = '<a href="' + h(path) + '">' + title + '</a>'
                 else:
                     title = '<strong>' + title + '</strong>'
-                subject = next((subject_pages[(lev, field["slug"])]["path"] for field in field_for(e["name"])
-                                if (lev, field["slug"]) in subject_pages), "/programmes/levels/" + LEVEL_SLUG[lev] + ".html")
-                title += '<a class="compare-link" href="' + h(subject) + '" aria-label="Compare programmes related to ' + h(e["name"]) + '">Compare</a>'
+                for field in field_for(e["name"]):
+                    page = subject_pages.get((lev, field["slug"]))
+                    if page:
+                        related_fields[page["path"]] = field["name"]
                 fee = h(public_fee_note(e)) + ' · ' + fee_link(e['name'] + ' at ' + name)
                 main += ('<li id="' + e["id"] + '" class="finder-program" data-title="' + h(e["name"].lower()) + '"><span>' + title
                          + '</span><span class="fee">' + fee + '</span></li>')
-            main += '</ul></section>'
+            main += '</ul>'
+            if related_fields:
+                main += '<p>Browse by subject across Malaysian universities</p><div class="catalog-links">'
+                for url, label in sorted(related_fields.items(), key=lambda item: item[1]):
+                    main += '<a href="' + h(url) + '">' + h(label) + '</a>'
+                main += '</div>'
+            main += '</section>'
         if official:
             main += '<p><a class="button secondary" target="_blank" rel="noopener noreferrer" href="' + h(official) + '">Check the university’s official website ↗</a></p>'
         main += (
