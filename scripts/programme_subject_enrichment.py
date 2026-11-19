@@ -45,7 +45,7 @@ SUBJECT_ENRICHMENT = {
 <h3>Is an online Malaysian master's the same as studying on campus?</h3>
 <p>No. ODL can be suitable for remote learning but attendance, visa and study-approval requirements may be different. The university and official authorities—not an education consultant—decide those rules. If you intend to live in Malaysia, confirm the eligible study mode before paying a deposit.</p>
 <h3>Which other Master's programmes are similar?</h3>
-<p>Students interested in closely related fields can also <a href="/programmes/subjects/master-software-engineering-malaysia.html">compare Master's in Software Engineering</a>, <a href="/programmes/topics/masters-data-science-malaysia.html">Master's in Data Science</a>, and <a href="/programmes/subjects/master-cybersecurity-malaysia.html">Master's in Cybersecurity</a>. These are distinct awards: confirm the curriculum, exact qualification and university conditions.</p>
+<p>Students interested in closely related fields can also <a href="/programmes/subjects/master-software-engineering-malaysia.html">browse software engineering master's programmes across universities</a>, <a href="/programmes/topics/masters-data-science-malaysia.html">Master's in Data Science</a>, and <a href="/programmes/subjects/master-cybersecurity-malaysia.html">Master's in Cybersecurity</a>. These are distinct awards: confirm the curriculum, exact qualification and university conditions.</p>
 </section>
 """
     }

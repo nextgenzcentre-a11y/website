@@ -214,7 +214,7 @@ def brand_gallery(path: str) -> str:
             '<figure><img src="' + h(second) +
             '" alt="University placement guidance for international students"'
             ' width="760" height="500" loading="lazy" decoding="async">'
-            '<figcaption>Compare programmes and request free guidance</figcaption></figure></div>')
+            '<figcaption>Browse programmes and request free guidance</figcaption></figure></div>')
 
 def wrap_page(head: str, main: str) -> str:
     # One H1 for SEO, with the homepage's Montserrat / Bangers
@@ -251,7 +251,7 @@ def wrap_page(head: str, main: str) -> str:
       '</main><footer class="foot"><div class="wrap foot-flex">'
       '<div><strong>NEXTGENZ CENTRE</strong><p>Programme comparisons for international students planning to study in Malaysia.</p>'
       '<small>Finder data is indicative. Confirm availability, prices and admission rules directly with the institution.</small></div>'
-      '<div><a href="/programmes/">All programmes</a><br>'
+      '<div><a href="/programmes/">Browse programmes across Malaysian universities</a><br>'
       '<a href="/guides/how-to-study-in-malaysia.html">How to study in Malaysia</a><br>'
       '<a href="/about-nextgenz-centre.html">About us</a></div>'
       '</div></footer></body></html>\n'
@@ -416,7 +416,7 @@ def main() -> None:
             continue
         subject_body += ('<section class="catalog-wide" id="' + lev.lower() + '-fields"><h2>' + h(LEVEL_LABELS[lev]) + ' by subject in Malaysia</h2><p>Explore actual programme names and universities, then verify subject requirements and current admission dates for your preferred course.</p><div class="catalog-field-grid">')
         for field,info in in_level:
-            subject_body += ('<a class="catalog-field-tile" href="' + h(info["path"]) + '"><strong>' + h(field["name"]) + '</strong><small>' + str(info["entries"]) + ' course listings · ' + str(info["universities"]) + ' universities</small><span>Compare ' + h(LEVEL_LABELS[lev]) + ' programmes →</span></a>')
+            subject_body += ('<a class="catalog-field-tile" href="' + h(info["path"]) + '"><strong>' + h(field["name"]) + '</strong><small>' + str(info["entries"]) + ' course listings · ' + str(info["universities"]) + ' universities</small><span>Browse ' + h(LEVEL_LABELS[lev]) + ' programmes →</span></a>')
         subject_body += '</div></section>'
     subject_body += '<p>Not finding the exact course name? <a href="/programmes/">Browse all ' + format(len(records), ",") + ' university programme listings</a>, including courses that do not yet have a subject-specific comparison page. Our team can help clarify the official programme title and admission rules.</p><p><a class="button" href="/services/education-consultant-malaysia.html">Free education consultant guidance</a></p></div></section>'
     subject_body += ('<script>document.getElementById("subjectSearch").addEventListener("input",function(){'
@@ -486,12 +486,12 @@ def main() -> None:
                   '<div class="ng-card-photo"><img src="' + h(brand_photo("/programmes/levels/"+LEVEL_SLUG[level]+".html")[0]) + '" alt="Study ' + h(level) + ' programmes in Malaysia" width="560" height="360" loading="lazy" decoding="async"></div>'
                   '<h2>' + LABELS[level] + '</h2><p>' + str(counts[level]) + ' programme listings from the finder, organized by university.</p>'
                   '<span class="arrow">Explore programmes →</span></a>')
-    about += '</div><h2>Find a Bachelor, Master or Diploma in your subject</h2><p>Whether you search for a Master in Computer Science, Bachelor in Pharmacy, Diploma in Information Technology or another qualification, start with the linked subject-and-level comparisons drawn from our programme finder.</p><p><a class="button" href="/programmes/subjects/">Find courses by subject and study level →</a></p><h2>Compare popular programme subjects</h2><p>Use these focused course comparisons to weigh real programme names across different Malaysian universities. They are reference listings, not guarantees of current admission or tuition.</p><div class="grid">' 
+    about += '</div><h2>Find a Bachelor, Master or Diploma in your subject</h2><p>Whether you search for a Master in Computer Science, Bachelor in Pharmacy, Diploma in Information Technology or another qualification, start with the linked subject-and-level comparisons drawn from our programme finder.</p><p><a class="button" href="/programmes/subjects/">Find courses by subject and study level →</a></p><h2>Browse popular subjects across universities</h2><p>Use these focused course comparisons to weigh real programme names across different Malaysian universities. They are reference listings, not guarantees of current admission or tuition.</p><div class="grid">'
     for topic in TOPICS:
         if topic["slug"] not in topic_pages:
             continue
         info = topic_pages[topic["slug"]]
-        about += ('<a class="tile" data-tone="purple" href="' + info["url"] + '"><div class="ng-card-photo"><img src="' + h(brand_photo(info["url"])[0]) + '" alt="' + h(topic["label"]) + ' in Malaysia" width="560" height="360" loading="lazy" decoding="async"></div><span class="tag">Compare Malaysia courses</span><h2>' + h(topic["label"]) + '</h2><p>' + str(info["entries"]) + ' listed options across ' + str(info["universities"]) + ' universities, with decision checks and admissions questions.</p><span class="arrow">Compare programmes →</span></a>')
+        about += ('<a class="tile" data-tone="purple" href="' + info["url"] + '"><div class="ng-card-photo"><img src="' + h(brand_photo(info["url"])[0]) + '" alt="' + h(topic["label"]) + ' in Malaysia" width="560" height="360" loading="lazy" decoding="async"></div><span class="tag">Malaysian universities</span><h2>' + h(topic["label"]) + '</h2><p>' + str(info["entries"]) + ' listed options across ' + str(info["universities"]) + ' universities, with decision checks and admissions questions.</p><span class="arrow">Browse courses →</span></a>')
     about += '</div><p><a class="button secondary" href="/programmes/english-language-centres.html">Explore English language courses and centres →</a></p><h2>Browse programmes by university</h2><div class="grid">'
     for uni in unis:
         name = uni["university"]
@@ -593,7 +593,7 @@ def main() -> None:
                      '<p>Start by checking whether your academic qualification meets each university\'s entry rules, then compare campus, teaching language, tuition basis and current intake dates. Read the <a href="/guides/how-to-study-in-malaysia.html">international student university application guide</a>, see <a href="/services/education-consultant-malaysia.html">education consultant guidance</a>, or explore <a href="/guides/english-courses-in-malaysia.html">English preparation pathways</a> if needed. These finder entries are reference listings; confirm the current programme details with the institution.</p>')
         related_topics = [t for t in TOPICS if t["level"] == lev and t["slug"] in topic_pages]
         if related_topics:
-            main += '<h2>Compare related ' + h(lev.lower()) + ' programme types</h2><div class="catalog-links">'
+            main += '<h2>Browse related ' + h(lev.lower()) + ' programme types</h2><div class="catalog-links">'
             for topic in related_topics:
                 main += '<a href="' + topic_pages[topic["slug"]]["url"] + '">' + h(topic["label"]) + '</a>'
             main += '</div>'
@@ -631,7 +631,7 @@ def main() -> None:
           '<h1>' + h(e["name"]) + ' <span class="accent">at ' + h(e["uni"]) + '</span></h1>'
           '<p class="lead">Review the ' + h(e["name"]) + ' listing at ' + h(e["uni"]) + ' in ' + h(e["location"]) + ', Malaysia. Explore the finder’s available reference information and the admission questions to check before applying.</p>'
           '<a class="button" href="https://wa.me/601167701210?text=' + quote("Hello NextGenz Centre. I would like information about " + e["name"] + " at " + e["uni"] + ".") + '">Ask about this programme</a></div></section>'
-          '<section class="section"><div class="wrap"><div class="article-layout"><article class="article"><h2>Programme details to compare</h2>'
+          '<section class="section"><div class="wrap"><div class="article-layout"><article class="article"><h2>Programme details</h2>'
           '<div class="catalog-facts">'
           '<div class="catalog-fact"><strong>Programme title in finder</strong><span>' + h(e["name"]) + '</span></div>'
           '<div class="catalog-fact"><strong>Institution</strong><span>' + h(e["uni"]) + '</span></div>'
@@ -650,7 +650,7 @@ def main() -> None:
           '<h2>How to apply in Malaysia</h2><p>Compare eligibility and budget first, then collect the documents stated in the university’s current instructions. Review any written offer and payment schedule before committing. Visa and student pass procedures depend on your nationality and study level; use the official <a href="https://visa.educationmalaysia.gov.my/" target="_blank" rel="noopener noreferrer">EMGS website</a> for current information.</p>'
           '<h2>University information and NextGenz assistance</h2><p>' + official_link + '. The NextGenz Centre team can help you understand programme comparisons and the application workflow. Our core university-placement advisory is free to students, but university and government charges remain separate. No programme availability, scholarship, admission or visa outcome is guaranteed.</p>'
           '<p><a href="/programmes/universities/' + e["uslug"] + '.html">View all programmes at ' + h(e["uni"]) + '</a> · '
-          '<a href="/programmes/levels/' + LEVEL_SLUG[e["level"]] + '.html">Compare ' + h(e["level"].lower()) + ' programmes in Malaysia</a></p>'
+          '<a href="/programmes/levels/' + LEVEL_SLUG[e["level"]] + '.html">Browse ' + h(LABELS[e["level"]].lower()) + ' across Malaysian universities</a></p>'
           '</article><aside class="aside"><h2>Ask about this course</h2><p>Tell us your qualifications, study budget and intended intake so we can discuss what to confirm with the university.</p>'
           '<a class="button" href="https://wa.me/601167701210?text=' + quote("Please guide me on " + e["name"] + " at " + e["uni"]) + '">Free programme advice ↗</a><p><small>Our advisory fee is free. Official charges may apply.</small></p></aside></div></div></section>'
         )
@@ -679,7 +679,7 @@ def main() -> None:
         cross_links = [t for t in matching_topics(e) if t["slug"] in topic_pages]
         related = '<h2>Explore similar university options</h2>'
         for t in cross_links:
-            related += '<p><a href="' + topic_pages[t["slug"]]["url"] + '">Compare ' + h(t["label"]) + ' courses across Malaysian universities</a></p>'
+            related += '<p><a href="' + topic_pages[t["slug"]]["url"] + '">Browse ' + h(t["label"]) + ' courses across Malaysian universities</a></p>'
         sibling = [a for a in by_uni[e["uni"]] if a["level"] == e["level"] and a["name"] != e["name"]][:4]
         if sibling:
             related += '<p>Other ' + h(e["level"].lower()) + ' titles at ' + h(e["uni"]) + ' worth checking as alternatives:</p><ul>'

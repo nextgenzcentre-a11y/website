@@ -63,7 +63,7 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
         directory='/programmes/'
         university=lambda r:directory+'universities/'+r['uslug']+'.html'
         title={directory:tr('دليل الجامعات والتخصصات في ماليزيا','马来西亚大学与专业目录'),
-               directory+'subjects/':tr('مقارنة التخصصات والدرجات الجامعية في ماليزيا','马来西亚大学专业与学位比较'),
+               directory+'subjects/':tr('تصفّح التخصصات والدرجات في الجامعات الماليزية','按专业和学历浏览马来西亚大学课程'),
                directory+'english-language-centres.html':tr('معاهد ودورات اللغة الإنجليزية في ماليزيا','马来西亚英语语言学校与课程')}
         rows={}
         for r in records:
@@ -111,9 +111,13 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
                         period = (amount[2] or '').lower()
                         periods = {'per semester':tr('للفصل','每学期'),'per year':tr('للسنة','每年'),'total':tr('إجمالي','课程总额'),'':tr('الفترة غير مؤكدة','计费周期待确认')}
                         fee = tr('تقدير غير مؤكد','待确认的参考费用')+' · '+r['currency']+' '+amount[1]+' · '+periods[period]
-                    course=escape(r['name']) if path==dest else local_link(dest,r['name'])
-                    page+='<li id="'+escape(r['uslug']+'-'+r['id'] if path!=up else r['id'])+'"><div><bdi>'+course+'</bdi><br>'+local_link(up,r['uni'])+' · '+escape(LEVEL[r['level']][i]+' · '+r['location'])+(' · '+escape(subject) if subject else '')+'</div><small>'+escape(fee)+' · '+action('fee',context,lang)+'</small></li>'
+                    course=escape(r['name']) if path==dest.split('#')[0] else local_link(dest,r['name'])
+                    page+='<li id="'+escape(r['uslug']+'-'+r['id'] if path!=up else r['id'])+'"><div><bdi>'+course+'</bdi><br>'+(escape(r['uni']) if path==up else local_link(up,r['uni']))+' · '+escape(LEVEL[r['level']][i]+' · '+r['location'])+(' · '+escape(subject) if subject else '')+'</div><small>'+escape(fee)+' · '+action('fee',context,lang)+'</small></li>'
                 page+='</ul>'
+                level_paths = [directory+'levels/'+levels[lev]+'.html' for lev in levels if any(r['level']==lev for r in entries)]
+                links = [local_link(p,title[p]) for p in level_paths if p != path]
+                if links:
+                    page += '<h2>'+tr('تصفّح البرامج في الجامعات الماليزية حسب المرحلة','按学历浏览马来西亚各大学课程')+'</h2><div class="catalog-links">'+''.join(links)+'</div>'
                 if len(entries)==1:
                     r=entries[0];page+='<p>'+link(r['website'],tr('الموقع الرسمي للجامعة','大学官网'))+' · '+link(path,tr('تفاصيل البرنامج والرسوم بالإنجليزية','查看英文课程与费用详情'))+'</p>'
             elif path.endswith('english-language-centres.html'):
@@ -121,10 +125,10 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
                 for c in centres:
                     page+='<h2>'+escape(c['university'])+'</h2><p>'+escape(' · '.join(c['programmes']))+'</p><p>'+action('fee',c['university'],lang)+'</p>'
             else:
-                for group,heading in [('levels',tr('مراحل الدراسة','按学历浏览')),('subjects',tr('التخصصات','按专业浏览')),('topics',tr('مقارنة البرامج','热门课程比较')),('universities',tr('الجامعات','按大学浏览'))]:
+                for group,heading in [('levels',tr('مراحل الدراسة','按学历浏览')),('subjects',tr('التخصصات','按专业浏览')),('topics',tr('تصفّح البرامج حسب المجال','按热门专业浏览')),('universities',tr('الجامعات','按大学浏览'))]:
                     page+='<h2>'+heading+'</h2><div class="catalog-links">'+''.join(local_link(p,title[p]) for p in english if '/'+group+'/' in p and p!=path and not p.endswith('/'))+'</div>'
                 page+='<p>'+local_link(directory+'english-language-centres.html',title[directory+'english-language-centres.html'])+'</p>'
-            page+='<p>'+action('fee',label,lang)+'</p><p>'+actions(label)+'</p></article></div></section></main><footer class="foot"><div class="wrap">NEXTGENZ CENTRE · '+local_link(directory,title[directory])+'</div></footer></body></html>'
+            page+='<p>'+action('fee',label,lang)+'</p><p>'+actions(label)+'</p></article></div></section></main><footer class="foot"><div class="wrap">NEXTGENZ CENTRE · '+local_link(directory,tr('تصفّح البرامج في الجامعات الماليزية','浏览马来西亚各大学课程'))+'</div></footer></body></html>'
             filename=address+('index.html' if address.endswith('/') else '')
             write(filename,page,outputs)
             by_path[path]=True
