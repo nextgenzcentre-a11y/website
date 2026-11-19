@@ -10,6 +10,7 @@ current availability, professional licensing, or a university partnership.
 """
 from __future__ import annotations
 from collections import defaultdict
+from programme_actions import fee_link
 from urllib.parse import quote
 from programme_subject_enrichment import SUBJECT_ENRICHMENT
 import re
@@ -450,8 +451,6 @@ def generate_level_subject_pages(records, selected_urls, write, wrap_page, page_
         heading = _display_title(level, fld)
         enrichment = SUBJECT_ENRICHMENT.get((level, field_slug))
         title = enrichment["title"] if enrichment else f"{heading} | NextGenz Centre"
-        if len(title) > 67:
-            title = heading[:48].rsplit(" ",1)[0] + " | NextGenz"
         desc = enrichment["description"] if enrichment else f"Compare {LEVEL_LABELS[level].lower()} {fld['name'].lower()} programme names across {count_uni} Malaysian universities, with course links and entry, fee and pathway questions."
         intro = LEVEL_GUIDANCE[level]["overview"]
         main = (
@@ -467,7 +466,7 @@ def generate_level_subject_pages(records, selected_urls, write, wrap_page, page_
             '<h2>Compare universities with ' + h(LEVEL_LABELS[level].lower()) + ' ' + h(fld["name"].lower()) + ' programmes</h2>'
             '<p>Use the exact course names below to shortlist institutions. A course may contain this subject as one area of study or a specialisation, so read the full title before deciding whether it is the qualification you want.</p>'
             '<div class="catalog-comparison" role="region" aria-label="Compare actual listed university courses" tabindex="0">'
-            '<table class="catalog-table"><thead><tr><th scope="col">University</th><th scope="col">Actual finder programme title</th><th scope="col">Reference fee — confirm basis</th></tr></thead><tbody>'
+            '<table class="catalog-table"><thead><tr><th scope="col">University</th><th scope="col">Actual finder programme title</th><th scope="col">Tuition for your intake</th></tr></thead><tbody>'
         )
         if enrichment:
             table_heading = '<h2>Compare universities with ' + h(LEVEL_LABELS[level].lower()) + ' ' + h(fld["name"].lower()) + ' programmes</h2>'
@@ -481,7 +480,7 @@ def generate_level_subject_pages(records, selected_urls, write, wrap_page, page_
                 main += (
                     '<tr><td><a href="' + h(uh) + '">' + h(rec["uni"]) + '</a><small class="catalog-loc">' + h(rec["location"]) + '</small></td>'
                     '<td><a href="' + h(detail) + '">' + h(rec["name"]) + '</a></td>'
-                    '<td><span class="catalog-money">' + h(public_fee_note(rec)) + '</span></td></tr>'
+                    '<td>' + fee_link(rec["name"] + " at " + rec["uni"]) + '</td></tr>'
                 )
         main += '</tbody></table></div>'
         if enrichment:

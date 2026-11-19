@@ -1171,7 +1171,7 @@ if (sweeps > 40) clearInterval(interval);
 <main>
 <section class="hero-first"><p style="color:#edc675;font-size:12px;letter-spacing:.15em;font-weight:800">NEXTGENZ CENTRE · STUDY IN MALAYSIA</p><h1>Study in Malaysia for international students</h1>
 <p class="lead-first">NextGenz Centre helps international students choose Malaysian universities and programmes, prepare admission applications, explore English language courses, and understand the EMGS student visa process. Our core university placement advice is free; official university and third-party charges still apply.</p>
-<a class="cta-first" href="/services/free-university-placement-malaysia.html">How free placement works</a><a class="cta-first cta-outline-first" href="https://wa.me/601167701210">Talk to an advisor</a></section>
+<a class="cta-first" data-ng-action="consult" href="https://wa.me/601167701210?text=I%27d%20like%20a%20free%20consultation%20about%20studying%20in%20Malaysia." target="_blank" rel="noopener noreferrer">Free Consultation on WhatsApp</a> <a class="cta-first cta-outline-first" data-ng-action="apply" href="https://wa.me/601167701210?text=I%27d%20like%20to%20start%20my%20free%20application%20for%20studying%20in%20Malaysia." target="_blank" rel="noopener noreferrer">Apply Now</a></section>
 <section class="detail-first" aria-labelledby="support-heading"><h2 id="support-heading">University admission and study guidance in Malaysia</h2><div class="grids-first">
 <article class="card-first"><h3>University and programme matching</h3><p>Explore diploma, bachelor's, master's and PhD pathways. Compare degree requirements, universities, study locations, tuition structures, intakes and your qualification level.</p><p><a href="/programmes/levels/bachelor.html">Compare bachelor degree programmes in Malaysia</a> · <a href="/guides/how-to-study-in-malaysia.html">How to apply to university in Malaysia</a></p><p><a href="/services/free-university-placement-malaysia.html">Free university placement in Malaysia</a></p></article>
 <article class="card-first"><h3>Application and EMGS visa guidance</h3><p>Understand admission documents, offer-letter conditions and official student pass procedures. We explain the process; admission and visa decisions are made by the relevant institutions and authorities.</p><p><a href="/guides/malaysia-student-visa-emgs-guide.html">Malaysia student visa guide</a></p></article>
@@ -2547,8 +2547,9 @@ const Footer: React.FC<FooterProps> = ({ onOpenAdmin, isAdminActive }) => (
           <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
             <WhatsAppLink message="Hello NEXTGENZ CENTRE, I would like my 100% FREE study in Malaysia consultation."
               className="ng-footer-cta inline-flex justify-center items-center gap-2 bg-[#C5A059] hover:bg-[#C5A059] text-[#0A1633] font-extrabold rounded-xl px-6 py-4 text-sm transition">
-              <i className="fa-brands fa-whatsapp text-lg"></i> Get FREE Advisory <i className="fa-solid fa-arrow-right"></i>
+              <i className="fa-brands fa-whatsapp text-lg"></i> Free Consultation on WhatsApp <i className="fa-solid fa-arrow-right"></i>
             </WhatsAppLink>
+            <WhatsAppLink className="ng-footer-cta inline-flex justify-center items-center gap-2 font-bold rounded-xl px-6 py-4 text-sm" message="I would like to start my free application to study in Malaysia.">Apply Now</WhatsAppLink>
             <button contentEditable={false} suppressContentEditableWarning type="button"
               onClick={() => window.dispatchEvent(new CustomEvent('ng-open-program-finder', {detail:{}}))}
               className="inline-flex justify-center items-center gap-2 border border-white/30 hover:border-[#C5A059] text-white font-bold rounded-xl px-6 py-3.5 text-sm transition">
@@ -3064,9 +3065,9 @@ return (
           <label className="ng-field-label">Field / keyword<input contentEditable={false} suppressContentEditableWarning value={quickField} onChange={e => setQuickField(e.target.value)} className="ng-matcher-select" type="search" placeholder="e.g. Computer Science" /></label>
           <button contentEditable={false} suppressContentEditableWarning type="button" onClick={startQuickMatch} className="ng-match-action self-end bg-[#C5A059] hover:bg-[#D4AF37] text-[#0A1633] font-bold rounded-xl px-5 h-[46px] whitespace-nowrap">Find matches <i className="fa-solid fa-arrow-right ml-1"></i></button>
         </div>
-        <div className="ng-hero-matcher-foot mt-3 flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-slate-600"><span><i className="fa-solid fa-graduation-cap text-[#8B6B32] mr-1"></i> More than 1,000 source programme entries</span><WhatsAppLink message="Hello NEXTGENZ CENTRE, I would like a free study consultation in Malaysia." className="text-[#0A1633] font-extrabold hover:underline">FREE consultation <i className="fa-solid fa-arrow-up-right-from-square ml-1"></i></WhatsAppLink></div>
+        <div className="ng-hero-matcher-foot mt-3 flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-slate-600"><span><i className="fa-solid fa-graduation-cap text-[#8B6B32] mr-1"></i> More than 1,000 source programme entries</span><WhatsAppLink message="Hello NEXTGENZ CENTRE, I would like a free study consultation in Malaysia." className="text-[#0A1633] font-extrabold hover:underline">Free Consultation on WhatsApp <i className="fa-solid fa-arrow-up-right-from-square ml-1"></i></WhatsAppLink></div>
       </div>
-      <div className="ng-hero-bottom-actions mt-5 flex gap-5 flex-wrap text-sm font-semibold"><button contentEditable={false} suppressContentEditableWarning type="button" onClick={startQuickMatch} className="text-white hover:text-[#C5A059]">Browse programmes <i className="fa-solid fa-arrow-right ml-1"></i></button><a href="/programmes/" className="text-white hover:text-[#C5A059]">Explore all Malaysia programmes <i className="fa-solid fa-arrow-right ml-1"></i></a><a href="/programmes/subjects/" className="text-[#C5A059] hover:text-white">Search Bachelor & Master subjects <i className="fa-solid fa-arrow-right ml-1"></i></a><WhatsAppLink message="Hello NEXTGENZ CENTRE, I am ready to start my free university application." className="text-[#C5A059] hover:text-white">Start FREE application <i className="fa-solid fa-arrow-up-right-from-square ml-1"></i></WhatsAppLink></div>
+      <div className="ng-hero-bottom-actions mt-5 flex gap-5 flex-wrap text-sm font-semibold"><button contentEditable={false} suppressContentEditableWarning type="button" onClick={startQuickMatch} className="text-white hover:text-[#C5A059]">Browse programmes <i className="fa-solid fa-arrow-right ml-1"></i></button><a href="/programmes/" className="text-white hover:text-[#C5A059]">Explore all Malaysia programmes <i className="fa-solid fa-arrow-right ml-1"></i></a><a href="/programmes/subjects/" className="text-[#C5A059] hover:text-white">Search Bachelor & Master subjects <i className="fa-solid fa-arrow-right ml-1"></i></a><WhatsAppLink message="Hello NEXTGENZ CENTRE, I am ready to start my free university application." className="text-[#C5A059] hover:text-white">Apply Now <i className="fa-solid fa-arrow-up-right-from-square ml-1"></i></WhatsAppLink></div>
       {adminMode && <button contentEditable={false} suppressContentEditableWarning type="button" onClick={handleEditPoster} className="ng-hero-admin-edit mt-6 bg-[#C5A059] text-[#0A1633] px-4 py-2.5 rounded-lg text-xs font-bold" disabled={isSaving}><i className="fa-solid fa-pen mr-1"></i> Edit hero image</button>}
     </div>
   </div>
@@ -3131,11 +3132,24 @@ const NGUniversityVisual: React.FC<{uni:any; compact?:boolean}> = ({uni,compact=
 // ==== components/PublicProgrammeTeaser.tsx ====
 // Marketing teaser intentionally excludes tuition, IELTS estimates, CSV and fee comparison.
 // The COMPLETE original ProgramFinderApp is untouched and stays available in student/agent portals.
+const NGCatalogueActions = ({topic, arabic = false}) => <span>
+  <WhatsAppLink className="ng-gold-button font-bold" message={arabic ? 'أرغب في استشارة مجانية بخصوص ' + topic : "I'd like a free consultation about " + topic}>{arabic ? 'استشارة مجانية عبر واتساب' : 'Free Consultation on WhatsApp'}</WhatsAppLink>
+  {' · '}<WhatsAppLink className="font-bold" message={arabic ? 'أرغب في بدء طلب التقديم بخصوص ' + topic : "I'd like to start my free application for " + topic}>{arabic ? 'قدّم الآن' : 'Apply Now'}</WhatsAppLink>
+</span>;
+const NGFeeEnquiry = ({topic, arabic = false}) => <WhatsAppLink className="underline" message={arabic ? 'أرجو إرسال تفاصيل الرسوم الدراسية لموعد التحاقي بخصوص ' + topic : "Please send me the exact tuition and fee breakdown for my intake for " + topic}>{arabic ? 'هل تريد معرفة الرسوم الدراسية وتفاصيلها لموعد التحاقك؟ اسألنا عبر واتساب.' : 'Need the exact tuition and fee breakdown for your intake? Ask us on WhatsApp.'}</WhatsAppLink>;
 const NGPublicProgrammeTeaser: React.FC<{initialUniversity?:string;initialLevel?:string;initialSearch?:string;onClose:()=>void}> = ({initialUniversity='',initialLevel='',initialSearch='',onClose}) => {
   const [university,setUniversity] = useState(initialUniversity);
   const [level,setLevel] = useState(initialLevel);
   const [query,setQuery] = useState(initialSearch);
   const [visible,setVisible] = useState(9);
+  const [catalogueLinks,setCatalogueLinks] = useState({});
+  useEffect(() => {
+    const request = new AbortController();
+    fetch('/programmes/finder-links.json', {signal:request.signal}).then(r => {
+      if (r.ok) return r.json();
+    }).then(links => { if (links) setCatalogueLinks(links); }).catch(() => {});
+    return () => request.abort();
+  }, []);
   useEffect(()=>{setUniversity(initialUniversity);setLevel(initialLevel);setQuery(initialSearch);setVisible(9);},[initialUniversity,initialLevel,initialSearch]);
   useEffect(()=>{
     const key=(e:KeyboardEvent)=>{if(e.key==='Escape')onClose();};
@@ -3179,7 +3193,7 @@ const NGPublicProgrammeTeaser: React.FC<{initialUniversity?:string;initialLevel?
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-9">
           <div className="ng-teaser-intro rounded-2xl bg-white border border-slate-200 p-5 sm:p-7 shadow-sm mb-5">
             <span className="ng-eyebrow">DISCOVER FIRST. LET US HANDLE THE DETAILS.</span>
-            <p className="text-slate-600 text-sm leading-relaxed mt-2 max-w-3xl">Browse course titles, university locations and available study levels. Ask our admissions team for the latest verified fees, intakes, entry requirements, scholarship options and your application plan.</p>
+            <p className="text-slate-600 text-sm leading-relaxed mt-2 max-w-3xl"><a href="/programmes/">Browse the university programme directory</a> for course titles, university locations and study levels. Ask our admissions team for the latest verified fees, intakes, entry requirements, scholarship options and your application plan.</p><NGCatalogueActions topic={query || university || level || "university programmes in Malaysia"}/>
             <div className="grid sm:grid-cols-3 gap-3 mt-5">
               <label className="ng-teaser-label">University<select value={university} onChange={e=>{setUniversity(e.target.value);setVisible(9);}} className="ng-teaser-field"><option value="">All universities</option>{rawData.map((u:any)=><option key={u.shortName} value={u.shortName}>{u.university}</option>)}</select></label>
               <label className="ng-teaser-label">Study level<select value={level} onChange={e=>{setLevel(e.target.value);setVisible(9);}} className="ng-teaser-field"><option value="">Any level</option>{['Foundation','Diploma','Bachelor','Master','PhD'].map(x=><option key={x}>{x}</option>)}</select></label>
@@ -3191,14 +3205,15 @@ const NGPublicProgrammeTeaser: React.FC<{initialUniversity?:string;initialLevel?
           <div className="ng-teaser-grid grid md:grid-cols-2 xl:grid-cols-3 gap-4">
             {matches.slice(0,visible).map(({uni,name}:any,i:number)=><article key={uni.shortName+name} className="ng-teaser-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
               <div className="flex items-center gap-3 mb-4"><NGInstitutionMark uni={uni} large/><div className="min-w-0"><strong className="font-heading text-sm text-[#0A1633] leading-tight block">{uni.university}</strong><span className="text-xs text-slate-500 block mt-1"><i className="fa-solid fa-location-dot mr-1 text-[#C5A059]"></i>{uni.location}, Malaysia</span></div></div>
-              <span className="text-[10px] text-[#8B6B32] font-extrabold uppercase tracking-widest">Programme option</span><h3 className="font-heading font-bold text-[#0A1633] text-base mt-1 mb-4 leading-snug flex-1">{name}</h3>
-              <div className="ng-enquire-strip bg-[#F5F7FA] rounded-xl px-3.5 py-3.5 mb-4"><i className="fa-solid fa-circle-info text-[#C5A059] mr-2"></i><span className="text-xs text-slate-600">Want fees, duration and admission criteria? Our advisor will check them for you.</span></div>
-              <WhatsAppLink message={`Hello NEXTGENZ CENTRE, I am interested in ${name} at ${uni.university}. Please send me the current official fees, entry requirements, intake dates and application steps.`} className="ng-gold-button inline-flex items-center justify-center gap-2 bg-[#C5A059] hover:bg-[#C5A059] rounded-xl text-[#0A1633] px-4 py-3 font-extrabold text-xs">Ask about this programme <i className="fa-brands fa-whatsapp"></i></WhatsAppLink>
+              <span className="text-[10px] text-[#8B6B32] font-extrabold uppercase tracking-widest">Programme option</span><h3 className="font-heading font-bold text-[#0A1633] text-base mt-1 mb-4 leading-snug flex-1"><a href={catalogueLinks[uni.shortName]?.[name] || "/programmes/universities/" + uni.shortName.toLowerCase() + ".html"}>{name}</a></h3>
+              <div className="ng-enquire-strip bg-[#F5F7FA] rounded-xl px-3.5 py-3.5 mb-4"><i className="fa-solid fa-circle-info text-[#C5A059] mr-2"></i><span className="text-xs text-slate-600"><NGFeeEnquiry topic={name + " at " + uni.university}/></span></div>
+              <WhatsAppLink message={`Hello NEXTGENZ CENTRE, I am interested in ${name} at ${uni.university}. Please send me the current official fees, entry requirements, intake dates and application steps.`} className="ng-gold-button inline-flex items-center justify-center gap-2 bg-[#C5A059] hover:bg-[#C5A059] rounded-xl text-[#0A1633] px-4 py-3 font-extrabold text-xs">Free Consultation on WhatsApp <i className="fa-brands fa-whatsapp"></i></WhatsAppLink>
+              <WhatsAppLink className="ng-topic-chip" message={"I'd like to start my free application for " + name + " at " + uni.university}>Apply Now</WhatsAppLink>
             </article>)}
           </div>
           {!matches.length && <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center text-slate-700"><h3 className="font-bold">No exact matches yet</h3><p className="text-sm mt-2">Try a shorter keyword, or ask our team to find the closest course for you.</p><WhatsAppLink message="Hello NEXTGENZ CENTRE, please help me find a suitable course in Malaysia." className="text-[#8B6B32] font-bold text-sm underline">Ask an advisor</WhatsAppLink></div>}
           {matches.length>visible&&<div className="text-center mt-7"><button type="button" className="px-6 py-3.5 bg-white border-2 border-[#C5A059] rounded-xl font-bold text-[#0A1633]" onClick={()=>setVisible(v=>v+9)}>Show more programmes <i className="fa-solid fa-chevron-down ml-2"></i></button></div>}
-          <div className="mt-10 bg-[#0A1633] rounded-2xl text-white p-7 sm:p-9 flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between"><div><h3 className="font-heading font-extrabold text-xl sm:text-2xl">Don't know which programme to choose?</h3><p className="text-slate-300 text-sm mt-2">Send us your qualifications and goals. We'll recommend suitable options and provide the verified details.</p></div><WhatsAppLink message="Hello NEXTGENZ CENTRE, I would like a free programme recommendation based on my qualifications." className="bg-[#C5A059] text-[#0A1633] font-extrabold rounded-xl px-5 py-4 whitespace-nowrap">Get FREE guidance <i className="fa-solid fa-arrow-right ml-2"></i></WhatsAppLink></div>
+          <div className="mt-10 bg-[#0A1633] rounded-2xl text-white p-7 sm:p-9 flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between"><div><h3 className="font-heading font-extrabold text-xl sm:text-2xl">Don't know which programme to choose?</h3><p className="text-slate-300 text-sm mt-2">Send us your qualifications and goals. We'll recommend suitable options and provide the verified details.</p></div><WhatsAppLink message="Hello NEXTGENZ CENTRE, I would like a free programme recommendation based on my qualifications." className="bg-[#C5A059] text-[#0A1633] font-extrabold rounded-xl px-5 py-4 whitespace-nowrap">Free Consultation on WhatsApp <i className="fa-solid fa-arrow-right ml-2"></i></WhatsAppLink><WhatsAppLink className="ng-topic-chip" message={"Please start my free application for " + (query || university || level || "study in Malaysia")}>Apply Now</WhatsAppLink></div>
         </div>
       </div>
     </div>
@@ -6180,7 +6195,8 @@ function ProgramFinderApp({ currentUser, onSelectProgram }) {
           if (lowerName.includes("odl") || lowerName.includes("online") || lowerName.includes("on-line") || lowerName.includes("distance")) continue;
         }
 
-        let numPrice = getPriceNum(price);
+        let numPrice = /international/i.test(String(price)) && /per year/i.test(String(price))
+          ? getPriceNum(price) : Infinity;
         if (numPrice !== Infinity && u.currency === "USD") numPrice *= 4.5;
         
         if (numPrice < minPriceForUni) minPriceForUni = numPrice;
@@ -6252,6 +6268,7 @@ function ProgramFinderApp({ currentUser, onSelectProgram }) {
                 {t("Search 500+ programs across Malaysia's top universities, side-by-side.", "ابحث بين أكثر من 500 برنامج في أفضل الجامعات الماليزية، جنبًا إلى جنب.")}
               </p>
             </div>
+            <NGCatalogueActions topic={selectedSpecialty || search || t("university programmes in Malaysia","البرامج الجامعية في ماليزيا")} arabic={lang === "ar"}/>
             <div className="controls-row" style={{marginBottom: 0}}>
               <select className="currency-btn" value={currency} onChange={e => setCurrency(e.target.value)}>
                 <option value="MYR">MYR (RM)</option>
@@ -6387,8 +6404,8 @@ function ProgramFinderApp({ currentUser, onSelectProgram }) {
                  </span>
                  <select className="sort-select" value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
                    <option value="default">{t("Default", "افتراضي")}</option>
-                   <option value="priceAsc">{t("Price (Low to High)", "السعر (من الأقل للأعلى)")}</option>
-                   <option value="priceDesc">{t("Price (High to Low)", "السعر (من الأعلى للأقل)")}</option>
+                   <option value="priceAsc">{t("International annual fee (low to high, where specified)", "السعر (من الأقل للأعلى)")}</option>
+                   <option value="priceDesc">{t("International annual fee (high to low, where specified)", "السعر (من الأعلى للأقل)")}</option>
                    <option value="type">{t("Type (Public/Private)", "النوع (حكومي/خاص)")}</option>
                  </select>
                </div>
@@ -6435,7 +6452,7 @@ function ProgramFinderApp({ currentUser, onSelectProgram }) {
                           return (
                           <div key={progName} className="prog-item">
                             <div className="prog-item-header">
-                              <div className="prog-item-title">{translateProgramName(progName, lang)}</div>
+                              <div className="prog-item-title"><a href={"/programmes/universities/"+u.shortName.toLowerCase()+".html#:~:text="+encodeURIComponent(progName)}>{translateProgramName(progName, lang)}</a></div>
                               <input 
                                 type="checkbox" 
                                 className="compare-checkbox" 
@@ -6446,7 +6463,8 @@ function ProgramFinderApp({ currentUser, onSelectProgram }) {
                             </div>
                             
                             <div className="prog-item-price">
-                              {formatPrice(priceStr, u.currency, currency)}
+                              {formatPrice(priceStr, u.currency, currency)} · {t("Unverified reference", "قيمة استرشادية غير مؤكدة")}<br/>
+                              <NGFeeEnquiry topic={progName + " — " + u.university} arabic={lang === "ar"}/>
                             </div>
 
                             <div className="prog-item-specs">
@@ -6538,7 +6556,7 @@ function ProgramFinderApp({ currentUser, onSelectProgram }) {
                         <td><strong>{item.uniShort}</strong></td>
                         <td>{translateProgramName(item.progName, lang)}</td>
                         <td style={{color: 'var(--primary)', fontWeight: 'bold'}}>
-                          {formatPrice(item.price, item.baseCurrency, currency)}
+                          <NGFeeEnquiry topic={item.progName + " — " + item.uniName} arabic={lang === "ar"}/>
                         </td>
                         <td>{item.duration}</td>
                         <td>{item.ielts}</td>

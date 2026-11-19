@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 import re
+from programme_actions import fee_link
 from urllib.parse import quote
 from programme_verified_facts import VERIFIED_PROGRAMMES
 
@@ -480,7 +481,7 @@ def generate_topic_pages(records, selected_urls, uni_slugs, write, wrap_page, pa
           '<div class="catalog-note"><strong>Source and accuracy:</strong> The course names below come from the existing NextGenz Centre programme finder, not live university admission feeds. They may include grouped titles or older prices. Check the current course availability, qualification, entry criteria, fees, study mode and intakes with the institution. A listing does not imply an agency partnership or a confirmed seat.</div>'
           '<h2>Compare programmes listed in the finder</h2>'
           '<p>These ' + str(len(visible)) + ' reference entries across ' + str(universities) + ' Malaysian universities are starting points for your shortlist. Follow a programme to its information page or university entry. Fee figures are displayed as originally recorded: a value may be per semester, per year or for a whole programme, and different currencies must not be treated as directly comparable.</p>'
-          '<div class="catalog-comparison" role="region" aria-label="Compare programmes" tabindex="0"><table class="catalog-table"><thead><tr><th scope="col">University</th><th scope="col">Programme listing</th><th scope="col">Fee reference (basis unverified)</th></tr></thead><tbody>'
+          '<div class="catalog-comparison" role="region" aria-label="Compare programmes" tabindex="0"><table class="catalog-table"><thead><tr><th scope="col">University</th><th scope="col">Programme listing</th><th scope="col">Tuition for your intake</th></tr></thead><tbody>'
         )
         for e in visible:
             university_url = "/programmes/universities/" + e["uslug"] + ".html"
@@ -488,7 +489,7 @@ def generate_topic_pages(records, selected_urls, uni_slugs, write, wrap_page, pa
             main += (
               '<tr><td><a href="' + h(university_url) + '">' + h(e["uni"]) + '</a><small class="catalog-loc">' + h(e["location"]) + '</small></td>'
               '<td><a href="' + h(programme_url) + '">' + h(e["name"]) + '</a></td>'
-              '<td><span class="catalog-money">' + h(VERIFIED_PROGRAMMES.get((e["short"],e["name"]),{}).get("public_fee_note") or (e["currency"] + " " + e["raw_fee"] + " (finder reference)")) + '</span></td></tr>'
+              '<td>' + fee_link(e["name"] + " at " + e["uni"]) + '</td></tr>'
             )
         main += '</tbody></table></div>'
         # Link to primary university sources where the exact course listing has
@@ -507,7 +508,7 @@ def generate_topic_pages(records, selected_urls, uni_slugs, write, wrap_page, pa
                 fee = next((x for x in verified["facts"] if "fee" in x[0].lower() or "tuition" in x[0].lower()), None)
                 if fee and fee not in verified["facts"][:2]:
                     main += '<li><strong>' + h(fee[0]) + ':</strong> ' + h(fee[1]) + '</li>'
-                main += '</ul><p><a href="' + h(verified["source_url"]) + '" target="_blank" rel="noopener noreferrer">Read official university source ↗</a>'
+                main += '</ul><p>' + fee_link(entry["name"] + " at " + entry["uni"]) + '</p><p><a href="' + h(verified["source_url"]) + '" target="_blank" rel="noopener noreferrer">Read official university source ↗</a>'
                 if link:
                     main += ' · <a href="' + h(link) + '">View NextGenz programme details</a>'
                 main += '</p></section>'

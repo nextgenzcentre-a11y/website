@@ -24,6 +24,8 @@ import unicodedata
 from programme_topics import TOPICS, matching_topics, generate_topic_pages
 from programme_verified_facts import VERIFIED_PROGRAMMES
 from programme_level_subjects import FIELDS, LEVEL_LABELS, generate_level_subject_pages
+from programme_actions import add_page_actions, fee_link
+from programme_level_subjects import field_for
 from site_header import header_html
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -155,14 +157,14 @@ def page_head(title: str, desc: str, path: str, schema: dict | None = None) -> s
       '<!doctype html><html lang="en"><head><meta charset="utf-8">'
       '<meta name="viewport" content="width=device-width,initial-scale=1">'
       '<title>' + h(title) + '</title>'
-      '<meta name="description" content="' + h(desc[:155]) + '">'
+      '<meta name="description" content="' + h(desc) + '">'
       '<meta name="robots" content="index,follow,max-image-preview:large">'
       '<link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">'
       '<link rel="shortcut icon" type="image/png" href="/favicon.png">'
       '<link rel="canonical" href="' + h(canonical) + '">'
       '<meta property="og:type" content="website">'
       '<meta property="og:title" content="' + h(title) + '">'
-      '<meta property="og:description" content="' + h(desc[:155]) + '">'
+      '<meta property="og:description" content="' + h(desc) + '">'
       '<meta property="og:url" content="' + h(canonical) + '">'
       '<meta property="og:site_name" content="NextGenz Centre">'
       '<link rel="stylesheet" href="/programmes/catalog.css">'
@@ -218,6 +220,7 @@ def brand_gallery(path: str) -> str:
 def wrap_page(head: str, main: str) -> str:
     # One H1 for SEO, with the homepage's Montserrat / Bangers
     # mixed headline styling on degree and subject search pages.
+    main = add_page_actions(main)
     plain_heading = re.search(r'<h1>([^<]+)</h1>', main)
     if plain_heading:
         title = plain_heading.group(1).strip()
@@ -325,7 +328,7 @@ def main() -> None:
             by_uni[uname].append(item)
             by_level[level].append(item)
 
-    if len(unis) != 25 or len(records) < 1100:
+    if not unis or not records:
         raise RuntimeError("Unexpected programme data scope, refusing to publish")
     unique_names = len(set(x["name"] for x in records))
 
@@ -440,7 +443,7 @@ def main() -> None:
     for centre in english_centres:
         english_main += '<section class="catalog-wide"><h2>' + h(centre["university"]) + '</h2><p>' + h(centre.get("location", "Malaysia")) + ' · Programmes listed in NextGenz Centre public directory</p><ul class="catalog-list">'
         for name, fee in centre["programmes"].items():
-            english_main += '<li><strong>' + h(name) + '</strong><span class="fee">Finder reference: ' + h(centre.get("currency") or "MYR") + ' ' + h(fee) + '</span></li>'
+            english_main += '<li><strong>' + h(name) + '</strong><span class="fee">Finder reference: ' + h(centre.get("currency") or "MYR") + ' ' + h(fee) + ' (unverified reference) · ' + fee_link(name + ' at ' + centre['university']) + '</span></li>'
             english_count += 1
         english_main += '</ul>'
         official = safe_official_url(centre.get("website") or "")
@@ -540,7 +543,10 @@ def main() -> None:
                     title = '<a href="' + h(path) + '">' + title + '</a>'
                 else:
                     title = '<strong>' + title + '</strong>'
-                fee = h(public_fee_note(e))
+                subject = next((subject_pages[(lev, field["slug"])]["path"] for field in field_for(e["name"])
+                                if (lev, field["slug"]) in subject_pages), "/programmes/levels/" + LEVEL_SLUG[lev] + ".html")
+                title += ' · <a href="' + h(subject) + '">Compare related programmes</a>'
+                fee = h(public_fee_note(e)) + ' · ' + fee_link(e['name'] + ' at ' + name)
                 main += ('<li id="' + e["id"] + '" class="finder-program" data-title="' + h(e["name"].lower()) + '"><span>' + title
                          + '</span><span class="fee">' + fee + '</span></li>')
             main += '</ul></section>'
@@ -596,7 +602,7 @@ def main() -> None:
             main += '<section class="catalog-wide"><h2><a href="' + h(uhref) + '">' + h(name) + '</a></h2><p>' + h(uni.get("location", "Malaysia")) + ' · ' + str(len(entries)) + ' programmes in this study category.</p><ul class="catalog-list">'
             for e in entries:
                 href = selected_urls.get((name, e["name"]), uhref + "#" + e["id"])
-                main += ('<li><a href="' + h(href) + '">' + h(e["name"]) + '</a><span class="fee">' + h(public_fee_note(e)) + '</span></li>')
+                main += ('<li><a href="' + h(href) + '">' + h(e["name"]) + '</a><span class="fee">' + h(public_fee_note(e)) + ' · ' + fee_link(e['name'] + ' at ' + name) + '</span></li>')
             main += '</ul></section>'
         main += '<p>For applying to university in Malaysia, review our <a href="/guides/how-to-study-in-malaysia.html">international student admission guide</a> or <a href="/guides/malaysia-student-visa-emgs-guide.html">EMGS visa overview</a>.</p></div></section>'
         write(dest.lstrip("/"), wrap_page(page_head(
@@ -620,7 +626,7 @@ def main() -> None:
           '<div class="catalog-fact"><strong>Institution</strong><span>' + h(e["uni"]) + '</span></div>'
           '<div class="catalog-fact"><strong>Study level grouping</strong><span>' + h(e["level"]) + ' (categorised from title)</span></div>'
           '<div class="catalog-fact"><strong>University location</strong><span>' + h(e["location"]) + '</span></div>'
-          '<div class="catalog-fact"><strong>Finder fee reference' + (' (superseded: see official estimate below)' if (e["short"],e["name"]) in VERIFIED_PROGRAMMES and VERIFIED_PROGRAMMES[(e["short"],e["name"])].get("public_fee_note") else '') + '</strong><span>' + h(e["currency"]) + ' ' + h(e["raw_fee"]) + '</span></div>'
+          '<div class="catalog-fact"><strong>Finder fee reference' + (' (superseded: see official estimate below)' if (e["short"],e["name"]) in VERIFIED_PROGRAMMES and VERIFIED_PROGRAMMES[(e["short"],e["name"])].get("public_fee_note") else '') + '</strong><span>' + h(e["currency"]) + ' ' + h(e["raw_fee"]) + ' (unverified reference) · ' + fee_link(e['name'] + ' at ' + e['uni']) + '</span></div>'
           '<div class="catalog-fact"><strong>Intake reference</strong><span>' + h(e["intakes"] or "Not listed") + '</span></div></div>'
           '<div class="catalog-note"><strong>Fee and intake disclaimer:</strong> These values are taken from the NextGenz programme finder and have not been checked against the university’s current offer. The fee basis may be a semester, year, whole programme or other unit; the reference amount is not a final quotation. Check availability, fees and entry rules with the university before making decisions.</div>'
           '<h2>Is this programme right for you?</h2><p>' + h(level_note(e["level"])) + '</p><p>' + h(subject_note(e["name"])) + '</p>'
@@ -648,7 +654,7 @@ def main() -> None:
             verified += '<dl class="catalog-verified-list">'
             for label, fact in checked["facts"]:
                 verified += '<div><dt>' + h(label) + '</dt><dd>' + h(fact) + '</dd></div>'
-            verified += '</dl><p>' + h(checked["advice"]) + '</p>'
+            verified += '</dl><p>' + fee_link(e['name'] + ' at ' + e['uni']) + '</p><p>' + h(checked["advice"]) + '</p>'
             verified += '<p><a href="' + h(checked["source_url"]) + '" target="_blank" rel="noopener noreferrer">View original university programme source ↗</a></p>'
             if checked.get("second_source_url"):
                 verified += '<p><a href="' + h(checked["second_source_url"]) + '" target="_blank" rel="noopener noreferrer">' + h(checked["second_source_label"]) + ' ↗</a></p>'
@@ -707,6 +713,11 @@ def main() -> None:
       "generated_files": sorted(outputs)
     },ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     outputs.add("programmes/catalog-manifest.json")
+    finder_links = {uni["shortName"]: {} for uni in unis}
+    for e in records:
+        finder_links[e["short"]][e["name"]] = selected_urls.get(
+            (e["uni"], e["name"]), f'/programmes/universities/{e["uslug"]}.html#{e["id"]}')
+    write("programmes/finder-links.json", json.dumps(finder_links, ensure_ascii=False, separators=(",", ":")), outputs)
 
     # Include only HTML indexable pages, not CSS/JSON, in the existing sitemap.
     sitemap_path = ROOT / "sitemap.xml"

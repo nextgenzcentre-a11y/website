@@ -6,6 +6,9 @@ on:
     paths:
       - 'index.html'
       - 'scripts/build_programme_seo.py'
+      - 'scripts/programme_actions.py'
+      - 'scripts/check_programme_catalogue.py'
+      - 'scripts/check_programme_layout.mjs'
       - 'scripts/site_header.py'
       - 'scripts/programme_topics.py'
       - 'scripts/programme_level_subjects.py'
@@ -50,10 +53,10 @@ jobs:
           import json
           import xml.etree.ElementTree as ET
           data=json.loads(Path("programmes/catalog-manifest.json").read_text())
-          assert data["universities"] == 25
+          assert data["universities"] >= 25
           assert data["programme_listings"] >= 1100
           assert data["detailed_programme_pages"] >= 40
-          assert len(list(Path("programmes/universities").glob("*.html"))) == 25
+          assert len(list(Path("programmes/universities").glob("*.html"))) == data["universities"]
           assert Path("programmes/levels/foundation.html").is_file()
           assert Path("programmes/index.html").is_file()
           assert Path("programmes/subjects/index.html").is_file()
@@ -123,6 +126,12 @@ jobs:
           assert "Montserrat" in css and "#C5A059" in css and "Bangers" in css
           print("PASS: checked",len(docs),"public pages, typography and all local image paths")
           PY
+      - name: Verify catalogue links and fee enquiries
+        run: python scripts/check_programme_catalogue.py
+      - name: Compare representative layouts on mobile and desktop
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+        run: node scripts/check_programme_layout.mjs
       - name: Commit only generated programme content and sitemap
         run: |
           git config user.name "nextgenzcentre-a11y"
