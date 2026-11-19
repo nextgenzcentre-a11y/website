@@ -441,11 +441,11 @@ a:focus-visible,.button:focus-visible,.catalog-field-tile:focus-visible{outline:
 html[dir=rtl]{--brand-type:Montserrat,"Noto Sans Arabic",Tahoma,sans-serif;--shade-direction:270deg}
 html:lang(zh){--brand-type:Montserrat,"Noto Sans SC",sans-serif}
 body,body main :is(h1,h2,h3,h4,.button,.eyebrow){font-family:var(--brand-type)}
-body main .hero h1,body main .article h1{
+body main .hero :is(h1,.ng-seo-headline),body main .article h1{
   font-family:var(--brand-type)!important;font-weight:900!important;
   font-size:clamp(2.35rem,5vw,4.7rem)!important;letter-spacing:-.055em!important;line-height:1.05!important;
 }
-body main .hero h1 :is(.accent,.ng-gold-display,.ng-hero-kicker){
+body main .hero :is(h1,.ng-seo-headline) :is(.accent,.ng-gold-display,.ng-hero-kicker){
   font:inherit!important;letter-spacing:inherit!important;text-transform:none;
   -webkit-text-fill-color:currentColor!important;color:inherit!important;
 }
@@ -460,7 +460,7 @@ html:is([dir=rtl],:lang(zh)) body main h1{letter-spacing:normal!important;line-h
   }
 }
 @media(max-width:640px){
-  body main .hero h1,body main .article h1{font-size:clamp(2.2rem,8.1vw,3.3rem)!important;line-height:1.1!important}
+  body main .hero :is(h1,.ng-seo-headline),body main .article h1{font-size:clamp(2.2rem,8.1vw,3.3rem)!important;line-height:1.1!important}
 }
 .section,.catalog-fact,.catalog-table tr:hover td,.notice,.catalog-note{background:var(--surface)}
 .section:nth-of-type(even),.catalog-verified{background:#fff}
