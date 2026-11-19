@@ -44,6 +44,10 @@ def main():
         fees += counts['fee']
         for k, link in page.actions:
             dest = urlsplit(link)
+            if k == 'apply':
+                assert not dest.netloc and not dest.scheme and dest.path == '/' and dest.fragment == '/registerasstudent', path
+                assert parse_qs(dest.query)['programme'][0].strip(), path
+                continue
             assert dest.scheme == 'https' and dest.netloc == 'wa.me' and dest.path == '/'+PHONE, path
             assert parse_qs(dest.query)['text'][0].strip(), path
         for link in page.links:
@@ -58,7 +62,7 @@ def main():
                 assert unquote(dest.fragment) in pages[target].ids, (path,link)
     mapping = json.loads((ROOT/'programmes/finder-links.json').read_text())
     total = 0
-    decoded = {p: [(k,parse_qs(urlsplit(link).query)['text'][0]) for k,link in page.actions]
+    decoded = {p: [(k,parse_qs(urlsplit(link).query)['text'][0]) for k,link in page.actions if k == "fee"]
                for p,page in pages.items() if p.parent.name in ('universities','levels')}
     for uni in normalize_unis():
         names = uni['programmes']

@@ -113,7 +113,7 @@ jobs:
               assert BRAND_CREST in header, f"{file}: original crest missing"
               assert parsed.h1==1, f"{file}: expected one H1, got {parsed.h1}"
               assert parsed.images, f"{file}: missing photography"
-              assert "/guides/style.css?v=20261115-v9-original-logo" in parsed.styles, f"{file}: outdated or inconsistent stylesheet"
+              assert "/guides/style.css?v=20261119-landing" in parsed.styles, f"{file}: outdated or inconsistent stylesheet"
               for entry in parsed.images:
                   src=entry.get("src","")
                   if src.startswith("/assets/"):

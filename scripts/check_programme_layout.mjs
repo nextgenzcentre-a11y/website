@@ -48,7 +48,7 @@ try {
         for(let i=0;i<80&&!value;i++){
           const r=await call('Runtime.evaluate',{expression:`location.href===${JSON.stringify(url)} && document.readyState==='complete' && (() => {
             const h=document.querySelector('h1'),head=document.querySelector('header'),s=getComputedStyle(h);
-            return {font:s.fontFamily,size:s.fontSize,color:s.color,header:head.offsetHeight,overflow:document.documentElement.scrollWidth,
+            return {weight:s.fontWeight, surface:getComputedStyle(document.body).backgroundColor, font:s.fontFamily,size:s.fontSize,color:s.color,header:head.offsetHeight,overflow:document.documentElement.scrollWidth,
               actions:[...document.querySelectorAll('main a[data-ng-action="consult"],main a[data-ng-action="apply"]')].map(a=>a.offsetWidth>0 && a.offsetHeight>0)}
           })()`,returnByValue:true});
           value=r.result.value;if(!value)await delay(100);
@@ -56,7 +56,9 @@ try {
         assert(value,path);samples.push(value);
       }
       const [before,after]=samples;
-      for(const key of ['font','size','color','header'])assert.equal(after[key],before[key],path+' '+key);
+      assert.match(after.font,/Montserrat/,path);
+      assert.equal(after.weight,'900',path);
+      assert.equal(after.surface,'rgb(245, 247, 250)',path);
       assert(after.overflow<=Math.max(width,before.overflow)+1,path+' new page overflow at '+width);
       assert(after.actions.length>=4 && after.actions.every(Boolean),path+' hidden action');
     }

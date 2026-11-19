@@ -427,3 +427,49 @@ a:focus-visible,.button:focus-visible,.catalog-field-tile:focus-visible{outline:
   .ng-brand-header .ng-brand-mobile>summary{padding:8px}
   .ng-brand-header .ng-mobile-label{font-size:.72rem}
 }
+
+/* Shared landing-page typography and surfaces for public catalogue and editorial pages. */
+@font-face{
+  font-family:Montserrat;src:url("/assets/fonts/montserrat-latin.woff2") format("woff2");
+  font-style:normal;font-weight:100 900;font-display:swap;
+}
+:root{
+  --surface:#F5F7FA;--ink:#0A1633;--navy2:#0A1633;--gold-light:#C5A059;
+  --brand-type:Montserrat,Arial,sans-serif;--gold-ink:#8B6B32;
+  --shade-direction:90deg;
+}
+html[dir=rtl]{--brand-type:Montserrat,"Noto Sans Arabic",Tahoma,sans-serif;--shade-direction:270deg}
+html:lang(zh){--brand-type:Montserrat,"Noto Sans SC",sans-serif}
+body,body main :is(h1,h2,h3,h4,.button,.eyebrow){font-family:var(--brand-type)}
+body main .hero h1,body main .article h1{
+  font-family:var(--brand-type)!important;font-weight:900!important;
+  font-size:clamp(2.35rem,5vw,4.7rem)!important;letter-spacing:-.055em!important;line-height:1.05!important;
+}
+body main .hero h1 :is(.accent,.ng-gold-display,.ng-hero-kicker){
+  font:inherit!important;letter-spacing:inherit!important;text-transform:none;
+  -webkit-text-fill-color:currentColor!important;color:inherit!important;
+}
+html:is([dir=rtl],:lang(zh)) body main h1{letter-spacing:normal!important;line-height:1.3!important}
+.hero:before,.hero:after{display:none}
+.hero .ng-hero-media:before,[dir=rtl] .hero .ng-hero-media:before{
+  background:linear-gradient(var(--shade-direction),rgba(10,22,51,.98) 0%,rgba(10,22,51,.95) 23%,rgba(10,22,51,.80) 45%,rgba(10,22,51,.24) 73%,rgba(10,22,51,.04) 100%),linear-gradient(0deg,rgba(10,22,51,.45),transparent 55%);
+}
+@media(max-width:760px){
+  .hero .ng-hero-media:before,[dir=rtl] .hero .ng-hero-media:before{
+    background:linear-gradient(var(--shade-direction),rgba(10,22,51,.96),rgba(10,22,51,.77) 55%,rgba(10,22,51,.25)),linear-gradient(0deg,rgba(10,22,51,.65),transparent);
+  }
+}
+@media(max-width:640px){
+  body main .hero h1,body main .article h1{font-size:clamp(2.2rem,8.1vw,3.3rem)!important;line-height:1.1!important}
+}
+.section,.catalog-fact,.catalog-table tr:hover td,.notice,.catalog-note{background:var(--surface)}
+.section:nth-of-type(even),.catalog-verified{background:#fff}
+.aside,.catalog-table th{background:var(--navy)}
+.foot{background:#071126}
+a,.tile .arrow,.tile .tag,.catalog-verified-eyebrow{color:var(--gold-ink)}
+a:hover{color:var(--navy)}
+.tile:before,.article h2:before{background:var(--gold)}
+.tile h2,.catalog-field-tile strong,.catalog-verified h2,.catalog-verified h3{color:var(--navy)}
+.button:not(.secondary),.aside .button:not(.secondary),.hero .button:not(.secondary){background:var(--gold)!important;color:var(--navy)!important}
+.button:not(.secondary):hover{background:#D4AF37!important}
+.foot a,.aside a:not(.button),.aside h2,.aside h3{color:var(--gold)}

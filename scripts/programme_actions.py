@@ -21,6 +21,9 @@ COPY = {
 def action(kind, topic, lang="en"):
     index = ("consult", "apply", "fee").index(kind)
     label = COPY[lang][index]
+    if kind == "apply":
+        return (f'<a class="button secondary" data-ng-action="apply" '
+                f'href="/?programme={quote(topic, safe="")}#/registerasstudent">{escape(label)}</a>')
     message = COPY[lang][index + 3].format(topic=topic)
     css = (' class="button"', ' class="button secondary"', '')[index]
     return (f'<a{css} data-ng-action="{kind}" href="https://wa.me/{PHONE}?text={quote(message, safe="")}"'
