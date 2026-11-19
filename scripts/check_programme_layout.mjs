@@ -34,7 +34,7 @@ try {
   await call('Network.setBlockedURLs',{urls:['https://*']});
   const paths=['programmes/','programmes/subjects/','programmes/subjects/master-pharmacy-malaysia.html',
     'programmes/topics/mechanical-engineering-degree-malaysia.html','programmes/levels/bachelor.html',
-    'programmes/universities/um.html','programmes/courses/um/foundation-in-life-sciences-a5be48.html',
+    'programmes/universities/unikl.html','programmes/ar/universities/unikl.html','programmes/zh/universities/unikl.html','programmes/universities/um.html','programmes/courses/um/foundation-in-life-sciences-a5be48.html',
     'programmes/english-language-centres.html','guides/compare-universities-malaysia.html',
     'ar/study-in-malaysia.html','zh/study-in-malaysia.html','services/education-consultant-malaysia.html'];
   for(const width of [390,1440]){
@@ -48,7 +48,8 @@ try {
         for(let i=0;i<80&&!value;i++){
           const r=await call('Runtime.evaluate',{expression:`location.href===${JSON.stringify(url)} && document.readyState==='complete' && (() => {
             const h=document.querySelector('h1'),head=document.querySelector('header'),s=getComputedStyle(h);
-            return {weight:s.fontWeight, surface:getComputedStyle(document.body).backgroundColor, font:s.fontFamily,size:s.fontSize,color:s.color,header:head.offsetHeight,overflow:document.documentElement.scrollWidth,
+            const row=document.querySelector('.catalog-list li'), fee=row?.querySelector('[data-ng-action="fee"]');
+            return {rowDisplay:row && getComputedStyle(row).display,feeLabel:fee?.textContent,weight:s.fontWeight, surface:getComputedStyle(document.body).backgroundColor, font:s.fontFamily,size:s.fontSize,color:s.color,header:head.offsetHeight,overflow:document.documentElement.scrollWidth,
               actions:[...document.querySelectorAll('main a[data-ng-action="consult"],main a[data-ng-action="apply"]')].map(a=>a.offsetWidth>0 && a.offsetHeight>0)}
           })()`,returnByValue:true});
           value=r.result.value;if(!value)await delay(100);
@@ -56,6 +57,10 @@ try {
         assert(value,path);samples.push(value);
       }
       const [before,after]=samples;
+      if (path.endsWith('/universities/unikl.html')) {
+        assert.equal(after.rowDisplay,width===390?'block':'grid',path);
+        assert.equal(after.feeLabel,path.includes('/ar/')?'المزيد':path.includes('/zh/')?'更多':'More',path);
+      }
       assert.match(after.font,/Montserrat/,path);
       assert.equal(after.weight,'900',path);
       assert.equal(after.surface,'rgb(245, 247, 250)',path);
@@ -63,7 +68,7 @@ try {
       assert(after.actions.length>=4 && after.actions.every(Boolean),path+' hidden action');
     }
   }
-  socket.close();console.log('PASS: 12 representative pages at 390px and 1440px vs '+previous);
+  socket.close();console.log('PASS: '+paths.length+' representative pages at 390px and 1440px vs '+previous);
 } finally {
   chrome.kill();for(const s of servers)s.kill();execFileSync('git',['worktree','remove','--force',base]);
 }

@@ -18,6 +18,8 @@ COPY = {
            "我想免费咨询：{topic}。", "我想开始申请：{topic}。", "请提供我所选入学批次的学费和费用明细：{topic}。"),
 }
 
+MORE = {"en": "More", "ar": "المزيد", "zh": "更多"}
+
 def action(kind, topic, lang="en"):
     index = ("consult", "apply", "fee").index(kind)
     label = COPY[lang][index]
@@ -25,8 +27,11 @@ def action(kind, topic, lang="en"):
         return (f'<a class="button secondary" data-ng-action="apply" '
                 f'href="/?programme={quote(topic, safe="")}#/registerasstudent">{escape(label)}</a>')
     message = COPY[lang][index + 3].format(topic=topic)
+    description = f' aria-label="{escape(MORE[lang] + " · " + label + " " + topic, quote=True)}"' if kind == "fee" else ""
+    if kind == "fee":
+        label = MORE[lang]
     css = (' class="button"', ' class="button secondary"', '')[index]
-    return (f'<a{css} data-ng-action="{kind}" href="https://wa.me/{PHONE}?text={quote(message, safe="")}"'
+    return (f'<a{css}{description} data-ng-action="{kind}" href="https://wa.me/{PHONE}?text={quote(message, safe="")}"'
             f' target="_blank" rel="noopener noreferrer">{escape(label)}</a>')
 
 def fee_link(topic, lang="en"):

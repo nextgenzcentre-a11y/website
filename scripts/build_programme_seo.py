@@ -166,7 +166,7 @@ def page_head(title: str, desc: str, path: str, schema: dict | None = None) -> s
       '<meta property="og:description" content="' + h(desc) + '">'
       '<meta property="og:url" content="' + h(canonical) + '">'
       '<meta property="og:site_name" content="NextGenz Centre">'
-      '<link rel="stylesheet" href="/programmes/catalog.css">'
+      '<link rel="stylesheet" href="/programmes/catalog.css?v=20261119-rows">'
       '<link rel="stylesheet" href="/guides/style.css?v=20261119-landing">'
       + jsonld + '</head><body>' + MARKER
     )
@@ -265,8 +265,12 @@ CSS = """
 .catalog-links a{background:#fff;border:1px solid #c8e2ed;border-radius:999px;padding:8px 15px;text-decoration:none;font-weight:800}
 .catalog-links a:hover{border-color:#0c8b86;background:#e6faf8}
 .catalog-list{list-style:none;padding:0;margin:20px 0 34px}
-.catalog-list li{display:flex;flex-wrap:wrap;gap:9px;align-items:baseline;justify-content:space-between;border-bottom:1px solid #dce8ef;padding:12px 0;scroll-margin-top:92px}
-.catalog-list a{font-weight:700;color:#096e77}
+.catalog-list li{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);column-gap:24px;row-gap:4px;align-items:baseline;border-bottom:1px solid #dce8ef;padding:12px 0;scroll-margin-top:92px}
+.catalog-list li[hidden]{display:none}
+.catalog-list a{font-weight:700;color:var(--gold-ink,#8B6B32)}
+.catalog-list .fee,.catalog-list li>small{text-align:end}
+.catalog-list .compare-link{display:block;width:fit-content;font-size:.78rem}
+.catalog-list [data-ng-action="fee"]{white-space:nowrap}
 .catalog-list .fee{font-size:.78rem;color:#577086;font-weight:600}
 .catalog-wide{background:#fff;border:1px solid #dce8ef;border-radius:22px;padding:30px;margin-bottom:28px}
 .catalog-wide h2{margin-top:0}
@@ -281,7 +285,7 @@ CSS = """
 .catalog-field-tile[hidden]{display:none!important}.catalog-wide[hidden]{display:none!important}.catalog-search-label{display:block;margin:22px 0 8px;color:#184960}
 .catalog-field-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}.catalog-field-tile{display:flex;flex-direction:column;gap:7px;background:#f6fafc;border:1px solid #cfe6ee;border-radius:15px;padding:18px;text-decoration:none;color:#123d50}.catalog-field-tile strong{font-weight:850;font-size:1rem;color:#125b63}.catalog-field-tile small{color:#547180}.catalog-field-tile span{font-weight:750;color:#0b7770;font-size:.85rem}.catalog-field-tile:hover{border-color:#089c92;background:#eafaf6}@media(max-width:810px){.catalog-field-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:550px){.catalog-field-grid{grid-template-columns:1fr}}
 .catalog-comparison{overflow-x:auto;border:1px solid #dce8ef;border-radius:16px;margin:25px 0}.catalog-table{border-collapse:collapse;width:100%;min-width:620px;font-size:.94rem}.catalog-table th{text-align:left;background:#e7f8f6;color:#1a3c53;padding:13px 15px;font-weight:800}.catalog-table td{border-bottom:1px solid #e5edf2;padding:13px 15px;vertical-align:top}.catalog-table tr:last-child td{border-bottom:0}.catalog-table a{font-weight:700}.catalog-loc{display:block;color:#667d8d;margin-top:3px;font-size:.77rem}.catalog-money{font-weight:700;color:#3b5872;white-space:nowrap}
-@media(max-width:650px){.catalog-facts{grid-template-columns:1fr}.catalog-wide{padding:20px}.catalog-list li{display:block}.catalog-list .fee{display:block;margin-top:4px}}
+@media(max-width:650px){.catalog-facts{grid-template-columns:1fr}.catalog-wide{padding:20px}.catalog-list li{display:block}.catalog-list .fee,.catalog-list li>small{display:block;margin-top:4px;text-align:start}}
 """
 
 def write(relative: str, data: str, output: set[str]) -> None:
@@ -544,7 +548,7 @@ def main() -> None:
                     title = '<strong>' + title + '</strong>'
                 subject = next((subject_pages[(lev, field["slug"])]["path"] for field in field_for(e["name"])
                                 if (lev, field["slug"]) in subject_pages), "/programmes/levels/" + LEVEL_SLUG[lev] + ".html")
-                title += ' · <a href="' + h(subject) + '">Compare related programmes</a>'
+                title += '<a class="compare-link" href="' + h(subject) + '" aria-label="Compare programmes related to ' + h(e["name"]) + '">Compare</a>'
                 fee = h(public_fee_note(e)) + ' · ' + fee_link(e['name'] + ' at ' + name)
                 main += ('<li id="' + e["id"] + '" class="finder-program" data-title="' + h(e["name"].lower()) + '"><span>' + title
                          + '</span><span class="fee">' + fee + '</span></li>')
