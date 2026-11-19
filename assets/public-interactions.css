@@ -1,0 +1,46 @@
+/* Shared by the public landing pages and catalogue. */
+.catalog-list-labels {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  column-gap: 24px;
+  padding: 10px 0;
+  border-block: 1px solid #dce5ef;
+  color: #0A1633;
+  font: inherit;
+  font-size: .8rem;
+  font-weight: 700;
+}
+.catalog-list-labels span:last-child { text-align: end; }
+.catalog-list-labels + .catalog-list { margin-top: 0; }
+.catalog-list .mobile-fee-label { display: none; }
+@media (max-width:650px) {
+  .catalog-list-labels { display: none; }
+  .catalog-list .mobile-fee-label { display: inline; color: #0A1633; font-weight: 700; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes ng-public-enter {
+    from { opacity: .65; translate: 0 8px; }
+    to { opacity: 1; translate: 0 0; }
+  }
+  .ng-enter-view { animation: ng-public-enter 320ms ease-out; }
+  .ng-mobile-drawer, .ng-language-panel,
+  .ng-brand-mobile[open] > .ng-brand-mobile-list,
+  .ng-brand-language[open] > .ng-brand-language-list {
+    animation: ng-public-enter 170ms ease-out;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+}
+@media print {
+  .ng-enter-view { animation: none; }
+}
+@media (hover: hover) {
+  .catalog-list li:hover { background: #F5F7FA; }
+}
+.catalog-list li:focus-within { background: #F5F7FA; }
+.ng-menu-text { display: none; }
+@media (min-width:400px) {
+  .ng-menu-button:has(.ng-menu-text) { width: auto; padding-inline: .65rem; gap: .4rem; }
+  .ng-menu-text { display: inline; font-size: .75rem; font-weight: 700; }
+}

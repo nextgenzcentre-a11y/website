@@ -1,24 +1,40 @@
-(function(){
-  "use strict";
-  if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  var observer = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry) {
-      if(entry.isIntersecting){entry.target.classList.add("ng-visible");observer.unobserve(entry.target);}
-    });
-  },{threshold:0.08,rootMargin:"0px 0px 40px 0px"});
-  function scan(){
-    document.querySelectorAll(".ng-reveal:not([data-ng-reveal-bound])").forEach(function(el){
-      el.setAttribute("data-ng-reveal-bound","1");
-      if(el.getBoundingClientRect().top < window.innerHeight*0.98){el.classList.add("ng-visible");}
-      el.classList.add("ng-motion-enabled");
-      observer.observe(el);
-    });
+// Animate once as public content enters the viewport. Everything is readable before JS runs.
+(() => {
+  if (!('IntersectionObserver' in window)) return;
+  const preference = matchMedia('(prefers-reduced-motion: reduce)');
+  const targets = '.ng-home-preview, .ng-market .ng-service-card, main .tile, main .catalog-wide > h2, main .article h2, main .section > .wrap > h2';
+  let observer, changes;
+  function configure() {
+    observer?.disconnect();
+    changes?.disconnect();
+    if (preference.matches) return;
+    const seen = new WeakSet();
+    observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        observer.unobserve(entry.target);
+        entry.target.classList.add('ng-enter-view');
+      }
+    }, {threshold: 0});
+    function register(node) {
+      if (seen.has(node)) return;
+      seen.add(node);
+      if (node.getBoundingClientRect().top >= innerHeight) observer.observe(node);
+    }
+    function scan(node) {
+      if (node.nodeType !== Node.ELEMENT_NODE) return;
+      if (node.matches(targets)) register(node);
+      node.querySelectorAll(targets).forEach(register);
+    }
+    scan(document.body);
+    const root = document.getElementById('root');
+    if (root) {
+      changes = new MutationObserver(records => {
+        for (const record of records) record.addedNodes.forEach(scan);
+      });
+      changes.observe(root, {childList:true, subtree:true});
+    }
   }
-  var scheduled=false;
-  function scheduleScan(){if(scheduled)return;scheduled=true;requestAnimationFrame(function(){scheduled=false;scan();});}
-  document.addEventListener("DOMContentLoaded",function(){
-    scan();
-    var target=document.getElementById("root");
-    if(target){new MutationObserver(scheduleScan).observe(target,{childList:true,subtree:true});}
-  });
+  configure();
+  preference.addEventListener('change', configure);
 })();

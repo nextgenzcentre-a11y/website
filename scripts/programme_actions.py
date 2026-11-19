@@ -68,3 +68,16 @@ def add_page_actions(main, lang="en"):
     if 'data-ng-action="fee"' not in main:
         pair = fee_link(topic, lang) + '</p><p>' + pair
     return main[:at] + '<p>' + pair + '</p>' + main[at:]
+
+def labelled_catalogue(main, lang="en"):
+    programme, fee = {
+        "en": ("Programme", "Tuition reference"),
+        "ar": ("البرنامج الدراسي", "الرسوم الاسترشادية"),
+        "zh": ("课程名称", "学费参考"),
+    }[lang]
+    heading = f'<div class="catalog-list-labels"><span>{programme}</span><span>{fee}</span></div>'
+    def label_list(match):
+        rows = re.sub(r'(<span class="fee">|<small>)',
+                      lambda m: m[0] + f'<span class="mobile-fee-label">{fee} · </span>', match[1])
+        return heading + '<ul class="catalog-list">' + rows + '</ul>'
+    return re.sub(r'<ul class="catalog-list">(.*?)</ul>', label_list, main, flags=re.S)

@@ -2,7 +2,7 @@
 from html import escape
 import re
 from programme_verified_facts import VERIFIED_PROGRAMMES
-from programme_actions import action
+from programme_actions import action, labelled_catalogue
 from programme_level_subjects import field_for
 from programme_topics import TOPICS, matches_topic
 from site_header import header_html
@@ -130,7 +130,7 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
                 page+='<p>'+local_link(directory+'english-language-centres.html',title[directory+'english-language-centres.html'])+'</p>'
             page+='<p>'+action('fee',label,lang)+'</p><p>'+actions(label)+'</p></article></div></section></main><footer class="foot"><div class="wrap">NEXTGENZ CENTRE · '+local_link(directory,tr('تصفّح البرامج في الجامعات الماليزية','浏览马来西亚各大学课程'))+'</div></footer></body></html>'
             filename=address+('index.html' if address.endswith('/') else '')
-            write(filename,page,outputs)
+            write(filename,labelled_catalogue(page,lang),outputs)
             by_path[path]=True
     for path in by_path:
         file=path+('index.html' if path.endswith('/') else '')

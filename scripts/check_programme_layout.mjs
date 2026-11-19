@@ -68,6 +68,33 @@ try {
       assert(after.actions.length>=4 && after.actions.every(Boolean),path+' hidden action');
     }
   }
+  // Exercise a real catalogue menu and the section entrance under both OS motion preferences.
+  const evalValue = async expression => (await call('Runtime.evaluate',{expression,returnByValue:true})).result.value;
+  const testUrl='http://127.0.0.1:9811/programmes/universities/unikl.html';
+  for (const width of [390,1440]) {
+    await call('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:width===390});
+    await call('Page.navigate',{url:testUrl});
+    for(let i=0;i<80;i++) {
+      if(await evalValue("location.href.endsWith('/universities/unikl.html') && document.readyState==='complete' && !!document.querySelector('.mobile-fee-label')")) break;
+      await delay(100);
+    }
+    const mobile=width===390;
+    assert.equal(await evalValue("getComputedStyle(document.querySelector('.catalog-list-labels')).display"),mobile?'none':'grid');
+    assert.equal(await evalValue("getComputedStyle(document.querySelector('.mobile-fee-label')).display"),mobile?'inline':'none');
+    const menu=mobile?'.ng-brand-mobile':'.ng-brand-language';
+    for (const motion of ['no-preference','reduce']) {
+      await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:motion}]});
+      await evalValue("document.querySelector('"+menu+"').open=false");
+      await evalValue("document.querySelector('"+menu+" > summary').click()");
+      const animation=await evalValue("getComputedStyle(document.querySelector('"+menu+"').lastElementChild).animationName");
+      assert.equal(animation,motion==='reduce'?'none':'ng-public-enter');
+    }
+    await call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
+    await call('Runtime.evaluate',{expression:'new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))',awaitPromise:true});
+    await evalValue("document.querySelectorAll('.catalog-wide > h2')[2].scrollIntoView({behavior:'instant'})");
+    for(let i=0;i<30 && !await evalValue("document.querySelectorAll('.catalog-wide > h2')[2].classList.contains('ng-enter-view')");i++) await delay(100);
+    assert(await evalValue("document.querySelectorAll('.catalog-wide > h2')[2].classList.contains('ng-enter-view')"));
+  }
   socket.close();console.log('PASS: '+paths.length+' representative pages at 390px and 1440px vs '+previous);
 } finally {
   chrome.kill();for(const s of servers)s.kill();execFileSync('git',['worktree','remove','--force',base]);

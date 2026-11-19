@@ -24,7 +24,7 @@ import unicodedata
 from programme_topics import TOPICS, matching_topics, generate_topic_pages
 from programme_verified_facts import VERIFIED_PROGRAMMES
 from programme_level_subjects import FIELDS, LEVEL_LABELS, field_for, generate_level_subject_pages
-from programme_actions import add_page_actions, fee_link
+from programme_actions import add_page_actions, fee_link, labelled_catalogue
 from site_header import header_html
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -168,7 +168,7 @@ def page_head(title: str, desc: str, path: str, schema: dict | None = None) -> s
       '<meta property="og:site_name" content="NextGenz Centre">'
       '<link rel="stylesheet" href="/programmes/catalog.css?v=20261119-rows">'
       '<link rel="stylesheet" href="/guides/style.css?v=20261119-landing">'
-      + jsonld + '</head><body>' + MARKER
+      + jsonld + '<link rel="stylesheet" href="/assets/public-interactions.css"><script defer src="/assets/nextgenz-motion.js?v=20261119"></script></head><body>' + MARKER
     )
 
 # Existing NextGenz website photos keep the SEO pages visually consistent.
@@ -219,7 +219,7 @@ def brand_gallery(path: str) -> str:
 def wrap_page(head: str, main: str) -> str:
     # One H1 for SEO, with the homepage's Montserrat / Bangers
     # mixed headline styling on degree and subject search pages.
-    main = add_page_actions(main)
+    main = labelled_catalogue(add_page_actions(main))
     plain_heading = re.search(r'<h1>([^<]+)</h1>', main)
     if plain_heading:
         title = plain_heading.group(1).strip()
@@ -526,7 +526,7 @@ def main() -> None:
           '<div class="catalog-stats"><span>' + h(uni.get("type","University")) + ' university</span><span>' + h(uni.get("location","Malaysia")) + '</span><span>' + str(len(by_uni[name])) + ' programme listings</span></div></div></section>'
           '<section class="section"><div class="wrap"><div class="catalog-note">Programme titles and amounts below are references from our existing finder. They are <strong>not confirmed current university offers</strong>. Any listed fee may be per semester, year or total, depending on the programme; verify the basis, currency, eligibility and intake with the official university.</div>'
         )
-        main += '<h2>Find a course at ' + h(name) + '</h2><input type="search" class="catalog-search" id="courseFilter" placeholder="Filter programme titles on this page..." aria-label="Filter programmes">'
+        main += '<h2>Find a course at ' + h(name) + '</h2><label class="catalog-search-label" for="courseFilter">Search by programme name</label><input type="search" class="catalog-search" id="courseFilter" placeholder="Filter programme titles on this page..." aria-label="Filter programmes">'
         main += '<div class="catalog-links">'
         for lev in LEVELS:
             if counts_uni[lev]:

@@ -1104,7 +1104,7 @@ display: none !important;
 }
 </script>
 <script defer src="/assets/language-choice.js"></script>
-</head>
+<link rel="stylesheet" href="/assets/public-interactions.css"><script defer src="/assets/nextgenz-motion.js?v=20261119"></script></head>
 <body class="font-sans text-gray-800 antialiased bg-[#F5F7FA] overflow-x-hidden">
 <!-- Static Google Translate Target Element -->
 <div id="google_translate_element" style="position: absolute; left: -9999px; top: -9999px; opacity: 0; pointer-events: none;"></div>
@@ -2423,14 +2423,14 @@ return (
 type="button"
 onClick={() => setIsOpen(!isOpen)}
 className="bg-[#0A1633] hover:bg-[#1a2f50] text-white border border-[#C5A059]/60 px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 shadow-sm transition cursor-pointer"
-aria-label="Select Language"
+aria-expanded={isOpen} aria-label="Select Language"
 >
 <span className="text-sm">{currentLang.flag}</span>
 <span className="hidden sm:inline-block font-semibold">{currentLang.name}</span>
 <i className={`fa-solid fa-chevron-down text-[10px] text-[#C5A059] transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}></i>
 </button>
 {isOpen && (
-<div className="absolute right-0 mt-2 w-52 rounded-2xl bg-[#0A1633] border border-[#C5A059]/40 shadow-2xl py-2 z-50 animate-fade-in divide-y divide-gray-800">
+<div className="absolute right-0 mt-2 w-52 rounded-2xl bg-[#0A1633] border border-[#C5A059]/40 shadow-2xl py-2 z-50 ng-language-panel divide-y divide-gray-800">
 <div className="px-3 py-1.5 text-[10px] font-bold text-[#C5A059] uppercase tracking-wider flex items-center gap-1">
 <i className="fa-solid fa-globe"></i> Select Language
 </div>
@@ -2515,12 +2515,12 @@ return (
       </div>
       <div className="lg:hidden flex items-center gap-2 shrink-0">
         <LanguageSelector />
-        <button contentEditable={false} suppressContentEditableWarning className="ng-menu-button h-10 w-10 rounded-xl border border-white/20 text-white flex items-center justify-center" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-expanded={mobileMenuOpen} aria-label="Toggle menu"><i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'}`}></i></button>
+        <button contentEditable={false} suppressContentEditableWarning className="ng-menu-button h-10 w-10 rounded-xl border border-white/20 text-white flex items-center justify-center" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-expanded={mobileMenuOpen} aria-controls="public-mobile-menu" aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}><i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'}`} aria-hidden="true"></i><span className="ng-menu-text">Menu</span></button>
       </div>
     </div>
   </div>
   {mobileMenuOpen && (
-    <div className="ng-mobile-drawer lg:hidden bg-[#0A1633] border-t border-[#C5A059]/20 shadow-2xl">
+    <div id="public-mobile-menu" className="ng-mobile-drawer lg:hidden bg-[#0A1633] border-t border-[#C5A059]/20 shadow-2xl">
       <div className="px-5 py-5 grid grid-cols-2 gap-2 text-white/90 text-sm font-semibold">
         {[
           ['Universities','#universities'],['Why Malaysia','#why-malaysia'],['Services','#services'],['Portals','#portals'],['How it works','#process'],['Agents','#agents'],['Journal','#articles'],['FAQ','#faq'],['Free Advisory','#contact']
