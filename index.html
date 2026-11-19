@@ -1103,6 +1103,7 @@ display: none !important;
 ]
 }
 </script>
+<script defer src="/assets/language-choice.js"></script>
 </head>
 <body class="font-sans text-gray-800 antialiased bg-[#F5F7FA] overflow-x-hidden">
 <!-- Static Google Translate Target Element -->
@@ -1168,7 +1169,7 @@ if (sweeps > 40) clearInterval(interval);
 </script>
 <div id="root"><div class="ng-crawl-first">
 <header class="nav-first"><a href="/" class="brand-first">NEXTGENZ CENTRE</a><nav class="links-first" aria-label="Main navigation"><a href="/services/free-university-placement-malaysia.html">Free university placement</a><a href="/programmes/">University programmes</a><a href="/services/education-consultant-malaysia.html">Education consultant</a><a href="/guides/">Study guides</a><a href="/guides/malaysia-student-visa-emgs-guide.html">EMGS visa guide</a><a href="/guides/english-courses-in-malaysia.html">English courses</a></nav></header>
-<main>
+<main><p><a lang="ar" href="/programmes/ar/">دليل التخصصات بالعربية</a> · <a lang="zh-CN" href="/programmes/zh/">简体中文专业目录</a></p>
 <section class="hero-first"><p style="color:#edc675;font-size:12px;letter-spacing:.15em;font-weight:800">NEXTGENZ CENTRE · STUDY IN MALAYSIA</p><h1>Study in Malaysia for international students</h1>
 <p class="lead-first">NextGenz Centre helps international students choose Malaysian universities and programmes, prepare admission applications, explore English language courses, and understand the EMGS student visa process. Our core university placement advice is free; official university and third-party charges still apply.</p>
 <a class="cta-first" data-ng-action="consult" href="https://wa.me/601167701210?text=I%27d%20like%20a%20free%20consultation%20about%20studying%20in%20Malaysia." target="_blank" rel="noopener noreferrer">Free Consultation on WhatsApp</a> <a class="cta-first cta-outline-first" data-ng-action="apply" href="/#/registerasstudent">Apply Now</a></section>
@@ -2372,6 +2373,7 @@ document.documentElement.setAttribute('dir', 'rtl');
 }
 }, []);
 const changeLanguage = (lang: LanguageOption) => {
+try { localStorage.setItem("nextgenz-language", lang.code.split("-")[0]); } catch {}
 setCurrentLang(lang);
 setIsOpen(false);
 // RTL handling for Arabic
@@ -2433,6 +2435,8 @@ aria-label="Select Language"
 <i className="fa-solid fa-globe"></i> Select Language
 </div>
 <div className="max-h-64 overflow-y-auto py-1">
+<a className="block px-4 py-2 text-xs text-white" lang="ar" href="/programmes/ar/">دليل التخصصات بالعربية</a>
+<a className="block px-4 py-2 text-xs text-white" lang="zh-CN" href="/programmes/zh/">简体中文专业目录</a>
 {LANGUAGES.map((lang) => (
 <button contentEditable={false} suppressContentEditableWarning
 key={lang.code}

@@ -30,7 +30,7 @@ LANG_OPTIONS = (("English","/guides/how-to-study-in-malaysia.html"),
                 ("العربية","/ar/study-in-malaysia.html"),
                 ("中文","/zh/study-in-malaysia.html"))
 
-def header_html(lang: str = "en") -> str:
+def header_html(lang: str = "en", catalogue_path: str = "") -> str:
     active = {"en": "English", "ar": "العربية", "zh": "中文"}.get(lang, "English")
     links = ''.join(
         '<a href="' + escape(url, quote=True) + '">' + escape(text) + '</a>'
@@ -44,9 +44,10 @@ def header_html(lang: str = "en") -> str:
              'alt="NextGenz Centre official crest" data-logo-locked="true">'
              '<span class="ng-brand-wordmark">NEXTGENZ <span>CENTRE</span></span>'
              '</a>')
+    options = LANG_OPTIONS if not catalogue_path else tuple((name, catalogue_path if code=="en" else catalogue_path.replace("/programmes/", "/programmes/"+code+"/", 1)) for (name,_),code in zip(LANG_OPTIONS, ("en","ar","zh")))
     languages = ''.join('<a href="' + escape(href, quote=True) +
                         '" lang="' + ("ar" if text == "العربية" else "zh-CN" if text == "中文" else "en") +
-                        '">' + text + '</a>' for text, href in LANG_OPTIONS)
+                        '">' + text + '</a>' for text, href in options)
     language = ('<details class="ng-brand-language"><summary aria-label="Choose language">'
                 + active + '<span class="ng-drop-chevron" aria-hidden="true">⌄</span></summary>'
                 '<div class="ng-brand-language-list">' + languages + '</div></details>')
@@ -59,7 +60,7 @@ def header_html(lang: str = "en") -> str:
                     '<a href="/programmes/subjects/">Find a Degree</a>'
                     '<a href="/guides/">Study guides</a>' +
                     '<div class="ng-mobile-lang">' + languages + '</div>' + advisory)
-    return ('<header class="nav ng-brand-header" dir="ltr">'
+    header = ('<header class="nav ng-brand-header" dir="ltr">'
             '<div class="ng-brand-shell">' + brand +
             '<nav class="ng-brand-primary" aria-label="Main website navigation">' + links + '</nav>'
             '<div class="ng-brand-tools">' + explore + language + advisory + '</div>'
@@ -69,3 +70,19 @@ def header_html(lang: str = "en") -> str:
             '<nav class="ng-brand-mobile-list" aria-label="Mobile website navigation">' +
             mobile_links + '</nav></details>'
             '</div></header>')
+
+    if catalogue_path and lang in ('ar','zh'):
+        labels = {
+            'Universities':('الجامعات','大学'), 'Why Malaysia':('لماذا ماليزيا','为何选择马来西亚'),
+            'Services':('الخدمات','服务'), 'Portals':('البوابات','门户'), 'How it works':('خطوات التقديم','申请流程'),
+            'Agents':('الوكلاء','合作伙伴'), 'FAQ':('الأسئلة الشائعة','常见问题'), 'Journal':('المقالات','资讯'),
+            'Explore Programs':('تصفح البرامج','浏览课程'), 'Find a Degree':('ابحث عن تخصص','查找专业'),
+            'Study guides':('أدلة الدراسة','留学指南'), 'Menu':('القائمة','菜单'), 'Free Advisory':('استشارة مجانية','免费咨询')
+        }
+        for en, translations in labels.items():
+            import re
+            header = re.sub('(?<=>)'+en+'(?=[ <])',lambda m:translations[lang=='zh'],header)
+        header = header.replace('href="/programmes/"','href="/programmes/'+lang+'/"').replace('href="/programmes/subjects/"','href="/programmes/'+lang+'/subjects/"').replace('href="/guides/"','href="/'+lang+'/study-in-malaysia.html"')
+        # Restore the English switch when the current page is the catalogue root.
+        header = header.replace('href="/programmes/'+lang+'/" lang="en"','href="/programmes/" lang="en"').replace('href="/programmes/'+lang+'/subjects/" lang="en"','href="/programmes/subjects/" lang="en"')
+    return header

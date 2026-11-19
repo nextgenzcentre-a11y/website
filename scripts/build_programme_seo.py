@@ -683,6 +683,9 @@ def main() -> None:
             {"@context":"https://schema.org","@type":"WebPage","name":e["name"]+" at "+e["uni"],"url":PUBLIC_BASE+dest,"about":{"@type":"EducationalOrganization","name":e["uni"]}}
         ),main),outputs)
 
+    from programme_languages import publish
+    publish(records, english_centres, subject_pages, LEVEL_SLUG, outputs, ROOT, write, page_head, brand_photo)
+
     # Manifest is only used to safely remove older generated files if a title
     # disappears from the original programme finder in a future update.
     manifest = OUT / "catalog-manifest.json"

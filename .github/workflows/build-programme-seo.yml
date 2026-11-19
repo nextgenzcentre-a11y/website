@@ -7,6 +7,7 @@ on:
       - 'index.html'
       - 'scripts/build_programme_seo.py'
       - 'scripts/programme_actions.py'
+      - 'scripts/programme_languages.py'
       - 'scripts/check_programme_catalogue.py'
       - 'scripts/check_programme_layout.mjs'
       - 'scripts/site_header.py'
@@ -109,7 +110,12 @@ jobs:
               lang="ar" if path.startswith("ar/") else "zh" if path.startswith("zh/") else "en"
               assert "<header class=\"nav ng-brand-header\" dir=\"ltr\">" in raw, f"{file}: old text-only header remains"
               header=raw[raw.index('<header class="nav ng-brand-header"'):raw.index("</header>")+len("</header>")]
-              assert header == header_html(lang), f"{file}: navigation drift from original brand template"
+              catalogue = "/" + path.removesuffix("index.html") if path.startswith("programmes/") else ""
+              for locale in ("ar","zh"):
+                  if catalogue.startswith("/programmes/"+locale+"/"):
+                      lang=locale
+                      catalogue=catalogue.replace("/programmes/"+locale+"/","/programmes/",1)
+              assert header == header_html(lang,catalogue), f"{file}: navigation drift from original brand template"
               assert BRAND_CREST in header, f"{file}: original crest missing"
               assert parsed.h1==1, f"{file}: expected one H1, got {parsed.h1}"
               assert parsed.images, f"{file}: missing photography"
