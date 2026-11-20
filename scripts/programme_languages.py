@@ -101,13 +101,21 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
                 seo_title = label + suffix
                 if len(seo_title) > 60:
                     short = entries[0]['short'] if len(entries) == 1 and entries[0].get('detail') == path else ''
-                    label_without_short = label.removesuffix(' · ' + short) if short else label
-                    reserved = len(suffix) + (len(' · ' + short) if short else 0)
-                    budget = 60 - reserved
-                    clipped = label_without_short[:budget].rsplit(' ', 1)[0].strip(' ·,')
-                    if len(clipped) < 20:
-                        clipped = label_without_short[:budget].rstrip(' ·,')
-                    seo_title = clipped + (' · ' + short if short else '') + suffix
+                    if short:
+                        subjects = [f for f in field_for(entries[0]['name']) if f['slug'] in FIELDS]
+                        if subjects:
+                            academic_subject = field(subjects[0]['slug'])
+                            concise = LEVEL[entries[0]['level']][i] + ' · ' + academic_subject + ' · ' + short + suffix
+                            if len(concise) <= 60:
+                                seo_title = concise
+                    if len(seo_title) > 60:
+                        label_without_short = label.removesuffix(' · ' + short) if short else label
+                        reserved = len(suffix) + (len(' · ' + short) if short else 0)
+                        budget = 60 - reserved
+                        clipped = label_without_short[:budget].rsplit(' ', 1)[0].strip(' ·,')
+                        if len(clipped) < 20:
+                            clipped = label_without_short[:budget].rstrip(' ·,')
+                        seo_title = clipped + (' · ' + short if short else '') + suffix
             # The full lead paragraph stays visible. Only the search
             # description is condensed when the original exceeds 160 chars.
             seo_desc = desc
