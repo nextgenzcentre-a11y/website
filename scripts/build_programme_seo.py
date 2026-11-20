@@ -390,6 +390,17 @@ def main() -> None:
         e["detail"] = "/programmes/courses/" + e["uslug"] + "/" + e["id"] + ".html"
     selected_urls = {k: v["detail"] for k, v in selected.items()}
 
+    # Match identical award titles across institutions without implying equivalent fees or entry rules.
+    by_title = defaultdict(list)
+    for course in records:
+        by_title[(course["level"], course["name"].strip().casefold())].append(course)
+    for course in selected.values():
+        matches = by_title[(course["level"], course["name"].strip().casefold())]
+        course["other_providers"] = [
+            (other["uni"], other.get("detail") or f'/programmes/universities/{other["uslug"]}.html#{other["id"]}')
+            for other in matches if other["uni"] != course["uni"]
+        ]
+
     outputs = set()
     write("programmes/catalog.css", CSS, outputs)
     topic_pages = generate_topic_pages(records, selected_urls, uni_slugs, write, wrap_page, page_head, h, outputs)
@@ -684,6 +695,11 @@ def main() -> None:
             raise RuntimeError("Could not insert relevant course comparison links")
         cross_links = [t for t in matching_topics(e) if t["slug"] in topic_pages]
         related = '<h2>Explore similar university options</h2>'
+        if e["other_providers"]:
+            related += '<p>Other universities listing ' + h(e["name"]) + ':</p><ul>'
+            for provider, url in e["other_providers"]:
+                related += '<li><a href="' + h(url) + '">' + h(provider) + '</a></li>'
+            related += '</ul>'
         for t in cross_links:
             related += '<p><a href="' + topic_pages[t["slug"]]["url"] + '">Browse ' + h(t["label"]) + ' courses across Malaysian universities</a></p>'
         sibling = [a for a in by_uni[e["uni"]] if a["level"] == e["level"] and a["name"] != e["name"]][:4]

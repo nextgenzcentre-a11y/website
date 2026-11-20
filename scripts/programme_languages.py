@@ -160,12 +160,18 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
             if entries:
                 page+='<h2>'+tr('التخصصات وشروط التقديم','课程与申请须知')+'</h2><p>'+tr('تظهر أسماء المؤهلات بصيغتها الرسمية لتسهيل مطابقتها مع خطاب القبول. اختر البرنامج واذكر جنسيتك وموعد التحاقك عند طلب بيان الرسوم. اسأل عن مدة الدراسة ولغة التدريس وأي تدريب إلزامي قبل التقديم.','下表保留官方课程名称，方便与录取通知书核对。咨询时请注明国籍和计划入学时间，并确认授课语言、学制和实习要求。')+'</p><ul class="catalog-list">'
                 for r in entries:
-                    up=university(r);subject='، '.join(field(f['slug']) for f in field_for(r['name']))
+                    up=university(r)
+                    subject_labels = []
+                    for f in field_for(r['name']):
+                        label_text = field(f['slug'])
+                        hub = subjects.get((r['level'], f['slug']))
+                        subject_labels.append(local_link(hub['path'], label_text) if hub and hub['path'] != path else escape(label_text))
+                    subject = tr('، ', '、').join(subject_labels)
                     context=r['name']+' · '+r['uni']
                     dest=r.get('detail') or up+'#'+r['id']
                     fee = tuition_range(r['raw_fee'], r['currency'], lang)
                     course=escape(r['name']) if path==dest.split('#')[0] else local_link(dest,r['name'])
-                    page+='<li id="'+escape(r['uslug']+'-'+r['id'] if path!=up else r['id'])+'"><div><bdi>'+course+'</bdi><br>'+(escape(r['uni']) if path==up else local_link(up,r['uni']))+' · '+escape(LEVEL[r['level']][i]+' · '+r['location'])+(' · '+escape(subject) if subject else '')+'</div><small>'+escape(fee)+' · '+action('fee',context,lang)+'</small></li>'
+                    page+='<li id="'+escape(r['uslug']+'-'+r['id'] if path!=up else r['id'])+'"><div><bdi>'+course+'</bdi><br>'+(escape(r['uni']) if path==up else local_link(up,r['uni']))+' · '+escape(LEVEL[r['level']][i]+' · '+r['location'])+(' · '+subject if subject else '')+'</div><small>'+escape(fee)+' · '+action('fee',context,lang)+'</small></li>'
                 page+='</ul>'
                 level_paths = [directory+'levels/'+levels[lev]+'.html' for lev in levels if any(r['level']==lev for r in entries)]
                 links = [local_link(p,title[p]) for p in level_paths if p != path]
@@ -173,6 +179,11 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
                     page += '<h2>'+tr('تصفّح البرامج في الجامعات الماليزية حسب المرحلة','按学历浏览马来西亚各大学课程')+'</h2><div class="catalog-links">'+''.join(links)+'</div>'
                 if len(entries)==1:
                     r=entries[0];page+='<p>'+link(r['website'],tr('الموقع الرسمي للجامعة','大学官网'))+' · '+link(path,tr('تفاصيل البرنامج والرسوم بالإنجليزية','查看英文课程与费用详情'))+'</p>'
+                if len(entries) == 1 and entries[0].get('detail') == path and entries[0].get('other_providers'):
+                    page += '<h2>' + tr('جامعات أخرى تقدم برنامجًا بالاسم نفسه', '开设同名课程的其他大学') + '</h2><ul>'
+                    for provider, url in entries[0]['other_providers']:
+                        page += '<li>' + local_link(url, provider) + '</li>'
+                    page += '</ul>'
             elif path.endswith('english-language-centres.html'):
                 page+='<p>'+tr('قارن الدورات المتاحة واسأل عن عدد ساعات التدريس واختبار تحديد المستوى وتكلفة التسجيل لكل معهد.','选择语言学校时，请核对每周课时、分班测试、开课日期及报名费用。')+'</p>'
                 for c in centres:
