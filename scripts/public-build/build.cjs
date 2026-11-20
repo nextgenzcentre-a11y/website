@@ -32,7 +32,7 @@ fs.writeFileSync('programmes/site-assets/footer.fragment','<div id="ng-site-foot
 const styles=html.slice(html.indexOf('.ng-market .ng-market-footer .ng-footer-consult'),html.indexOf('/*',html.indexOf('@media(prefers-reduced-motion:reduce) { .ng-market .ng-market-footer')));
 const extras=styles.slice(0,styles.indexOf('transition:none!important; } }')+ 'transition:none!important; } }'.length);
 postcss([tailwind({content:[{raw:markup,extension:'html'}],important:'#ng-site-footer',corePlugins:{preflight:false}})]).process('@tailwind utilities;', {from:undefined}).then(r=>{
-  fs.writeFileSync('programmes/site-assets/site-footer.css', '#ng-site-footer{font-family:Montserrat,Arial,sans-serif;line-height:1.5}#ng-site-footer *{box-sizing:border-box;border-style:solid;border-width:0}#ng-site-footer :is(h2,h3,p){margin:0}#ng-site-footer a{text-decoration:none;color:inherit}#ng-site-footer img{display:block;max-width:100%}#ng-site-footer footer{margin:0;padding:0}'+r.css+'\n'+extras);
+  fs.writeFileSync('programmes/site-assets/site-footer.css', '#ng-site-footer{font-family:Montserrat,Arial,sans-serif;line-height:1.5}#ng-site-footer *{box-sizing:border-box;border-style:solid;border-width:0}#ng-site-footer :is(h2,h3,p){margin:0}#ng-site-footer a{text-decoration:none;color:inherit}#ng-site-footer img{display:block;max-width:100%}#ng-site-footer footer{margin:0;padding:0}'+r.css+'\n'+extras+'\n'+fs.readFileSync('assets/nextgenz-footer-lock.css','utf8'));
 });
 
 postcss([tailwind({content:[{raw:html,extension:'html'}]})]).process('@tailwind base; @tailwind components; @tailwind utilities;', {from:undefined}).then(r=>fs.writeFileSync('programmes/site-assets/public-utilities.css',r.css));
