@@ -3,6 +3,7 @@ from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlsplit
+import re
 import json
 import xml.etree.ElementTree as ET
 from build_programme_seo import ROOT, PUBLIC_BASE, normalize_unis, record_level, LEVEL_SLUG, slug
@@ -16,7 +17,15 @@ class Page(HTMLParser):
         self.links = []
         self.canonical = None
         self.h1 = 0
+        self.path = path
         self.feed(path.read_text())
+
+    def handle_data(self, text):
+        if "programmes" in self.path.parts:
+            assert not re.search(r"unverified (?:finder )?reference", text, re.I), self.path
+            for match in re.finditer(r"\b(?:MYR|USD|RM)\s*([0-9][0-9,.]*)", text):
+                assert re.match(r"\s*[–-]\s*[0-9]", text[match.end():]), (self.path, text)
+
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)

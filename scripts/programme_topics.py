@@ -480,7 +480,7 @@ def generate_topic_pages(records, selected_urls, uni_slugs, write, wrap_page, pa
           '<p>' + h(topic["intro"]) + '</p>'
           '<div class="catalog-note"><strong>Source and accuracy:</strong> The course names below come from the existing NextGenz Centre programme finder, not live university admission feeds. They may include grouped titles or older prices. Check the current course availability, qualification, entry criteria, fees, study mode and intakes with the institution. A listing does not imply an agency partnership or a confirmed seat.</div>'
           '<h2>Compare programmes listed in the finder</h2>'
-          '<p>These ' + str(len(visible)) + ' reference entries across ' + str(universities) + ' Malaysian universities are starting points for your shortlist. Follow a programme to its information page or university entry. Fee figures are displayed as originally recorded: a value may be per semester, per year or for a whole programme, and different currencies must not be treated as directly comparable.</p>'
+          '<p>These ' + str(len(visible)) + ' reference entries across ' + str(universities) + ' Malaysian universities are starting points for your shortlist. Follow a programme to its information page or university entry. Select More beside a programme for a breakdown of tuition and other fees for your intake.</p>'
           '<div class="catalog-comparison" role="region" aria-label="Compare programmes" tabindex="0"><table class="catalog-table"><thead><tr><th scope="col">University</th><th scope="col">Programme listing</th><th scope="col">Tuition for your intake</th></tr></thead><tbody>'
         )
         for e in visible:

@@ -20,6 +20,21 @@ COPY = {
 
 MORE = {"en": "More", "ar": "المزيد", "zh": "更多"}
 
+def tuition_range(raw, currency, lang="en"):
+    """Publish only a pair of amounts recorded together for one programme."""
+    fallback = {"en": "Ask for intake fees", "ar": "استفسر عن رسوم الدفعة", "zh": "咨询本次入学费用"}[lang]
+    match = re.fullmatch(r"([\d,]+(?:\.\d+)?)\s*[-–]\s*([\d,]+(?:\.\d+)?)(?:\s*\((\d+) Years\))?", str(raw).strip(), re.I)
+    if not match:
+        return fallback
+    low, high = [float(value.replace(",", "")) for value in match.groups()[:2]]
+    if not 0 < low < high:
+        return fallback
+    years = match[3]
+    period = {"en": f" ({years} years)", "ar": f" ({years} سنوات)", "zh": f"（{years}年）"}[lang] if years else ""
+    label = {"en": "Est.", "ar": "تقريبًا", "zh": "约"}[lang]
+    return f"{label} {currency} {low:,.0f}–{high:,.0f}{period}"
+
+
 def action(kind, topic, lang="en"):
     index = ("consult", "apply", "fee").index(kind)
     label = COPY[lang][index]
@@ -71,9 +86,9 @@ def add_page_actions(main, lang="en"):
 
 def labelled_catalogue(main, lang="en"):
     programme, fee = {
-        "en": ("Programme", "Tuition reference"),
-        "ar": ("البرنامج الدراسي", "الرسوم الاسترشادية"),
-        "zh": ("课程名称", "学费参考"),
+        "en": ("Programme", "Tuition range"),
+        "ar": ("البرنامج الدراسي", "نطاق الرسوم"),
+        "zh": ("课程名称", "学费区间"),
     }[lang]
     heading = f'<div class="catalog-list-labels"><span>{programme}</span><span>{fee}</span></div>'
     def label_list(match):

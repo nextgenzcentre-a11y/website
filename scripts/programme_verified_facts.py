@@ -11,7 +11,7 @@ VERIFIED_PROGRAMMES = {
     "source_url": "https://study.um.edu.my/foundation-in-life-sciences",
     "source_label": "Universiti Malaya official Foundation in Life Sciences programme page",
     "facts": [
-      ("Published international tuition", "The university's programme page shows RM 35,000 for international students, excluding 6% Sales and Service Tax. This is the university's published reference, not a NextGenz quotation."),
+      ("Published international tuition", "Request international tuition and applicable taxes for your intake on WhatsApp."),
       ("University intake reference", "The published page names its July intake for the 2026/2027 academic session. Ask UM about later intake availability."),
       ("Academic entry requirements", "UM publishes science subject requirements covering Biology, Mathematics, Physics, Chemistry and English. Minimum grades depend on the applicant's qualification type; check the official table."),
     ],
@@ -73,14 +73,13 @@ VERIFIED_PROGRAMMES = {
   },
   ("UCSI", "Foundation in Arts"): {
     "official_name": "Foundation in Arts",
-    "public_fee_note": "UCSI official approx. international total: MYR 44,940 (country-dependent); old finder reference MYR 20,000",
     "source_url": "https://www.ucsiuniversity.edu.my/programmes/foundation-in-arts",
     "source_label": "UCSI University official Foundation in Arts programme page",
     "facts": [
       ("Duration and location", "UCSI lists a one-year full-time programme at Springhill."),
       ("Intakes", "The current programme page lists January, May and September intakes."),
       ("Entry routes", "UCSI lists five SPM/O-Level credits or three UEC credits, or recognised equivalents, in its published academic entry criteria."),
-      ("Published international fee", "UCSI's official page currently displays approximate total international fees of RM 44,940. The page says visa and administration charges may vary by country. This substantially differs from the older RM 20,000 figure in the NextGenz finder; use the university's updated written quotation.")
+      ("Published international fee", "Ask for the total international fees for your intake. Visa and administration charges may vary by country.")
     ],
     "advice": "Check that the Springhill campus and the exact programme's progression pathway match your degree plans."
   },

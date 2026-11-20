@@ -3098,32 +3098,16 @@ const NEXTGENZ_OTHER_INSTITUTIONS = [
   { university: 'Meritus University', shortName: 'Meritus', type: 'Private', location: 'Kuala Lumpur', website: '', programmes: null }
 ];
 const NG_FEATURED_CODES = ['UM', 'APU', 'UCSI', 'LUC', 'UniRazak', 'UPSI', 'MMU', 'UniKL', 'UPM', 'IMU', 'MAHSA', 'UTM'];
-function ngLowestProgrammeFee(u:any){
-  const vals=Object.values(u?.programmes||{}).map((v:any)=>{const m=String(v).replace(/,/g,'').match(/\d+(?:\.\d+)?/);return m?Number(m[0]):NaN;}).filter((v:number)=>Number.isFinite(v)&&v>0);
-  const currency = u?.currency || 'MYR';
-  return vals.length?currency+' '+Math.min(...vals).toLocaleString('en-MY'):'Ask NEXTGENZ';
-}
-const NG_CURATED_LOGOS: Record<string,string> = {
-  UM:'https://umevent.um.edu.my/upload/811-1/Logo_UM-06.png',
-  USM:'https://seeklogo.com/images/U/universiti-sains-malaysia-logo-AFF9957016-seeklogo.com.png',
-  UKM:'https://international-sustainable-campus-network.org/wp-content/uploads/2023/10/Universiti-Kebangsaan-Malaysia_logo.png',
-  UPM:'https://icr.nih.gov.my/images/2024/10/23/upm.jpg',
-  APU:'https://studynext.com/my/sites/default/files/2023-11/institution-asia-pacific-university.png',
-  UCSI:'https://allterra.uz/upload/resize_cache/webp/iblock/675/5hkcn1l2oopo9se366qb3etxnwqwn9ch/UCSI_University_logo.webp',
-  Taylor:'https://cdn1.npcdn.net/images/055a8e720ecd22bd9a564e24fc051149_1750557731.jpeg?md5id=7144e2ba113bacdd760b73ae7478c74e&new_height=1000&new_width=1000&type=9&w=1745910990'
+// Only locally reviewed marks sourced from the institutions' official sites.
+const NGInstitutionMark: React.FC<{uni: any; large?: boolean}> = ({uni, large = false}) => {
+  const [failedCode, setFailedCode] = React.useState('');
+  const code = uni.shortName;
+  return <div className={`ng-uni-logo ng-logo-large relative shrink-0 bg-white border border-slate-200 flex items-center justify-center rounded-2xl ${large ? 'w-20 h-20' : 'w-24 h-24'}`}>
+    {failedCode === code || !NG_MARK_CODES.has(code) ? <strong>{code}</strong> :
+      <img className="w-full h-full object-contain p-2.5" src={'/assets/institution-marks/'+encodeURIComponent(code)+'.webp'} alt={uni.university+' logo'} onError={()=>setFailedCode(code)}/>}
+  </div>;
 };
-const ngUniversityLogo = (website: string, code: string): string => {
-  if (NG_CURATED_LOGOS[code]) return NG_CURATED_LOGOS[code];
-  try {
-    const host = new URL(website).hostname.replace(/^www\./,'');
-    return 'https://cdn.brandfetch.io/' + encodeURIComponent(host) + '/w/400/h/400';
-  } catch (_e) { return ''; }
-};
-const NGInstitutionMark: React.FC<{uni: any; large?: boolean}> = ({uni, large = false}) => (
-  <div className={`ng-uni-logo ng-logo-large relative shrink-0 bg-white border border-slate-200 flex items-center justify-center rounded-2xl ${large ? 'w-20 h-20' : 'w-24 h-24'}`}>
-    <EditableImage id={'uni-logo-' + uni.shortName} wrapperClassName="relative z-10 w-full h-full rounded-xl p-2.5 flex items-center justify-center" imgClassName="w-full h-full object-contain" src={ngUniversityLogo(uni.website, uni.shortName)} alt={uni.university + ' logo'} fallbackText={uni.shortName.toUpperCase()} />
-  </div>
-);
+const NG_MARK_CODES = new Set(["ACE", "APU", "ELS", "EMS", "Erican", "ICLS", "IIUM", "ILC", "IMU", "IUKL", "LUC", "MAHSA", "MEDIU", "MMU", "MSU", "Meritus", "Nilai", "OUM", "Sunway", "Taylor", "UCSI", "UKM", "UM", "UMPSA", "UNITEN", "UPM", "UPSI", "USIM", "USM", "UTM", "UTeM", "UUM", "UniKL", "UniRazak"]);
 
 const NGUniversityVisual: React.FC<{uni:any; compact?:boolean}> = ({uni,compact=false}) => {
  const fallback=uni.type==='Language Centre' ? NG_VISUALS.serviceEnglish : (NG_VISUALS.uniCovers[uni.shortName] || NG_VISUALS.universities);
@@ -3301,7 +3285,7 @@ const TrustStatsAndMarquee: React.FC<{directoryMode?:boolean}> = ({directoryMode
         <NGUniversityVisual uni={u} compact />
         <div className="ng-v7-featured-body p-5 flex flex-col flex-1"><div className="flex flex-wrap gap-2"><span className="ng-meta-pill">{u.type} institution</span><span className="ng-meta-pill">{Object.keys(u.programmes).length} programmes</span></div>
           <div className="mt-4 flex-1"><span className="text-[10px] uppercase font-black tracking-widest text-[#8B6B32]">Popular academic pathways</span><p className="text-sm text-slate-700 mt-2 leading-relaxed">{Object.keys(u.programmes).slice(0,2).join(' · ')}</p></div>
-          <div className="mt-4 rounded-xl border border-slate-200 bg-[#F5F7FA] p-3"><span className="text-[10px] uppercase tracking-wide font-extrabold text-slate-500 block">Listed fee from</span><strong className="text-[#0A1633] font-heading text-xl">{ngLowestProgrammeFee(u)}</strong><p className="text-xs text-slate-600 mt-1">Fee basis varies by programme. Request the current official quotation.</p></div>
+          <div className="mt-4 rounded-xl border border-slate-200 bg-[#F5F7FA] p-3"><span className="text-[10px] uppercase tracking-wide font-extrabold text-slate-500 block">Tuition for your intake</span><strong className="text-[#0A1633] font-heading text-xl"><NGFeeEnquiry topic={u.university}/></strong><p className="text-xs text-slate-600 mt-1">Fee basis varies by programme. Request the current official quotation.</p></div>
           <button contentEditable={false} suppressContentEditableWarning type="button" onClick={()=>openUni(u)} className="ng-v7-uni-action mt-4">Explore {u.shortName} programmes <i className="fa-solid fa-arrow-right"></i></button>
         </div>
       </article>)}</div>
@@ -3456,7 +3440,7 @@ const ServicesAndPortals: React.FC<ServicesAndPortalsProps> = ({ onOpenPortal })
   <div className="ng-centre-card-photo relative overflow-hidden"><img src={NG_VISUALS.centreGallery[idx % NG_VISUALS.centreGallery.length]} alt={'Illustrative English-learning environment for '+centre.university+' (not an image of this centre)'} loading="lazy" className="w-full h-full object-cover"/><div className="ng-centre-photo-shade"></div><span className="ng-centre-photo-label">ENGLISH LANGUAGE PATHWAYS</span></div>
   <div className="p-5 flex flex-col flex-1"><div className="flex items-center gap-3"><NGInstitutionMark uni={centre} /><div className="min-w-0"><strong className="block text-[#0A1633] font-heading leading-snug text-base">{centre.university}</strong><span className="text-xs text-slate-500 block mt-1">{centre.location}</span></div></div>
   <div className="mt-4 flex flex-wrap gap-2">{Object.keys(centre.programmes||{}).slice(0,2).map((name:string)=><span key={name} className="text-[11px] font-bold text-[#0A1633] bg-[#F5F7FA] border border-slate-200 rounded-full px-3 py-1.5">{name}</span>)}</div>
-  <div className="mt-auto pt-5"><div className="rounded-xl bg-[#0A1633] text-white px-4 py-3 flex items-center justify-between gap-3"><div><span className="text-[9px] uppercase tracking-widest text-white/70 font-extrabold block">Listed starting price</span><strong className="font-heading text-xl text-[#C5A059]">{ngLowestProgrammeFee(centre)}</strong></div><i className="fa-solid fa-arrow-up-right-from-square text-[#C5A059]"></i></div><p className="text-[11px] text-slate-500 mt-2 leading-relaxed">Indicative listing only. Course duration and current tuition must be confirmed.</p></div></div>
+  <div className="mt-auto pt-5"><div className="rounded-xl bg-[#0A1633] text-white px-4 py-3 flex items-center justify-between gap-3"><div><span className="text-[9px] uppercase tracking-widest text-white/70 font-extrabold block">Tuition for your intake</span><strong className="font-heading text-xl text-[#C5A059]"><NGFeeEnquiry topic={centre.university}/></strong></div><i className="fa-solid fa-arrow-up-right-from-square text-[#C5A059]"></i></div><p className="text-[11px] text-slate-500 mt-2 leading-relaxed">Indicative listing only. Course duration and current tuition must be confirmed.</p></div></div>
 </article>)}
       </div>
     </div>
@@ -6111,33 +6095,15 @@ function ProgramFinderApp({ currentUser, onSelectProgram }) {
   };
 
   const formatPrice = (priceStr, baseCurrency, targetCurrency) => {
-    if (!priceStr) return t("Check Website", "راجع الموقع");
-    
-    // 1. Extract raw numeric part
-    const match = priceStr.replace(/,/g, '').match(/\d+(\.\d+)?/);
-    if (!match) return priceStr;
-    let num = parseFloat(match[0]);
-
-    // 2. Convert based on constant rate 4.5
-    let converted = num;
-    const rate = 4.5;
-    if (baseCurrency === "MYR" && targetCurrency === "USD") converted = num / rate;
-    if (baseCurrency === "USD" && targetCurrency === "MYR") converted = num * rate;
-
-    const formattedNum = new Intl.NumberFormat('en-US', { 
-      style: 'currency', 
-      currency: targetCurrency, 
-      maximumFractionDigits: 0 
-    }).format(converted);
-
-    // 3. Append Suffix & Translate Context
-    let suffix = "";
-    const lower = priceStr.toLowerCase();
-    if (lower.includes("semester")) suffix = lang === "ar" ? " (لكل فصل)" : " (Per Sem)";
-    else if (lower.includes("year")) suffix = lang === "ar" ? " (سنوياً)" : " (Per Year)";
-    else if (lower.includes("total")) suffix = lang === "ar" ? " (الإجمالي)" : " (Total)";
-
-    return `${formattedNum}${suffix}`;
+    const match = String(priceStr || '').trim().match(/^([\d,]+(?:\.\d+)?)\s*[-–]\s*([\d,]+(?:\.\d+)?)(?:\s*\((\d+) Years\))?$/i);
+    const ask = t("Ask for intake fees", "استفسر عن رسوم الدفعة");
+    if (!match) return ask;
+    const [low, high] = match.slice(1, 3).map(value => Number(value.replace(/,/g, '')));
+    if (!(low > 0 && high > low)) return ask;
+    const factor = baseCurrency === targetCurrency ? 1 : baseCurrency === "USD" ? 4.5 : 1/4.5;
+    const display = value => Math.round(value * factor).toLocaleString('en-US');
+    const period = match[3] ? ' (' + match[3] + t(' years', ' سنوات') + ')' : '';
+    return t('Est. ', 'تقريبًا ') + targetCurrency + ' ' + display(low) + '–' + display(high) + period;
   };
 
   const matchingUniversities = React.useMemo(() => {
@@ -6436,7 +6402,7 @@ function ProgramFinderApp({ currentUser, onSelectProgram }) {
                   return (
                     <div key={u.university} className="uni-card">
                       <div className="uni-header">
-                        <img className="uni-logo" src={`https://ui-avatars.com/api/?name=${u.shortName}&background=random&color=fff&font-size=0.4`} alt={u.shortName} />
+                        <NGInstitutionMark uni={u}/>
                         <div>
                           <div className="uni-name">{u.university}</div>
                           <div className="uni-small"><strong>{t("Type", "النوع")}:</strong> {universityTypes[u.shortName] || u.type}</div>
@@ -6470,7 +6436,7 @@ function ProgramFinderApp({ currentUser, onSelectProgram }) {
                             </div>
                             
                             <div className="prog-item-price">
-                              {formatPrice(priceStr, u.currency, currency)} · {t("Unverified reference", "قيمة استرشادية غير مؤكدة")}<br/>
+                              {formatPrice(priceStr, u.currency, currency)}<br/>
                               <NGFeeEnquiry topic={progName + " — " + u.university} arabic={lang === "ar"}/>
                             </div>
 

@@ -2,7 +2,7 @@
 from html import escape
 import re
 from programme_verified_facts import VERIFIED_PROGRAMMES
-from programme_actions import action, labelled_catalogue
+from programme_actions import tuition_range, action, labelled_catalogue
 from programme_level_subjects import field_for
 from programme_topics import TOPICS, matches_topic
 from site_header import header_html
@@ -105,12 +105,7 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
                     up=university(r);subject='، '.join(field(f['slug']) for f in field_for(r['name']))
                     context=r['name']+' · '+r['uni']
                     dest=r.get('detail') or up+'#'+r['id']
-                    fee = tr('اطلب بيان الرسوم لموعد التحاقك','请咨询本次入学的费用')
-                    amount = re.fullmatch(r'([\d,]+(?:\.\d+)?)\s*(?:\((Per Semester|Per Year|Total)\))?', r['raw_fee'], re.I)
-                    if amount and not VERIFIED_PROGRAMMES.get((r['short'],r['name']),{}).get('public_fee_note'):
-                        period = (amount[2] or '').lower()
-                        periods = {'per semester':tr('للفصل','每学期'),'per year':tr('للسنة','每年'),'total':tr('إجمالي','课程总额'),'':tr('الفترة غير مؤكدة','计费周期待确认')}
-                        fee = tr('تقدير غير مؤكد','待确认的参考费用')+' · '+r['currency']+' '+amount[1]+' · '+periods[period]
+                    fee = tuition_range(r['raw_fee'], r['currency'], lang)
                     course=escape(r['name']) if path==dest.split('#')[0] else local_link(dest,r['name'])
                     page+='<li id="'+escape(r['uslug']+'-'+r['id'] if path!=up else r['id'])+'"><div><bdi>'+course+'</bdi><br>'+(escape(r['uni']) if path==up else local_link(up,r['uni']))+' · '+escape(LEVEL[r['level']][i]+' · '+r['location'])+(' · '+escape(subject) if subject else '')+'</div><small>'+escape(fee)+' · '+action('fee',context,lang)+'</small></li>'
                 page+='</ul>'

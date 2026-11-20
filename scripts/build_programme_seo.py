@@ -24,7 +24,7 @@ import unicodedata
 from programme_topics import TOPICS, matching_topics, generate_topic_pages
 from programme_verified_facts import VERIFIED_PROGRAMMES
 from programme_level_subjects import FIELDS, LEVEL_LABELS, field_for, generate_level_subject_pages
-from programme_actions import add_page_actions, fee_link, labelled_catalogue
+from programme_actions import tuition_range, add_page_actions, fee_link, labelled_catalogue
 from site_header import header_html
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -298,9 +298,7 @@ def write(relative: str, data: str, output: set[str]) -> None:
     output.add(relative.lstrip("/"))
 
 def public_fee_note(e: dict) -> str:
-    """Prefer documented official estimate where legacy finder data conflicts."""
-    source = VERIFIED_PROGRAMMES.get((e["short"], e["name"]), {})
-    return source.get("public_fee_note") or (e["currency"] + " " + e["raw_fee"] + " (unverified finder reference)")
+    return tuition_range(e["raw_fee"], e["currency"])
 
 def main() -> None:
     unis = normalize_unis()
@@ -439,14 +437,14 @@ def main() -> None:
         '<section class="hero"><div class="wrap"><span class="eyebrow">MALAYSIA ENGLISH LANGUAGE STUDY</span>'
         '<h1>English language courses in Malaysia: <span class="accent">compare language centres</span></h1>'
         '<p class="lead">Explore English study and IELTS preparation listings from seven language centres shown in the NextGenz Centre public institution directory. Compare listed course names, formats and potential pathways before verifying options with each provider.</p></div></section>'
-        '<section class="section"><div class="wrap"><div class="catalog-note">The course names and prices below are references from our existing public institution directory. Prices may use different units, and current availability or tuition has not been independently verified. Ask each centre for a current course schedule, quote, placement test details and any applicable visa arrangements before booking.</div>'
+        '<section class="section"><div class="wrap"><div class="catalog-note">Select More beside a course to ask NextGenz for the fees and schedule for your intake.</div>'
         '<h2>Compare English language centres and their programmes</h2>'
     )
     english_count = 0
     for centre in english_centres:
         english_main += '<section class="catalog-wide"><h2>' + h(centre["university"]) + '</h2><p>' + h(centre.get("location", "Malaysia")) + ' · Programmes listed in NextGenz Centre public directory</p><ul class="catalog-list">'
         for name, fee in centre["programmes"].items():
-            english_main += '<li><strong>' + h(name) + '</strong><span class="fee">Finder reference: ' + h(centre.get("currency") or "MYR") + ' ' + h(fee) + ' (unverified reference) · ' + fee_link(name + ' at ' + centre['university']) + '</span></li>'
+            english_main += '<li><strong>' + h(name) + '</strong><span class="fee">' + h(tuition_range(fee, centre.get("currency") or "MYR")) + ' · ' + fee_link(name + ' at ' + centre['university']) + '</span></li>'
             english_count += 1
         english_main += '</ul>'
         official = safe_official_url(centre.get("website") or "")
@@ -496,7 +494,10 @@ def main() -> None:
     for uni in unis:
         name = uni["university"]
         href = "/programmes/universities/" + uni_slugs[name] + ".html"
-        about += ('<a class="tile" data-tone="blue" href="' + href + '"><div class="ng-card-photo"><img src="' + h(brand_photo(href)[0]) + '" alt="Campus of ' + h(name) + ' in Malaysia" width="560" height="360" loading="lazy" decoding="async"></div><span class="tag">'
+        code = uni["shortName"]
+        mark = "/assets/institution-marks/" + code + ".webp"
+        visual = ('<img src="' + h(mark) + '" alt="' + h(name) + ' logo" loading="lazy" decoding="async" style="object-fit:contain;padding:1rem">' if (ROOT / mark.lstrip("/")).is_file() else '<strong>' + h(code) + '</strong>')
+        about += ('<a class="tile" data-tone="blue" href="' + href + '"><div class="ng-card-photo" style="display:grid;place-items:center;background:white">' + visual + '</div><span class="tag">'
                   + h(uni.get("location") or "Malaysia") + '</span><h2>' + h(name)
                   + '</h2><p>' + str(len(by_uni[name])) + ' programme titles available to explore.</p><span class="arrow">View course list →</span></a>')
     about += (
@@ -524,7 +525,7 @@ def main() -> None:
           '<h1>Study programmes at <span class="accent">' + h(name) + '</span></h1>'
           '<p class="lead">' + str(len(by_uni[name])) + ' programme titles from the NextGenz Centre finder, including university foundation, degree and postgraduate options where listed. Compare course names before checking admissions with the institution.</p>'
           '<div class="catalog-stats"><span>' + h(uni.get("type","University")) + ' university</span><span>' + h(uni.get("location","Malaysia")) + '</span><span>' + str(len(by_uni[name])) + ' programme listings</span></div></div></section>'
-          '<section class="section"><div class="wrap"><div class="catalog-note">Programme titles and amounts below are references from our existing finder. They are <strong>not confirmed current university offers</strong>. Any listed fee may be per semester, year or total, depending on the programme; verify the basis, currency, eligibility and intake with the official university.</div>'
+          '<section class="section"><div class="wrap"><div class="catalog-note">Ranges are shown where available. Select More beside a programme to request the billing period and full fee breakdown for your intake on WhatsApp.</div>'
         )
         main += '<h2>Find a course at ' + h(name) + '</h2><label class="catalog-search-label" for="courseFilter">Search by programme name</label><input type="search" class="catalog-search" id="courseFilter" placeholder="Filter programme titles on this page..." aria-label="Filter programmes">'
         main += '<div class="catalog-links">'
@@ -584,7 +585,7 @@ def main() -> None:
         main = (
           '<section class="hero"><div class="wrap"><span class="eyebrow">MALAYSIA COURSE FINDER</span>'
           '<h1>' + h(LABELS[lev]) + ' <span class="accent">in Malaysia</span></h1>'
-          '<p class="lead">Compare ' + str(len(by_level[lev])) + ' ' + h(lev.lower()) + ' programme entries across Malaysian institutions. See exact course names, university locations and finder fee references, then confirm admission and current fees directly with the university.</p></div></section>'
+          '<p class="lead">Compare ' + str(len(by_level[lev])) + ' ' + h(lev.lower()) + ' programme entries across Malaysian institutions. See exact course names, university locations and tuition ranges where available, then confirm admission and current fees directly with the university.</p></div></section>'
           '<section class="section"><div class="wrap"><div class="catalog-note">' + h(level_note(lev)) + ' All names and fee amounts come from the NextGenz Centre finder. They require verification with the institution before applying or paying.</div>'
           '<p><a class="button" href="/services/education-consultant-malaysia.html">Talk to an education consultant</a><a class="button secondary" href="/programmes/">Browse all study levels</a></p>'
         )
@@ -637,9 +638,9 @@ def main() -> None:
           '<div class="catalog-fact"><strong>Institution</strong><span>' + h(e["uni"]) + '</span></div>'
           '<div class="catalog-fact"><strong>Study level grouping</strong><span>' + h(e["level"]) + ' (categorised from title)</span></div>'
           '<div class="catalog-fact"><strong>University location</strong><span>' + h(e["location"]) + '</span></div>'
-          '<div class="catalog-fact"><strong>Finder fee reference' + (' (superseded: see official estimate below)' if (e["short"],e["name"]) in VERIFIED_PROGRAMMES and VERIFIED_PROGRAMMES[(e["short"],e["name"])].get("public_fee_note") else '') + '</strong><span>' + h(e["currency"]) + ' ' + h(e["raw_fee"]) + ' (unverified reference) · ' + fee_link(e['name'] + ' at ' + e['uni']) + '</span></div>'
+          '<div class="catalog-fact"><strong>Tuition range</strong><span>' + h(public_fee_note(e)) + ' · ' + fee_link(e['name'] + ' at ' + e['uni']) + '</span></div>'
           '<div class="catalog-fact"><strong>Intake reference</strong><span>' + h(e["intakes"] or "Not listed") + '</span></div></div>'
-          '<div class="catalog-note"><strong>Fee and intake disclaimer:</strong> These values are taken from the NextGenz programme finder and have not been checked against the university’s current offer. The fee basis may be a semester, year, whole programme or other unit; the reference amount is not a final quotation. Check availability, fees and entry rules with the university before making decisions.</div>'
+          '<div class="catalog-note">Select More to ask NextGenz for tuition, the billing period and additional charges for your intake.</div>'
           '<h2>Is this programme right for you?</h2><p>' + h(level_note(e["level"])) + '</p><p>' + h(subject_note(e["name"])) + '</p>'
           '<h2>Questions to ask before you apply</h2><ol>'
           '<li>Is <strong>' + h(e["name"]) + '</strong> still accepting international applicants for the next intake at ' + h(e["uni"]) + '?</li>'
@@ -690,7 +691,7 @@ def main() -> None:
         main = main.replace('</article><aside', related + '</article><aside', 1)
         write(dest.lstrip("/"),wrap_page(page_head(
             e["name"] + " at " + e["uni"],
-            "Explore " + e["name"] + " at " + e["uni"] + " in Malaysia. Compare finder fee reference, university admissions and student application steps.",
+            "Explore " + e["name"] + " at " + e["uni"] + " in Malaysia. Explore tuition ranges, university admissions and student application steps.",
             dest,
             {"@context":"https://schema.org","@type":"WebPage","name":e["name"]+" at "+e["uni"],"url":PUBLIC_BASE+dest,"about":{"@type":"EducationalOrganization","name":e["uni"]}}
         ),main),outputs)
