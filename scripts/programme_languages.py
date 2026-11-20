@@ -43,6 +43,17 @@ TOPIC_LABELS = {'mba':'ماجستير إدارة الأعمال/工商管理硕�
  'foundation-engineering':'السنة التأسيسية في الهندسة/工程预科','foundation-arts':'السنة التأسيسية في الآداب/文科预科',
  'diploma-in-nursing':'دبلوم التمريض/护理文凭'}
 
+# Short search labels for awards whose official names are long or list multiple tracks.
+COURSE_LABELS = {
+    'Foundation Studies for Agricultural Science': ('السنة التأسيسية في العلوم الزراعية', '农业科学预科'),
+    'Foundation in Engineering': ('السنة التأسيسية في الهندسة', '工程预科'),
+    'Foundation in Science and Technology': ('السنة التأسيسية في العلوم والتكنولوجيا', '科学与技术预科'),
+    'Foundation in Life Sciences': ('السنة التأسيسية في علوم الحياة', '生命科学预科'),
+    'Bachelor of Computer Science': ('بكالوريوس علوم الحاسوب', '计算机科学学士'),
+    'Master of Philosophy (Software Engineering, Computer Science, Informatics) (Research Mode)':
+        ('ماجستير بحثي في مجالات الحوسبة', '计算机相关方向研究型哲学硕士'),
+}
+
 def localized(path, lang):
     return path if lang=='en' else path.replace('/programmes/', '/programmes/'+lang+'/',1)
 
@@ -55,6 +66,7 @@ def alternates(path):
 def publish(records, centres, subjects, levels, outputs, root, write, head, photo):
     english=sorted('/'+p.removesuffix('index.html') for p in outputs if p.endswith('.html'))
     by_path={}
+    search_titles = {}
     for lang,i in [('ar',0),('zh',1)]:
         def tr(ar,zh):return (ar,zh)[i]
         def field(key):return FIELDS[key].split('/')[i]
@@ -112,7 +124,10 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
                         # For long or composite qualifications, preserve a
                         # complete study subject instead of truncating mid-name.
                         core = entries[0]['name'].split('(', 1)[0].strip()
-                        concise = core + ' · ' + short + suffix
+                        course_name = entries[0]['name']
+                        translated = COURSE_LABELS.get(course_name) or COURSE_LABELS.get(core)
+                        local_core = translated[i] if translated else LEVEL[entries[0]['level']][i] + ' · ' + core
+                        concise = local_core + ' · ' + short + suffix
                         if len(concise) <= 60:
                             seo_title = concise
                     if len(seo_title) > 60:
@@ -123,6 +138,9 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
                         if len(clipped) < 20:
                             clipped = label_without_short[:budget].rstrip(' ·,')
                         seo_title = clipped + (' · ' + short if short else '') + suffix
+            if seo_title in search_titles:
+                raise ValueError(f"Duplicate search title for {address} and {search_titles[seo_title]}: {seo_title}")
+            search_titles[seo_title] = address
             # The full lead paragraph stays visible. Only the search
             # description is condensed when the original exceeds 160 chars.
             seo_desc = desc
