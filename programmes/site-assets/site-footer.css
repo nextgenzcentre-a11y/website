@@ -423,3 +423,82 @@
 .ng-market .ng-market-footer a:focus-visible { outline:3px solid #C5A059;outline-offset:3px; }
 @media(max-width:640px) { .ng-market .ng-market-footer .ng-footer-grid {row-gap:34px;} }
 @media(prefers-reduced-motion:reduce) { .ng-market .ng-market-footer * { animation:none!important;transition:none!important; } }
+
+/* NEXTGENZ LOCKED FOOTER: preserve landing-page identity and readable multilingual layout */
+/* The public pages load guides/style.css, which applies overflow-wrap:anywhere
+   to body. That rule was breaking each footer link into individual letters. */
+#ng-site-footer {
+  font-family:Montserrat,Arial,sans-serif;
+  overflow-wrap:normal;
+  word-break:normal;
+  color:#fff;
+  width:100%;
+}
+#ng-site-footer .ng-market-footer {
+  background:#071126;
+  color:#fff;
+  overflow:hidden;
+}
+#ng-site-footer .ng-footer-grid {
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  column-gap:32px;
+  row-gap:36px;
+  width:100%;
+  align-items:start;
+}
+#ng-site-footer .ng-footer-grid > div,
+#ng-site-footer .ng-footer-grid nav,
+#ng-site-footer .ng-footer-grid nav > a {min-width:0;max-width:100%;}
+#ng-site-footer .ng-footer-grid a,
+#ng-site-footer .ng-footer-grid p,
+#ng-site-footer .ng-footer-grid span,
+#ng-site-footer .ng-footer-grid h3 {
+  word-break:normal;
+  overflow-wrap:normal;
+  white-space:normal;
+}
+#ng-site-footer .ng-footer-grid a.ng-footer-link {
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  line-height:1.65;
+  hyphens:none;
+}
+#ng-site-footer .ng-footer-grid a.ng-footer-link > i {
+  flex:0 0 12px;
+  margin-top:5px;
+}
+#ng-site-footer .ng-footer-grid .break-all {
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+#ng-site-footer .ng-footer-grid .grid {min-width:0;}
+#ng-site-footer .ng-footer-grid .grid > * {min-width:0;}
+#ng-site-footer .ng-footer-consult-inner {
+  min-width:0;
+}
+#ng-site-footer .ng-footer-consult-inner h2,
+#ng-site-footer .ng-footer-consult-inner p {
+  overflow-wrap:normal;
+  word-break:normal;
+}
+@media(min-width:680px) {
+  #ng-site-footer .ng-footer-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(min-width:1200px) {
+  #ng-site-footer .ng-footer-grid {
+    grid-template-columns:minmax(220px,1.18fr) minmax(180px,1fr) minmax(190px,1fr) minmax(220px,1.06fr);
+    column-gap:32px;
+  }
+}
+@media(max-width:679px) {
+  #ng-site-footer .ng-footer-consult-inner .ng-footer-cta,
+  #ng-site-footer .ng-footer-consult-inner .inline-flex {
+    width:100%;
+    white-space:normal;
+    text-align:center;
+  }
+}
