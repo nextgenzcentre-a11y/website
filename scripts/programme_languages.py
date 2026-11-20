@@ -102,9 +102,9 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
                 if len(seo_title) > 60:
                     short = entries[0]['short'] if len(entries) == 1 and entries[0].get('detail') == path else ''
                     if short:
-                        subjects = [f for f in field_for(entries[0]['name']) if f['slug'] in FIELDS]
-                        if subjects:
-                            academic_subject = field(subjects[0]['slug'])
+                        course_fields = [f for f in field_for(entries[0]['name']) if f['slug'] in FIELDS]
+                        if course_fields:
+                            academic_subject = field(course_fields[0]['slug'])
                             concise = LEVEL[entries[0]['level']][i] + ' · ' + academic_subject + ' · ' + short + suffix
                             if len(concise) <= 60:
                                 seo_title = concise
