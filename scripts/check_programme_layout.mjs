@@ -137,6 +137,10 @@ try {
       if(path==='/why-malaysia.html'){
         assert(await evalValue("!!document.querySelector('.ng-why-hero h1') && document.querySelectorAll('.ng-why-page .ng-why-figure img').length >= 20 && [...document.querySelectorAll('.ng-why-page img')].every(img=>img.getAttribute('src').includes('/assets/malaysia/generated/'))"),'Why Malaysia editorial gallery');
         assert(await evalValue("getComputedStyle(document.querySelector('.ng-why-hero h1')).fontFamily.includes('Montserrat')"),'Why Malaysia landing-page typography');
+        assert(await evalValue("getComputedStyle(document.querySelector('.ng-why-hero-grid')).gridTemplateColumns.split(' ').length==="+(width===390?1:2)),'Why Malaysia responsive split hero');
+        assert(await evalValue("document.querySelector('.ng-why-hero-main-photo img').complete && document.querySelector('.ng-why-hero-main-photo img').naturalWidth>0 && document.querySelector('.ng-why-hero-skyline img').naturalWidth>0"),'Why Malaysia original generated hero images load');
+        assert(await evalValue("(()=>{const a=document.querySelector('.ng-why-hero-copy').getBoundingClientRect();const b=document.querySelector('.ng-why-hero-media').getBoundingClientRect();return "+(width===390?"a.bottom <= b.top+4":"a.right <= b.left+4")+"})()"),'Why Malaysia text does not obscure hero photographs');
+        assert(await evalValue("document.documentElement.scrollWidth <= document.documentElement.clientWidth + 3"),'Why Malaysia no horizontal overflow');
       }
     }
   }
