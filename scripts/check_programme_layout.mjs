@@ -24,13 +24,19 @@ try {
   const socket=new WebSocket(tab.webSocketDebuggerUrl);
   await new Promise((ok,fail)=>{socket.onopen=ok;socket.onerror=fail});
   const pending=new Map();
+  const browserErrors=[];
   let id=0;
-  socket.onmessage=({data})=>{const r=JSON.parse(data);if(pending.has(r.id)){pending.get(r.id)(r);pending.delete(r.id)}};
+  socket.onmessage=({data})=>{
+    const r=JSON.parse(data);
+    if(r.method==='Runtime.exceptionThrown')browserErrors.push(r.params?.exceptionDetails?.text+' '+r.params?.exceptionDetails?.exception?.description);
+    if(pending.has(r.id)){pending.get(r.id)(r);pending.delete(r.id)}
+  };
   async function call(method,params={}) {
     const key=++id;const result=new Promise(ok=>pending.set(key,ok));socket.send(JSON.stringify({id:key,method,params}));
     const response=await result;assert(!response.error,JSON.stringify(response.error));return response.result;
   }
   await call('Network.enable');
+  await call('Runtime.enable');
   await call('Network.setBlockedURLs',{urls:['https://*']});
   const paths=['programmes/','programmes/subjects/','programmes/subjects/master-pharmacy-malaysia.html',
     'programmes/topics/mechanical-engineering-degree-malaysia.html','programmes/levels/bachelor.html',
@@ -103,7 +109,12 @@ try {
         if(await evalValue("location.pathname==="+JSON.stringify(path)+" && !!document.querySelector('.ng-footer-grid')")) break;
         await delay(200);
       }
-      assert(await evalValue("location.pathname==="+JSON.stringify(path)+" && !!document.querySelector('.ng-footer-grid')"),path+' landing-page footer');
+      const foundFooter=await evalValue("location.pathname==="+JSON.stringify(path)+" && !!document.querySelector('.ng-footer-grid')");
+      if(!foundFooter){
+        const domDebug=await evalValue("JSON.stringify({state:document.readyState,root:document.querySelector('#root')?.innerHTML.slice(0,250),react:typeof React,reactDOM:typeof ReactDOM,firebase:typeof firebase,footer:!!document.querySelector('footer')})");
+        console.error('Footer diagnostic:',path,domDebug,'Runtime errors:',browserErrors.slice(-8));
+      }
+      assert(foundFooter,path+' landing-page footer');
       assert(await evalValue("getComputedStyle(document.querySelector('.ng-footer-grid')).gridTemplateColumns.split(' ').length === "+(width===390?1:4)),path+' footer columns');
       if(path==='/') {
         assert(await evalValue("!document.querySelector('.ng-crawl-first') && !!document.querySelector('#universities')"),'Homepage mounted');
