@@ -116,7 +116,7 @@ try {
     }
     assert(await evalValue("!!document.querySelector('.ng-crawl-first h1') && !!document.querySelector('.ng-crawl-first a[href=\"/programmes/\"]') && !!document.querySelector('.ng-crawl-first .brand-first')"),'Homepage SEO fallback');
     await call('Network.setBlockedURLs',{urls:['https://*']});
-    for (const path of ['/why-malaysia.html','/programmes/levels/foundation.html','/programmes/ar/universities/usm.html']) {
+    for (const path of ['/why-malaysia.html','/programmes/levels/foundation.html','/programmes/ar/universities/usm.html','/programmes/zh/universities/usm.html']) {
       await call('Page.navigate',{url:'http://127.0.0.1:9811'+path});
       for(let i=0;i<150;i++){
         if(await evalValue("location.pathname==="+JSON.stringify(path)+" && !!document.querySelector('.ng-footer-grid')")) break;
@@ -131,8 +131,11 @@ try {
       assert(await evalValue("getComputedStyle(document.querySelector('.ng-footer-grid')).gridTemplateColumns.split(' ').length === "+(width===390?1:4)),path+' footer columns');
       assert(await evalValue("getComputedStyle(document.querySelector('#ng-site-footer .ng-footer-grid .ng-footer-link')).overflowWrap === 'normal'"),path+' no letter-by-letter footer links');
       assert(await evalValue("document.querySelector('#ng-site-footer').scrollWidth <= document.querySelector('#ng-site-footer').clientWidth + 3"),path+' no horizontal footer overflow');
+      assert(await evalValue("getComputedStyle(document.querySelector('#ng-site-footer .ng-footer-grid nav.grid')).gridTemplateColumns.split(' ').length===1"),path+' one-column quick links, no narrow text columns');
+      assert(await evalValue("getComputedStyle(document.body).fontFamily.includes('Montserrat')"),path+' landing-page body font');
+      assert(await evalValue("getComputedStyle(document.querySelector('#ng-site-footer')).fontFamily.includes('Montserrat')"),path+' landing-page footer font');
       if(path==='/why-malaysia.html'){
-        assert(await evalValue("!!document.querySelector('.ng-why-hero h1') && document.querySelectorAll('.ng-why-page .ng-why-figure img').length >= 10"),'Why Malaysia editorial gallery');
+        assert(await evalValue("!!document.querySelector('.ng-why-hero h1') && document.querySelectorAll('.ng-why-page .ng-why-figure img').length >= 20 && [...document.querySelectorAll('.ng-why-page img')].every(img=>img.getAttribute('src').includes('/assets/malaysia/generated/'))"),'Why Malaysia editorial gallery');
         assert(await evalValue("getComputedStyle(document.querySelector('.ng-why-hero h1')).fontFamily.includes('Montserrat')"),'Why Malaysia landing-page typography');
       }
     }
