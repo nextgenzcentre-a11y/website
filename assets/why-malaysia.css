@@ -124,3 +124,152 @@
  .ng-why-page .ng-why-gallery .ng-why-figure img,
  .ng-why-page .ng-why-more-gallery .ng-why-figure img{height:255px}
 }
+
+
+/* WHY MALAYSIA HERO V2 — image-forward, landing-page-matched split layout */
+.ng-why-page .ng-why-hero.ng-why-hero-v2{
+  display:block;min-height:0;overflow:hidden;isolation:auto;
+  background:radial-gradient(ellipse at 12% 12%,#15284b 0%,#0A1633 56%,#081228 100%);
+  color:#fff;
+}
+.ng-why-page .ng-why-hero-v2::after{display:none}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-grid{
+  max-width:1550px;min-height:625px;
+  padding:0 0 0 clamp(25px,4.1vw,68px);
+  display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);
+  align-items:stretch;
+}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-copy{
+  min-width:0;max-width:650px;position:relative;
+  padding:78px clamp(28px,3vw,54px) 58px 0;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+}
+.ng-why-page .ng-why-hero-v2 .ng-why-eyebrow{
+  margin-bottom:22px;font-size:.71rem;letter-spacing:.17em;
+  color:#e9c787;
+}
+.ng-why-page .ng-why-hero-v2 h1{
+  max-width:600px;margin:0 0 24px;
+  font-family:Montserrat,Arial,sans-serif;
+  font-size:clamp(3rem,4.2vw,4.7rem);font-weight:900;line-height:1.09;
+  letter-spacing:-.058em;color:#fff;
+}
+.ng-why-page .ng-why-hero-v2 h1 .ng-why-gold{
+  color:#e7be72;white-space:normal;
+}
+.ng-why-page .ng-why-hero-v2 p.ng-why-hero-lead{
+  max-width:570px;margin:0 0 15px;color:#fff;
+  font-size:clamp(1.03rem,1.36vw,1.25rem);line-height:1.55;
+  font-weight:700;
+}
+.ng-why-page .ng-why-hero-v2 p.ng-why-hero-support{
+  max-width:565px;margin:0 0 29px;
+  color:#ced9e9;font-size:clamp(.92rem,1.05vw,1.035rem);
+  line-height:1.8;font-weight:400;
+}
+.ng-why-page .ng-why-hero-v2 .ng-why-actions{gap:12px;}
+.ng-why-page .ng-why-hero-v2 .ng-why-btn{padding:15px 19px;min-height:51px;}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-topics{
+  display:flex;flex-wrap:wrap;gap:12px 20px;
+  padding-top:22px;margin-top:30px;border-top:1px solid rgba(255,255,255,.15);
+  font-weight:650;color:#c8d4e5;font-size:.79rem;line-height:1.6;
+}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-topics span::before{
+  content:"";display:inline-block;width:6px;height:6px;
+  margin-right:9px;vertical-align:2px;border-radius:50%;background:#C5A059;
+}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-media{
+  min-width:0;min-height:625px;position:relative;isolation:isolate;
+  overflow:hidden;background:#b7d1ce;
+}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-main-photo{
+  position:absolute;inset:0;margin:0;z-index:0;
+}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-main-photo::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(0deg,rgba(5,16,37,.48) 0%,transparent 35%);
+  pointer-events:none;
+}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-media img{
+  position:static;inset:auto;z-index:auto;
+  display:block;width:100%;height:100%;object-fit:cover;
+}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-main-photo img{
+  object-position:47% center;
+}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-skyline{
+  position:absolute;bottom:29px;left:28px;z-index:2;
+  width:clamp(205px,19vw,288px);margin:0;
+  overflow:hidden;border:5px solid rgba(255,255,255,.97);
+  border-radius:17px;background:#fff;
+  box-shadow:0 14px 42px rgba(5,18,37,.3);
+}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-skyline img{
+  width:100%;height:142px;object-fit:cover;object-position:50% 43%;
+}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-skyline figcaption{
+  padding:10px 12px 9px;color:#132743;background:#fff;
+  font-size:.68rem;font-weight:900;letter-spacing:.07em;line-height:1.35;
+}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-skyline figcaption span{
+  display:block;margin-top:3px;color:#586678;
+  font-size:.72rem;font-weight:600;letter-spacing:0;
+}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-illustration-note{
+  position:absolute;right:16px;bottom:18px;z-index:2;
+  color:#fff;font-size:.7rem;line-height:1.35;
+  padding:6px 10px;border:1px solid rgba(255,255,255,.26);
+  border-radius:999px;background:rgba(8,25,45,.52);
+}
+@media(max-width:1120px) and (min-width:841px){
+  .ng-why-page .ng-why-hero-v2 .ng-why-hero-grid{
+    grid-template-columns:minmax(0,1fr) minmax(0,.95fr);
+    padding-left:28px;min-height:575px;
+  }
+  .ng-why-page .ng-why-hero-v2 .ng-why-hero-copy{padding-right:26px}
+  .ng-why-page .ng-why-hero-v2 h1{font-size:clamp(2.6rem,4.5vw,3.4rem)}
+  .ng-why-page .ng-why-hero-v2 .ng-why-hero-media{min-height:575px}
+}
+@media(max-width:840px){
+  .ng-why-page .ng-why-hero-v2 .ng-why-hero-grid{
+    display:grid;grid-template-columns:minmax(0,1fr);padding:0;
+    min-height:0;
+  }
+  .ng-why-page .ng-why-hero-v2 .ng-why-hero-copy{
+    max-width:none;padding:60px 26px 43px;min-height:0;
+  }
+  .ng-why-page .ng-why-hero-v2 h1{font-size:clamp(2.75rem,8.1vw,4.2rem)}
+  .ng-why-page .ng-why-hero-v2 .ng-why-hero-media{min-height:430px;height:clamp(370px,60vw,500px)}
+}
+@media(max-width:540px){
+  .ng-why-page .ng-why-hero-v2 .ng-why-hero-copy{padding:46px 21px 35px}
+  .ng-why-page .ng-why-hero-v2 .ng-why-eyebrow{font-size:.63rem;letter-spacing:.13em;margin-bottom:19px}
+  .ng-why-page .ng-why-hero-v2 h1{
+    font-size:clamp(2.42rem,10.8vw,3.3rem);
+    line-height:1.1;margin-bottom:18px;
+  }
+  .ng-why-page .ng-why-hero-v2 p.ng-why-hero-lead{
+    font-size:1.03rem;line-height:1.55;
+  }
+  .ng-why-page .ng-why-hero-v2 p.ng-why-hero-support{font-size:.9rem;margin-bottom:24px}
+  .ng-why-page .ng-why-hero-v2 .ng-why-actions{width:100%}
+  .ng-why-page .ng-why-hero-v2 .ng-why-actions .ng-why-btn{width:100%}
+  .ng-why-page .ng-why-hero-v2 .ng-why-hero-topics{
+    font-size:.72rem;gap:8px 13px;padding-top:17px;margin-top:23px;
+  }
+  .ng-why-page .ng-why-hero-v2 .ng-why-hero-media{
+    min-height:335px;height:350px;
+  }
+  .ng-why-page .ng-why-hero-v2 .ng-why-hero-main-photo img{
+    object-position:49% 50%;
+  }
+  .ng-why-page .ng-why-hero-v2 .ng-why-hero-skyline{
+    width:175px;left:15px;bottom:15px;border-width:4px;border-radius:12px;
+  }
+  .ng-why-page .ng-why-hero-v2 .ng-why-hero-skyline img{height:88px}
+  .ng-why-page .ng-why-hero-v2 .ng-why-hero-skyline figcaption{font-size:.62rem;padding:8px}
+  .ng-why-page .ng-why-hero-v2 .ng-why-hero-skyline figcaption span{font-size:.65rem}
+  .ng-why-page .ng-why-hero-v2 .ng-why-hero-illustration-note{
+    right:10px;bottom:15px;font-size:.58rem;padding:5px 7px;
+  }
+}
