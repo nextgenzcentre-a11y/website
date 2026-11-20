@@ -1,0 +1,48 @@
+name: Store real Malaysia destination photography locally
+on:
+  workflow_dispatch:
+  push:
+    branches: [mai]
+    paths:
+      - 'scripts/cache_malaysia_photos.py'
+      - '.github/workflows/cache-why-malaysia-photos.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nextgenz-malaysia-photography-mai
+  cancel-in-progress: false
+
+jobs:
+  cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: mai
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download original licensed location photography
+        run: python scripts/cache_malaysia_photos.py
+      - name: Ensure unchanged styling, brand and content
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path("why-malaysia.html").read_text()
+          assert "/assets/why-malaysia.css" in p
+          assert "ng-brand-header" in p and "ng-site-footer" in p
+          assert p.count("<h1") == 1
+          assert len(list(Path("assets/malaysia").glob("pexels-*.jpg"))) >= 1
+          PY
+      - name: Commit image assets and updated paths
+        run: |
+          git config user.name "nextgenzcentre-a11y"
+          git config user.email "nextgenzcentre@gmail.com"
+          git add -- why-malaysia.html assets/malaysia/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Host verified Malaysia destination photography with NextGenz site"
+          git pull --rebase origin mai
+          git push origin HEAD:mai
