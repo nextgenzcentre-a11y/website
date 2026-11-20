@@ -473,3 +473,14 @@ a:hover{color:var(--navy)}
 .button:not(.secondary),.aside .button:not(.secondary),.hero .button:not(.secondary){background:var(--gold)!important;color:var(--navy)!important}
 .button:not(.secondary):hover{background:#D4AF37!important}
 .foot a,.aside a:not(.button),.aside h2,.aside h3{color:var(--gold)}
+
+
+/* Landing-page font lock for every public guide, programme and translated page.
+   Montserrat is the same local webfont used by the original homepage.
+   Script-specific fallbacks provide proper Arabic and Chinese glyphs. */
+body {font-family:var(--brand-type,Montserrat,Arial,sans-serif)!important;}
+body main,body main p,body main li,body main td,body main th,
+body main figcaption,body main button,body main input,
+body main label,body main select,body main textarea {
+  font-family:var(--brand-type,Montserrat,Arial,sans-serif);
+}
