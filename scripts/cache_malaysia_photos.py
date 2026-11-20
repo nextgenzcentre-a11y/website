@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Vendor approved, location-verified Pexels photography for the Why Malaysia page.
 
+Includes Cameron Highlands replacement photo source verification.
+
 The copy, brand fonts, logo, footer and layout are not changed. Sources are
 linked in existing captions. Failed downloads retain their original remote
 URLs rather than leaving broken images in production.
