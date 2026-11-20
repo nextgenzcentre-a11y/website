@@ -92,3 +92,35 @@
  .ng-why-page .ng-why-actions .ng-why-btn {width:100%}
 }
 @media(prefers-reduced-motion:reduce){.ng-why-page .ng-why-btn{transition:none}}
+
+/* Image-led layouts use the approved image-generation collection exclusively. */
+.ng-why-page .ng-why-wrap{max-width:1280px}
+.ng-why-page .ng-why-hero{min-height:680px}
+.ng-why-page .ng-why-hero-content{max-width:740px}
+.ng-why-page .ng-why-gallery .ng-why-figure img{height:275px}
+.ng-why-page .ng-why-gallery .ng-why-figure.featured img{height:365px}
+.ng-why-page .ng-why-figure img,.ng-why-page .ng-why-destination img{object-position:center}
+.ng-why-page .ng-why-photo-note{
+ display:inline-flex;
+ margin-top:9px;
+ color:#7b632c;
+ background:#f9f4e8;
+ border:1px solid #e8dbba;
+ padding:5px 10px;
+ border-radius:999px;
+ font-size:.74rem;
+ line-height:1.4;
+ font-weight:650;
+}
+.ng-why-page .ng-why-visual-tile figcaption{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:104px}
+.ng-why-page .ng-why-visual-tile .ng-why-photo-note{margin-top:2px}
+.ng-why-page .ng-why-more-gallery .ng-why-gallery{row-gap:22px}
+.ng-why-page .ng-why-more-gallery .ng-why-figure img{height:235px}
+.ng-why-page .ng-why-destination-copy{display:flex;flex-direction:column;gap:9px;align-items:flex-start}
+.ng-why-page .ng-why-destination .ng-why-photo-note{font-size:.7rem}
+@media(max-width:650px){
+ .ng-why-page .ng-why-hero{min-height:570px}
+ .ng-why-page .ng-why-gallery .ng-why-figure.featured img,
+ .ng-why-page .ng-why-gallery .ng-why-figure img,
+ .ng-why-page .ng-why-more-gallery .ng-why-figure img{height:255px}
+}
