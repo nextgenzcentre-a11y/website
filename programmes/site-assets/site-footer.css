@@ -502,3 +502,42 @@
     text-align:center;
   }
 }
+
+/* Shared NEXTGENZ landing-page footer — permanent multilingual layout lock.
+   The broad .grid rule in guides/style.css creates three tiny columns inside
+   each footer navigation. Never allow that rule to control footer link lists. */
+#ng-site-footer{font-family:Montserrat,"Noto Sans Arabic","Noto Sans SC",Arial,sans-serif;line-height:1.6;color:#fff;word-break:normal;overflow-wrap:normal;}
+#ng-site-footer *,#ng-site-footer *::before,#ng-site-footer *::after{box-sizing:border-box;}
+#ng-site-footer .ng-market-footer{background:#071126;color:#fff;}
+#ng-site-footer .ng-footer-grid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;align-items:start;gap:30px!important;}
+#ng-site-footer .ng-footer-grid>div{min-width:0;width:100%;}
+#ng-site-footer .ng-footer-grid nav.grid,
+#ng-site-footer .ng-footer-grid div.grid{display:grid;grid-template-columns:minmax(0,1fr)!important;width:100%;gap:12px;}
+#ng-site-footer .ng-footer-grid a,
+#ng-site-footer .ng-footer-grid span,
+#ng-site-footer .ng-footer-grid p,
+#ng-site-footer .ng-footer-grid h3{overflow-wrap:normal;word-break:normal;hyphens:none;white-space:normal;text-align:start;}
+#ng-site-footer .ng-footer-grid a.ng-footer-link{display:flex!important;align-items:flex-start;justify-content:flex-start;gap:9px;width:100%;min-width:0;margin:0;font-size:.86rem;line-height:1.6;text-decoration:none;}
+#ng-site-footer .ng-footer-grid a.ng-footer-link i{flex-shrink:0;margin-top:5px;}
+#ng-site-footer .ng-footer-grid .grid>a:not(.ng-footer-link){display:block;min-width:0;width:100%;font-size:.83rem;line-height:1.7;}
+#ng-site-footer .ng-footer-grid .flex.flex-wrap{display:flex;flex-wrap:wrap;gap:12px;}
+#ng-site-footer .ng-footer-grid .break-all{overflow-wrap:anywhere;word-break:normal;}
+#ng-site-footer .ng-footer-consult-inner{display:grid;grid-template-columns:minmax(0,1fr)!important;gap:22px;}
+#ng-site-footer .ng-footer-consult-inner h2{font-family:Montserrat,"Noto Sans Arabic","Noto Sans SC",Arial,sans-serif;color:#fff;letter-spacing:-.025em;}
+#ng-site-footer .ng-footer-consult-inner .ng-footer-cta{white-space:normal;text-align:center;}
+#ng-site-footer .ng-footer-consult-inner .ng-footer-cta,
+#ng-site-footer .ng-footer-consult-inner a{overflow-wrap:normal;word-break:normal;}
+#ng-site-footer .ng-footer-grid .ng-footer-heading{font-size:1.03rem;line-height:1.4;font-weight:800;color:#fff;margin-bottom:20px;}
+#ng-site-footer .ng-footer-grid p{color:#cbd5e1;}
+#ng-site-footer .ng-footer-consult-inner p{color:#cbd5e1;line-height:1.75;}
+@media(min-width:680px) and (max-width:1099px){
+ #ng-site-footer .ng-footer-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:35px!important;}
+}
+@media(min-width:1100px){
+ #ng-site-footer .ng-footer-grid{grid-template-columns:minmax(0,1.16fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1.08fr)!important;gap:27px!important;}
+ #ng-site-footer .ng-footer-consult-inner{grid-template-columns:minmax(0,1fr) auto!important;}
+}
+@media(max-width:679px){
+ #ng-site-footer .ng-footer-grid{grid-template-columns:minmax(0,1fr)!important;gap:36px!important;}
+ #ng-site-footer .ng-footer-consult-inner a{width:100%;white-space:normal;}
+}
