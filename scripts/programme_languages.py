@@ -108,6 +108,13 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
                             concise = LEVEL[entries[0]['level']][i] + ' · ' + academic_subject + ' · ' + short + suffix
                             if len(concise) <= 60:
                                 seo_title = concise
+                    if len(seo_title) > 60 and short:
+                        # For long or composite qualifications, preserve a
+                        # complete study subject instead of truncating mid-name.
+                        core = entries[0]['name'].split('(', 1)[0].strip()
+                        concise = core + ' · ' + short + suffix
+                        if len(concise) <= 60:
+                            seo_title = concise
                     if len(seo_title) > 60:
                         label_without_short = label.removesuffix(' · ' + short) if short else label
                         reserved = len(suffix) + (len(' · ' + short) if short else 0)
