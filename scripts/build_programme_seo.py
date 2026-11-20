@@ -32,6 +32,8 @@ PUBLIC_BASE = "https://www.nextgenzcentre.space"
 OUT = ROOT / "programmes"
 TODAY = date.today().isoformat()
 MARKER = "<!-- AUTO-GENERATED NEXTGENZ PROGRAMME DIRECTORY -->"
+# Track actual HTML changes so sitemap lastmod does not advance on every rebuild.
+CHANGED_OUTPUTS: set[str] = set()
 SITEMAP_START = "  <!-- NEXTGENZ PROGRAMME SEO START -->"
 SITEMAP_END = "  <!-- NEXTGENZ PROGRAMME SEO END -->"
 LEVELS = ["Foundation", "Diploma", "Bachelor", "Master", "Doctorate", "Other"]
@@ -295,6 +297,7 @@ def write(relative: str, data: str, output: set[str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     if not path.exists() or path.read_text(encoding="utf-8") != data:
         path.write_text(data, encoding="utf-8")
+        CHANGED_OUTPUTS.add(relative.lstrip("/"))
     output.add(relative.lstrip("/"))
 
 def public_fee_note(e: dict) -> str:
@@ -737,13 +740,21 @@ def main() -> None:
     # Include only HTML indexable pages, not CSS/JSON, in the existing sitemap.
     sitemap_path = ROOT / "sitemap.xml"
     sm = sitemap_path.read_text(encoding="utf-8")
+    # Preserve each unchanged page's previous real modification date. Google
+    # recommends truthful lastmod values, not today's date for every rebuild.
+    previous_lastmod = dict(re.findall(
+        r"<url>\s*<loc>([^<]+)</loc>\s*<lastmod>(\d{4}-\d{2}-\d{2})</lastmod>\s*</url>",
+        sm,
+    ))
     sm = re.sub(re.escape(SITEMAP_START) + r"[\s\S]*?" + re.escape(SITEMAP_END) + r"\s*", "", sm)
     sm = re.sub(r"\s+</urlset>", "\n</urlset>", sm)
     links = sorted(x for x in outputs if x.endswith(".html"))
-    auto_xml = SITEMAP_START + "\n" + "\n".join(
-      "  <url><loc>" + PUBLIC_BASE + ("/" + url[:-len("index.html")] if url.endswith("/index.html") else "/" + url)
-      + "</loc><lastmod>" + TODAY + "</lastmod></url>" for url in links
-    ) + "\n" + SITEMAP_END + "\n"
+    def sitemap_record(url: str) -> str:
+        href = PUBLIC_BASE + ("/" + url[:-len("index.html")] if url.endswith("/index.html") else "/" + url)
+        lastmod = TODAY if url in CHANGED_OUTPUTS else previous_lastmod.get(href, TODAY)
+        return "  <url><loc>" + href + "</loc><lastmod>" + lastmod + "</lastmod></url>"
+
+    auto_xml = SITEMAP_START + "\n" + "\n".join(sitemap_record(url) for url in links) + "\n" + SITEMAP_END + "\n"
     if "</urlset>" not in sm:
         raise RuntimeError("Existing sitemap malformed")
     sm = sm.replace("</urlset>", auto_xml + "</urlset>")
