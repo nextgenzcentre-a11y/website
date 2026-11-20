@@ -92,7 +92,32 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
             desc=tr('استكشف '+label+'، وراجع خيارات القبول والرسوم المناسبة لموعد التحاقك مع مستشار يتحدث العربية.',
                     '查看'+label+'，了解课程选择、入学申请和学费，按计划入学时间咨询费用明细。')
             address=localized(path,lang)
-            page=head(label+' | NextGenz Centre',desc,address).replace('<html lang="en">','<html lang="'+tr('ar" dir="rtl','zh-CN')+'">')
+            # Keep the complete official programme name in the visible H1.
+            # Shorten search-only titles when concatenating a long English
+            # qualification and Arabic level would make Google truncate them.
+            seo_title = label + ' | NextGenz Centre'
+            if len(seo_title) > 60:
+                suffix = ' | NextGenz'
+                seo_title = label + suffix
+                if len(seo_title) > 60:
+                    short = entries[0]['short'] if len(entries) == 1 and entries[0].get('detail') == path else ''
+                    label_without_short = label.removesuffix(' · ' + short) if short else label
+                    reserved = len(suffix) + (len(' · ' + short) if short else 0)
+                    budget = 60 - reserved
+                    clipped = label_without_short[:budget].rsplit(' ', 1)[0].strip(' ·,')
+                    if len(clipped) < 20:
+                        clipped = label_without_short[:budget].rstrip(' ·,')
+                    seo_title = clipped + (' · ' + short if short else '') + suffix
+            # The full lead paragraph stays visible. Only the search
+            # description is condensed when the original exceeds 160 chars.
+            seo_desc = desc
+            if len(seo_desc) > 158:
+                short_topic = seo_title.split(' | ')[0]
+                seo_desc = tr(
+                    'اطلع على ' + short_topic + ' وشروط القبول والرسوم الرسمية المحدثة. استشارة مجانية.',
+                    '查看' + short_topic + '的入学要求与最新学费信息，免费咨询。',
+                )
+            page=head(seo_title,seo_desc,address).replace('<html lang="en">','<html lang="'+tr('ar" dir="rtl','zh-CN')+'">')
             page=page.replace('<head>', '<head><!-- AUTO-GENERATED NEXTGENZ PROGRAMME DIRECTORY -->')
             page=page.replace('</head>',alternates(path)+'<script defer src="/assets/language-choice.js"></script></head>')
             def actions(topic):return action('consult',topic,lang)+' '+action('apply',topic,lang)
