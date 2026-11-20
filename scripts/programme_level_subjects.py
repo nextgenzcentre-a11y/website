@@ -462,7 +462,7 @@ def generate_level_subject_pages(records, selected_urls, write, wrap_page, page_
             '<section class="section"><div class="wrap"><div class="article-layout"><article class="article">'
             '<h2>What does ' + h(fld["name"]) + ' study involve?</h2><p>' + h(fld["overview"]) + '</p>'
             '<h2>What to know about this qualification level</h2><p>' + h(intro) + '</p>'
-            '<div class="catalog-note"><strong>Source and availability:</strong> Programme names, university locations, fee references and links below come from the NextGenz Centre existing finder database, not a live university admissions feed. A listed title does not mean that an intake is currently open or that NextGenz has an official relationship with that university. Current fees, entry requirements, course mode and availability must be checked in the university’s written information. Finder fees can differ in billing basis, and should never be treated as final quotes.</div>'
+            '<div class="catalog-note">Select a course to explore its requirements. For tuition and intake dates, contact our admissions team.</div>'
             '<h2>Compare universities with ' + h(LEVEL_LABELS[level].lower()) + ' ' + h(fld["name"].lower()) + ' programmes</h2>'
             '<p>Use the exact course names below to shortlist institutions. A course may contain this subject as one area of study or a specialisation, so read the full title before deciding whether it is the qualification you want.</p>'
             '<div class="catalog-comparison" role="region" aria-label="Compare actual listed university courses" tabindex="0">'

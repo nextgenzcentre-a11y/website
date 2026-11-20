@@ -95,6 +95,22 @@ try {
     for(let i=0;i<30 && !await evalValue("document.querySelectorAll('.catalog-wide > h2')[2].classList.contains('ng-enter-view')");i++) await delay(100);
     assert(await evalValue("document.querySelectorAll('.catalog-wide > h2')[2].classList.contains('ng-enter-view')"));
   }
+  for (const width of [390,1440]) {
+    await call('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:width===390});
+    for (const path of ['/','/why-malaysia.html','/programmes/levels/foundation.html']) {
+      await call('Page.navigate',{url:'http://127.0.0.1:9811'+path});
+      for(let i=0;i<150;i++){
+        if(await evalValue("location.pathname==="+JSON.stringify(path)+" && !!document.querySelector('.ng-footer-grid')")) break;
+        await delay(200);
+      }
+      assert(await evalValue("location.pathname==="+JSON.stringify(path)+" && !!document.querySelector('.ng-footer-grid')"),path+' landing-page footer');
+      assert(await evalValue("getComputedStyle(document.querySelector('.ng-footer-grid')).gridTemplateColumns.split(' ').length === "+(width===390?1:4)),path+' footer columns');
+      if(path==='/') {
+        assert(await evalValue("!document.querySelector('.ng-crawl-first') && !!document.querySelector('#universities')"),'Homepage mounted');
+        assert(await evalValue("[...document.querySelectorAll('#universities h3')].some(h=>h.textContent==='Partner universities')"),'Partner logos mounted');
+      }
+    }
+  }
   socket.close();console.log('PASS: '+paths.length+' representative pages at 390px and 1440px vs '+previous);
 } finally {
   chrome.kill();for(const s of servers)s.kill();execFileSync('git',['worktree','remove','--force',base]);

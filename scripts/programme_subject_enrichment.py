@@ -24,7 +24,7 @@ SUBJECT_ENRICHMENT = {
 <h3>Universiti Teknologi Malaysia (UTM): Master of Computer Science – ODL</h3>
 <p>UTM's admission page describes an <strong>online, mixed-mode Master of Computer Science</strong> involving <strong>45 credits</strong>, with a published duration of approximately <strong>1.5–4 years</strong>. Its official international fee figures depend on the applicable programme and fee schedule; do not rely on an undated finder price. UTM also publishes conditions for international students on ODL programmes, including relevant EMGS study approval requirements.</p>
 <p><a href="https://admission.utm.my/programmes/master-of-computer-science-odl/" target="_blank" rel="noopener noreferrer">Read UTM's official admission and fee information ↗</a> · <a href="https://odl.utm.my/master-of-computer-science/" target="_blank" rel="noopener noreferrer">UTM's full ODL programme guide ↗</a></p>
-<p class="catalog-fact-date">Source information checked 15 November 2026. University programme names, accreditation, requirements, fee schedules and intake availability can change without notice. Any quoted figure is sourced from an individual university, not a guaranteed NextGenz tuition quote. Inclusion does not establish an official recruitment partnership.</p>
+<p class="catalog-fact-date">Source information checked 15 November 2026. University programme names, accreditation, requirements, fee schedules and intake availability can change without notice. Any quoted figure is sourced from an individual university, not a guaranteed NextGenz tuition quote.</p>
 </section>
 """,
         "after_table": """

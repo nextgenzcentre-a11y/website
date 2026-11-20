@@ -478,7 +478,7 @@ def generate_topic_pages(records, selected_urls, uni_slugs, write, wrap_page, pa
           '<section class="section"><div class="wrap"><div class="article-layout"><article class="article">'
           '<h2>What should you know about ' + h(topic["label"]) + '?</h2>'
           '<p>' + h(topic["intro"]) + '</p>'
-          '<div class="catalog-note"><strong>Source and accuracy:</strong> The course names below come from the existing NextGenz Centre programme finder, not live university admission feeds. They may include grouped titles or older prices. Check the current course availability, qualification, entry criteria, fees, study mode and intakes with the institution. A listing does not imply an agency partnership or a confirmed seat.</div>'
+          '<div class="catalog-note">Ask our admissions team about programme availability, entry requirements and fees for your intake.</div>'
           '<h2>Compare programmes listed in the finder</h2>'
           '<p>These ' + str(len(visible)) + ' reference entries across ' + str(universities) + ' Malaysian universities are starting points for your shortlist. Follow a programme to its information page or university entry. Select More beside a programme for a breakdown of tuition and other fees for your intake.</p>'
           '<div class="catalog-comparison" role="region" aria-label="Compare programmes" tabindex="0"><table class="catalog-table"><thead><tr><th scope="col">University</th><th scope="col">Programme listing</th><th scope="col">Tuition for your intake</th></tr></thead><tbody>'

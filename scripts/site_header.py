@@ -13,7 +13,8 @@ BRAND_CREST = "/assets/brand/nextgenz-official-crest-fallback.png?v=drive-origin
 ORIGINAL_CREST_CDN = "https://cdn.phototourl.com/free/2026-07-29-bc15283f-aa7c-4900-ba80-03dc631dd663.png"
 NAV_LINKS = (
     ("Universities", "/#universities"),
-    ("Why Malaysia", "/#why-malaysia"),
+    ("Why Malaysia", "/why-malaysia.html"),
+    ("About Us", "/about-nextgenz-centre.html"),
     ("Services", "/#services"),
     ("Portals", "/#portals"),
     ("How it works", "/#process"),
@@ -73,7 +74,7 @@ def header_html(lang: str = "en", catalogue_path: str = "") -> str:
 
     if catalogue_path and lang in ('ar','zh'):
         labels = {
-            'Universities':('الجامعات','大学'), 'Why Malaysia':('لماذا ماليزيا','为何选择马来西亚'),
+            'About Us':('من نحن','关于我们'), 'Universities':('الجامعات','大学'), 'Why Malaysia':('لماذا ماليزيا','为何选择马来西亚'),
             'Services':('الخدمات','服务'), 'Portals':('البوابات','门户'), 'How it works':('خطوات التقديم','申请流程'),
             'Agents':('الوكلاء','合作伙伴'), 'FAQ':('الأسئلة الشائعة','常见问题'), 'Journal':('المقالات','资讯'),
             'Explore Programs':('تصفح البرامج','浏览课程'), 'Find a Degree':('ابحث عن تخصص','查找专业'),

@@ -33,7 +33,7 @@ OUT = ROOT / "programmes"
 TODAY = date.today().isoformat()
 MARKER = "<!-- AUTO-GENERATED NEXTGENZ PROGRAMME DIRECTORY -->"
 # Track actual HTML changes so sitemap lastmod does not advance on every rebuild.
-CHANGED_OUTPUTS: set[str] = set()
+
 SITEMAP_START = "  <!-- NEXTGENZ PROGRAMME SEO START -->"
 SITEMAP_END = "  <!-- NEXTGENZ PROGRAMME SEO END -->"
 LEVELS = ["Foundation", "Diploma", "Bachelor", "Master", "Doctorate", "Other"]
@@ -297,13 +297,15 @@ def write(relative: str, data: str, output: set[str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     if not path.exists() or path.read_text(encoding="utf-8") != data:
         path.write_text(data, encoding="utf-8")
-        CHANGED_OUTPUTS.add(relative.lstrip("/"))
     output.add(relative.lstrip("/"))
 
 def public_fee_note(e: dict) -> str:
     return tuition_range(e["raw_fee"], e["currency"])
 
 def main() -> None:
+    from site_shell import build_public_assets
+    build_public_assets()
+    previous_html = {p.relative_to(ROOT).as_posix(): sha1(p.read_bytes()).digest() for p in OUT.rglob("*.html")}
     unis = normalize_unis()
     english_centres = english_centres_from_finder()
     records = []
@@ -476,7 +478,7 @@ def main() -> None:
       '<p class="lead catalog-lead">Browse actual programme names from the NextGenz Centre programme finder. Explore foundation, diploma, bachelor’s, master’s and doctoral options across ' + str(len(unis)) + ' Malaysian universities, then ask our education consultancy team for free placement guidance.</p>'
       '<div class="catalog-stats"><span>' + str(len(unis)) + ' universities</span><span>' + str(len(records)) + ' listed university programmes</span><span>' + str(unique_names) + ' distinct programme names</span></div></div></section>'
       '<section class="section"><div class="wrap">'
-      '<div class="catalog-note"><strong>Important:</strong> These are reference records in our programme finder, not a live official university admissions database. Some programme names group multiple awards. Fees, campus availability, study mode, intakes and entry requirements must be verified directly with the institution. Inclusion does not imply a confirmed university recruitment partnership.</div>'
+      '<div class="catalog-note">Ask our admissions team which campuses and intakes offer your preferred programme.</div>'
       '<h2>Start with university admission guidance</h2>'
       '<p>New to studying in Malaysia? Read our <a href="/guides/how-to-study-in-malaysia.html">international student application guide</a>, learn what an <a href="/services/education-consultant-malaysia.html">education consultant in Malaysia</a> can help with, or explore <a href="/guides/english-courses-in-malaysia.html">English language courses</a> before selecting a university. Compare <a href="/programmes/levels/bachelor.html">bachelor degree programmes in Malaysia</a> by university using the level directory below.</p>'
       '<h2>Find a specific course</h2><p>Compare <a href="/programmes/english-language-centres.html">English courses and IELTS preparation at seven language centres</a>, or review individual university options including <a href="/programmes/courses/um/foundation-in-life-sciences-a5be48.html">Foundation in Life Sciences at Universiti Malaya</a> and <a href="/programmes/courses/apu/foundation-in-engineering-f881b5.html">Foundation in Engineering at APU</a>.</p><h2>Search by study level</h2><div class="grid">'
@@ -737,6 +739,9 @@ def main() -> None:
             (e["uni"], e["name"]), f'/programmes/universities/{e["uslug"]}.html#{e["id"]}')
     write("programmes/finder-links.json", json.dumps(finder_links, ensure_ascii=False, separators=(",", ":")), outputs)
 
+    from site_shell import sync_public_shell
+    sync_public_shell()
+
     # Include only HTML indexable pages, not CSS/JSON, in the existing sitemap.
     sitemap_path = ROOT / "sitemap.xml"
     sm = sitemap_path.read_text(encoding="utf-8")
@@ -751,7 +756,8 @@ def main() -> None:
     links = sorted(x for x in outputs if x.endswith(".html"))
     def sitemap_record(url: str) -> str:
         href = PUBLIC_BASE + ("/" + url[:-len("index.html")] if url.endswith("/index.html") else "/" + url)
-        lastmod = TODAY if url in CHANGED_OUTPUTS else previous_lastmod.get(href, TODAY)
+        changed = sha1((ROOT/url).read_bytes()).digest() != previous_html.get(url)
+        lastmod = TODAY if changed else previous_lastmod.get(href, TODAY)
         return "  <url><loc>" + href + "</loc><lastmod>" + lastmod + "</lastmod></url>"
 
     auto_xml = SITEMAP_START + "\n" + "\n".join(sitemap_record(url) for url in links) + "\n" + SITEMAP_END + "\n"

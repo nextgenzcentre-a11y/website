@@ -18,6 +18,12 @@
 <script type="application/ld+json" id="ng-company-schema">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.nextgenzcentre.space/#organization","name":"NextGenz Centre","url":"https://www.nextgenzcentre.space/","description":"Malaysia-based education consultancy providing free university placement advice, English course admissions guidance and EMGS student pass information.","contactPoint":{"@type":"ContactPoint","contactType":"student admissions","telephone":"+60-11-6770-1210"}},{"@type":"WebSite","@id":"https://www.nextgenzcentre.space/#website","name":"NextGenz Centre","url":"https://www.nextgenzcentre.space/","publisher":{"@id":"https://www.nextgenzcentre.space/#organization"}}]}</script>
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0A1633">
+<script>document.documentElement.classList.add('ng-boot'); setTimeout(function(){document.documentElement.classList.remove('ng-boot')},8000)</script>
+<style>
+.ng-boot #root>.ng-crawl-first{display:none}
+#ng-start{display:none}
+.ng-boot #ng-start{display:grid;min-height:100svh;place-content:center;justify-items:center;gap:.8rem;background:#0a1633;color:white;font:800 1rem Montserrat,Arial,sans-serif;letter-spacing:.04em}
+</style>
 <style id="ng-fallback-crawl-styles">
 .ng-crawl-first{min-height:100vh;background:#0a1633;color:white;font-family:Montserrat,Arial,sans-serif}
 .ng-crawl-first *{box-sizing:border-box}
@@ -48,32 +54,9 @@
 <!-- FontAwesome Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<!-- Tailwind CSS (CDN build, JIT) -->
-<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="/programmes/site-assets/public-utilities.css">
 
-<!-- React 18 UMD -->
-<script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js" crossorigin></script>
-<script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-<script>
-  // Fallback in case the primary CDN is blocked/unreachable
-  if (typeof window.React === 'undefined') {
-    document.write('<script src="https:\/\/unpkg.com/react@18/umd/react.production.min.js"><\/script>');
-  }
-</script>
-<script>
-  if (typeof window.ReactDOM === 'undefined') {
-    document.write('<script src="https:\/\/unpkg.com/react-dom@18/umd/react-dom.production.min.js"><\/script>');
-  }
-</script>
-
-<!-- Babel standalone (in-browser JSX/TS transpiling) -->
-<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
-<script>
-  if (typeof window.Babel === 'undefined') {
-    document.write('<script src="https:\/\/unpkg.com/@babel/standalone/babel.min.js"><\/script>');
-  }
-</script>
-
+<script defer src="/programmes/site-assets/react-runtime.js"></script>
 
 <!-- Firebase (Auth + Realtime Database) -->
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
@@ -1167,7 +1150,7 @@ if (sweeps > 40) clearInterval(interval);
 }, 250);
 })();
 </script>
-<div id="root"><div class="ng-crawl-first">
+<div id="root"><div id="ng-start"><img src="/assets/brand/nextgenz-official-crest-fallback.png" width="76" height="76" alt=""><strong>NEXTGENZ <span style="color:#c5a059">CENTRE</span></strong></div><div class="ng-crawl-first">
 <header class="nav-first"><a href="/" class="brand-first">NEXTGENZ CENTRE</a><nav class="links-first" aria-label="Main navigation"><a href="/services/free-university-placement-malaysia.html">Free university placement</a><a href="/programmes/">University programmes</a><a href="/services/education-consultant-malaysia.html">Education consultant</a><a href="/guides/">Study guides</a><a href="/guides/malaysia-student-visa-emgs-guide.html">EMGS visa guide</a><a href="/guides/english-courses-in-malaysia.html">English courses</a></nav></header>
 <main><p><a lang="ar" href="/programmes/ar/">دليل التخصصات بالعربية</a> · <a lang="zh-CN" href="/programmes/zh/">简体中文专业目录</a></p>
 <section class="hero-first"><p style="color:#edc675;font-size:12px;letter-spacing:.15em;font-weight:800">NEXTGENZ CENTRE · STUDY IN MALAYSIA</p><h1>Study in Malaysia for international students</h1>
@@ -2495,12 +2478,13 @@ return (
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="ng-nav-shell flex items-center justify-between gap-5">
       <a contentEditable={false} suppressContentEditableWarning href="#home" className="ng-brand flex items-center gap-2 shrink-0" aria-label="NextGenz Centre home">
-        <EditableImage id="logo-header" wrapperClassName="h-10 md:h-11 w-auto shrink-0" imgClassName="h-full w-auto object-contain" src="https://cdn.phototourl.com/free/2026-07-29-bc15283f-aa7c-4900-ba80-03dc631dd663.png" alt="NEXTGENZ CENTRE Logo" />
+        <EditableImage id="logo-header" wrapperClassName="h-10 md:h-11 w-auto shrink-0" imgClassName="h-full w-auto object-contain" src="/assets/brand/nextgenz-official-crest-fallback.png?v=drive-original-20261115" alt="NEXTGENZ CENTRE Logo" />
         <span className="text-white font-heading font-extrabold tracking-tight leading-none text-sm sm:text-base lg:text-lg">NEXTGENZ <span className="text-[#C5A059]">CENTRE</span></span>
       </a>
       <div className="ng-desktop-nav hidden xl:flex items-center gap-6 text-xs font-bold text-white/80">
         <a contentEditable={false} suppressContentEditableWarning href="#universities">Universities</a>
-        <a contentEditable={false} suppressContentEditableWarning href="#why-malaysia">Why Malaysia</a>
+        <a contentEditable={false} suppressContentEditableWarning href="/why-malaysia.html">Why Malaysia</a>
+        <a href="/about-nextgenz-centre.html">About Us</a>
         <a contentEditable={false} suppressContentEditableWarning href="#services">Services</a>
         <a contentEditable={false} suppressContentEditableWarning href="#portals">Portals</a>
         <a contentEditable={false} suppressContentEditableWarning href="#process">How it works</a>
@@ -2523,7 +2507,7 @@ return (
     <div id="public-mobile-menu" className="ng-mobile-drawer lg:hidden bg-[#0A1633] border-t border-[#C5A059]/20 shadow-2xl">
       <div className="px-5 py-5 grid grid-cols-2 gap-2 text-white/90 text-sm font-semibold">
         {[
-          ['Universities','#universities'],['Why Malaysia','#why-malaysia'],['Services','#services'],['Portals','#portals'],['How it works','#process'],['Agents','#agents'],['Journal','#articles'],['FAQ','#faq'],['Free Advisory','#contact']
+          ['Universities','#universities'],['Why Malaysia','/why-malaysia.html'],['About Us','/about-nextgenz-centre.html'],['Services','#services'],['Portals','#portals'],['How it works','#process'],['Agents','#agents'],['Journal','#articles'],['FAQ','#faq'],['Free Advisory','#contact']
         ].map(([label,href]) => <a key={href} contentEditable={false} suppressContentEditableWarning href={href} onClick={() => setMobileMenuOpen(false)} className="rounded-xl border border-white/10 bg-white/5 px-3 py-3 hover:text-[#C5A059]">{label}</a>)}
         <button contentEditable={false} suppressContentEditableWarning onClick={() => {setMobileMenuOpen(false);window.dispatchEvent(new CustomEvent('ng-open-program-finder', {detail:{}}));}} className="col-span-2 text-[#0A1633] bg-[#C5A059] rounded-xl font-bold py-3">Browse Programs</button>
         <button contentEditable={false} suppressContentEditableWarning onClick={() => {setMobileMenuOpen(false);onOpenPortal('student');}} className="bg-white/10 border border-white/15 rounded-xl py-3">Student Login</button>
@@ -2572,7 +2556,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenAdmin, isAdminActive }) => (
         <div className="min-w-0">
           <a contentEditable={false} suppressContentEditableWarning href="#home" className="flex items-center gap-3 mb-5">
             <EditableImage id="logo-footer" wrapperClassName="h-12 w-auto shrink-0" imgClassName="h-full w-auto object-contain"
-              src="https://cdn.phototourl.com/free/2026-07-29-bc15283f-aa7c-4900-ba80-03dc631dd663.png" alt="NEXTGENZ CENTRE Logo" />
+              src="/assets/brand/nextgenz-official-crest-fallback.png?v=drive-original-20261115" alt="NEXTGENZ CENTRE Logo" />
             <span className="font-heading font-extrabold text-white text-lg leading-tight tracking-tight">NEXTGENZ <span className="text-[#C5A059]">CENTRE</span></span>
           </a>
           <p className="text-slate-300 text-sm leading-7 max-w-[290px]">Your Malaysia education partner for 100% FREE university placement, English language school admissions and end-to-end student visa guidance.</p>
@@ -2585,7 +2569,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenAdmin, isAdminActive }) => (
           <h3 className="ng-footer-heading font-heading font-bold text-white text-base mb-5">Quick Links</h3>
           <nav aria-label="Footer quick navigation" className="grid gap-3.5">
             {[
-              ['Universities', '#universities'], ['Why Malaysia', '#why-malaysia'], ['Our Services', '#services'],
+              ['Universities', '#universities'], ['Why Malaysia', '/why-malaysia.html'], ['Our Services', '#services'],
               ['Student & Agent Portals', '#portals'], ['Admissions Process', '#process'],
               ['Become an Agent', '#agents'], ['Study Articles & News', '#articles'], ['Frequently Asked Questions', '#faq'],
               ['All Malaysia University Programmes', '/programmes/'], ['MBA University Comparison', '/programmes/topics/mba-malaysia.html'], ['Foundation in Science Malaysia', '/programmes/topics/foundation-in-science-malaysia.html'], ['Computer Science Degrees', '/programmes/topics/computer-science-degree-malaysia.html'], ['Nursing Degrees Malaysia', '/programmes/topics/nursing-degree-malaysia.html'], ['Education Consultant in Malaysia', '/services/education-consultant-malaysia.html'], ['University Comparison Guide', '/guides/compare-universities-malaysia.html'], ['Free University Placement', '/services/free-university-placement-malaysia.html'], ['About NextGenz Centre', '/about-nextgenz-centre.html']
@@ -3191,7 +3175,7 @@ const NGPublicProgrammeTeaser: React.FC<{initialUniversity?:string;initialLevel?
             </div>
             <div className="flex gap-2 mt-4 flex-wrap">{categories.map(c=><button type="button" key={c} className="ng-topic-chip" onClick={()=>{setQuery(c==='Computer Science & IT'?'computer':c==='Business & Management'?'business':c==='Healthcare & Medicine'?'medicine':c==='English pathways'?'english':'engineering');setVisible(9);}}>{c} <i className="fa-solid fa-arrow-up-right-from-square ml-1"></i></button>)}</div>
           </div>
-          <div className="flex items-center justify-between mb-4 gap-3"><p className="font-bold text-[#0A1633]">{matches.length.toLocaleString('en-MY')} potential programme matches</p><span className="text-xs text-slate-500">Preview only · no upfront detailed quotations</span></div>
+          <div className="flex items-center justify-between mb-4 gap-3"><p className="font-bold text-[#0A1633]">{matches.length.toLocaleString('en-MY')} potential programme matches</p></div>
           <div className="ng-teaser-grid grid md:grid-cols-2 xl:grid-cols-3 gap-4">
             {matches.slice(0,visible).map(({uni,name}:any,i:number)=><article key={uni.shortName+name} className="ng-teaser-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
               <div className="flex items-center gap-3 mb-4"><NGInstitutionMark uni={uni} large/><div className="min-w-0"><strong className="font-heading text-sm text-[#0A1633] leading-tight block">{uni.university}</strong><span className="text-xs text-slate-500 block mt-1"><i className="fa-solid fa-location-dot mr-1 text-[#C5A059]"></i>{uni.location}, Malaysia</span></div></div>
@@ -3243,7 +3227,7 @@ const TrustStatsAndMarquee: React.FC<{directoryMode?:boolean}> = ({directoryMode
     return()=>window.clearInterval(timer);
   },[autoplay,category,filtered.length,directoryMode]);
   const show=filtered.slice(current,current+visibleCount);
-  const ribbonItems = filtered.length ? [...filtered, ...filtered] : [];
+
   const featured=NG_FEATURED_CODES.map(code=>rawData.find((u:any)=>u.shortName===code)).filter(Boolean);
   const openUni=(uni:any)=>{ const inFinder=rawData.some((item:any)=>item.shortName===uni.shortName); if(inFinder){window.dispatchEvent(new CustomEvent('ng-open-program-finder',{detail:{university:uni.shortName}}));} else {window.location.hash='#contact';} };
   return (<section id="universities" className="ng-trust-section ng-showcase relative bg-[#F5F7FA] pb-16 sm:pb-20 overflow-hidden">
@@ -3258,18 +3242,22 @@ const TrustStatsAndMarquee: React.FC<{directoryMode?:boolean}> = ({directoryMode
         ].map(([icon,value,label])=><div key={label} className="ng-kpi text-center p-5 lg:p-6"><i className={`fa-solid ${icon} text-[#C5A059] text-lg mb-2`}></i><strong className="block font-heading font-extrabold text-[#0A1633] text-2xl sm:text-3xl">{value}</strong><span className="block text-slate-500 text-[11px] sm:text-xs font-medium mt-1">{label}</span></div>)}
       </div>}
       <div className="ng-section-heading flex flex-col md:flex-row md:items-end justify-between gap-5 pt-7 pb-7">
-        <div className="max-w-3xl"><span className="ng-eyebrow">{directoryMode?'YOUR UNIVERSITY DIRECTORY':'A WORLD OF CAMPUS OPTIONS'}</span><h2 className="font-heading font-extrabold text-[#0A1633] text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-3">{directoryMode?'Explore universities in Malaysia':'Universities & English centres you can actually act on.'}</h2><p className="text-slate-600 mt-3 leading-relaxed">Browse universities, foreign branch campuses and English language centres. Use the preview for inspiration, then contact NEXTGENZ CENTRE for the exact intake, fee quotation and document list.</p></div>
+        <div className="max-w-3xl"><span className="ng-eyebrow">{directoryMode?'UNIVERSITIES':'STUDY IN MALAYSIA'}</span><h2 className="font-heading font-extrabold text-[#0A1633] text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-3">{directoryMode?'Explore universities in Malaysia':'Our partner institutions'}</h2><p className="text-slate-600 mt-3 leading-relaxed">Browse university programmes and English courses by institution.</p></div>
         {!directoryMode&&<a contentEditable={false} suppressContentEditableWarning href="#universities" className="ng-solid-button bg-[#0A1633] text-white font-bold rounded-xl px-6 py-3.5 text-sm shrink-0">University directory <i className="fa-solid fa-arrow-right ml-2 text-[#C5A059]"></i></a>}
       </div>
       <div className="ng-tabs flex flex-wrap gap-2 mb-5" role="group" aria-label="Filter university slideshow">{[
         ['All universities','All institutions'],['Public','Public universities'],['Private','Private & other campuses'],['Language Centre','Language centres']
       ].map(([value,label])=><button key={value} type="button" onClick={()=>setCategory(value)} aria-pressed={category===value} className={`ng-slide-tab px-4 py-2.5 text-xs font-bold rounded-xl border transition ${category===value?'bg-[#0A1633] border-[#0A1633] text-white':'bg-white border-slate-200 text-[#0A1633] hover:border-[#C5A059]'}`}>{label}</button>)}</div>
-      <div className="ng-logo-ribbon-shell relative overflow-hidden rounded-[28px] border border-slate-200 bg-white/90 backdrop-blur px-3 sm:px-5 py-4 mb-8 shadow-sm" >
-        <div className={`ng-logo-ribbon-track flex items-center gap-4 sm:gap-5 ${!autoplay?'ng-marquee-paused':''}`}>
-          {ribbonItems.map((uni:any, idx:number)=><button key={uni.shortName+'-'+idx} type="button" onClick={()=>openUni(uni)} className="ng-logo-ribbon-card shrink-0 flex items-center gap-3 bg-[#F8FAFC] hover:bg-white border border-slate-200 rounded-2xl px-4 py-3 min-w-[220px] sm:min-w-[250px] text-left transition hover:border-[#C5A059] hover:shadow-lg"><NGInstitutionMark uni={uni} /><span className="min-w-0"><strong className="block text-[#0A1633] font-heading font-extrabold text-sm leading-tight truncate">{uni.university}</strong><small className="text-slate-500 text-xs block mt-1 truncate">{uni.location}</small></span></button>)}
-        </div>
-        <div className="ng-ribbon-fade ng-ribbon-fade-left"></div><div className="ng-ribbon-fade ng-ribbon-fade-right"></div>
-      </div>
+      {['Partner universities', 'English language centres'].map((heading, index) => {
+        const group = filtered.filter(uni => (uni.type === 'Language Centre') === Boolean(index));
+        if (!group.length) return null;
+        return <section key={heading} className="mb-8"><h3 className="font-heading text-xl font-bold mb-4">{heading}</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+            {group.map(uni => <a key={uni.shortName} className="rounded-2xl bg-white border border-slate-200 p-3 flex flex-col items-center gap-2 text-center" href={rawData.some(row=>row.shortName===uni.shortName) ? '/programmes/universities/'+uni.shortName.toLowerCase()+'.html' : index ? '/programmes/english-language-centres.html' : uni.website || 'https://meritus.edu.my'}>
+              <NGInstitutionMark uni={uni}/><span className="font-bold text-xs">{uni.university}</span>
+            </a>)}
+          </div></section>;
+      })}
       <div className="ng-slide-show relative" >
         <div className="ng-logo-slides grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5" aria-live="polite">
           {show.map((uni:any)=><div key={uni.shortName} role="button" tabIndex={0} contentEditable={false} suppressContentEditableWarning onClick={()=>openUni(uni)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openUni(uni);}}} className="ng-slide-institution ng-v7-university-card cursor-pointer group bg-white border border-slate-200 rounded-[24px] overflow-hidden shadow-sm transition" title={'Explore '+uni.university}>
@@ -3280,7 +3268,7 @@ const TrustStatsAndMarquee: React.FC<{directoryMode?:boolean}> = ({directoryMode
         {filtered.length>visibleCount&&<div className="flex items-center justify-center gap-3 mt-7"><button type="button" onClick={()=>advance(-1)} className="ng-slide-arrow" aria-label="Previous institutions"><i className="fa-solid fa-arrow-left"></i></button><span className="text-xs text-slate-500 font-semibold tabular-nums" data-ng-slide-position>{current+1}–{Math.min(current+visibleCount,filtered.length)} of {filtered.length}</span><button type="button" onClick={()=>advance(1)} className="ng-slide-arrow" aria-label="Next institutions"><i className="fa-solid fa-arrow-right"></i></button><button type="button" onClick={()=>setAutoplay(v=>!v)} className="ng-slide-pause" aria-label={autoplay?'Pause university slideshow':'Play university slideshow'} title={autoplay?'Pause slideshow':'Resume slideshow'}><i className={`fa-solid ${autoplay?'fa-pause':'fa-play'}`}></i><span>{autoplay?'Pause':'Play'}</span></button></div>}
       </div>
       {directoryMode&&<div className="mt-9"><button type="button" onClick={()=>setAllOpen(x=>!x)} className="ng-directory-expand border border-[#C5A059] bg-white text-[#0A1633] rounded-xl px-6 py-3 font-bold text-sm">{allOpen?'Hide university index':'Show full university index'} <i className={`fa-solid ${allOpen?'fa-chevron-up':'fa-chevron-down'} ml-2`}></i></button>{allOpen&&<div className="ng-uni-index grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-5">{filtered.map((u:any)=><button type="button" key={u.shortName} onClick={()=>openUni(u)} className="bg-white border border-slate-200 rounded-xl px-4 py-3 text-left hover:border-[#C5A059] flex items-center gap-3"><span className="ng-index-monogram">{u.shortName}</span><span className="text-xs font-bold text-[#0A1633]">{u.university}</span><i className="fa-solid fa-arrow-right ml-auto text-[#C5A059]"></i></button>)}</div>}</div>}
-      <div className="ng-featured-row flex items-end justify-between gap-5 mt-14 mb-6"><div><span className="ng-eyebrow">{directoryMode?'START WITH A MATCH':'FEATURED PREVIEWS'}</span><h3 className="text-2xl sm:text-3xl font-heading font-bold text-[#0A1633] mt-2">Discover. Connect. Apply.</h3></div><span className="text-xs text-slate-500 hidden sm:block">Public information first · advisor support for the rest</span></div>
+      <div className="ng-featured-row flex items-end justify-between gap-5 mt-14 mb-6"><div><span className="ng-eyebrow">{directoryMode?'PROGRAMMES':'FEATURED UNIVERSITIES'}</span><h3 className="text-2xl sm:text-3xl font-heading font-bold text-[#0A1633] mt-2">Explore university programmes</h3></div></div>
       <div className="ng-featured-grid ng-v7-featured-grid grid md:grid-cols-2 lg:grid-cols-3 gap-5">{(directoryMode?rawData:featured.slice(0,3)).map((u:any)=><article className="ng-featured-card ng-v7-featured-card bg-white rounded-[24px] border border-slate-200 overflow-hidden shadow-sm flex flex-col" key={u.shortName}>
         <NGUniversityVisual uni={u} compact />
         <div className="ng-v7-featured-body p-5 flex flex-col flex-1"><div className="flex flex-wrap gap-2"><span className="ng-meta-pill">{u.type} institution</span><span className="ng-meta-pill">{Object.keys(u.programmes).length} programmes</span></div>
@@ -3435,7 +3423,7 @@ const ServicesAndPortals: React.FC<ServicesAndPortalsProps> = ({ onOpenPortal })
 
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
     <div className="rounded-[28px] bg-white border border-slate-200 shadow-sm p-6 sm:p-8">
-      <div className="flex flex-col lg:flex-row gap-4 justify-between lg:items-end"><div><span className="ng-eyebrow">LANGUAGE CENTRE HIGHLIGHTS</span><h3 className="font-heading font-extrabold text-[#0A1633] text-2xl sm:text-3xl mt-2">Compare more English centres in Malaysia.</h3><p className="text-slate-600 mt-3 max-w-2xl">Simple preview only — for the latest detailed fees, intake dates and visa rules, students should message NEXTGENZ CENTRE directly.</p></div><WhatsAppLink message="Hello NEXTGENZ CENTRE, please help me compare English language centres in Malaysia." className="bg-[#0A1633] text-white rounded-xl px-5 py-3 font-extrabold text-xs whitespace-nowrap">Compare centres <i className="fa-brands fa-whatsapp ml-1 text-[#C5A059]"></i></WhatsAppLink></div>
+      <div className="flex flex-col lg:flex-row gap-4 justify-between lg:items-end"><div><span className="ng-eyebrow">LANGUAGE CENTRE HIGHLIGHTS</span><h3 className="font-heading font-extrabold text-[#0A1633] text-2xl sm:text-3xl mt-2">Compare more English centres in Malaysia.</h3><p className="text-slate-600 mt-3 max-w-2xl">Ask our admissions team about course dates, fees and entry requirements.</p></div><WhatsAppLink message="Hello NEXTGENZ CENTRE, please help me compare English language centres in Malaysia." className="bg-[#0A1633] text-white rounded-xl px-5 py-3 font-extrabold text-xs whitespace-nowrap">Compare centres <i className="fa-brands fa-whatsapp ml-1 text-[#C5A059]"></i></WhatsAppLink></div>
       <div className="ng-centre-grid grid md:grid-cols-2 xl:grid-cols-3 gap-5 mt-6">{NEXTGENZ_OTHER_INSTITUTIONS.filter((x:any)=>x.type==='Language Centre').map((centre:any,idx:number)=><article key={centre.shortName} className="ng-centre-card rounded-[22px] overflow-hidden border border-slate-200 bg-white shadow-sm flex flex-col">
   <div className="ng-centre-card-photo relative overflow-hidden"><img src={NG_VISUALS.centreGallery[idx % NG_VISUALS.centreGallery.length]} alt={'Illustrative English-learning environment for '+centre.university+' (not an image of this centre)'} loading="lazy" className="w-full h-full object-cover"/><div className="ng-centre-photo-shade"></div><span className="ng-centre-photo-label">ENGLISH LANGUAGE PATHWAYS</span></div>
   <div className="p-5 flex flex-col flex-1"><div className="flex items-center gap-3"><NGInstitutionMark uni={centre} /><div className="min-w-0"><strong className="block text-[#0A1633] font-heading leading-snug text-base">{centre.university}</strong><span className="text-xs text-slate-500 block mt-1">{centre.location}</span></div></div>
@@ -9492,7 +9480,7 @@ useEffect(() => {
 __adminModeActive = isAdminActive;
 window.dispatchEvent(new CustomEvent('nextgenz-admin-mode', { detail: isAdminActive }));
 }, [isAdminActive]);
-const [showAdminAuthModal, setShowAdminAuthModal] = useState(false);
+const [showAdminAuthModal, setShowAdminAuthModal] = useState(() => new URLSearchParams(location.search).get('open') === 'admin');
 // Sync state changes back up to Firebase (skipped until each collection's initial load
 // has completed, so we never clobber live data with the local default/starter arrays).
 const describeAuthState = () => {
@@ -10473,7 +10461,7 @@ const NGHomeSpotlight:React.FC = () => <section className="ng-immersive-spotligh
         <h2 className="ng-immersive-heading mt-5">Your future has <span className="ng-pop-accent ng-brand-yellow">NO LIMITS.</span></h2>
         <p className="text-slate-100 leading-relaxed mt-5 max-w-xl">Meet inspiring international students, discover a new culture and explore universities across Malaysia with a team guiding your next step.</p>
         <div className="ng-immersive-points mt-7 grid grid-cols-3 gap-2.5 max-w-[480px]">{[[String(rawData.length),'University listings'],['100%','FREE placement'],['24/7','Portals']].map(([value,label])=><div key={label} className="ng-immersive-point"><strong>{value}</strong><small>{label}</small></div>)}</div>
-        <a contentEditable={false} suppressContentEditableWarning href="#why-malaysia" className="ng-immersive-cta mt-7 inline-flex items-center gap-2 rounded-xl bg-[#C5A059] text-[#0A1633] font-extrabold px-5 py-3.5 text-sm">Discover the Malaysia advantage <i className="fa-solid fa-arrow-right"></i></a>
+        <a contentEditable={false} suppressContentEditableWarning href="/why-malaysia.html" className="ng-immersive-cta mt-7 inline-flex items-center gap-2 rounded-xl bg-[#C5A059] text-[#0A1633] font-extrabold px-5 py-3.5 text-sm">Discover the Malaysia advantage <i className="fa-solid fa-arrow-right"></i></a>
       </div>
     </div>
   </div>
@@ -10481,7 +10469,7 @@ const NGHomeSpotlight:React.FC = () => <section className="ng-immersive-spotligh
 
 const NGHomePreview:React.FC<{sectionId:string}> = ({sectionId}) => {
   const blocks:any={
-    about:{eyebrow:'EXPLORE STUDY IN MALAYSIA',heading:'Find your place in Malaysia.',copy:'From dynamic campuses to an unforgettable student life, discover programmes, communities and the country where your next chapter begins.',href:'#why-malaysia',button:'Discover Malaysia',icon:'fa-earth-asia',items:['University choices','Student life','Living in Malaysia'],src:NG_VISUALS.whyMalaysia,alt:'International students enjoying Malaysia'},
+    about:{eyebrow:'EXPLORE STUDY IN MALAYSIA',heading:'Find your place in Malaysia.',copy:'From dynamic campuses to an unforgettable student life, discover programmes, communities and the country where your next chapter begins.',href:'/why-malaysia.html',button:'Discover Malaysia',icon:'fa-earth-asia',items:['University choices','Student life','Living in Malaysia'],src:NG_VISUALS.whyMalaysia,alt:'International students enjoying Malaysia'},
     services:{eyebrow:'OUR SUPPORT · YOUR NEXT CHAPTER',heading:'One team. Every next step.',copy:'University placement, English centre admissions and EMGS visa guidance—one joined-up journey, guided by NEXTGENZ CENTRE.',href:'#services',button:'Explore our services',icon:'fa-hands-holding-circle',items:['University placement','English courses','Visa guidance'],src:NG_VISUALS.services,alt:'NEXTGENZ student and advisor support across university admissions'},
     process:{eyebrow:'FROM ENQUIRY TO ARRIVAL',heading:'Your journey, clearly mapped.',copy:'Understand the important steps from programme matching and application to the offer letter, student pass and arrival in Malaysia.',href:'#process',button:'See the admissions roadmap',icon:'fa-route',items:['Profile assessment','Application','Campus arrival'],src:NG_VISUALS.process,alt:'International students planning university admission and travel'},
     faq:{eyebrow:'REAL PEOPLE · USEFUL ANSWERS',heading:'Got a question? Start here.',copy:'Ask about intakes, programme requirements, scholarships or English pathways. Get practical answers and speak to a real advisor.',href:'#faq',button:'Read frequently asked questions',icon:'fa-comments',items:['University entry','IELTS options','Personal advice'],src:NG_VISUALS.support,alt:'Student consultation and university support team'}
@@ -10535,7 +10523,7 @@ const NGRouteTitle:React.FC<{page:string}> = ({page}) => {
 function ngReadPageFromHash():string {
  const key=(window.location.hash||'').replace(/^#/,'').toLowerCase();
  const legal=['universities','why-malaysia','services','portals','process','agents','faq','contact','articles'];
- if(key==='about')return 'why-malaysia';
+ if(key==='about' || key==='why-malaysia') { location.replace(key==='about' ? '/about-nextgenz-centre.html' : '/why-malaysia.html'); return 'home'; }
  return legal.includes(key)?key:'home';
 }
 
@@ -10545,33 +10533,6 @@ root.render(<App />);
 
 </script>
 
-<script>
-window.addEventListener('load', function() {
-  try {
-    if (!window.React || !window.ReactDOM || !window.Babel) {
-      throw new Error('One or more required libraries (React, ReactDOM, Babel) failed to load from the CDN. Check your internet connection and try reloading the page.');
-    }
-    var React = window.React;
-    var useState = React.useState, useEffect = React.useEffect, useRef = React.useRef,
-        useMemo = React.useMemo, useCallback = React.useCallback, useContext = React.useContext,
-        Fragment = React.Fragment;
-    var source = document.getElementById('app-source').textContent;
-    var output = Babel.transform(source, {
-      presets: [["typescript", { isTSX: true, allExtensions: true }], "react"],
-      filename: 'app.tsx'
-    }).code;
-    var fn = new Function('React', 'useState', 'useEffect', 'useRef', 'useMemo', 'useCallback', 'useContext', 'Fragment', 'ReactDOM', output);
-    fn(React, useState, useEffect, useRef, useMemo, useCallback, useContext, Fragment, window.ReactDOM);
-  } catch (err) {
-    console.error(err);
-    var root = document.getElementById('root');
-    if (root) {
-      root.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#b91c1c;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;margin:40px;">' +
-        '<strong>Failed to load the app.</strong><br>' + (err && err.message ? err.message : String(err)) +
-        '<br><br>Try reloading the page, or check your internet connection (this page loads React, Babel and Tailwind from a CDN).</div>';
-    }
-  }
-});
-</script>
+<script defer src="/programmes/site-assets/public-app.js" onerror="document.documentElement.classList.remove('ng-boot')"></script>
 </body>
     </html>
