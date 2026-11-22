@@ -217,7 +217,7 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
         for path in english:
             label=title[path];entries=rows.get(path,[])
             desc=tr('استكشف '+label+'، وراجع خيارات القبول والرسوم المناسبة لموعد التحاقك مع مستشار يتحدث العربية.',
-                    '查看'+label+'，了解课程选择、入学申请和学费，按计划入学时间咨询费用明细。')
+                    '查看'+label+'，了解大学课程、入学条件、申请步骤和学费参考，核对英语要求并向顾问咨询最新的费用明细和入学时间。')
             address=localized(path,lang)
             # Keep the complete official programme name in the visible H1.
             # Shorten search-only titles when concatenating a long English

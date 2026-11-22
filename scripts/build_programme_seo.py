@@ -4,10 +4,9 @@
 Only reads index.html as the source of truth and writes /programmes/ plus the
 auto-generated part of sitemap.xml. Does not change portal/Firebase behavior.
 
-This is deliberately a staged search rollout: all finder names appear in
-university and study-level directories, while a small set of high-intent,
-non-composite programmes gets a detailed standalone page. Automatically
-creating 1,182 near-identical search pages would not help students or SEO.
+All finder listings get a stable individual programme URL. Verified university
+facts are attributed to official providers and generic listings explicitly
+identify information that needs university confirmation.
 """
 from __future__ import annotations
 
@@ -723,6 +722,38 @@ def main() -> None:
             dest, {"@context":"https://schema.org","@type":"CollectionPage","name":LABELS[lev]+" in Malaysia","url":PUBLIC_BASE+dest}
         ),main),outputs)
 
+    # Keep the complete official finder title in H1 and structured content.
+    # Search-result titles are concise and collision-checked per university.
+    used_course_search_titles = set()
+    def course_search_title(course):
+        natural = course["name"] + " at " + course["uni"]
+        if len(natural) <= 70 and natural not in used_course_search_titles:
+            candidate = natural
+        else:
+            suffix = " | " + course["short"] + " Malaysia"
+            budget = 70 - len(suffix)
+            def clip(source, size):
+                if len(source) <= size:
+                    return source
+                head = source[:size-1].rsplit(" ", 1)[0].rstrip(" ,-/")
+                if len(head) < 16:
+                    head = source[:size-1].rstrip(" ,-/")
+                return head + "…"
+            candidate = clip(course["name"], budget) + suffix
+            if candidate in used_course_search_titles:
+                hint = re.findall(r"\\(([^)]+)\\)", course["name"])
+                hint = hint[-1] if hint else course["name"].split(" in ")[-1]
+                if len(hint) > 28:
+                    hint = hint[-28:]
+                candidate = clip(course["name"], budget-len(hint)-2) + " " + hint + suffix
+            if candidate in used_course_search_titles:
+                ident = course["id"][-6:]
+                candidate = clip(course["name"], budget-10) + " · " + ident + suffix
+        if candidate in used_course_search_titles:
+            raise ValueError("SEO title collision: " + candidate)
+        used_course_search_titles.add(candidate)
+        return candidate
+
     # Dedicated course guides for every university finder listing.
     for e in selected.values():
         dest = e["detail"]
@@ -864,7 +895,7 @@ def main() -> None:
             f'Check {e["level"].lower()} entry requirements, tuition and upcoming intakes before applying.'
         )
         write(dest.lstrip("/"),wrap_page(page_head(
-            e["name"] + " at " + e["uni"],
+            course_search_title(e),
             description,
             dest,
             {"@context":"https://schema.org","@type":"WebPage","name":e["name"]+" at "+e["uni"],"url":PUBLIC_BASE+dest,"about":{"@type":"EducationalOrganization","name":e["uni"]},
