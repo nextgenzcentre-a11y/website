@@ -1132,7 +1132,13 @@ body:has(.ng-market),.ng-market{background:#F0E3D2!important}
 .ng-market .ng-v7-uni-action:hover{background:#1B3556!important;color:#F0E3D2!important}
 .ng-market :is(.ng-market-footer,.ng-market-hero,.ng-hero-wide,.ng-footer-consult){background:#0F1F38!important}
 @media(prefers-reduced-motion:reduce){.ng-market .ng-featured-card{transition:none!important}}
-</style></head>
+</style><style id="ng-university-carousel-theme">
+.ng-market .ng-uni-pathways-label{display:block;margin-top:15px;color:#74501D;font-size:.66rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+.ng-market .ng-uni-price-example{padding:10px 12px;border-radius:10px;background:#E2CFB3!important;border:1px solid #C5A059!important;color:#0F1F38!important;font-size:.77rem;font-weight:750;line-height:1.5}
+.ng-market a.ng-slide-institution{text-decoration:none!important;color:#0F1F38!important}
+.ng-market a.ng-slide-institution:hover .ng-v7-uni-footer{background:#C5A059!important;color:#0F1F38!important}
+</style>
+</head>
 <body class="font-sans text-gray-800 antialiased bg-[#F5F7FA] overflow-x-hidden">
 <!-- Static Google Translate Target Element -->
 <div id="google_translate_element" style="position: absolute; left: -9999px; top: -9999px; opacity: 0; pointer-events: none;"></div>
@@ -3127,10 +3133,10 @@ const TrustStatsAndMarquee: React.FC<{directoryMode?:boolean}> = ({directoryMode
     ? '/programmes/universities/'+uni.shortName.toLowerCase()+'.html'
     : '/programmes/english-language-centres.html';
   const openUni=(uni:any)=>{window.location.assign(universityUrl(uni));};
-  return (<section id="universities" className="ng-trust-section ng-showcase relative bg-[#F5F7FA] pb-16 sm:pb-20 overflow-hidden">
+  return (<section id="universities" className="ng-trust-section ng-showcase relative bg-[#F0E3D2] pb-16 sm:pb-20 overflow-hidden">
     <div className="ng-section-backdrop absolute inset-0 pointer-events-none"></div>
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-      {!directoryMode&&<div className="ng-kpi-wrap grid grid-cols-2 lg:grid-cols-4 bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden relative -top-9">
+      {!directoryMode&&<div className="ng-kpi-wrap grid grid-cols-2 lg:grid-cols-4 bg-[#F7EBD9] rounded-2xl border border-slate-200 shadow-xl overflow-hidden relative -top-9">
         {[
           ['fa-building-columns',String(rawData.length),'Universities in our programme finder'],
           ['fa-hand-holding-heart','100% FREE','University placement & English admissions'],
@@ -3144,27 +3150,31 @@ const TrustStatsAndMarquee: React.FC<{directoryMode?:boolean}> = ({directoryMode
       </div>
       <div className="ng-tabs flex flex-wrap gap-2 mb-5" role="group" aria-label="Filter university slideshow">{[
         ['All universities','All institutions'],['Public','Public universities'],['Private','Private & other campuses'],['Language Centre','Language centres']
-      ].map(([value,label])=><button key={value} type="button" onClick={()=>setCategory(value)} aria-pressed={category===value} className={`ng-slide-tab px-4 py-2.5 text-xs font-bold rounded-xl border transition ${category===value?'bg-[#0A1633] border-[#0A1633] text-white':'bg-white border-slate-200 text-[#0A1633] hover:border-[#C5A059]'}`}>{label}</button>)}</div>
+      ].map(([value,label])=><button key={value} type="button" onClick={()=>setCategory(value)} aria-pressed={category===value} className={`ng-slide-tab px-4 py-2.5 text-xs font-bold rounded-xl border transition ${category===value?'bg-[#0A1633] border-[#0A1633] text-white':'bg-[#F7EBD9] border-slate-200 text-[#0A1633] hover:border-[#C5A059]'}`}>{label}</button>)}</div>
       {['Partner universities', 'English language centres'].map((heading, index) => {
         const group = filtered.filter(uni => (uni.type === 'Language Centre') === Boolean(index));
         if (!group.length) return null;
         return <section key={heading} className="mb-8"><h3 className="font-heading text-xl font-bold mb-4">{heading}</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-            {group.map(uni => <a key={uni.shortName} className="rounded-2xl bg-white border border-slate-200 p-3 flex flex-col items-center gap-2 text-center" href={rawData.some(row=>row.shortName===uni.shortName) ? '/programmes/universities/'+uni.shortName.toLowerCase()+'.html' : index ? '/programmes/english-language-centres.html' : uni.website || 'https://meritus.edu.my'}>
+            {group.map(uni => <a key={uni.shortName} className="rounded-2xl bg-[#F7EBD9] border border-slate-200 p-3 flex flex-col items-center gap-2 text-center" href={rawData.some(row=>row.shortName===uni.shortName) ? '/programmes/universities/'+uni.shortName.toLowerCase()+'.html' : index ? '/programmes/english-language-centres.html' : uni.website || 'https://meritus.edu.my'}>
               <NGInstitutionMark uni={uni}/><span className="font-bold text-xs">{uni.university}</span>
             </a>)}
           </div></section>;
       })}
       <div className="ng-slide-show relative" >
         <div className="ng-logo-slides grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5" aria-live="polite">
-          {show.map((uni:any)=><div key={uni.shortName} role="button" tabIndex={0} contentEditable={false} suppressContentEditableWarning onClick={()=>openUni(uni)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openUni(uni);}}} className="ng-slide-institution ng-v7-university-card cursor-pointer group bg-white border border-slate-200 rounded-[24px] overflow-hidden shadow-sm transition" title={'Explore '+uni.university}>
+          {show.map((uni:any)=><a key={uni.shortName} href={universityUrl(uni)} className="ng-slide-institution ng-v7-university-card cursor-pointer group bg-[#F7EBD9] border border-[#C5A059] rounded-[24px] overflow-hidden shadow-sm transition" title={'Explore '+uni.university} aria-label={'Explore university programmes at '+uni.university}>
             <NGUniversityVisual uni={uni}/>
-            <div className="ng-v7-uni-body"><div className="flex gap-2 flex-wrap items-center"><span className="ng-meta-pill">{uni.type==='Language Centre'?'English pathways':uni.type+' university'}</span>{uni.programmes&&<span className="ng-meta-pill">{Object.keys(uni.programmes).length} programmes</span>}</div><p>{uni.programmes?Object.keys(uni.programmes).slice(0,2).join(' · '):'Ask us about programmes and admissions.'}</p><div className="ng-v7-uni-footer"><span>{uni.programmes?'Explore programme options':'Ask an advisor'}</span><i className="fa-solid fa-arrow-right"></i></div></div>
-          </div>)}
+            <div className="ng-v7-uni-body"><div className="flex gap-2 flex-wrap items-center"><span className="ng-meta-pill">{uni.type==='Language Centre'?'English pathways':uni.type+' university'}</span>{uni.programmes&&<span className="ng-meta-pill">{Object.keys(uni.programmes).length} programmes</span>}</div>
+              <span className="ng-uni-pathways-label">Popular academic pathways</span>
+              <p>{uni.programmes?Object.keys(uni.programmes).slice(0,2).join(' · '):'Ask us about programmes and admissions.'}</p>
+              {uni.programmes&&<p className="ng-uni-price-example">Example finder tuition: {NGDisplayFinderTuition(Object.values(uni.programmes)[0],uni.currency||'MYR')}</p>}
+              <div className="ng-v7-uni-footer"><span>{uni.programmes?'Explore programme options':'Ask an advisor'}</span><i className="fa-solid fa-arrow-right"></i></div></div>
+          </a>)}
         </div>
         {filtered.length>visibleCount&&<div className="flex items-center justify-center gap-3 mt-7"><button type="button" onClick={()=>advance(-1)} className="ng-slide-arrow" aria-label="Previous institutions"><i className="fa-solid fa-arrow-left"></i></button><span className="text-xs text-slate-500 font-semibold tabular-nums" data-ng-slide-position>{current+1}–{Math.min(current+visibleCount,filtered.length)} of {filtered.length}</span><button type="button" onClick={()=>advance(1)} className="ng-slide-arrow" aria-label="Next institutions"><i className="fa-solid fa-arrow-right"></i></button><button type="button" onClick={()=>setAutoplay(v=>!v)} className="ng-slide-pause" aria-label={autoplay?'Pause university slideshow':'Play university slideshow'} title={autoplay?'Pause slideshow':'Resume slideshow'}><i className={`fa-solid ${autoplay?'fa-pause':'fa-play'}`}></i><span>{autoplay?'Pause':'Play'}</span></button></div>}
       </div>
-      {directoryMode&&<div className="mt-9"><button type="button" onClick={()=>setAllOpen(x=>!x)} className="ng-directory-expand border border-[#C5A059] bg-white text-[#0A1633] rounded-xl px-6 py-3 font-bold text-sm">{allOpen?'Hide university index':'Show full university index'} <i className={`fa-solid ${allOpen?'fa-chevron-up':'fa-chevron-down'} ml-2`}></i></button>{allOpen&&<div className="ng-uni-index grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-5">{filtered.map((u:any)=><button type="button" key={u.shortName} onClick={()=>openUni(u)} className="bg-white border border-slate-200 rounded-xl px-4 py-3 text-left hover:border-[#C5A059] flex items-center gap-3"><span className="ng-index-monogram">{u.shortName}</span><span className="text-xs font-bold text-[#0A1633]">{u.university}</span><i className="fa-solid fa-arrow-right ml-auto text-[#C5A059]"></i></button>)}</div>}</div>}
+      {directoryMode&&<div className="mt-9"><button type="button" onClick={()=>setAllOpen(x=>!x)} className="ng-directory-expand border border-[#C5A059] bg-[#F7EBD9] text-[#0A1633] rounded-xl px-6 py-3 font-bold text-sm">{allOpen?'Hide university index':'Show full university index'} <i className={`fa-solid ${allOpen?'fa-chevron-up':'fa-chevron-down'} ml-2`}></i></button>{allOpen&&<div className="ng-uni-index grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-5">{filtered.map((u:any)=><button type="button" key={u.shortName} onClick={()=>openUni(u)} className="bg-[#F7EBD9] border border-slate-200 rounded-xl px-4 py-3 text-left hover:border-[#C5A059] flex items-center gap-3"><span className="ng-index-monogram">{u.shortName}</span><span className="text-xs font-bold text-[#0A1633]">{u.university}</span><i className="fa-solid fa-arrow-right ml-auto text-[#C5A059]"></i></button>)}</div>}</div>}
       <div className="ng-featured-row flex items-end justify-between gap-5 mt-14 mb-6"><div><span className="ng-eyebrow">{directoryMode?'PROGRAMMES':'FEATURED UNIVERSITIES'}</span><h3 className="text-2xl sm:text-3xl font-heading font-bold text-[#0A1633] mt-2">Explore university programmes</h3></div></div>
       <div className="ng-featured-grid ng-v7-featured-grid grid md:grid-cols-2 lg:grid-cols-3 gap-5" aria-label="University programme highlights">
         {(directoryMode?rawData:featuredShown).map((u:any)=>{
@@ -3197,7 +3207,7 @@ const TrustStatsAndMarquee: React.FC<{directoryMode?:boolean}> = ({directoryMode
           <i className={'fa-solid '+(featuredAutoplay?'fa-pause':'fa-play')}></i> {featuredAutoplay?'Pause':'Play'}
         </button>
       </div>}
-      <div className="mt-8 flex items-center justify-between flex-wrap gap-4 rounded-2xl border border-[#C5A059]/40 bg-[#FFFDF7] p-5 sm:p-7"><p className="text-[#0A1633] font-semibold text-sm">Looking for tuition fees, scholarships, IELTS requirements or the next intake? <strong>Ask for your personal study plan.</strong></p><WhatsAppLink message="Hello NEXTGENZ CENTRE, please help me compare Malaysian universities, current fees and admissions requirements." className="bg-[#C5A059] hover:bg-[#C5A059] text-[#0A1633] px-5 py-3 rounded-xl font-extrabold text-xs">Talk to an advisor <i className="fa-brands fa-whatsapp ml-1"></i></WhatsAppLink></div>
+      <div className="mt-8 flex items-center justify-between flex-wrap gap-4 rounded-2xl border border-[#C5A059]/40 bg-[#F7EBD9] p-5 sm:p-7"><p className="text-[#0A1633] font-semibold text-sm">Looking for tuition fees, scholarships, IELTS requirements or the next intake? <strong>Ask for your personal study plan.</strong></p><WhatsAppLink message="Hello NEXTGENZ CENTRE, please help me compare Malaysian universities, current fees and admissions requirements." className="bg-[#C5A059] hover:bg-[#C5A059] text-[#0A1633] px-5 py-3 rounded-xl font-extrabold text-xs">Talk to an advisor <i className="fa-brands fa-whatsapp ml-1"></i></WhatsAppLink></div>
     </div>
   </section>);
 };
