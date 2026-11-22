@@ -31,7 +31,7 @@ def sync_public_shell():
         lang = 'ar' if '<html lang="ar"' in raw else 'zh' if '<html lang="zh' in raw else 'en'
         path = '/'+p.relative_to(ROOT).as_posix().removesuffix('index.html')
         catalogue_path = path.replace('/programmes/'+lang+'/', '/programmes/',1) if path.startswith('/programmes/') else ''
-        raw = re.sub(r'<header class="nav ng-brand-header".*?</header>', lambda _:header_html(lang,catalogue_path), raw, count=1, flags=re.S)
+        raw = re.sub(r'<header class="nav ng-brand-header".*?</header>', lambda _:header_html(lang,catalogue_path,page_path=path), raw, count=1, flags=re.S)
         localized = footer
         if lang != 'en':
             for en, ar, zh in [

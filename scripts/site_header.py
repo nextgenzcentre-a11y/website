@@ -31,7 +31,7 @@ LANG_OPTIONS = (("English","/guides/how-to-study-in-malaysia.html"),
                 ("العربية","/ar/study-in-malaysia.html"),
                 ("中文","/zh/study-in-malaysia.html"))
 
-def header_html(lang: str = "en", catalogue_path: str = "") -> str:
+def header_html(lang: str = "en", catalogue_path: str = "", page_path: str = "") -> str:
     active = {"en": "English", "ar": "العربية", "zh": "中文"}.get(lang, "English")
     links = ''.join(
         '<a href="' + escape(url, quote=True) + '">' + escape(text) + '</a>'
@@ -46,16 +46,45 @@ def header_html(lang: str = "en", catalogue_path: str = "") -> str:
              '<span class="ng-brand-wordmark">NEXTGENZ <span>CENTRE</span></span>'
              '</a>')
     if catalogue_path == "/programmes/find/":
-        # The new interactive finder is English-only: language alternatives
-        # return to the real translated course directories, not 404 paths.
-        options = (("English", "/programmes/find/"),
-                   ("العربية", "/programmes/ar/"),
-                   ("中文", "/programmes/zh/"))
+        # No translated copy of the full interactive finder exists yet.
+        # Identify links to broader course directories honestly.
+        options = (
+            ("English · course finder", "/programmes/find/", "en", "This course finder page in English"),
+            ("العربية · دليل البرامج", "/programmes/ar/", "ar", "Arabic programme directory, not a translation of the interactive finder"),
+            ("中文 · 课程目录", "/programmes/zh/", "zh-CN", "Chinese programme directory, not a translation of the interactive finder"),
+        )
+    elif catalogue_path:
+        options = tuple(
+            (name, catalogue_path if code == "en" else
+             catalogue_path.replace("/programmes/", "/programmes/" + code + "/", 1),
+             "zh-CN" if code == "zh" else code,
+             "Same programme or catalogue page in " + name)
+            for (name, _), code in zip(LANG_OPTIONS, ("en", "ar", "zh"))
+        )
+    elif page_path in ("/guides/how-to-study-in-malaysia.html",
+                       "/ar/study-in-malaysia.html", "/zh/study-in-malaysia.html"):
+        options = (
+            ("English", "/guides/how-to-study-in-malaysia.html", "en", "English study guide"),
+            ("العربية", "/ar/study-in-malaysia.html", "ar", "Arabic study guide"),
+            ("中文", "/zh/study-in-malaysia.html", "zh-CN", "Chinese study guide"),
+        )
     else:
-        options = LANG_OPTIONS if not catalogue_path else tuple((name, catalogue_path if code=="en" else catalogue_path.replace("/programmes/", "/programmes/"+code+"/", 1)) for (name,_),code in zip(LANG_OPTIONS, ("en","ar","zh")))
-    languages = ''.join('<a href="' + escape(href, quote=True) +
-                        '" lang="' + ("ar" if text == "العربية" else "zh-CN" if text == "中文" else "en") +
-                        '">' + text + '</a>' for text, href in options)
+        # Many editorial pages do not have same-page Arabic/Chinese versions.
+        # Explicitly distinguish the related translated guide from a translation.
+        current = page_path if page_path.startswith("/") else "/guides/how-to-study-in-malaysia.html"
+        options = (
+            ("English · this page", current, "en", "Current page in English"),
+            ("العربية · دليل الدراسة", "/ar/study-in-malaysia.html", "ar",
+             "Related Arabic study guide, not a translation of this page"),
+            ("中文 · 留学指南", "/zh/study-in-malaysia.html", "zh-CN",
+             "Related Chinese study guide, not a translation of this page"),
+        )
+    languages = ''.join(
+        '<a href="' + escape(href, quote=True) +
+        '" lang="' + code + '" title="' + escape(description, quote=True) +
+        '">' + escape(label) + '</a>'
+        for label, href, code, description in options
+    )
     language = ('<details class="ng-brand-language"><summary aria-label="Choose language">'
                 + active + '<span class="ng-drop-chevron" aria-hidden="true">⌄</span></summary>'
                 '<div class="ng-brand-language-list">' + languages + '</div></details>')

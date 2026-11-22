@@ -56,7 +56,12 @@ for folder in ("guides","services","ar","zh","fr","ms"):
         body=file.read_text(encoding="utf-8")
         assert "/guides/style.css" in body,(file,"shared stylesheet")
 for file in (ROOT/"about-nextgenz-centre.html", ROOT/"why-malaysia.html"):
-    assert "/guides/style.css" in file.read_text(encoding="utf-8"),file
+    contents = file.read_text(encoding="utf-8")
+    assert "/guides/style.css" in contents,file
+    assert 'lang="en" title="Current page in English"' in contents,file
+    assert "Related Arabic study guide, not a translation of this page" in contents,file
+    assert "Related Chinese study guide, not a translation of this page" in contents,file
+    assert ('href="' + '/' + file.name + '" lang="en"') in contents,file
 theme=(ROOT/"guides/style.css").read_text(encoding="utf-8")
 landing=(ROOT/"index.html").read_text(encoding="utf-8")
 for colour in ("#F0E3D2","#C5A059","#0F1F38"):
