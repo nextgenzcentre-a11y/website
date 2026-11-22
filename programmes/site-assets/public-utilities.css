@@ -1593,6 +1593,12 @@ video {
 } .text-\[\#0F1F38\] {
   --tw-text-opacity: 1;
   color: rgb(15 31 56 / var(--tw-text-opacity, 1));
+} .text-\[\#344354\] {
+  --tw-text-opacity: 1;
+  color: rgb(52 67 84 / var(--tw-text-opacity, 1));
+} .text-\[\#5E4726\] {
+  --tw-text-opacity: 1;
+  color: rgb(94 71 38 / var(--tw-text-opacity, 1));
 } .text-\[\#8B6B32\] {
   --tw-text-opacity: 1;
   color: rgb(139 107 50 / var(--tw-text-opacity, 1));
