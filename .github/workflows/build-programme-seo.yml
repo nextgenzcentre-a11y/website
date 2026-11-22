@@ -166,5 +166,21 @@ jobs:
             exit 0
           fi
           git commit -m "Publish search-readable university and programme directories"
-          git pull --rebase origin mai
-          git push origin HEAD:mai
+          # Another editor may have pushed to mai during our 1,182-page build.
+          # Rebase and retry ordinary pushes without ever forcing the branch.
+          for attempt in 1 2 3 4; do
+            git fetch origin mai
+            if ! git rebase origin/mai; then
+              git rebase --abort || true
+              echo "Generated files overlap another source edit. Let the newer build handle it."
+              exit 1
+            fi
+            if git push origin HEAD:mai; then
+              echo "Published generated programme pages"
+              exit 0
+            fi
+            echo "Branch changed during publishing; retrying ($attempt/4)"
+            sleep $((attempt * 2))
+          done
+          echo "Unable to publish generated pages after four safe retries"
+          exit 1
