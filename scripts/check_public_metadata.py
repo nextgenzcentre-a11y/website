@@ -37,7 +37,7 @@ for rel in entries:
     titles[(locale,title)].append(rel)
     if len(title)>70:long_titles.append((rel,len(title)))
     if len(desc)<75:short_descriptions.append((rel,len(desc)))
-    scripts=re.findall(r'<script[^>]+type="application/ld\\+json"[^>]*>(.*?)</script>',html,re.I|re.S)
+    scripts=re.findall(r'<script[^>]+type="application/ld\+json"[^>]*>(.*?)</script>',html,re.I|re.S)
     for script in scripts:
         try:json.loads(script)
         except ValueError as exc:raise AssertionError((rel,"invalid JSON-LD",str(exc))) from exc
