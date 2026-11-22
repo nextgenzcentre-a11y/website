@@ -2477,6 +2477,8 @@ const Footer: React.FC<FooterProps> = ({ onOpenAdmin, isAdminActive }) => (
         <div className="flex items-center gap-4">
           <a contentEditable={false} suppressContentEditableWarning href="#contact" className="text-slate-400 hover:text-[#C5A059] text-xs transition">Contact Us</a>
           <span className="text-white/25" aria-hidden="true">|</span>
+          <a contentEditable={false} suppressContentEditableWarning href="/privacy-policy.html" className="text-slate-400 hover:text-[#C5A059] text-xs transition">Privacy &amp; Cookies</a>
+          <span className="text-white/25" aria-hidden="true">|</span>
           <button contentEditable={false} suppressContentEditableWarning id="adminToggleBtn" type="button" onClick={onOpenAdmin}
             aria-label={isAdminActive ? 'Exit admin mode' : 'Open admin mode'}
             className={`text-xs font-bold transition cursor-pointer ${isAdminActive ? 'text-red-400 hover:text-red-300' : 'text-slate-400 hover:text-[#C5A059]'}`}>
