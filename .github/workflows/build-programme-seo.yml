@@ -122,7 +122,8 @@ jobs:
                   if catalogue.startswith("/programmes/"+locale+"/"):
                       lang=locale
                       catalogue=catalogue.replace("/programmes/"+locale+"/","/programmes/",1)
-              assert header == header_html(lang,catalogue), f"{file}: navigation drift from original brand template"
+              page_path = "/" + path.removesuffix("index.html")
+              assert header == header_html(lang,catalogue,page_path=page_path), f"{file}: navigation drift from original brand template"
               assert BRAND_CREST in header, f"{file}: original crest missing"
               assert parsed.h1==1, f"{file}: expected one H1, got {parsed.h1}"
               assert parsed.images, f"{file}: missing photography"
