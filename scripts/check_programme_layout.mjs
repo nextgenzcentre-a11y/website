@@ -65,11 +65,11 @@ try {
       const [before,after]=samples;
       if (path.endsWith('/universities/unikl.html')) {
         assert.equal(after.rowDisplay,width===390?'block':'grid',path);
-        assert.equal(after.feeLabel,path.includes('/ar/')?'المزيد':path.includes('/zh/')?'更多':'More',path);
+        assert.equal(after.feeLabel,path.includes('/ar/')?"تفاصيل الرسوم":path.includes('/zh/')?"费用明细":'Fee breakdown',path);
       }
       assert.match(after.font,/Montserrat/,path);
       assert.equal(after.weight,'900',path);
-      assert.equal(after.surface,path.startsWith('programmes/')?'rgb(240, 227, 210)':'rgb(245, 247, 250)',path);
+      assert.equal(after.surface,'rgb(240, 227, 210)',path);
       assert(after.overflow<=Math.max(width,before.overflow)+1,path+' new page overflow at '+width);
       assert(after.actions.length>=4 && after.actions.every(Boolean),path+' hidden action');
     }
