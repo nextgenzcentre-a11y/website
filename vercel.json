@@ -5,7 +5,10 @@
     { "source": "/visas/malaysia-student-visa-emgs-guide.html", "destination": "/guides/malaysia-student-visa-emgs-guide.html", "permanent": true },
     { "source": "/universities", "destination": "/#universities", "permanent": true },
     { "source": "/universities.html", "destination": "/#universities", "permanent": true },
-    { "source": "/faq.html", "destination": "/#faq", "permanent": true }
+    { "source": "/faq.html", "destination": "/#faq", "permanent": true },
+    { "source": "/services/", "destination": "/#services", "permanent": true },
+    { "source": "/visas/", "destination": "/guides/malaysia-student-visa-emgs-guide.html", "permanent": true },
+    { "source": "/universities/", "destination": "/#universities", "permanent": true }
   ],
   "rewrites": [
     { "source": "/student", "destination": "/index.html" },
