@@ -11,6 +11,7 @@ on:
       - 'scripts/programme_languages.py'
       - 'scripts/check_programme_catalogue.py'
       - 'scripts/check_public_theme.py'
+      - 'scripts/check_public_metadata.py'
       - 'scripts/check_programme_layout.mjs'
       - 'scripts/site_header.py'
       - 'scripts/site_shell.py'
@@ -146,6 +147,8 @@ jobs:
         run: python scripts/check_programme_catalogue.py
       - name: Audit all public page palettes, finder fees and translated layout parity
         run: python scripts/check_public_theme.py
+      - name: Verify SEO title uniqueness, canonicals and locale alternate paths
+        run: python scripts/check_public_metadata.py
       - name: Compare representative layouts on mobile and desktop
         env:
           BEFORE_SHA: ${{ github.event.before }}
