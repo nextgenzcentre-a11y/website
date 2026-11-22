@@ -71,7 +71,10 @@ def mirror_english_layout(path, title, lang, level, root):
     facts, costs, comparisons, admissions questions and application guidance.
     Official award names and university-source details remain unaltered.
     """
-    english = (root / path.lstrip("/")).read_text(encoding="utf-8")
+    source_file = root / path.lstrip("/")
+    if path.endswith("/"):
+        source_file = source_file / "index.html"
+    english = source_file.read_text(encoding="utf-8")
     first, last = english.find("<main>"), english.rfind("</main>")
     if first < 0 or last < first:
         raise ValueError("Source page has no content: " + path)
