@@ -6,6 +6,7 @@ on:
     paths:
       - 'index.html'
       - 'scripts/build_programme_seo.py'
+      - 'scripts/programme_finder_standalone.py'
       - 'scripts/programme_actions.py'
       - 'scripts/programme_languages.py'
       - 'scripts/check_programme_catalogue.py'
@@ -60,6 +61,10 @@ jobs:
           assert len(list(Path("programmes/universities").glob("*.html"))) == data["universities"]
           assert Path("programmes/levels/foundation.html").is_file()
           assert Path("programmes/index.html").is_file()
+          finder=Path("programmes/find/index.html")
+          assert finder.is_file() and "Find a course that fits your future" in finder.read_text()
+          assert 'href="/programmes/courses/' in finder.read_text()
+          assert Path("programmes/site-assets/find-course.js").is_file()
           assert Path("programmes/subjects/index.html").is_file()
           master=Path("programmes/subjects/master-computer-science-malaysia.html").read_text()
           assert "MMU's current programme page" in master
