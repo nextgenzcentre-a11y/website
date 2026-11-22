@@ -170,8 +170,8 @@ def page_head(title: str, desc: str, path: str, schema: dict | None = None) -> s
       '<meta property="og:description" content="' + h(desc) + '">'
       '<meta property="og:url" content="' + h(canonical) + '">'
       '<meta property="og:site_name" content="NextGenz Centre">'
-      '<link rel="stylesheet" href="/programmes/catalog.css?v=20261119-rows">'
       '<link rel="stylesheet" href="/guides/style.css?v=20261119-landing">'
+      '<link rel="stylesheet" href="/programmes/catalog.css?v=20261122-nude-navy">'
       + jsonld + '<link rel="stylesheet" href="/assets/public-interactions.css"><script defer src="/assets/nextgenz-motion.js?v=20261119"></script></head><body>' + MARKER
     )
 
@@ -353,51 +353,9 @@ def main() -> None:
         raise RuntimeError("Unexpected programme data scope, refusing to publish")
     unique_names = len(set(x["name"] for x in records))
 
-    # Start with individual pages for clear, high-value searches:
-    # one foundation (or diploma) and one bachelor's degree per university,
-    # plus a limited set of master's programmes. All other names still appear
-    # as crawlable, exact-match text in the university and level directories.
-    selected = {}
-    priority_terms = [
-      "foundation in engineering", "foundation in science", "foundation in arts",
-      "foundation in business", "computer science", "software engineering",
-      "artificial intelligence", "medicine", "business administration",
-      "information technology", "accounting", "electrical engineering",
-      "mechanical engineering", "education", "nursing", "data science",
-    ]
-    def quality(rec: dict) -> int:
-        t = rec["name"].lower()
-        if any(x in t for x in (" / ", " e.g.", "various", "etc.", "other programmes", "all specialisations", "mixed mode variants")):
-            return -10000
-        score = 500 - len(t)
-        for idx, kw in enumerate(priority_terms):
-            if kw in t:
-                score += (len(priority_terms) - idx) * 8
-        return score
-    for uni in unis:
-        entries = by_uni[uni["university"]]
-        for group in (["Foundation", "Diploma"], ["Bachelor"]):
-            possible = sorted((e for e in entries if e["level"] in group and quality(e) > -1000), key=quality, reverse=True)
-            if possible:
-                e = possible[0]
-                selected[(e["uni"], e["name"])] = e
-    # Representative postgraduate pages; focus only on concise, unambiguous
-    # programme titles to prevent thousands of near-identical landing pages.
-    postgraduate_candidates = sorted((e for e in records if e["level"] == "Master" and quality(e) > 380), key=quality, reverse=True)
-    seen_uni = set()
-    for e in postgraduate_candidates:
-        if e["uni"] in seen_uni:
-            continue
-        selected[(e["uni"], e["name"])] = e
-        seen_uni.add(e["uni"])
-        if len(seen_uni) >= 12:
-            break
-
-    # Publish carefully fact-checked university programmes even when the
-    # staged SEO selector would otherwise pick a different course.
-    for e in records:
-        if (e["short"], e["name"]) in VERIFIED_PROGRAMMES:
-            selected[(e["uni"], e["name"])] = e
+    # Each programme finder entry gets a permanent, shareable detail URL.
+    # Composite titles retain their actual finder wording and carry a caveat.
+    selected = {(e["uni"], e["name"]): e for e in records}
     found_verified = {(e["short"], e["name"]) for e in selected.values() if (e["short"], e["name"]) in VERIFIED_PROGRAMMES}
     if len(found_verified) != len(VERIFIED_PROGRAMMES):
         raise RuntimeError("A verified programme entry disappeared from the finder: " + str(set(VERIFIED_PROGRAMMES)-found_verified))
@@ -588,7 +546,7 @@ def main() -> None:
                 title = h(e["name"])
                 path = selected_urls.get((name, e["name"]))
                 if path:
-                    title = '<a href="' + h(path) + '">' + title + '</a>'
+                    title = '<a href="' + h(path) + '">' + title + '<span class="catalog-open-course">View programme details →</span></a>'
                 else:
                     title = '<strong>' + title + '</strong>'
                 for field in field_for(e["name"]):
@@ -666,7 +624,7 @@ def main() -> None:
             dest, {"@context":"https://schema.org","@type":"CollectionPage","name":LABELS[lev]+" in Malaysia","url":PUBLIC_BASE+dest}
         ),main),outputs)
 
-    # Detailed pages for the initial focused set.
+    # Dedicated course guides for every university finder listing.
     for e in selected.values():
         dest = e["detail"]
         checked = VERIFIED_PROGRAMMES.get((e["short"], e["name"]))
@@ -674,7 +632,7 @@ def main() -> None:
         main = (
           '<section class="hero"><div class="wrap"><span class="eyebrow">' + h(e["level"].upper()) + ' STUDIES IN MALAYSIA</span>'
           '<h1>' + h(e["name"]) + ' <span class="accent">at ' + h(e["uni"]) + '</span></h1>'
-          '<p class="lead">Review the ' + h(e["name"]) + ' listing at ' + h(e["uni"]) + ' in ' + h(e["location"]) + ', Malaysia. Explore the finder’s available reference information and the admission questions to check before applying.</p>'
+          '<p class="lead">Explore the ' + h(e["name"]) + ' pathway at ' + h(e["uni"]) + ' in ' + h(e["location"]) + ', Malaysia. Compare tuition and intake references, admission checks and application guidance before requesting official confirmation.</p>'
           '<a class="button" href="https://wa.me/601167701210?text=' + quote("Hello NextGenz Centre. I would like information about " + e["name"] + " at " + e["uni"] + ".") + '">Ask about this programme</a></div></section>'
           '<section class="section"><div class="wrap"><div class="article-layout"><article class="article"><h2>Programme details</h2>'
           '<div class="catalog-facts">'
@@ -694,6 +652,21 @@ def main() -> None:
           '</article><aside class="aside"><h2>Ask about this course</h2><p>Tell us your qualifications, study budget and intended intake so we can discuss what to confirm with the university.</p>'
           '<a class="button" href="https://wa.me/601167701210?text=' + quote("Please guide me on " + e["name"] + " at " + e["uni"]) + '">Free programme advice ↗</a><p><small>Our advisory fee is free. Official charges may apply.</small></p></aside></div></div></section>'
         )
+        # Composite finder names represent several options or specialisations,
+        # not necessarily one official award with common admission conditions.
+        is_grouped = (" / " in e["name"] or
+                      bool(re.search(r"\\([^)]*,[^)]*\\)", e["name"])) or
+                      "e.g." in e["name"].lower() or
+                      "various" in e["name"].lower())
+        if is_grouped:
+            grouped_note = (
+              '<div class="catalog-note catalog-grouped-note" role="note"><strong>Several study options are listed together.</strong> '
+              'The finder groups related titles or specialisations here. They may have '
+              'different awards, campuses, entry requirements and fees. Ask '
+              + h(e["uni"]) + ' to confirm your chosen option before applying.</div>'
+            )
+            main = main.replace('<h2>Programme details</h2>',
+                                grouped_note + '<h2>Programme details</h2>', 1)
         # Independent source-check section. Finder's original amounts remain
         # unchanged, while up-to-date university facts appear with attribution.
         if checked:
