@@ -459,7 +459,8 @@ def generate_level_subject_pages(records, selected_urls, write, wrap_page, page_
             '<p class="lead">' + h(enrichment["lead"] if enrichment else fld["overview"]) + '</p>'
             '<div class="catalog-stats"><span>' + str(count_uni) + ' listed universities</span><span>' + str(len(entries)) + ' relevant course names</span><span>' + h(LEVEL_LABELS[level]) + ' study level</span></div>'
             '<p><a class="button" href="https://wa.me/601167701210?text=' + quote("Hello NextGenz Centre. I am interested in " + heading + ". Please help me compare programmes.") + '">Ask for course guidance</a></p></div></section>'
-            '<section class="section"><div class="wrap"><div class="article-layout"><article class="article">'
+            '<section class="section"><div class="wrap"><div class="article-layout"><article class="article">' +
+            ('<p>Looking for your first pharmacy degree? Compare <a href="/programmes/subjects/bachelor-pharmacy-malaysia.html">bachelor’s pharmacy courses in Malaysia</a>. This page covers master’s programmes. For research degrees, see <a href="/programmes/subjects/doctorate-pharmacy-malaysia.html">doctoral pharmacy options</a>.</p>' if level == "Master" and field_slug == "pharmacy" else '') +
             '<h2>What does ' + h(fld["name"]) + ' study involve?</h2><p>' + h(fld["overview"]) + '</p>'
             '<h2>What to know about this qualification level</h2><p>' + h(intro) + '</p>'
             '<div class="catalog-note">Select a course to explore its requirements. For tuition and intake dates, contact our admissions team.</div>'

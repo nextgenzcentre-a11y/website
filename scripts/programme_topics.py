@@ -459,6 +459,26 @@ def matching_topics(item: dict) -> list[dict]:
     return [t for t in TOPICS if matches_topic(item, t)]
 
 
+SOFTWARE_ENGINEERING_SOURCES = {
+    'usm': ('Bachelor in Software Engineering with Honours · 4 years minimum',
+        'https://cs.usm.my/index.php/admissions-academics/undergraduate/main-campus/bachelor-of-software-engineering-with-honours'),
+    'ukm': ('Bachelor of Software Engineering with Honours (Information Systems Development) · 3.5 years, Bangi',
+        'https://www.ukm.my/studyukm/information-system-bachelor-of-software-engineering-hons/'),
+    'upm': ('Bachelor of Software Engineering with Honours · 4 years, 126 credits',
+        'https://akademik.upm.edu.my/upload/dokumen/20241007151057Fakulti_Sains_Komputer_dan_Teknologi_Maklumat_2024-2025.pdf'),
+    'upsi': ('Bachelor of Software Engineering (Education Software) with Honours · 4 years, full time',
+        'https://www.mqa.gov.my/mqr/english/epapariptaAA.cfm?IDAkrKP=12892'),
+    'umpsa': ('Bachelor of Computer Science (Software Engineering) with Honours · 4 years, Pekan campus',
+        'https://admission.umpsa.edu.my/undergraduate-study/computer-international/bcs-software-engineering-international'),
+    'apu': ('BSc (Hons) in Software Engineering · 3 years, full time',
+        'https://www.apu.edu.my/index.php/course/bsc-hons-in-software-engineering'),
+    'iukl': ('KLUST lists Bachelor in Software Engineering (Honours) · 3 years, full time',
+        'https://klust.edu.my/programme/bachelor-in-software-engineering-hons/'),
+    'unikl': ('UniKL’s programme page lists Bachelor of Software Engineering with Honours. Confirm the current award and study mode for your intake.',
+        'https://www.unikl.edu.my/programme/bachelor-of-information-technology-hons-in-software-engineering/'),
+}
+
+
 def generate_topic_pages(records, selected_urls, uni_slugs, write, wrap_page, page_head, h, outputs):
     """Build useful subject comparison pages; return their count/URLs."""
     made = {}
@@ -469,6 +489,7 @@ def generate_topic_pages(records, selected_urls, uni_slugs, write, wrap_page, pa
         destination = "/programmes/topics/" + topic["slug"] + ".html"
         universities = len(set(e["uni"] for e in matching))
         visible = list(matching)
+        software_comparison = topic["slug"] == "software-engineering-degree-malaysia"
         main = (
           '<section class="hero"><div class="wrap"><span class="eyebrow">MALAYSIA UNIVERSITY COURSE COMPARISON</span>'
           '<h1>' + h(topic["label"]) + ': <span class="accent">compare university courses</span></h1>'
@@ -481,14 +502,26 @@ def generate_topic_pages(records, selected_urls, uni_slugs, write, wrap_page, pa
           '<div class="catalog-note">Ask our admissions team about programme availability, entry requirements and fees for your intake.</div>'
           '<h2>Compare programmes listed in the finder</h2>'
           '<p>These ' + str(len(visible)) + ' reference entries across ' + str(universities) + ' Malaysian universities are starting points for your shortlist. Follow a programme to its information page or university entry. Select More beside a programme for a breakdown of tuition and other fees for your intake.</p>'
-          '<div class="catalog-comparison" role="region" aria-label="Compare programmes" tabindex="0"><table class="catalog-table"><thead><tr><th scope="col">University</th><th scope="col">Programme listing</th><th scope="col">Tuition for your intake</th></tr></thead><tbody>'
+          + ('<p>Use the official sources to compare the current award with the finder listing. Check mathematics prerequisites, English evidence and international entry requirements on the course page. Where an institution lists more than one route, confirm the award, duration and fees for your specific intake.</p>' if software_comparison else "") +
+          '<div class="catalog-comparison" role="region" aria-label="Compare programmes" tabindex="0"><table class="catalog-table"><thead><tr><th scope="col">University</th><th scope="col">Programme listing</th>'
+          + ('<th scope="col">Official programme and study details</th>' if software_comparison else "") +
+          '<th scope="col">Tuition for your intake</th></tr></thead><tbody>'
         )
         for e in visible:
             university_url = "/programmes/universities/" + e["uslug"] + ".html"
             programme_url = selected_urls.get((e["uni"],e["name"]), university_url + "#" + e["id"])
+            verified_cell = ""
+            if software_comparison:
+                source = SOFTWARE_ENGINEERING_SOURCES.get(e["uslug"])
+                if source:
+                    label, url = source
+                    verified_cell = '<td>' + h(label) + ' <a href="' + h(url) + '">Official source</a></td>'
+                else:
+                    verified_cell = '<td>Confirm directly with the university.</td>'
             main += (
               '<tr><td><a href="' + h(university_url) + '">' + h(e["uni"]) + '</a><small class="catalog-loc">' + h(e["location"]) + '</small></td>'
               '<td><a href="' + h(programme_url) + '">' + h(e["name"]) + '</a></td>'
+              + verified_cell +
               '<td>' + fee_link(e["name"] + " at " + e["uni"]) + '</td></tr>'
             )
         main += '</tbody></table></div>'
