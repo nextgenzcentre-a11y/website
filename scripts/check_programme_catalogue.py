@@ -81,13 +81,16 @@ def main():
         for name in names:
             ref = urlsplit(links[name])
             target = pages[ROOT/ref.path.lstrip('/')]
-            assert not ref.fragment or ref.fragment in target.ids
+            assert not ref.fragment and ref.path.startswith('/programmes/courses/'), (name,ref)
+            assert target.canonical == PUBLIC_BASE + ref.path, (name,ref)
             level = ROOT/'programmes/levels'/(LEVEL_SLUG[record_level(name)]+'.html')
             assert links[name] in pages[level].links
             for path in (university,level):
                 assert any(k=='fee' and name in value and uni['university'] in value for k,value in decoded[path]), (name,path)
             total += 1
-    print(f'{total} listing mappings, {len(docs)} pages and {fees} fee enquiries validated.')
+    detailed = list((ROOT/'programmes/courses').rglob('*.html'))
+    assert total == len(detailed), (total,len(detailed))
+    print(f'{total} dedicated programme URLs, {len(docs)} pages and {fees} fee enquiries validated.')
 
 if __name__ == '__main__':
     main()
