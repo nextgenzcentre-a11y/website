@@ -528,6 +528,7 @@ def main() -> None:
       '<div class="catalog-stats"><span>' + str(len(unis)) + ' universities</span><span>' + str(len(records)) + ' listed university programmes</span><span>' + str(unique_names) + ' distinct programme names</span></div></div></section>'
       '<section class="section"><div class="wrap">'
       '<div class="catalog-note">Ask our admissions team which campuses and intakes offer your preferred programme.</div>'
+      + '<p><a class="button" href="/programmes/find/">Open the full course finder →</a></p>'
       + catalogue_search() +
       '<h2>Start with university admission guidance</h2>'
       '<p>New to studying in Malaysia? Read our <a href="/guides/how-to-study-in-malaysia.html">international student application guide</a>, learn what an <a href="/services/education-consultant-malaysia.html">education consultant in Malaysia</a> can help with, or explore <a href="/guides/english-courses-in-malaysia.html">English language courses</a> before selecting a university. Compare <a href="/programmes/levels/bachelor.html">bachelor degree programmes in Malaysia</a> by university using the level directory below.</p>'
@@ -823,6 +824,12 @@ def main() -> None:
 
     from programme_languages import publish
     publish(records, english_centres, subject_pages, LEVEL_SLUG, outputs, ROOT, write, page_head, brand_photo)
+
+    # Standalone course finder is published after translated directories.
+    from programme_finder_standalone import publish_find_page
+    publish_find_page(records, unis, write=write, wrap_page=wrap_page,
+                      page_head=page_head, outputs=outputs, h=h,
+                      fee_note=public_fee_note)
 
     # Manifest is only used to safely remove older generated files if a title
     # disappears from the original programme finder in a future update.
