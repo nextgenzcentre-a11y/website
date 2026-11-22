@@ -1273,148 +1273,10 @@ mailtoUrl: string;
 }
 
 // ==== data.ts ====
-const INITIAL_MESSAGES: ChatMessage[] = [
-{
-id: 'msg-1',
-senderId: 'admin',
-senderName: 'NEXTGENZ Support Team',
-senderRole: 'admin',
-recipientId: 'usr-1',
-message: 'Welcome to your Student Dashboard! Your Bachelor of Computer Science application for Taylor\'s University is currently under review with the admissions department.',
-programMention: 'Taylor\'s University - Bachelor of Computer Science',
-timestamp: '2026-08-01 10:30 AM'
-},
-{
-id: 'msg-2',
-senderId: 'usr-1',
-senderName: 'John Doe',
-senderRole: 'student',
-recipientId: 'admin',
-message: 'Thank you Admin! I have uploaded my High School Certificate and Passport scan to the Google Drive link.',
-timestamp: '2026-08-01 11:15 AM'
-},
-{
-id: 'msg-3',
-senderId: 'admin',
-senderName: 'NEXTGENZ Support Team',
-senderRole: 'admin',
-recipientId: 'usr-1',
-message: 'Documents received! We verified your certificate. We also recommend checking Universiti Malaya (UM) Data Science as an alternative program choice.',
-programMention: 'Universiti Malaya (UM) - Master of Data Science',
-timestamp: '2026-08-02 09:00 AM'
-},
-{
-id: 'msg-4',
-senderId: 'admin',
-senderName: 'NEXTGENZ Support Team',
-senderRole: 'admin',
-recipientId: 'usr-2',
-message: 'Hello Global Edu Agency! Application files for students under your agency have been logged. Please ensure all passport colour scans are up to date.',
-programMention: 'Asia Pacific University (APU) - Software Engineering',
-timestamp: '2026-08-02 02:20 PM'
-},
-{
-id: 'msg-5',
-senderId: 'usr-2',
-senderName: 'Global Edu Agency',
-senderRole: 'agent',
-recipientId: 'admin',
-message: 'Thank you for the update. We are preparing 3 more student applications for Sunway University and Asia Pacific University.',
-timestamp: '2026-08-02 03:00 PM'
-}
-];
-const INITIAL_USERS: PortalUser[] = [
-{
-id: 'usr-1',
-type: 'student',
-username: 'john2026',
-password: 'password123',
-name: 'John Doe',
-email: 'john.doe@example.com',
-phone: '+60 10-123 4567',
-status: 'active',
-createdAt: new Date().toISOString(),
-},
-{
-id: 'usr-2',
-type: 'agent',
-username: 'globaledu',
-password: 'password123',
-name: 'Global Edu Agency',
-email: 'agent@globaledu.com',
-phone: '+44 123 4567',
-status: 'active',
-createdAt: new Date().toISOString(),
-}
-];
-const INITIAL_STUDENTS: StudentRecord[] = [
-{
-id: 'std-1',
-agentUsername: 'globaledu',
-name: 'John Doe',
-passport: 'A12345678',
-studentEmail: 'john.doe@example.com',
-studyLevel: 'Bachelor',
-country: 'Nigeria',
-university: "Taylor's University",
-program: 'Bachelor of Computer Science',
-driveLink: 'https://drive.google.com/drive/folders/sample-folder',
-status: 'under review',
-createdAt: new Date(Date.now() - 7 * 24 * 3600 * 1000).toISOString(),
-documents: {
-passport: {
-key: 'passport',
-label: 'Passport copy (colour, all pages)',
-link: 'https://drive.google.com/file/d/sample-passport',
-updatedAt: new Date().toISOString(),
-updatedBy: 'student'
-},
-certificate: {
-key: 'certificate',
-label: 'High school certificate + transcript (English)',
-link: 'https://drive.google.com/file/d/sample-cert',
-updatedAt: new Date().toISOString(),
-updatedBy: 'student'
-}
-}
-},
-{
-id: 'std-2',
-agentUsername: 'globaledu',
-name: 'Amina Youssef',
-passport: 'B98765432',
-studentEmail: 'amina.youssef@example.com',
-studyLevel: 'Master',
-country: 'Algeria',
-university: 'Sunway University',
-program: 'Master of Business Administration',
-driveLink: 'https://drive.google.com/drive/folders/sample-amina',
-status: 'received offer',
-createdAt: new Date(Date.now() - 14 * 24 * 3600 * 1000).toISOString(),
-}
-];
-const INITIAL_REQUESTS: AccessRequest[] = [
-{
-id: 'req-1',
-type: 'agent',
-name: 'Apex Education Consult',
-email: 'contact@apexedu.com',
-phone: '+234 801 234 5678',
-extra: 'Lagos Office, Nigeria',
-status: 'pending',
-submittedAt: new Date(Date.now() - 2 * 24 * 3600 * 1000).toISOString()
-},
-{
-id: 'req-2',
-type: 'student',
-name: 'Tariq Al-Mansoor',
-email: 'tariq@example.com',
-phone: '+967 712 345 678',
-extra: 'Yemen · Passport YM44201',
-status: 'pending',
-submittedAt: new Date(Date.now() - 1 * 24 * 3600 * 1000).toISOString()
-}
-];
+const INITIAL_MESSAGES: ChatMessage[] = [];
+const INITIAL_USERS: PortalUser[] = [];
+const INITIAL_STUDENTS: StudentRecord[] = [];
+const INITIAL_REQUESTS: AccessRequest[] = [];
 const DOC_CHECKLISTS: Record<string, Array<{ key: string; label: string }>> = {
 Foundation: [
 { key: 'passport', label: 'Passport copy (colour, all pages)' },
@@ -1458,47 +1320,7 @@ PhD: [
 { key: 'publications', label: 'Publications / conference papers (if available)' }
 ]
 };
-const INITIAL_EMAIL_ALERTS: EmailAlertLog[] = [
-{
-id: 'alert-1',
-triggerType: 'chat',
-title: 'New Portal Message / Comment',
-adminEmail: 'nextgenzcentre@gmail.com',
-studentEmail: 'john.doe@example.com',
-senderName: 'John Doe',
-subject: '[NEXTGENZ Alert] New Portal Comment from John Doe',
-body: 'John Doe posted a comment: "Thank you Admin! I have uploaded my High School Certificate and Passport scan to the Google Drive link."',
-timestamp: '2026-08-01 11:15 AM',
-status: 'sent',
-mailtoUrl: 'mailto:nextgenzcentre@gmail.com,john.doe@example.com?subject=%5BNEXTGENZ%20Alert%5D%20New%20Portal%20Comment&body=John%20Doe%20posted%20a%20comment'
-},
-{
-id: 'alert-2',
-triggerType: 'document',
-title: 'Document Link Updated / Uploaded',
-adminEmail: 'nextgenzcentre@gmail.com',
-studentEmail: 'john.doe@example.com',
-senderName: 'NEXTGENZ Admin',
-subject: '[NEXTGENZ Alert] Document Link Updated for John Doe',
-body: 'Document "Student Application Documents Link" updated by NEXTGENZ Admin for student John Doe.',
-timestamp: '2026-08-01 11:30 AM',
-status: 'sent',
-mailtoUrl: 'mailto:nextgenzcentre@gmail.com,john.doe@example.com?subject=%5BNEXTGENZ%20Alert%5D%20Document%20Updated'
-},
-{
-id: 'alert-3',
-triggerType: 'status_change',
-title: 'Application Status Updated',
-adminEmail: 'nextgenzcentre@gmail.com',
-studentEmail: 'john.doe@example.com',
-senderName: 'NEXTGENZ Admin System',
-subject: '[NEXTGENZ Alert] Application Status Changed to Under Review',
-body: 'Status for John Doe (Taylor\'s University - Bachelor of Computer Science) changed to "under review".',
-timestamp: '2026-08-02 09:00 AM',
-status: 'sent',
-mailtoUrl: 'mailto:nextgenzcentre@gmail.com,john.doe@example.com?subject=%5BNEXTGENZ%20Alert%5D%20Status%20Updated'
-}
-];
+const INITIAL_EMAIL_ALERTS: EmailAlertLog[] = [];
 const ALL_STATUSES: StudentRecord['status'][] = [
 'unfiled', 'filed', 'submited', 'applied', 'under review', 'received offer',
 'receive invoice', 'pending', 'visa done', 'evisa done', 'mdac done',
@@ -3055,7 +2877,7 @@ return (
           <label className="ng-field-label">Field / keyword<input contentEditable={false} suppressContentEditableWarning value={quickField} onChange={e => setQuickField(e.target.value)} className="ng-matcher-select" type="search" placeholder="e.g. Computer Science" /></label>
           <button contentEditable={false} suppressContentEditableWarning type="button" onClick={startQuickMatch} className="ng-match-action self-end bg-[#C5A059] hover:bg-[#D4AF37] text-[#0A1633] font-bold rounded-xl px-5 h-[46px] whitespace-nowrap">Find matches <i className="fa-solid fa-arrow-right ml-1"></i></button>
         </div>
-        <div className="ng-hero-matcher-foot mt-3 flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-slate-600"><span><i className="fa-solid fa-graduation-cap text-[#8B6B32] mr-1"></i> More than 1,000 source programme entries</span><WhatsAppLink message="Hello NEXTGENZ CENTRE, I would like a free study consultation in Malaysia." className="text-[#0A1633] font-extrabold hover:underline">Free Consultation on WhatsApp <i className="fa-solid fa-arrow-up-right-from-square ml-1"></i></WhatsAppLink></div>
+        <div className="ng-hero-matcher-foot mt-3 flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-slate-600"><span><i className="fa-solid fa-graduation-cap text-[#8B6B32] mr-1"></i> Explore the programme catalogue</span><WhatsAppLink message="Hello NEXTGENZ CENTRE, I would like a free study consultation in Malaysia." className="text-[#0A1633] font-extrabold hover:underline">Free Consultation on WhatsApp <i className="fa-solid fa-arrow-up-right-from-square ml-1"></i></WhatsAppLink></div>
       </div>
       <div className="ng-hero-bottom-actions mt-5 flex gap-5 flex-wrap text-sm font-semibold"><button contentEditable={false} suppressContentEditableWarning type="button" onClick={startQuickMatch} className="text-white hover:text-[#C5A059]">Browse programmes <i className="fa-solid fa-arrow-right ml-1"></i></button><a href="/programmes/" className="text-white hover:text-[#C5A059]">Explore all Malaysia programmes <i className="fa-solid fa-arrow-right ml-1"></i></a><a href="/programmes/subjects/" className="text-[#C5A059] hover:text-white">Search Bachelor & Master subjects <i className="fa-solid fa-arrow-right ml-1"></i></a><a className="text-[#C5A059] hover:text-white" href={registrationHref()}>Apply Now <i className="fa-solid fa-arrow-up-right-from-square ml-1"></i></a></div>
       {adminMode && <button contentEditable={false} suppressContentEditableWarning type="button" onClick={handleEditPoster} className="ng-hero-admin-edit mt-6 bg-[#C5A059] text-[#0A1633] px-4 py-2.5 rounded-lg text-xs font-bold" disabled={isSaving}><i className="fa-solid fa-pen mr-1"></i> Edit hero image</button>}
@@ -3237,7 +3059,7 @@ const TrustStatsAndMarquee: React.FC<{directoryMode?:boolean}> = ({directoryMode
         {[
           ['fa-building-columns',String(rawData.length),'Universities in our programme finder'],
           ['fa-hand-holding-heart','100% FREE','University placement & English admissions'],
-          ['fa-passport','15%–100%','EMGS visa guidance and tracking'],
+          ['fa-passport','EMGS','Student visa guidance and application tracking'],
           ['fa-laptop','24/7','Student and agent portal access']
         ].map(([icon,value,label])=><div key={label} className="ng-kpi text-center p-5 lg:p-6"><i className={`fa-solid ${icon} text-[#C5A059] text-lg mb-2`}></i><strong className="block font-heading font-extrabold text-[#0A1633] text-2xl sm:text-3xl">{value}</strong><span className="block text-slate-500 text-[11px] sm:text-xs font-medium mt-1">{label}</span></div>)}
       </div>}
@@ -3580,7 +3402,7 @@ type="text"
 name="Contact Person"
 required
 className="w-full px-5 py-4 rounded-xl border border-gray-300 focus:border-[#C5A059] focus:ring-2 focus:ring-[#C5A059]/30 outline-none transition bg-gray-50"
-placeholder="John Doe"
+placeholder="Full name"
 />
 </div>
 </div>
@@ -3804,7 +3626,7 @@ type="text"
 name="Name"
 required
 className="w-full px-5 py-4 rounded-xl border border-gray-300 focus:border-[#C5A059] focus:ring-2 focus:ring-[#C5A059]/30 outline-none transition bg-gray-50 text-gray-800"
-placeholder="John Doe"
+placeholder="Full name"
 />
 </div>
 <div>
@@ -6689,7 +6511,7 @@ e.preventDefault();
 setLoginError('');
 const ok = onLoginSubmit(usernameInput.trim(), passwordInput.trim(), loginGateType);
 if (!ok) {
-setLoginError('Invalid username or password. (Try test account: john2026/password123 or globaledu/password123)');
+setLoginError('Invalid username or password.');
 }
 };
 const handleRequestSubmit = (e: React.FormEvent) => {
@@ -6700,7 +6522,7 @@ type: loginGateType,
 name: reqName,
 email: reqEmail,
 phone: reqPhone,
-extra: reqExtra,
+extra: loginGateType === 'agent' ? reqExtra : '',
 ...(programmeInterest ? {programme: programmeInterest} : {})
 });
 setReqSuccess('Request submitted successfully! Credentials will be sent upon approval.');
@@ -6787,7 +6609,7 @@ return (
 {/* LOGIN GATE MODAL - MANDATORY USERNAME & PASSWORD AUTH */}
 {showLoginModal && (
 <div className="fixed inset-0 bg-black/70 z-[99999] flex items-center justify-center backdrop-blur-sm p-4">
-<div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl relative border border-gray-100">
+<div className="bg-white rounded-3xl p-8 max-w-md w-full max-h-full overflow-y-auto shadow-2xl relative border border-gray-100">
 <div className="flex justify-between items-center mb-3">
 <div className="flex items-center gap-2.5">
 <div className="w-10 h-10 rounded-xl bg-[#0F1F38] text-[#C5A059] flex items-center justify-center text-lg font-bold shadow-md">
@@ -6795,9 +6617,11 @@ return (
 </div>
 <div>
 <h3 className="text-xl font-bold text-[#0F1F38]">
-{loginGateType === 'student' ? 'Student Portal Security' : 'Agent Portal Security'}
+{loginMode === 'request'
+  ? (loginGateType === 'student' ? 'Request Student Portal Access' : 'Request Agent Portal Access')
+  : (loginGateType === 'student' ? 'Student Portal Security' : 'Agent Portal Security')}
 </h3>
-<span className="text-[10px] font-bold tracking-wider text-[#C5A059] uppercase">Authentication Required</span>
+<span className="text-[10px] font-bold tracking-wider text-[#C5A059] uppercase">{loginMode === 'request' ? 'Access Request' : 'Authentication Required'}</span>
 </div>
 </div>
 <button contentEditable={false} suppressContentEditableWarning
@@ -6809,7 +6633,12 @@ title="Cancel & Return to Site"
 </button>
 </div>
 <p className="text-gray-600 mb-5 text-xs font-medium leading-relaxed bg-amber-50/80 border border-amber-200/60 p-3 rounded-xl">
-<i className="fa-solid fa-shield-halved text-[#C5A059] mr-1"></i> Dashboard access is strictly private. You must enter your registered <strong>User ID / Username</strong> and <strong>Password</strong> to proceed.
+<i className="fa-solid fa-shield-halved text-[#C5A059] mr-1"></i>{' '}
+{loginMode === 'request'
+  ? (loginGateType === 'student'
+    ? 'To start your application, request access to the Student Portal. Admissions will review your request and contact you with the next steps.'
+    : 'Request access to the Agent Portal. Our team will review your request and contact you with the next steps.')
+  : <>Sign in with your registered <strong>username</strong> and <strong>password</strong>.</>}
 </p>
 {loginMode === 'login' ? (
 <form contentEditable={false} suppressContentEditableWarning onSubmit={handleLoginSubmit}>
@@ -6860,6 +6689,7 @@ value={reqName}
 onChange={(e) => setReqName(e.target.value)}
 className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#C5A059] outline-none mb-3 text-sm"
 placeholder="Full Name"
+aria-label="Full Name"
 required
 />
 <input contentEditable={false} suppressContentEditableWarning
@@ -6868,6 +6698,7 @@ value={reqEmail}
 onChange={(e) => setReqEmail(e.target.value)}
 className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#C5A059] outline-none mb-3 text-sm"
 placeholder="Email Address"
+aria-label="Email Address"
 required
 />
 <input contentEditable={false} suppressContentEditableWarning
@@ -6876,16 +6707,19 @@ value={reqPhone}
 onChange={(e) => setReqPhone(e.target.value)}
 className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#C5A059] outline-none mb-3 text-sm"
 placeholder="WhatsApp Number"
+aria-label="WhatsApp Number"
 required
 />
-<input contentEditable={false} suppressContentEditableWarning
+{loginGateType === 'agent' && <input contentEditable={false} suppressContentEditableWarning
 type="text"
 value={reqExtra}
 onChange={(e) => setReqExtra(e.target.value)}
 className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#C5A059] outline-none mb-3 text-sm"
-placeholder="Passport No. / Agency Name"
-/>
+placeholder="Agency Name (optional)"
+aria-label="Agency Name (optional)"
+/>}
 {programmeInterest && <p className="text-sm mb-3"><strong>Programme interest</strong> {programmeInterest}</p>}
+<p className="text-xs text-gray-600 mb-3">We use your contact details to review this request and follow up. <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer" className="underline">Read the portal privacy notice</a>.</p>
 {reqSuccess && (
 <p className="text-green-600 text-xs mb-3 font-semibold">
 <i className="fa-solid fa-check-circle mr-1"></i> {reqSuccess}
@@ -7070,7 +6904,7 @@ sizeClassName="w-32 h-32"
 <div>
 <p className="text-xs text-gray-400 font-bold uppercase mb-1">Passport No.</p>
 <p className="text-lg font-semibold text-[#0F1F38]">
-{currentStudentRecord?.passport || 'A12345678'}
+{currentStudentRecord?.passport || 'Not provided'}
 </p>
 </div>
 <div>
@@ -7535,7 +7369,7 @@ value={newStdName}
 onChange={(e) => setNewStdName(e.target.value)}
 required
 className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 focus:border-[#C5A059] outline-none text-sm font-medium"
-placeholder="e.g. Tariq Mansoor"
+placeholder="Student full name"
 />
 </div>
 <div className="grid grid-cols-2 gap-4">
@@ -7940,7 +7774,7 @@ name: u.name,
 email: u.email,
 phone: u.phone,
 username: u.username,
-password: u.password || 'password123',
+password: u.password || '',
 passport: matchedStudent?.passport || '',
 university: matchedStudent?.university || '',
 program: matchedStudent?.program || '',
@@ -8667,7 +8501,7 @@ title="Click to edit user name"
 Username / ID: <span className="font-mono font-bold text-[#0A1633]">{u.username}</span>
 </p>
 <p>
-Password: <span className="font-mono font-bold text-[#0A1633]">{u.password || 'password123'}</span>
+Password: <span className="font-mono font-bold text-[#0A1633]">{u.password || 'Not set'}</span>
 </p>
 </div>
 {u.type === 'agent' && (
@@ -9279,13 +9113,7 @@ dbRef.on(
 if (cancelled) return;
 const val = snapshot.val();
 loadedRef.current = true;
-if (val !== null && val !== undefined) {
-setter(val);
-} else {
-// First-ever run against a fresh database: seed it with the demo/starter data.
-dbRef.set(seed);
-setter(seed);
-}
+setter(val ?? seed);
 setFirebaseReady(true);
 },
 (err: any) => {
@@ -9370,7 +9198,7 @@ subject: string,
 body: string,
 extraRecipients?: (string | undefined | null)[]
 ) => {
-const targetStudentEmail = studentEmail || 'student@nextgenzcentre.com';
+const targetStudentEmail = studentEmail || undefined;
 const formattedBody = formatEmailBody({ heading: title, intro: body, lines: [] });
 dispatchAppEmailToMany({
 recipients: [ADMIN_EMAIL, targetStudentEmail, ...(extraRecipients || [])],
@@ -9382,10 +9210,6 @@ senderName
 });
 };
 const handleSendTestTrigger = () => {
-// Sends only to ADMIN_EMAIL - previously this also cc'd a hardcoded
-// 'john.doe@example.com', which Resend always rejects (422) because
-// example.com is a reserved, non-deliverable domain. That produced a
-// permanent false-alarm failure in the Resend logs on every test click.
 dispatchAppEmailToMany({
 recipients: [ADMIN_EMAIL],
 subject: '[NEXTGENZ Test Alert] Email Notification System Online',
@@ -9627,7 +9451,7 @@ timestamp: formattedDate
 };
 setMessages((prev) => [...prev, created]);
 // Determine target student email
-let targetStudentEmail = 'john.doe@example.com';
+let targetStudentEmail = '';
 if (created.senderRole === 'student') {
 const foundUser = users.find((u) => u.id === created.senderId);
 if (foundUser?.email) targetStudentEmail = foundUser.email;
@@ -9765,7 +9589,7 @@ reqData.name,
 `[NEXTGENZ Alert] New Portal Access Request from ${reqData.name}`,
 `Access Request submitted by ${reqData.name} (${reqData.email}, ${reqData.phone}). Account Type: ${reqData.type.toUpperCase()}.${
 reqData.extra ? ` Additional notes: ${reqData.extra}` : ''
-}`
+}${reqData.programme ? ` Programme interest: ${reqData.programme}.` : ''}`
 );
 };
 // Add Student handler (from Agent portal)
@@ -9843,7 +9667,7 @@ foundUser = {
 id: 'usr-' + Date.now(),
 type: 'student',
 username: genUsername,
-password: 'password123',
+password: generateSecurePassword(),
 name: student ? student.name : 'Student',
 email: studentEmail,
 phone: '+60 10-000 0000',
@@ -9859,7 +9683,7 @@ setIsAdminPreview(true);
 // Document link update handler
 const handleUpdateDocumentLink = (studentId: string, docKey: string, docLabel: string, link: string) => {
 pushStateToUndo();
-let targetEmail = 'john.doe@example.com';
+let targetEmail = '';
 let targetStudentName = 'Student';
 setStudents((prev) =>
 prev.map((s) => {
@@ -10218,7 +10042,7 @@ setHiddenSections([]);
 };
 const handleUpdateStudentStatus = (studentId: string, status: StudentStatus) => {
 pushStateToUndo();
-let affectedStudentEmail = 'john.doe@example.com';
+let affectedStudentEmail = '';
 let affectedStudentName = 'Student';
 setStudents((prev) =>
 prev.map((s) => {
