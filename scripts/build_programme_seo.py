@@ -741,7 +741,7 @@ def main() -> None:
                 return head + "…"
             candidate = clip(course["name"], budget) + suffix
             if candidate in used_course_search_titles:
-                hint = re.findall(r"\\(([^)]+)\\)", course["name"])
+                hint = re.findall(r"\(([^)]+)\)", course["name"])
                 hint = hint[-1] if hint else course["name"].split(" in ")[-1]
                 if len(hint) > 28:
                     hint = hint[-28:]
