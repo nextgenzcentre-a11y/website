@@ -72,4 +72,11 @@ for colour in ("#F0E3D2","#C5A059","#0F1F38"):
 assert "NEXTGENZ PUBLIC THEME CONTRACT" in theme
 assert "ng-landing-nude-theme" in landing
 assert "featuredShown" in landing and "featuredAutoplay" in landing
+why_styles=(ROOT/"assets/why-malaysia.css").read_text(encoding="utf-8")
+assert "Public surface parity: Why Malaysia" in why_styles
+assert "background:#F0E3D2!important" in why_styles
+why_page=(ROOT/"why-malaysia.html").read_text(encoding="utf-8")
+assert "These visual scenes are illustrative" not in why_page
+assert "Destination visuals are illustrative concepts" not in why_page
+assert "artistic concepts" in why_page
 print(f"PASS: {len(generated):,} generated pages themed, {total:,} courses with Arabic/Chinese layout parity and {priced:,} displayed finder fee references.")

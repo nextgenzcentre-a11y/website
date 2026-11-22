@@ -273,3 +273,23 @@
     right:10px;bottom:15px;font-size:.58rem;padding:5px 7px;
   }
 }
+
+
+/* Public surface parity: Why Malaysia uses the same nude + navy + gold
+   palette as the homepage course finder and every programme guide. */
+.ng-why-page{background:#F0E3D2!important;--why-ink:#0F1F38;--why-muted:#564B41;--why-gold:#C5A059;--why-navy:#0F1F38;color:#0F1F38}
+.ng-why-page .ng-why-section:not(.dark),.ng-why-page .ng-why-section.white{background:#F0E3D2!important;color:#0F1F38}
+.ng-why-page :is(.ng-why-reason,.ng-why-destination,.ng-why-figure figcaption,.ng-why-btn.light){
+ background:#F7EBD9!important;border-color:#C5A059!important;color:#0F1F38!important
+}
+.ng-why-page .ng-why-figure{background:#E2CFB3!important;border:1px solid #C5A059}
+.ng-why-page :is(.ng-why-figure figcaption,.ng-why-destination-copy) :is(strong,p,span),
+.ng-why-page .ng-why-reason :is(h3,p){color:#0F1F38!important}
+.ng-why-page :is(.ng-why-number,.ng-why-photo-note){background:#E2CFB3!important;border-color:#C5A059!important;color:#0F1F38!important}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-skyline{border-color:#C5A059!important;background:#F7EBD9!important}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-skyline figcaption{background:#F7EBD9!important;color:#0F1F38!important}
+.ng-why-page .ng-why-hero-v2 .ng-why-hero-skyline figcaption span{color:#564B41!important}
+.ng-why-page .ng-why-btn.light:hover{background:#E2CFB3!important}
+.ng-why-page .ng-why-mini-sources{border-color:#C5A059}
+.ng-why-page .ng-why-hero-illustration-note{display:none!important}
+@media(prefers-reduced-motion:reduce){.ng-why-page .ng-why-btn:hover{transform:none}}

@@ -24,6 +24,8 @@ on:
       - 'ar/**/*.html'
       - 'zh/**/*.html'
       - 'about-nextgenz-centre.html'
+      - 'why-malaysia.html'
+      - 'assets/why-malaysia.css'
       - '.github/workflows/build-programme-seo.yml'
 
 permissions:
