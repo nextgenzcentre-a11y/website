@@ -18,21 +18,60 @@ COPY = {
            "我想免费咨询：{topic}。", "我想开始申请：{topic}。", "请提供我所选入学批次的学费和费用明细：{topic}。"),
 }
 
-MORE = {"en": "More", "ar": "المزيد", "zh": "更多"}
+MORE = {"en": "Fee breakdown", "ar": "تفاصيل الرسوم", "zh": "费用明细"}
 
 def tuition_range(raw, currency, lang="en"):
-    """Publish only a pair of amounts recorded together for one programme."""
-    fallback = {"en": "Ask for intake fees", "ar": "استفسر عن رسوم الدفعة", "zh": "咨询本次入学费用"}[lang]
-    match = re.fullmatch(r"([\d,]+(?:\.\d+)?)\s*[-–]\s*([\d,]+(?:\.\d+)?)(?:\s*\((\d+) Years\))?", str(raw).strip(), re.I)
+    """Show finder-listed numbers without implying a verified official price.
+
+    Preserve per-semester / total / duration notes when the source has them.
+    An unknown billing basis must never silently become an annual or total fee.
+    """
+    fallback = {
+        "en": "Tuition not listed in finder",
+        "ar": "الرسوم غير متاحة في الدليل",
+        "zh": "目录暂无学费",
+    }[lang]
+    raw = str(raw or "").strip()
+    match = re.fullmatch(
+        r"(?:(USD|MYR|RM)\s*)?([\d,]+(?:\.\d+)?)\s*"
+        r"(?:([-–/])\s*([\d,]+(?:\.\d+)?))?\s*"
+        r"(?:\(([^)]{1,85})\))?",
+        raw, re.I,
+    )
     if not match:
         return fallback
-    low, high = [float(value.replace(",", "")) for value in match.groups()[:2]]
-    if not 0 < low < high:
+    leading, first, separator, second, note = match.groups()
+    amounts = [float(first.replace(",", ""))]
+    if second is not None:
+        amounts.append(float(second.replace(",", "")))
+    if not all(0 < n < 10_000_000 for n in amounts):
         return fallback
-    years = match[3]
-    period = {"en": f" ({years} years)", "ar": f" ({years} سنوات)", "zh": f"（{years}年）"}[lang] if years else ""
-    label = {"en": "Est.", "ar": "تقريبًا", "zh": "约"}[lang]
-    return f"{label} {currency} {low:,.0f}–{high:,.0f}{period}"
+    chosen_currency = (leading or currency or "MYR").upper()
+    note = (note or "").strip()
+    if note.upper() == "USD":
+        chosen_currency, note = "USD", ""
+    if chosen_currency == "RM":
+        chosen_currency = "MYR"
+    if chosen_currency not in ("MYR", "USD"):
+        return fallback
+    def number(n):
+        return f"{n:,.0f}" if n.is_integer() else f"{n:,.2f}"
+    amount_text = (number(amounts[0]) if len(amounts) == 1 else
+                   number(min(amounts)) + "–" + number(max(amounts)))
+    prefix = {"en":"Finder-listed", "ar":"في الدليل", "zh":"目录参考"}[lang]
+    value = f"{prefix} {chosen_currency} {amount_text}"
+    if note:
+        lower = note.casefold()
+        if lower == "per semester":
+            note = {"en":"per semester", "ar":"لكل فصل", "zh":"每学期"}[lang]
+        elif lower == "per year":
+            note = {"en":"per year", "ar":"سنوياً", "zh":"每年"}[lang]
+        elif lower == "total" or lower.startswith("total "):
+            note = {"en":"total", "ar":"الإجمالي", "zh":"总费用"}[lang] + (note[5:] if lower.startswith("total ") else "")
+        else:
+            note = note  # Original source duration/billing note, not inferred.
+        value += " (" + note + ")"
+    return value
 
 
 def action(kind, topic, lang="en"):
