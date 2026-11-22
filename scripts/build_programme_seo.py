@@ -25,6 +25,7 @@ from programme_topics import TOPICS, matching_topics, generate_topic_pages
 from programme_verified_facts import VERIFIED_PROGRAMMES
 from programme_level_subjects import FIELDS, LEVEL_LABELS, field_for, generate_level_subject_pages
 from programme_actions import tuition_range, add_page_actions, fee_link, labelled_catalogue
+from catalogue_search import catalogue_search
 from site_header import header_html
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -501,6 +502,7 @@ def main() -> None:
       '<div class="catalog-stats"><span>' + str(len(unis)) + ' universities</span><span>' + str(len(records)) + ' listed university programmes</span><span>' + str(unique_names) + ' distinct programme names</span></div></div></section>'
       '<section class="section"><div class="wrap">'
       '<div class="catalog-note">Ask our admissions team which campuses and intakes offer your preferred programme.</div>'
+      + catalogue_search() +
       '<h2>Start with university admission guidance</h2>'
       '<p>New to studying in Malaysia? Read our <a href="/guides/how-to-study-in-malaysia.html">international student application guide</a>, learn what an <a href="/services/education-consultant-malaysia.html">education consultant in Malaysia</a> can help with, or explore <a href="/guides/english-courses-in-malaysia.html">English language courses</a> before selecting a university. Compare <a href="/programmes/levels/bachelor.html">bachelor degree programmes in Malaysia</a> by university using the level directory below.</p>'
       '<h2>Find a specific course</h2><p>Compare <a href="/programmes/english-language-centres.html">English courses and IELTS preparation at seven language centres</a>, or review individual university options including <a href="/programmes/courses/um/foundation-in-life-sciences-a5be48.html">Foundation in Life Sciences at Universiti Malaya</a> and <a href="/programmes/courses/apu/foundation-in-engineering-f881b5.html">Foundation in Engineering at APU</a>.</p><h2>Search by study level</h2><div class="grid">'
@@ -535,8 +537,8 @@ def main() -> None:
       '</div></section>'
     )
     write("programmes/index.html", wrap_page(page_head(
-        "University Courses in Malaysia: Compare Programmes by University",
-        f"Explore {len(records):,} university programme listings across {len(unis)} Malaysian universities. Search foundation, diploma, bachelor's, master's and PhD courses by university.",
+        "University Courses in Malaysia: Search Degrees & Programmes",
+        f"Explore {len(records):,} university programme listings across {len(unis)} Malaysian universities. Compare foundation, diploma, undergraduate, postgraduate and doctoral courses by university.",
         "/programmes/", {"@context":"https://schema.org","@type":"CollectionPage","name":"Malaysia University Programmes","url":PUBLIC_BASE+"/programmes/","isPartOf":{"@type":"WebSite","name":"NextGenz Centre","url":PUBLIC_BASE}}
     ),about),outputs)
 

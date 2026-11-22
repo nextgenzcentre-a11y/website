@@ -5,6 +5,7 @@ from programme_verified_facts import VERIFIED_PROGRAMMES
 from programme_actions import tuition_range, action, labelled_catalogue
 from programme_level_subjects import field_for
 from programme_topics import TOPICS, matches_topic
+from catalogue_search import catalogue_search
 from site_header import header_html
 
 BASE = 'https://www.nextgenzcentre.space'
@@ -156,6 +157,8 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
             def actions(topic):return action('consult',topic,lang)+' '+action('apply',topic,lang)
             src,_=photo(path)
             page+=header_html(lang,path)+'<main><section class="hero"><div class="wrap"><span class="eyebrow">NEXTGENZ CENTRE</span><h1>'+escape(label)+'</h1><p class="lead">'+escape(desc)+'</p><p>'+actions(label)+'</p></div><div class="ng-hero-media"><img src="'+src+'" alt="'+escape(label)+'"></div></section><section class="section"><div class="wrap"><article class="article">'
+            if path == directory:
+                page += catalogue_search(lang)
             page+='<p>'+local_link(directory,title[directory])+' · '+link('/'+lang+'/study-in-malaysia.html',tr('دليل الدراسة في ماليزيا','马来西亚留学指南'))+'</p>'
             if entries:
                 page+='<h2>'+tr('التخصصات وشروط التقديم','课程与申请须知')+'</h2><p>'+tr('تظهر أسماء المؤهلات بصيغتها الرسمية لتسهيل مطابقتها مع خطاب القبول. اختر البرنامج واذكر جنسيتك وموعد التحاقك عند طلب بيان الرسوم. اسأل عن مدة الدراسة ولغة التدريس وأي تدريب إلزامي قبل التقديم.','下表保留官方课程名称，方便与录取通知书核对。咨询时请注明国籍和计划入学时间，并确认授课语言、学制和实习要求。')+'</p><ul class="catalog-list">'
