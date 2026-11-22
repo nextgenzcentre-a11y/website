@@ -290,6 +290,19 @@ CSS = """
 .catalog-field-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}.catalog-field-tile{display:flex;flex-direction:column;gap:7px;background:#f6fafc;border:1px solid #cfe6ee;border-radius:15px;padding:18px;text-decoration:none;color:#123d50}.catalog-field-tile strong{font-weight:850;font-size:1rem;color:#125b63}.catalog-field-tile small{color:#547180}.catalog-field-tile span{font-weight:750;color:#0b7770;font-size:.85rem}.catalog-field-tile:hover{border-color:#089c92;background:#eafaf6}@media(max-width:810px){.catalog-field-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:550px){.catalog-field-grid{grid-template-columns:1fr}}
 .catalog-comparison{overflow-x:auto;border:1px solid #dce8ef;border-radius:16px;margin:25px 0}.catalog-table{border-collapse:collapse;width:100%;min-width:620px;font-size:.94rem}.catalog-table th{text-align:left;background:#e7f8f6;color:#1a3c53;padding:13px 15px;font-weight:800}.catalog-table td{border-bottom:1px solid #e5edf2;padding:13px 15px;vertical-align:top}.catalog-table tr:last-child td{border-bottom:0}.catalog-table a{font-weight:700}.catalog-loc{display:block;color:#667d8d;margin-top:3px;font-size:.77rem}.catalog-money{font-weight:700;color:#3b5872;white-space:nowrap}
 @media(max-width:650px){.catalog-facts{grid-template-columns:1fr}.catalog-wide{padding:20px}.catalog-list li{display:block}.catalog-list .fee,.catalog-list li>small{display:block;margin-top:4px;text-align:start}}
+/* Match the UM MBA programme layout: restrained gold, navy information and accessible content cards. */
+.catalog-course-nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px;padding:0 0 20px;border-bottom:1px solid #e5e9ef}
+.catalog-course-nav a{display:inline-block;padding:8px 12px;border:1px solid #e5e8ee;border-radius:999px;background:#f6f7fa;color:#0f1f38;text-decoration:none;font-size:.82rem;font-weight:750}
+.catalog-course-nav a:hover,.catalog-course-nav a:focus-visible{border-color:#c5a059;color:#7c5929}
+.catalog-application-questions{margin:32px 0}
+.catalog-application-questions h2{margin-bottom:18px}
+.catalog-application-questions ol{padding-left:1.3rem;line-height:1.85}
+.catalog-application-questions li{margin:0 0 12px;padding-left:4px}
+.catalog-source-check{background:#fffdf8;border-color:#e4dac6}
+.catalog-source-check .catalog-verified-eyebrow{color:#886727}
+.catalog-source-check .catalog-verified-list>div{border-color:#ebe4d8}
+.catalog-source-check .catalog-verified-list dt{color:#22364f}
+@media(max-width:650px){.catalog-course-nav{gap:6px}.catalog-course-nav a{padding:7px 10px;font-size:.78rem}.catalog-application-questions ol{padding-left:1.15rem}}
 """
 
 def write(relative: str, data: str, output: set[str]) -> None:
@@ -720,6 +733,51 @@ def main() -> None:
                 related += '<li><a href="' + h(alt_url) + '">' + h(other["name"]) + '</a></li>'
             related += '</ul>'
         main = main.replace('</article><aside', related + '</article><aside', 1)
+        # Keep every standalone course page as helpful and structurally complete
+        # as the UM MBA reference, without fabricating admissions facts.
+        if not checked:
+            verification = (
+              '<section class="catalog-verified catalog-source-check" aria-labelledby="verified-facts-heading">'
+              '<div class="catalog-verified-eyebrow">University confirmation required</div>'
+              '<h2 id="verified-facts-heading">Current information to confirm with ' + h(e["uni"]) + '</h2>'
+              '<p>This course appears in the NextGenz Centre programme finder. Its current '
+              'admissions details have not yet been individually verified against an official '
+              'programme page. Ask the university to confirm these details for your chosen intake.</p>'
+              '<dl class="catalog-verified-list">'
+              '<div><dt>Exact award and campus</dt><dd>Request the official course page, full award title, campus and study mode.</dd></div>'
+              '<div><dt>Duration and modules</dt><dd>Check the latest course structure, semesters and any practical or research components.</dd></div>'
+              '<div><dt>International admission requirements</dt><dd>Confirm accepted qualifications, relevant subjects and English-language evidence.</dd></div>'
+              '<div><dt>Intakes and international tuition</dt><dd>Obtain the current intake dates, a written fee schedule and any additional charges.</dd></div>'
+              '</dl><p class="catalog-fact-date">The finder entry is a reference, not a verified current admission offer.</p>'
+              '</section>'
+            )
+            main = main.replace('<h2>Is this programme right for you?</h2>',
+                                verification + '<h2>Is this programme right for you?</h2>', 1)
+        application_questions = (
+          '<section class="catalog-application-questions" aria-labelledby="course-application-questions">'
+          '<h2 id="course-application-questions">Questions to ask before you apply</h2>'
+          '<ol>'
+          '<li>Is <strong>' + h(e["name"]) + '</strong> currently open to international students at ' + h(e["uni"]) + '?</li>'
+          '<li>Which academic qualifications, prerequisite subjects and English-language tests are accepted for this specific programme?</li>'
+          '<li>Which campus teaches the programme, what is the study mode, and what qualification is awarded?</li>'
+          '<li>What are the latest international tuition fees, billing period, compulsory charges and available intake dates?</li>'
+          '<li>Which admission documents, EMGS steps and student-pass requirements apply before travel to Malaysia?</li>'
+          '</ol></section>'
+        )
+        main = main.replace('<h2>How to apply in Malaysia</h2>',
+                            application_questions + '<h2>How to apply in Malaysia</h2>', 1)
+        # Structured course navigation creates useful jump links without
+        # changing the reference page's hero, facts, sidebar or CTA positions.
+        jump_links = (
+          '<nav class="catalog-course-nav" aria-label="On this programme page">'
+          '<a href="#verified-facts-heading">University information</a>'
+          '<a href="#programme-applicant-guidance">Entry guidance</a>'
+          '<a href="#course-application-questions">Application questions</a>'
+          '<a href="/guides/malaysia-student-visa-emgs-guide.html">Student visa guide</a>'
+          '</nav>'
+        )
+        main = main.replace('<article class="article"><h2>Programme details</h2>',
+                            '<article class="article">' + jump_links + '<h2>Programme details</h2>', 1)
         description = (checked or {}).get("summary") or (
             f'{e["name"]} at {e["uni"]}. '
             f'Check {e["level"].lower()} entry requirements, tuition and upcoming intakes before applying.'
