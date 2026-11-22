@@ -144,12 +144,12 @@ VERIFIED_PROGRAMMES = {
     "summary": "USM lists a Bachelor of Education (TESOL) with Honours and publishes international tuition per semester and total tuition separately from registration and recurrent charges. Check the current applicant route.",
     "facts": [
       ("Official course code", "US6145004 is the USM international-admissions identifier for Bachelor of Education (TESOL) with Honours."),
-      ("International tuition reference", "USM lists USD 1,718.75 per semester and USD 13,750 total tuition. These are university-published references, not a current written quotation."),
-      ("Additional university charges", "The international admissions page also lists USD 112.50 recurrent fees per semester and USD 1,350 non-recurrent fees on registration. Fees are subject to change."),
+      ("International tuition reference", "Official university source: USM lists USD 1,718.75 per semester and USD 13,750 total tuition. These are university-published references, not a current written quotation."),
+      ("Additional university charges", "Official university source: USM also lists USD 112.50 recurrent fees per semester and USD 1,350 non-recurrent fees on registration. Fees are subject to change."),
       ("English language requirements", "The international admissions page includes IELTS Academic Band 6.0 among accepted English-language routes; check the latest official equivalent tests and entry qualifications."),
       ("Programme content", "USM identifies modules in education, applied linguistics, educational technology and teaching practice across the degree."),
     ],
-    "advice": "The finder figure is USD per semester, not MYR and not the full programme cost. Ask USM for a current written international tuition and compulsory-fee schedule for your admission channel and planned intake."
+    "advice": "The Finder-listed fee is in USD per semester, not MYR and not the full programme cost. Ask USM for a current written international tuition and compulsory-fee schedule for your admission channel and planned intake."
   },
   ("UM", "Master of Business Administration (MBA)"): {
     "official_name": "Master of Business Administration (Coursework)",
