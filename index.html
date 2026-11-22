@@ -3081,8 +3081,8 @@ const PublicFinderController: React.FC = () => {
 const NGDisplayFinderTuition = (raw:any, currency='MYR') => {
   const source=String(raw??'').trim();
   if(!source)return 'Not listed in finder';
-  if(/^(USD|MYR|RM)\\s+/i.test(source))return source;
-  if(/\\(USD\\)$/i.test(source))return 'USD '+source.replace(/\\s*\\(USD\\)$/i,'');
+  if(/^(USD|MYR|RM)\s+/i.test(source))return source;
+  if(/\(USD\)$/i.test(source))return 'USD '+source.replace(/\s*\(USD\)$/i,'');
   return currency+' '+source;
 };
 const TrustStatsAndMarquee: React.FC<{directoryMode?:boolean}> = ({directoryMode=false}) => {
@@ -3168,7 +3168,7 @@ const TrustStatsAndMarquee: React.FC<{directoryMode?:boolean}> = ({directoryMode
       <div className="ng-featured-row flex items-end justify-between gap-5 mt-14 mb-6"><div><span className="ng-eyebrow">{directoryMode?'PROGRAMMES':'FEATURED UNIVERSITIES'}</span><h3 className="text-2xl sm:text-3xl font-heading font-bold text-[#0A1633] mt-2">Explore university programmes</h3></div></div>
       <div className="ng-featured-grid ng-v7-featured-grid grid md:grid-cols-2 lg:grid-cols-3 gap-5" aria-label="University programme highlights">
         {(directoryMode?rawData:featuredShown).map((u:any)=>{
-          const example=Object.entries(u.programmes||{}).find(([,fee])=>Boolean(String(fee||'').match(/\\d/)));
+          const example=Object.entries(u.programmes||{}).find(([,fee])=>Boolean(String(fee||'').match(/\d/)));
           const previewNames=Object.keys(u.programmes||{}).slice(0,2);
           const url=universityUrl(u);
           return <article className="ng-featured-card ng-v7-featured-card rounded-[24px] border overflow-hidden shadow-sm flex flex-col" key={u.shortName}>
