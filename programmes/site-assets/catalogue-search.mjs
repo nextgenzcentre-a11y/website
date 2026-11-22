@@ -1,8 +1,14 @@
 const aliases = [
+  [/\basasi sains pertanian\b/gu, 'foundation agricultural science'],
+  [/العلوم الزراعية|农业科学|sciences agricoles|sains pertanian/gu, 'agricultural science'],
+  [/علوم الحياة|生命科学|sciences de la vie|sains hayat/gu, 'life sciences'],
+  [/بكالوريوس المحاسبة|会计学士|ijazah sarjana muda perakaunan/gu, 'bachelor accounting'],
+  [/\bhonours?\b|\bhons\b|\bkepujian\b|مع مرتبة الشرف|荣誉/gu, 'honours'],
   [/علوم الحاسوب|علوم الكمبيوتر|计算机科学|informatique|sains komputer|\bcomp sci\b/gu, 'computer science'],
   [/هندسة البرمجيات|软件工程|genie logiciel|kejuruteraan perisian|\bsoft(?:ware)? eng\b/gu, 'software engineering'],
   [/الهندسة الميكانيكية|机械工程|genie mecanique|kejuruteraan mekanikal|\bmech eng\b/gu, 'mechanical engineering'],
   [/تقنية المعلومات|تكنولوجيا المعلومات|信息技术|teknologi maklumat|\bit\b/gu, 'information technology'],
+  [/المسار الهندسي|الهندسة|工程方向|工程|\bgenie\b|kejuruteraan/gu, 'engineering'],
   [/علم البيانات|数据科学|science des donnees|sains data/gu, 'data science'],
   [/الذكاء الاصطناعي|人工智能|intelligence artificielle|kecerdasan buatan|\bai\b/gu, 'artificial intelligence'],
   [/ادارة الاعمال|工商管理|administration des affaires|pentadbiran perniagaan/gu, 'business administration'],
@@ -14,7 +20,7 @@ const aliases = [
   [/ماجستير|硕士|\bmasters\b|\bsarjana\b|\bmsc\b/gu, 'master'],
   [/دكتوراه|博士|\bdoctorat\b|\bph d\b/gu, 'phd'],
   [/دبلوم|文凭|\bdiplome\b/gu, 'diploma'],
-  [/السنة التاسيسية|预科|\basasi\b/gu, 'foundation'],
+  [/السنة التاسيسية|البرنامج التاسيسي|预科|\basasi\b|\bprepa\b|programme preparatoire/gu, 'foundation'],
   [/في ماليزيا|ماليزيا|马来西亚|\bmalaisie\b/gu, 'malaysia'],
 ];
 const context = new Set('a an in of the at for degree degrees course courses programme programmes program programs malaysia university universities study studying international students en de du des etudes formation formations universite universites di kursus program universiti في تخصص دراسة جامعة الجامعات 留学 课程'.split(' '));
@@ -40,27 +46,35 @@ function oneEdit(a, b) {
     (a[i] === b[i + 1] && a[i + 1] === b[i] && a.slice(i + 2) === b.slice(i + 2));
 }
 
-export function catalogueEntries(index) {
+export function catalogueEntries(index, details = {}) {
   return Object.entries(index).flatMap(([university, courses]) =>
-    Object.entries(courses).map(([name, url]) => ({
-      name, university, url, words: tokens(normalize(name + ' ' + university)),
-    })));
+    Object.entries(courses).map(([name, url]) => {
+      const institution = details.universities?.[university] ?? university;
+      const officialAward = details.awards?.[university]?.[name] ?? '';
+      const title = tokens(normalize(name));
+      return {
+        name, university, url, title,
+        words: tokens(normalize([name, officialAward, university, institution].join(' '))),
+      };
+    }));
 }
 
 export function findProgrammes(entries, query) {
-  const terms = tokens(normalize(query)).filter(term => !context.has(term));
+  const terms = [...new Set(tokens(normalize(query)).filter(term => !context.has(term)))];
   if (!terms.length) return [];
   const matches = (term, word) => word === term || (term.length >= 3 && word.startsWith(term));
   const exact = entries.filter(entry => terms.every(term => entry.words.some(word => matches(term, word))));
   if (exact.length) {
     const phrase = terms.join(' ');
     return exact.sort((a, b) =>
-      Number(b.words.join(' ').includes(phrase)) - Number(a.words.join(' ').includes(phrase)));
+      Number(b.title.join(' ').includes(phrase)) - Number(a.title.join(' ').includes(phrase)));
   }
   return entries.filter(entry => {
     const unmatched = terms.filter(term => !entry.words.some(word => matches(term, word)));
-    return unmatched.length === 1 && unmatched[0].length >= 4 &&
-      entry.words.some(word => word.length >= 3 && oneEdit(unmatched[0], word));
+    if (!unmatched.length || unmatched.length > 2) return false;
+    const minLength = unmatched.length === 2 ? 6 : 4;
+    return unmatched.every(term => term.length >= minLength &&
+      entry.words.some(word => word.length >= minLength - 1 && oneEdit(term, word)));
   });
 }
 
@@ -80,10 +94,14 @@ function attach(form) {
     }
     status.textContent = form.dataset.loading;
     try {
-      request ??= fetch('/programmes/finder-links.json').then(response => {
-        if (!response.ok) throw new Error('Catalogue unavailable');
-        return response.json();
-      }).then(catalogueEntries).catch(error => {
+      request ??= Promise.all([
+        fetch('/programmes/finder-links.json').then(response => {
+          if (!response.ok) throw new Error('Catalogue unavailable');
+          return response.json();
+        }),
+        fetch('/programmes/catalogue-search-details.json').then(response =>
+          response.ok ? response.json() : {}).catch(() => ({})),
+      ]).then(([index, details]) => catalogueEntries(index, details)).catch(error => {
         request = undefined;
         throw error;
       });

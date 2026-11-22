@@ -688,7 +688,8 @@ def main() -> None:
         # unchanged, while up-to-date university facts appear with attribution.
         checked = VERIFIED_PROGRAMMES.get((e["short"], e["name"]))
         if checked:
-            verified = '<section class="catalog-verified" aria-labelledby="verified-facts-heading"><div class="catalog-verified-eyebrow">OFFICIAL UNIVERSITY SOURCE · VERIFIED 15 NOVEMBER 2026</div>'
+            reviewed = checked.get("reviewed", "15 November 2026")
+            verified = '<section class="catalog-verified" aria-labelledby="verified-facts-heading"><div class="catalog-verified-eyebrow">Official university source · reviewed ' + h(reviewed) + '</div>'
             verified += '<h2 id="verified-facts-heading">Current information from ' + h(e["uni"]) + '</h2>'
             if checked["official_name"] != e["name"]:
                 verified += '<p><strong>Official programme name:</strong> ' + h(checked["official_name"]) + '. The NextGenz finder title uses a slightly different label, so confirm the exact award on your application.</p>'
@@ -699,7 +700,7 @@ def main() -> None:
             verified += '<p><a href="' + h(checked["source_url"]) + '" target="_blank" rel="noopener noreferrer">View original university programme source ↗</a></p>'
             if checked.get("second_source_url"):
                 verified += '<p><a href="' + h(checked["second_source_url"]) + '" target="_blank" rel="noopener noreferrer">' + h(checked["second_source_label"]) + ' ↗</a></p>'
-            verified += '<p class="catalog-fact-date">Source reviewed 15 November 2026. University pages can change; verify the latest admissions and fee conditions before paying.</p></section>'
+            verified += '<p class="catalog-fact-date">Source reviewed ' + h(reviewed) + '. Check the university’s latest admissions and fee conditions before paying.</p></section>'
             marker = '<h2>Is this programme right for you?</h2>'
             if main.count(marker) != 1:
                 raise RuntimeError("Could not add official facts to programme "+ e["name"])
@@ -723,9 +724,13 @@ def main() -> None:
                 related += '<li><a href="' + h(alt_url) + '">' + h(other["name"]) + '</a></li>'
             related += '</ul>'
         main = main.replace('</article><aside', related + '</article><aside', 1)
+        description = (checked or {}).get("summary") or (
+            f'{e["name"]} at {e["uni"]}. '
+            f'Check {e["level"].lower()} entry requirements, tuition and upcoming intakes before applying.'
+        )
         write(dest.lstrip("/"),wrap_page(page_head(
             e["name"] + " at " + e["uni"],
-            "Explore " + e["name"] + " at " + e["uni"] + " in Malaysia. Explore tuition ranges, university admissions and student application steps.",
+            description,
             dest,
             {"@context":"https://schema.org","@type":"WebPage","name":e["name"]+" at "+e["uni"],"url":PUBLIC_BASE+dest,"about":{"@type":"EducationalOrganization","name":e["uni"]}}
         ),main),outputs)
@@ -767,6 +772,18 @@ def main() -> None:
         finder_links[e["short"]][e["name"]] = selected_urls.get(
             (e["uni"], e["name"]), f'/programmes/universities/{e["uslug"]}.html#{e["id"]}')
     write("programmes/finder-links.json", json.dumps(finder_links, ensure_ascii=False, separators=(",", ":")), outputs)
+    search_details = {
+        "universities": {str(uni["shortName"]): str(uni["university"]) for uni in unis},
+        "awards": {
+            short: {
+                name: checked["official_name"]
+                for (code, name), checked in VERIFIED_PROGRAMMES.items()
+                if code == short and name in courses and checked["official_name"] != name
+            }
+            for short, courses in finder_links.items()
+        },
+    }
+    write("programmes/catalogue-search-details.json", json.dumps(search_details, ensure_ascii=False, separators=(",", ":")), outputs)
 
     from site_shell import sync_public_shell
     sync_public_shell()

@@ -6,6 +6,32 @@ be re-checked when official university pages change. University requirements
 or fees shown here are NOT guarantees of admission or a price quotation.
 """
 VERIFIED_PROGRAMMES = {
+  ("UPM", "Foundation Studies for Agricultural Science"): {
+    "official_name": "Foundation Studies for Agricultural Science (International Intake)",
+    "source_url": "https://asasi.upm.edu.my/akademik/program_pengajian/asasi_sains_pertanian_kemasukan_antarabangsa-2380",
+    "source_label": "UPM official international foundation programme",
+    "reviewed": "22 November 2026",
+    "summary": "UPM lists a one-year, two-semester international foundation in agricultural science. Check the admissions route and next intake.",
+    "facts": [
+      ("International programme route", "UPM identifies the international intake as P00053 and states a study period of one year over two semesters."),
+      ("Study content", "The programme covers biology, chemistry, physics, mathematics and agriculture alongside English and introductory IT."),
+      ("Malay programme name", "UPM also uses Asasi Sains Pertanian. Its general foundation page lists a separate route, so use the international programme information for international enquiries."),
+    ],
+    "advice": "Confirm the international intake date, current entry requirements, and permitted degree progression directly with UPM."
+  },
+  ("MMU", "Bachelor of Accounting (Hons.)"): {
+    "official_name": "Bachelor in Accounting (Honours)",
+    "source_url": "https://www.mmu.edu.my/cyberjaya/undergraduate/business-accounting/bachelor-of-accounting-hons/",
+    "source_label": "Multimedia University official Cyberjaya accounting programme",
+    "reviewed": "22 November 2026",
+    "summary": "Explore MMU’s three-year Cyberjaya accounting degree and the university’s published entry routes for your qualification.",
+    "facts": [
+      ("Cyberjaya programme", "MMU’s current Cyberjaya page describes the programme as three years and notes a transition from an earlier four-year structure."),
+      ("Entry pathways", "MMU publishes routes for pre-university qualifications, foundation or matriculation, and relevant diplomas. Check the grades and subject conditions for your qualification."),
+      ("Admissions and fee details", "Use the current Cyberjaya programme page for entry and fee documents. Confirm the campus and study duration on your offer."),
+    ],
+    "advice": "Ask MMU for the current international fee range and entry information for your intended campus and intake."
+  },
   ("UM", "Foundation in Life Sciences"): {
     "official_name": "Foundation in Life Sciences",
     "source_url": "https://study.um.edu.my/foundation-in-life-sciences",
@@ -21,6 +47,8 @@ VERIFIED_PROGRAMMES = {
     "official_name": "Foundation Programme (Engineering Route)",
     "source_url": "https://training.apu.edu.my/node/252",
     "source_label": "APU official Foundation Programme (Engineering Route) webpage",
+    "reviewed": "22 November 2026",
+    "summary": "APU lists a one-year Engineering Route. Check mathematics and science prerequisites, progression options and the next available intake.",
     "facts": [
       ("Official programme naming", "APU's own site calls the route 'Foundation Programme (Engineering Route)'. The finder uses the shorter label 'Foundation in Engineering'."),
       ("Subject prerequisites", "APU lists O-Level or IGCSE routes needing five credits including Mathematics and Physics, Chemistry or Technical Science, subject to its equivalent-qualification rules."),
