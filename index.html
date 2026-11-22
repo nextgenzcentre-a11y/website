@@ -1105,7 +1105,34 @@ display: none !important;
 .ng-market .ng-teaser-overlay .ng-teaser-head{background:#0F1F38!important}
 .ng-market .ng-teaser-overlay .ng-teaser-body .ng-teaser-intro p,.ng-market .ng-teaser-overlay .ng-teaser-card .text-slate-500,.ng-market .ng-teaser-overlay .ng-teaser-card .text-slate-600{color:#233852!important}
 </style>
-</head>
+<style id="ng-landing-nude-theme">
+/* Public marketing surfaces: only nude, navy and gold backgrounds. */
+body:has(.ng-market),.ng-market{background:#F0E3D2!important}
+.ng-market [class~="bg-white"],.ng-market [class~="bg-[#F5F7FA]"],.ng-market [class~="bg-[#FFFDF7]"],
+.ng-market [class~="bg-[#F8FAFC]"],.ng-market [class~="bg-gray-50"],.ng-market [class~="bg-gray-100"]{
+  background-color:#F7EBD9!important;
+}
+.ng-market :is(.ng-trust-section,.ng-showcase,.ng-home-preview,.ng-kpi-wrap){
+  background-color:#F0E3D2!important;
+}
+.ng-market :is(.ng-featured-card,.ng-v7-featured-card,.ng-v7-university-card,.ng-slide-institution,
+ .ng-uni-index button,.ng-kpi,.ng-featured-fee,.ng-teaser-card,.ng-topic-chip){
+  background-color:#F7EBD9!important;border-color:#C5A059!important;color:#0F1F38!important;
+}
+.ng-market :is(.ng-meta-pill,.ng-enquire-strip,.ng-featured-fee){background-color:#E2CFB3!important;border-color:#C5A059!important}
+.ng-market .ng-featured-fee strong,.ng-market .ng-featured-fee p,.ng-market .ng-featured-pathways a{color:#0F1F38!important}
+.ng-market .ng-featured-pathways{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.ng-market .ng-featured-pathways a{display:inline-block;text-decoration:underline;text-underline-offset:3px;font-weight:650}
+.ng-market .ng-featured-pathways a:hover{color:#785220!important}
+.ng-market .ng-featured-photo-link{display:block;color:inherit}
+.ng-market .ng-featured-photo-link:focus-visible{outline:3px solid #C5A059;outline-offset:-3px}
+.ng-market .ng-featured-controls{color:#0F1F38}
+.ng-market .ng-featured-fee .underline{display:inline-block;margin-top:9px;font-size:.82rem;font-weight:800;color:#704B16}
+.ng-market .ng-v7-uni-action{display:flex;text-decoration:none;background:#0F1F38!important;color:#F0E3D2!important}
+.ng-market .ng-v7-uni-action:hover{background:#1B3556!important;color:#F0E3D2!important}
+.ng-market :is(.ng-market-footer,.ng-market-hero,.ng-hero-wide,.ng-footer-consult){background:#0F1F38!important}
+@media(prefers-reduced-motion:reduce){.ng-market .ng-featured-card{transition:none!important}}
+</style></head>
 <body class="font-sans text-gray-800 antialiased bg-[#F5F7FA] overflow-x-hidden">
 <!-- Static Google Translate Target Element -->
 <div id="google_translate_element" style="position: absolute; left: -9999px; top: -9999px; opacity: 0; pointer-events: none;"></div>
@@ -3023,7 +3050,7 @@ const NGPublicProgrammeTeaser: React.FC<{initialUniversity?:string;initialLevel?
               <div className="flex items-center gap-3 mb-4"><NGInstitutionMark uni={uni} large/><div className="min-w-0"><strong className="font-heading text-sm text-[#0A1633] leading-tight block">{uni.university}</strong><span className="text-xs text-slate-500 block mt-1"><i className="fa-solid fa-location-dot mr-1 text-[#C5A059]"></i>{uni.location}, Malaysia</span></div></div>
               <span className="text-[10px] text-[#8B6B32] font-extrabold uppercase tracking-widest">Programme option</span><h3 className="font-heading font-bold text-[#0A1633] text-base mt-1 mb-4 leading-snug flex-1"><a href={catalogueLinks[uni.shortName]?.[name] || "/programmes/"}>{name}</a></h3>
               <a className="ng-course-detail-link" href={catalogueLinks[uni.shortName]?.[name] || "/programmes/"}>View programme details <i className="fa-solid fa-arrow-right ml-1"></i></a>
-              <div className="ng-enquire-strip rounded-xl px-3.5 py-3.5 mb-4"><i className="fa-solid fa-circle-info text-[#C5A059] mr-2"></i><span className="text-xs text-slate-600"><NGFeeEnquiry topic={name + " at " + uni.university}/></span></div>
+              <div className="ng-enquire-strip rounded-xl px-3.5 py-3.5 mb-4"><i className="fa-solid fa-circle-info text-[#C5A059] mr-2"></i><span className="text-xs text-slate-600"><strong className="block text-[#0F1F38]">Finder-listed tuition: {NGDisplayFinderTuition(uni.programmes?.[name],uni.currency)}</strong> Fee basis and current international fees require confirmation. <NGFeeEnquiry topic={name + " at " + uni.university}/></span></div>
               <WhatsAppLink message={`Hello NEXTGENZ CENTRE, I am interested in ${name} at ${uni.university}. Please send me the current official fees, entry requirements, intake dates and application steps.`} className="ng-gold-button inline-flex items-center justify-center gap-2 bg-[#C5A059] hover:bg-[#C5A059] rounded-xl text-[#0A1633] px-4 py-3 font-extrabold text-xs">Free Consultation on WhatsApp <i className="fa-brands fa-whatsapp"></i></WhatsAppLink>
               <a className="ng-topic-chip" href={registrationHref(name + " at " + uni.university)}>Apply Now</a>
             </article>)}
@@ -3051,11 +3078,26 @@ const PublicFinderController: React.FC = () => {
 
 
 // ==== components/TrustStatsAndMarquee.tsx ====
+const NGDisplayFinderTuition = (raw:any, currency='MYR') => {
+  const source=String(raw??'').trim();
+  if(!source)return 'Not listed in finder';
+  if(/^(USD|MYR|RM)\\s+/i.test(source))return source;
+  if(/\\(USD\\)$/i.test(source))return 'USD '+source.replace(/\\s*\\(USD\\)$/i,'');
+  return currency+' '+source;
+};
 const TrustStatsAndMarquee: React.FC<{directoryMode?:boolean}> = ({directoryMode=false}) => {
   const [category,setCategory]=useState('All universities');
   const [slide,setSlide]=useState(0);
   const [autoplay,setAutoplay]=useState(true);
   const [allOpen,setAllOpen]=useState(false);
+  const [featuredPosition,setFeaturedPosition]=useState(0);
+  const [featuredAutoplay,setFeaturedAutoplay]=useState(true);
+  const [directoryLinks,setDirectoryLinks]=useState<Record<string,Record<string,string>>>({});
+  useEffect(()=>{
+    const controller=new AbortController();
+    fetch('/programmes/finder-links.json',{signal:controller.signal}).then(r=>r.ok?r.json():{}).then(setDirectoryLinks).catch(()=>{});
+    return()=>controller.abort();
+  },[]);
   const institutions=[...rawData,...NEXTGENZ_OTHER_INSTITUTIONS];
   const filtered=institutions.filter((u:any)=>category==='All universities'||(category==='Public'&&u.type==='Public')||(category==='Private'&&u.type==='Private')||(category==='Language Centre'&&u.type==='Language Centre'));
   const [screenSize,setScreenSize]=useState(()=>typeof window!=='undefined'?window.innerWidth:1366);
@@ -3071,8 +3113,20 @@ const TrustStatsAndMarquee: React.FC<{directoryMode?:boolean}> = ({directoryMode
   },[autoplay,category,filtered.length,directoryMode]);
   const show=filtered.slice(current,current+visibleCount);
 
-  const featured=NG_FEATURED_CODES.map(code=>rawData.find((u:any)=>u.shortName===code)).filter(Boolean);
-  const openUni=(uni:any)=>{ const inFinder=rawData.some((item:any)=>item.shortName===uni.shortName); if(inFinder){window.dispatchEvent(new CustomEvent('ng-open-program-finder',{detail:{university:uni.shortName}}));} else {window.location.hash='#contact';} };
+  const featured=[...NG_FEATURED_CODES.map(code=>rawData.find((u:any)=>u.shortName===code)).filter(Boolean),
+    ...rawData.filter((u:any)=>!NG_FEATURED_CODES.includes(u.shortName))];
+  const featuredCount=screenSize<640?1:screenSize<1024?2:3;
+  const featuredShown=Array.from({length:Math.min(featuredCount,featured.length)},(_,i)=>featured[(featuredPosition+i)%featured.length]);
+  useEffect(()=>{
+    if(directoryMode||!featuredAutoplay||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    const id=window.setInterval(()=>setFeaturedPosition(v=>(v+1)%featured.length),4500);
+    return()=>window.clearInterval(id);
+  },[directoryMode,featuredAutoplay,featured.length]);
+  const advanceFeatured=(n:number)=>setFeaturedPosition(v=>(v+n+featured.length)%featured.length);
+  const universityUrl=(uni:any)=>rawData.some((item:any)=>item.shortName===uni.shortName)
+    ? '/programmes/universities/'+uni.shortName.toLowerCase()+'.html'
+    : '/programmes/english-language-centres.html';
+  const openUni=(uni:any)=>{window.location.assign(universityUrl(uni));};
   return (<section id="universities" className="ng-trust-section ng-showcase relative bg-[#F5F7FA] pb-16 sm:pb-20 overflow-hidden">
     <div className="ng-section-backdrop absolute inset-0 pointer-events-none"></div>
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
@@ -3112,14 +3166,37 @@ const TrustStatsAndMarquee: React.FC<{directoryMode?:boolean}> = ({directoryMode
       </div>
       {directoryMode&&<div className="mt-9"><button type="button" onClick={()=>setAllOpen(x=>!x)} className="ng-directory-expand border border-[#C5A059] bg-white text-[#0A1633] rounded-xl px-6 py-3 font-bold text-sm">{allOpen?'Hide university index':'Show full university index'} <i className={`fa-solid ${allOpen?'fa-chevron-up':'fa-chevron-down'} ml-2`}></i></button>{allOpen&&<div className="ng-uni-index grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-5">{filtered.map((u:any)=><button type="button" key={u.shortName} onClick={()=>openUni(u)} className="bg-white border border-slate-200 rounded-xl px-4 py-3 text-left hover:border-[#C5A059] flex items-center gap-3"><span className="ng-index-monogram">{u.shortName}</span><span className="text-xs font-bold text-[#0A1633]">{u.university}</span><i className="fa-solid fa-arrow-right ml-auto text-[#C5A059]"></i></button>)}</div>}</div>}
       <div className="ng-featured-row flex items-end justify-between gap-5 mt-14 mb-6"><div><span className="ng-eyebrow">{directoryMode?'PROGRAMMES':'FEATURED UNIVERSITIES'}</span><h3 className="text-2xl sm:text-3xl font-heading font-bold text-[#0A1633] mt-2">Explore university programmes</h3></div></div>
-      <div className="ng-featured-grid ng-v7-featured-grid grid md:grid-cols-2 lg:grid-cols-3 gap-5">{(directoryMode?rawData:featured.slice(0,3)).map((u:any)=><article className="ng-featured-card ng-v7-featured-card bg-white rounded-[24px] border border-slate-200 overflow-hidden shadow-sm flex flex-col" key={u.shortName}>
-        <NGUniversityVisual uni={u} compact />
-        <div className="ng-v7-featured-body p-5 flex flex-col flex-1"><div className="flex flex-wrap gap-2"><span className="ng-meta-pill">{u.type} institution</span><span className="ng-meta-pill">{Object.keys(u.programmes).length} programmes</span></div>
-          <div className="mt-4 flex-1"><span className="text-[10px] uppercase font-black tracking-widest text-[#8B6B32]">Popular academic pathways</span><p className="text-sm text-slate-700 mt-2 leading-relaxed">{Object.keys(u.programmes).slice(0,2).join(' · ')}</p></div>
-          <div className="mt-4 rounded-xl border border-slate-200 bg-[#F5F7FA] p-3"><span className="text-[10px] uppercase tracking-wide font-extrabold text-slate-500 block">Tuition for your intake</span><strong className="text-[#0A1633] font-heading text-xl"><NGFeeEnquiry topic={u.university}/></strong><p className="text-xs text-slate-600 mt-1">Fee basis varies by programme. Request the current official quotation.</p></div>
-          <button contentEditable={false} suppressContentEditableWarning type="button" onClick={()=>openUni(u)} className="ng-v7-uni-action mt-4">Explore {u.shortName} programmes <i className="fa-solid fa-arrow-right"></i></button>
-        </div>
-      </article>)}</div>
+      <div className="ng-featured-grid ng-v7-featured-grid grid md:grid-cols-2 lg:grid-cols-3 gap-5" aria-label="University programme highlights">
+        {(directoryMode?rawData:featuredShown).map((u:any)=>{
+          const example=Object.entries(u.programmes||{}).find(([,fee])=>Boolean(String(fee||'').match(/\\d/)));
+          const previewNames=Object.keys(u.programmes||{}).slice(0,2);
+          const url=universityUrl(u);
+          return <article className="ng-featured-card ng-v7-featured-card rounded-[24px] border overflow-hidden shadow-sm flex flex-col" key={u.shortName}>
+            <a className="ng-featured-photo-link" href={url} aria-label={'Explore programmes at '+u.university}><NGUniversityVisual uni={u} compact /></a>
+            <div className="ng-v7-featured-body p-5 flex flex-col flex-1">
+              <div className="flex flex-wrap gap-2"><span className="ng-meta-pill">{u.type} institution</span><span className="ng-meta-pill">{Object.keys(u.programmes||{}).length} programmes</span></div>
+              <div className="mt-4 flex-1"><span className="text-[10px] uppercase font-black tracking-widest text-[#8B6B32]">Popular academic pathways</span>
+                <div className="ng-featured-pathways text-sm mt-2 leading-relaxed">{previewNames.map((name:any,i:number)=><a key={name} href={directoryLinks[u.shortName]?.[name]||url}>{name}{i<previewNames.length-1?' · ':''}</a>)}</div>
+              </div>
+              <div className="ng-featured-fee mt-4 rounded-xl border p-3">
+                <span className="text-[10px] uppercase tracking-wide font-extrabold text-[#5E4726] block">Example programme tuition · finder reference</span>
+                {example?<><strong className="text-[#0F1F38] font-heading text-lg">{NGDisplayFinderTuition(example[1],u.currency)}</strong>
+                  <p className="text-xs text-[#344354] mt-1">{example[0]} · Fee period and latest international charges must be confirmed.</p></>:<strong className="text-[#0F1F38]">No fee figure recorded</strong>}
+                <NGFeeEnquiry topic={u.university+' — '+(example?example[0]:'programme tuition')}/>
+              </div>
+              <a href={url} className="ng-v7-uni-action mt-4">Explore {u.shortName} programmes <i className="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>;
+        })}
+      </div>
+      {!directoryMode&&<div className="ng-featured-controls flex justify-center items-center gap-3 mt-6" aria-label="Featured university carousel controls">
+        <button type="button" className="ng-slide-arrow" onClick={()=>advanceFeatured(-1)} aria-label="Previous featured universities"><i className="fa-solid fa-arrow-left"></i></button>
+        <span className="text-xs font-bold tabular-nums">{(featuredPosition%featured.length)+1}–{Math.min(featuredPosition+featuredCount,featured.length)} of {featured.length} universities</span>
+        <button type="button" className="ng-slide-arrow" onClick={()=>advanceFeatured(1)} aria-label="Next featured universities"><i className="fa-solid fa-arrow-right"></i></button>
+        <button type="button" className="ng-slide-pause" onClick={()=>setFeaturedAutoplay(v=>!v)} aria-label={featuredAutoplay?'Pause featured university slides':'Play featured university slides'}>
+          <i className={'fa-solid '+(featuredAutoplay?'fa-pause':'fa-play')}></i> {featuredAutoplay?'Pause':'Play'}
+        </button>
+      </div>}
       <div className="mt-8 flex items-center justify-between flex-wrap gap-4 rounded-2xl border border-[#C5A059]/40 bg-[#FFFDF7] p-5 sm:p-7"><p className="text-[#0A1633] font-semibold text-sm">Looking for tuition fees, scholarships, IELTS requirements or the next intake? <strong>Ask for your personal study plan.</strong></p><WhatsAppLink message="Hello NEXTGENZ CENTRE, please help me compare Malaysian universities, current fees and admissions requirements." className="bg-[#C5A059] hover:bg-[#C5A059] text-[#0A1633] px-5 py-3 rounded-xl font-extrabold text-xs">Talk to an advisor <i className="fa-brands fa-whatsapp ml-1"></i></WhatsAppLink></div>
     </div>
   </section>);
