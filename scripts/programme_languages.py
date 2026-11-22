@@ -64,7 +64,7 @@ def variants(path):
 def alternates(path):
     return ''.join(f'<link rel="alternate" hreflang="{k}" href="{BASE}{v}">' for k,v in variants(path).items())
 
-def mirror_english_layout(path, title, lang, level, root):
+def mirror_english_layout(path, title, description, lang, level, root):
     """Retain complete English page structure while localising navigation labels.
 
     Avoid the old alternate one-card template which dropped verified course
@@ -79,8 +79,12 @@ def mirror_english_layout(path, title, lang, level, root):
     if first < 0 or last < first:
         raise ValueError("Source page has no content: " + path)
     main = english[first:last + len("</main>")]
+    main = re.sub(r'(<p class="lead(?: [^"]*)?">).*?(</p>)',
+                  lambda m: m.group(1) + escape(description) + m.group(2),
+                  main, count=1, flags=re.S)
     translations = {
         "ar": {
+            "Finder-listed tuition is indicative and may not match the current international quote. Use Fee breakdown for the billing period, taxes and additional charges.": "رسوم الدليل هي أرقام مرجعية وليست عرضاً رسمياً محدثاً للطلاب الدوليين. اطلب تفاصيل الرسوم لمعرفة فترة السداد والضرائب والرسوم الإضافية.",
             "Programme details":"تفاصيل البرنامج",
             "Programme title in finder":"اسم البرنامج في الدليل",
             "Institution":"الجامعة",
@@ -111,6 +115,7 @@ def mirror_english_layout(path, title, lang, level, root):
             "Choose the exact programme":"اختر التخصص الدقيق",
         },
         "zh": {
+            "Finder-listed tuition is indicative and may not match the current international quote. Use Fee breakdown for the billing period, taxes and additional charges.": "目录学费仅供参考，不代表最新国际学生官方报价。请索取费用明细以确认计费周期、税费和其他必要费用。",
             "Programme details":"课程详情",
             "Programme title in finder":"目录中的课程名称",
             "Institution":"大学",
@@ -148,6 +153,10 @@ def mirror_english_layout(path, title, lang, level, root):
             main = main.replace(source, translated)
         else:
             main = main.replace(">" + source + "<", ">" + translated + "<")
+    main = main.replace(">Current information from ",
+                        ">معلومات حالية من " if lang == "ar" else ">大学最新资料：")
+    main = main.replace(">Current information to confirm with ",
+                        ">معلومات يجب تأكيدها مع " if lang == "ar" else ">需与大学确认的信息：")
     main = re.sub(r"<h1(?:\s[^>]*)?>.*?</h1>",
                   "<h1>" + escape(title) + "</h1>", main, count=1,flags=re.S)
     for category in ("courses/", "universities/", "levels/", "subjects/", "topics/",
@@ -264,7 +273,7 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
             # university, course and guide page. Language changes do not
             # switch to a truncated list-only template.
             if path in english:
-                body = mirror_english_layout(path, label, lang, entries[0]['level'] if entries else '', root)
+                body = mirror_english_layout(path, label, desc, lang, entries[0]['level'] if entries else '', root)
                 page += header_html(lang,path) + body + (
                     '<footer class="foot"><div class="wrap">'
                     + action('consult',label,lang) + ' ' + action('apply',label,lang)
