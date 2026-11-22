@@ -2333,7 +2333,7 @@ return (
         <a contentEditable={false} suppressContentEditableWarning href="#articles">Journal</a>
       </div>
       <div className="hidden lg:flex items-center gap-3 shrink-0">
-        <button contentEditable={false} suppressContentEditableWarning onClick={() => window.dispatchEvent(new CustomEvent('ng-open-program-finder', {detail:{}}))} className="ng-nav-program-btn text-white text-xs font-bold px-4 py-3 rounded-xl border border-white/20 hover:border-[#C5A059] transition" type="button"><i className="fa-solid fa-magnifying-glass mr-2"></i>Explore Programs</button>
+        <a contentEditable={false} suppressContentEditableWarning href="/programmes/find/" className="ng-nav-program-btn text-white text-xs font-bold px-4 py-3 rounded-xl border border-white/20 hover:border-[#C5A059] transition"><i className="fa-solid fa-magnifying-glass mr-2"></i>Explore Programs</a>
         <LanguageSelector />
         <WhatsAppLink className="ng-nav-cta bg-[#C5A059] hover:bg-[#C5A059] text-[#0A1633] text-xs font-extrabold px-4 py-3 rounded-xl whitespace-nowrap" message="Hello NEXTGENZ CENTRE, I would like 100% FREE university placement and English language admissions support." target="_blank" rel="noreferrer">Free Advisory <i className="fa-solid fa-arrow-up-right-from-square ml-1"></i></WhatsAppLink>
       </div>
@@ -3002,14 +3002,14 @@ const NGPublicProgrammeTeaser: React.FC<{initialUniversity?:string;initialLevel?
   return (
     <div className="ng-teaser-overlay fixed inset-0 z-[10005] bg-[#071126]/90 flex flex-col" role="dialog" aria-modal="true" aria-label="Explore programmes">
       <div className="ng-teaser-head bg-[#0A1633] border-b border-[#C5A059]/30 px-5 sm:px-8 py-4 flex items-center justify-between gap-3 text-white">
-        <div><span className="text-[#C5A059] text-[10px] uppercase tracking-widest font-bold">NEXTGENZ · UNIVERSITY DISCOVERY</span><h2 className="font-heading font-extrabold text-lg sm:text-2xl">Find a course that fits your future</h2></div>
+        <div><span className="text-[#C5A059] text-[10px] uppercase tracking-widest font-bold">NEXTGENZ · UNIVERSITY DISCOVERY</span><h2 className="font-heading font-extrabold text-lg sm:text-2xl">Find a course that fits your future</h2><a href="/programmes/find/" className="text-xs font-bold underline text-[#C5A059]">Open full finder page</a></div>
         <button contentEditable={false} suppressContentEditableWarning type="button" onClick={onClose} className="border border-white/30 rounded-xl px-4 py-2.5 text-sm font-bold hover:bg-white/10"><i className="fa-solid fa-xmark mr-2"></i> Close</button>
       </div>
       <div className="ng-teaser-body overflow-y-auto flex-1">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-9">
           <div className="ng-teaser-intro rounded-2xl border p-5 sm:p-7 shadow-sm mb-5">
             <span className="ng-eyebrow">DISCOVER FIRST. LET US HANDLE THE DETAILS.</span>
-            <p className="text-slate-600 text-sm leading-relaxed mt-2 max-w-3xl"><a href="/programmes/">Browse the university programme directory</a> for course titles, university locations and study levels. Ask our admissions team for the latest verified fees, intakes, entry requirements, scholarship options and your application plan.</p><NGCatalogueActions topic={query || university || level || "university programmes in Malaysia"}/>
+            <p className="text-slate-600 text-sm leading-relaxed mt-2 max-w-3xl"><a href="/programmes/find/">Browse the full, shareable course finder</a> for course titles, university locations and study levels. Ask our admissions team for the latest verified fees, intakes, entry requirements, scholarship options and your application plan.</p><NGCatalogueActions topic={query || university || level || "university programmes in Malaysia"}/>
             <div className="grid sm:grid-cols-3 gap-3 mt-5">
               <label className="ng-teaser-label">University<select value={university} onChange={e=>{setUniversity(e.target.value);setVisible(9);}} className="ng-teaser-field"><option value="">All universities</option>{rawData.map((u:any)=><option key={u.shortName} value={u.shortName}>{u.university}</option>)}</select></label>
               <label className="ng-teaser-label">Study level<select value={level} onChange={e=>{setLevel(e.target.value);setVisible(9);}} className="ng-teaser-field"><option value="">Any level</option>{['Foundation','Diploma','Bachelor','Master','PhD'].map(x=><option key={x}>{x}</option>)}</select></label>
