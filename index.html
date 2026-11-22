@@ -1087,7 +1087,25 @@ display: none !important;
 }
 </script>
 <script defer src="/assets/language-choice.js"></script>
-<link rel="stylesheet" href="/assets/public-interactions.css"><script defer src="/assets/nextgenz-motion.js?v=20261119"></script></head>
+<link rel="stylesheet" href="/assets/public-interactions.css"><script defer src="/assets/nextgenz-motion.js?v=20261119"></script><style id="ng-public-finder-nude-theme">
+/* The public course finder follows the NextGenz landing palette, with no white panels. */
+.ng-market .ng-teaser-overlay .ng-teaser-body{background:#F0E3D2!important;color:#0F1F38}
+.ng-market .ng-teaser-overlay .ng-teaser-intro{background:#F7EBD9!important;border-color:#C5A059!important;color:#0F1F38}
+.ng-market .ng-teaser-overlay .ng-teaser-card{background:#E2CFB3!important;border-color:#C5A059!important;color:#0F1F38}
+.ng-market .ng-teaser-overlay .ng-enquire-strip{background:#F7EBD9!important;border-color:#C5A059}
+.ng-market .ng-teaser-overlay .ng-teaser-field{background:#F7EBD9!important;border:1px solid #C5A059!important;color:#0F1F38}
+.ng-market .ng-teaser-overlay .ng-teaser-label{color:#0F1F38!important}
+.ng-market .ng-teaser-overlay .ng-topic-chip{background:#F7EBD9!important;border-color:#C5A059!important;color:#0F1F38!important}
+.ng-market .ng-teaser-overlay .ng-topic-chip:hover{background:#C5A059!important}
+.ng-market .ng-teaser-overlay .ng-teaser-empty{background:#F7EBD9!important;border-color:#C5A059!important}
+.ng-market .ng-teaser-overlay .ng-teaser-more{background:#E2CFB3!important;border-color:#C5A059!important}
+.ng-market .ng-teaser-overlay .ng-teaser-card .ng-course-detail-link{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid #C5A059;background:#F7EBD9;border-radius:12px;color:#0F1F38;font-size:12px;font-weight:900;padding:10px 14px;margin-bottom:12px}
+.ng-market .ng-teaser-overlay .ng-teaser-card .ng-course-detail-link:hover{background:#C5A059;color:#0F1F38}
+.ng-market .ng-teaser-overlay .ng-teaser-card h3 a{color:#0F1F38!important}
+.ng-market .ng-teaser-overlay .ng-teaser-head{background:#0F1F38!important}
+.ng-market .ng-teaser-overlay .ng-teaser-body .ng-teaser-intro p,.ng-market .ng-teaser-overlay .ng-teaser-card .text-slate-500,.ng-market .ng-teaser-overlay .ng-teaser-card .text-slate-600{color:#233852!important}
+</style>
+</head>
 <body class="font-sans text-gray-800 antialiased bg-[#F5F7FA] overflow-x-hidden">
 <!-- Static Google Translate Target Element -->
 <div id="google_translate_element" style="position: absolute; left: -9999px; top: -9999px; opacity: 0; pointer-events: none;"></div>
@@ -2987,9 +3005,9 @@ const NGPublicProgrammeTeaser: React.FC<{initialUniversity?:string;initialLevel?
         <div><span className="text-[#C5A059] text-[10px] uppercase tracking-widest font-bold">NEXTGENZ · UNIVERSITY DISCOVERY</span><h2 className="font-heading font-extrabold text-lg sm:text-2xl">Find a course that fits your future</h2></div>
         <button contentEditable={false} suppressContentEditableWarning type="button" onClick={onClose} className="border border-white/30 rounded-xl px-4 py-2.5 text-sm font-bold hover:bg-white/10"><i className="fa-solid fa-xmark mr-2"></i> Close</button>
       </div>
-      <div className="overflow-y-auto flex-1 bg-[#F5F7FA]">
+      <div className="ng-teaser-body overflow-y-auto flex-1">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-9">
-          <div className="ng-teaser-intro rounded-2xl bg-white border border-slate-200 p-5 sm:p-7 shadow-sm mb-5">
+          <div className="ng-teaser-intro rounded-2xl border p-5 sm:p-7 shadow-sm mb-5">
             <span className="ng-eyebrow">DISCOVER FIRST. LET US HANDLE THE DETAILS.</span>
             <p className="text-slate-600 text-sm leading-relaxed mt-2 max-w-3xl"><a href="/programmes/">Browse the university programme directory</a> for course titles, university locations and study levels. Ask our admissions team for the latest verified fees, intakes, entry requirements, scholarship options and your application plan.</p><NGCatalogueActions topic={query || university || level || "university programmes in Malaysia"}/>
             <div className="grid sm:grid-cols-3 gap-3 mt-5">
@@ -3001,16 +3019,17 @@ const NGPublicProgrammeTeaser: React.FC<{initialUniversity?:string;initialLevel?
           </div>
           <div className="flex items-center justify-between mb-4 gap-3"><p className="font-bold text-[#0A1633]">{matches.length.toLocaleString('en-MY')} potential programme matches</p></div>
           <div className="ng-teaser-grid grid md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {matches.slice(0,visible).map(({uni,name}:any,i:number)=><article key={uni.shortName+name} className="ng-teaser-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
+            {matches.slice(0,visible).map(({uni,name}:any,i:number)=><article key={uni.shortName+name} className="ng-teaser-card p-5 rounded-2xl border shadow-sm flex flex-col">
               <div className="flex items-center gap-3 mb-4"><NGInstitutionMark uni={uni} large/><div className="min-w-0"><strong className="font-heading text-sm text-[#0A1633] leading-tight block">{uni.university}</strong><span className="text-xs text-slate-500 block mt-1"><i className="fa-solid fa-location-dot mr-1 text-[#C5A059]"></i>{uni.location}, Malaysia</span></div></div>
-              <span className="text-[10px] text-[#8B6B32] font-extrabold uppercase tracking-widest">Programme option</span><h3 className="font-heading font-bold text-[#0A1633] text-base mt-1 mb-4 leading-snug flex-1"><a href={catalogueLinks[uni.shortName]?.[name] || "/programmes/universities/" + uni.shortName.toLowerCase() + ".html"}>{name}</a></h3>
-              <div className="ng-enquire-strip bg-[#F5F7FA] rounded-xl px-3.5 py-3.5 mb-4"><i className="fa-solid fa-circle-info text-[#C5A059] mr-2"></i><span className="text-xs text-slate-600"><NGFeeEnquiry topic={name + " at " + uni.university}/></span></div>
+              <span className="text-[10px] text-[#8B6B32] font-extrabold uppercase tracking-widest">Programme option</span><h3 className="font-heading font-bold text-[#0A1633] text-base mt-1 mb-4 leading-snug flex-1"><a href={catalogueLinks[uni.shortName]?.[name] || "/programmes/"}>{name}</a></h3>
+              <a className="ng-course-detail-link" href={catalogueLinks[uni.shortName]?.[name] || "/programmes/"}>View programme details <i className="fa-solid fa-arrow-right ml-1"></i></a>
+              <div className="ng-enquire-strip rounded-xl px-3.5 py-3.5 mb-4"><i className="fa-solid fa-circle-info text-[#C5A059] mr-2"></i><span className="text-xs text-slate-600"><NGFeeEnquiry topic={name + " at " + uni.university}/></span></div>
               <WhatsAppLink message={`Hello NEXTGENZ CENTRE, I am interested in ${name} at ${uni.university}. Please send me the current official fees, entry requirements, intake dates and application steps.`} className="ng-gold-button inline-flex items-center justify-center gap-2 bg-[#C5A059] hover:bg-[#C5A059] rounded-xl text-[#0A1633] px-4 py-3 font-extrabold text-xs">Free Consultation on WhatsApp <i className="fa-brands fa-whatsapp"></i></WhatsAppLink>
               <a className="ng-topic-chip" href={registrationHref(name + " at " + uni.university)}>Apply Now</a>
             </article>)}
           </div>
-          {!matches.length && <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center text-slate-700"><h3 className="font-bold">No exact matches yet</h3><p className="text-sm mt-2">Try a shorter keyword, or ask our team to find the closest course for you.</p><WhatsAppLink message="Hello NEXTGENZ CENTRE, please help me find a suitable course in Malaysia." className="text-[#8B6B32] font-bold text-sm underline">Ask an advisor</WhatsAppLink></div>}
-          {matches.length>visible&&<div className="text-center mt-7"><button type="button" className="px-6 py-3.5 bg-white border-2 border-[#C5A059] rounded-xl font-bold text-[#0A1633]" onClick={()=>setVisible(v=>v+9)}>Show more programmes <i className="fa-solid fa-chevron-down ml-2"></i></button></div>}
+          {!matches.length && <div className="ng-teaser-empty border rounded-2xl p-8 text-center text-[#0F1F38]"><h3 className="font-bold">No exact matches yet</h3><p className="text-sm mt-2">Try a shorter keyword, or ask our team to find the closest course for you.</p><WhatsAppLink message="Hello NEXTGENZ CENTRE, please help me find a suitable course in Malaysia." className="text-[#8B6B32] font-bold text-sm underline">Ask an advisor</WhatsAppLink></div>}
+          {matches.length>visible&&<div className="text-center mt-7"><button type="button" className="ng-teaser-more px-6 py-3.5 border-2 border-[#C5A059] rounded-xl font-bold text-[#0A1633]" onClick={()=>setVisible(v=>v+9)}>Show more programmes <i className="fa-solid fa-chevron-down ml-2"></i></button></div>}
           <div className="mt-10 bg-[#0A1633] rounded-2xl text-white p-7 sm:p-9 flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between"><div><h3 className="font-heading font-extrabold text-xl sm:text-2xl">Don't know which programme to choose?</h3><p className="text-slate-300 text-sm mt-2">Send us your qualifications and goals. We'll recommend suitable options and provide the verified details.</p></div><WhatsAppLink message="Hello NEXTGENZ CENTRE, I would like a free programme recommendation based on my qualifications." className="bg-[#C5A059] text-[#0A1633] font-extrabold rounded-xl px-5 py-4 whitespace-nowrap">Free Consultation on WhatsApp <i className="fa-solid fa-arrow-right ml-2"></i></WhatsAppLink><a className="ng-topic-chip" href={registrationHref(query || university || level)}>Apply Now</a></div>
         </div>
       </div>
