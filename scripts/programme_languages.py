@@ -270,7 +270,7 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
                 short_topic = seo_title.split(' | ')[0]
                 seo_desc = tr(
                     'اطلع على ' + short_topic + ' وشروط القبول والرسوم الرسمية المحدثة. استشارة مجانية.',
-                    '查看' + short_topic + '的入学要求与最新学费信息，免费咨询。',
+                    '查看' + short_topic + '的课程资料、入学资格、英语语言要求、学费参考和申请流程。与NextGenz教育顾问确认最新入学批次、正式费用明细及必要文件。',
                 )
             page=head(seo_title,seo_desc,address).replace('<html lang="en">','<html lang="'+tr('ar" dir="rtl','zh-CN')+'">')
             page=page.replace('<head>', '<head><!-- AUTO-GENERATED NEXTGENZ PROGRAMME DIRECTORY -->')
