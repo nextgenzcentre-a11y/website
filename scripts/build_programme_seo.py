@@ -705,7 +705,7 @@ def main() -> None:
         # Composite finder names represent several options or specialisations,
         # not necessarily one official award with common admission conditions.
         is_grouped = (" / " in e["name"] or
-                      bool(re.search(r"\\([^)]*,[^)]*\\)", e["name"])) or
+                      bool(re.search(r"\([^)]*,[^)]*\)", e["name"])) or
                       "e.g." in e["name"].lower() or
                       "various" in e["name"].lower())
         if is_grouped:
