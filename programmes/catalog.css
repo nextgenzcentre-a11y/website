@@ -102,6 +102,12 @@ body{background:var(--ng-nude)!important;color:var(--ng-navy)}
 .ng-related-media a:hover figcaption{background:var(--ng-gold)!important}
 @media(max-width:650px){.ng-related-actions{grid-template-columns:1fr}}
 
+.catalog-breadcrumb{display:flex;align-items:center;gap:10px;flex-wrap:wrap;max-width:1230px;margin:0 auto;padding:16px clamp(20px,4vw,44px);background:#F0E3D2;color:#0F1F38;font-size:.83rem;font-weight:750}
+.catalog-breadcrumb a{color:#71501B!important;text-decoration:underline;text-underline-offset:3px}
+.catalog-breadcrumb span[aria-current]{color:#0F1F38}
+.catalog-fact [data-ng-action="fee"],.catalog-list [data-ng-action="fee"]{display:inline-flex;align-items:center;border:1px solid #C5A059;background:#F7EBD9;color:#0F1F38!important;border-radius:8px;padding:4px 8px;font-weight:800}
+.catalog-fact [data-ng-action="fee"]:hover,.catalog-list [data-ng-action="fee"]:hover{background:#C5A059}
+@media(max-width:650px){.catalog-breadcrumb{gap:7px;font-size:.72rem;padding:12px 20px}}
 .catalog-option-links{list-style:none;margin:14px 0 22px;padding:0!important}
 .catalog-option-links li{margin:9px 0!important;padding:12px 14px;background:var(--ng-nude-soft);border:1px solid var(--ng-gold);border-radius:12px}
 .catalog-option-links a{color:var(--ng-navy)!important;text-decoration:underline;text-underline-offset:3px;line-height:1.6}
