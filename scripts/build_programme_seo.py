@@ -303,6 +303,56 @@ CSS = """
 .catalog-source-check .catalog-verified-list>div{border-color:#ebe4d8}
 .catalog-source-check .catalog-verified-list dt{color:#22364f}
 @media(max-width:650px){.catalog-course-nav{gap:6px}.catalog-course-nav a{padding:7px 10px;font-size:.78rem}.catalog-application-questions ol{padding-left:1.15rem}}
+
+/* Three-colour student journey: nude, gold and navy. No white page/card backgrounds. */
+:root{--ng-nude:#F0E3D2;--ng-nude-deep:#E2CFB3;--ng-nude-soft:#F7EBD9;--ng-gold:#C5A059;--ng-gold-hover:#D4AF37;--ng-navy:#0F1F38}
+body{background:var(--ng-nude)!important;color:var(--ng-navy)}
+.section,.section:nth-of-type(even){background:var(--ng-nude)!important}
+.section:nth-of-type(odd){background:linear-gradient(180deg,var(--ng-nude),var(--ng-nude-deep))!important}
+.hero{background:linear-gradient(110deg,#081528,var(--ng-navy) 62%,#1D3552)!important;color:var(--ng-nude-soft)}
+.hero .accent{background:linear-gradient(120deg,var(--ng-gold),var(--ng-gold-hover));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .eyebrow{background:rgba(197,160,89,.16);border-color:rgba(197,160,89,.5);color:var(--ng-nude-soft)}
+.hero .catalog-stats span{background:rgba(197,160,89,.17);border-color:var(--ng-gold);color:var(--ng-nude-soft)}
+.article,.catalog-wide,.tile,.catalog-field-tile,.catalog-comparison,.catalog-source-check{background:var(--ng-nude-soft)!important;color:var(--ng-navy)!important;border:1px solid var(--ng-gold)!important}
+.article p,.article li,.article strong,.article h2,.article h3,.catalog-wide h2,.catalog-wide h3,.catalog-wide p,.tile h2,.tile p{color:var(--ng-navy)!important}
+.article a,.catalog-wide a,.catalog-list a,.catalog-field-tile strong,.catalog-verified a{color:#72521F}
+.article a:hover,.catalog-wide a:hover,.catalog-list a:hover{color:#4E3512}
+.catalog-facts{gap:14px}
+.catalog-fact{background:var(--ng-nude-deep)!important;border:1px solid #CEB184!important;color:var(--ng-navy)}
+.catalog-fact strong,.catalog-fact span{color:var(--ng-navy)!important}
+.catalog-verified{background:var(--ng-nude-deep)!important;border-color:var(--ng-gold)!important}
+.catalog-verified .catalog-verified-eyebrow,.catalog-verified-list dt{color:#6B4C20}
+.catalog-verified h2,.catalog-verified h3,.catalog-verified p,.catalog-verified dd,.catalog-verified li{color:var(--ng-navy)!important}
+.catalog-verified-list>div{border-bottom-color:#C7AC84}
+.catalog-course-nav{border-color:#C7AC84}
+.catalog-course-nav a,.catalog-links a,.catalog-note,.notice{background:var(--ng-nude-deep)!important;color:var(--ng-navy)!important;border-color:var(--ng-gold)!important}
+.catalog-course-nav a:hover,.catalog-links a:hover{background:var(--ng-gold)!important;color:var(--ng-navy)!important}
+.catalog-note{border-left:4px solid var(--ng-gold)!important}
+.catalog-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:20px 0 34px}
+.catalog-list-labels{display:none!important}
+.catalog-list li{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-content:start;align-items:start;min-width:0;border:1px solid #C7AB80!important;border-radius:16px;padding:20px;background:var(--ng-nude-deep);box-shadow:0 5px 15px rgba(15,31,56,.06)}
+.catalog-list li>span:first-child{min-width:0}
+.catalog-list li>span:first-child>a{display:block;text-decoration:none;font-size:.96rem;line-height:1.5;font-weight:850;color:var(--ng-navy)!important}
+.catalog-open-course{display:block;color:#70521D;font-size:.78rem;font-weight:900;margin-top:12px;text-decoration:underline;text-underline-offset:3px}
+.catalog-list .fee,.catalog-list li>small{display:block;text-align:start;color:var(--ng-navy)!important;font-size:.8rem}
+.catalog-list [data-ng-action="fee"]{color:#70521D!important;font-weight:850}
+.catalog-list li[hidden]{display:none!important}
+.catalog-search,.catalog-field-tile{background:var(--ng-nude-soft);color:var(--ng-navy);border-color:var(--ng-gold)}
+.catalog-search::placeholder{color:#745E41}
+.catalog-field-tile span,.tile .arrow{color:#70521D}
+.catalog-comparison .catalog-table th{background:var(--ng-navy)!important;color:var(--ng-nude-soft)!important}
+.catalog-comparison .catalog-table td{background:var(--ng-nude-soft);border-color:#D1B88F}
+.button,.nav .cta{background:var(--ng-gold)!important;color:var(--ng-navy)!important}
+.button:hover,.nav .cta:hover{background:var(--ng-gold-hover)!important;color:var(--ng-navy)!important}
+.button.secondary{background:var(--ng-nude-deep)!important;color:var(--ng-navy)!important;border:1px solid var(--ng-gold)!important}
+.hero .button.secondary{background:transparent!important;color:var(--ng-nude-soft)!important}
+.aside{background:var(--ng-navy)!important;border:1px solid var(--ng-gold)!important;color:var(--ng-nude-soft)!important}
+.aside h2,.aside p,.aside small,.aside li{color:var(--ng-nude-soft)!important}
+.aside .button{background:var(--ng-gold)!important;color:var(--ng-navy)!important}
+.foot,#ng-site-footer{background:var(--ng-navy)!important}
+.catalog-grouped-note{margin-bottom:24px}
+@media(max-width:810px){.catalog-list{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.catalog-list{grid-template-columns:1fr}.catalog-list li{display:block;padding:17px}.catalog-list .fee{margin-top:13px}.catalog-facts{grid-template-columns:1fr}}
 """
 
 def write(relative: str, data: str, output: set[str]) -> None:
