@@ -1133,6 +1133,15 @@ body:has(.ng-market),.ng-market{background:#F0E3D2!important}
 .ng-market :is(.ng-market-footer,.ng-market-hero,.ng-hero-wide,.ng-footer-consult){background:#0F1F38!important}
 @media(prefers-reduced-motion:reduce){.ng-market .ng-featured-card{transition:none!important}}
 </style><style id="ng-university-carousel-theme">
+/* Remove residual white carousel and catalogue control surfaces, retaining
+   the original institution artwork and its logo colours. */
+.ng-market :is(.ng-slide-arrow,.ng-slide-pause,.ng-directory-expand,.ng-featured-controls button){
+  background:#E2CFB3!important;border:1px solid #C5A059!important;color:#0F1F38!important
+}
+.ng-market :is(.ng-slide-arrow,.ng-slide-pause,.ng-directory-expand,.ng-featured-controls button):hover{
+  background:#C5A059!important;color:#0F1F38!important
+}
+
 .ng-market .ng-uni-pathways-label{display:block;margin-top:15px;color:#74501D;font-size:.66rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
 .ng-market .ng-uni-price-example{padding:10px 12px;border-radius:10px;background:#E2CFB3!important;border:1px solid #C5A059!important;color:#0F1F38!important;font-size:.77rem;font-weight:750;line-height:1.5}
 .ng-market a.ng-slide-institution{text-decoration:none!important;color:#0F1F38!important}
