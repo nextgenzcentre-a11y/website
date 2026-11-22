@@ -207,18 +207,35 @@ def brand_media_panel(path: str) -> str:
             '<div class="ng-media-label"><span>NEXTGENZ CENTRE</span> · Study in Malaysia</div></div>')
 
 def brand_gallery(path: str) -> str:
+    """Helpful linked navigation, not repeated decorative images.
+
+    Course pages already have a photography-led hero. Give visitors clear
+    next-step links instead of two identical unclickable gallery pictures.
+    """
+    if "/programmes/courses/" in path:
+        university = path.split("/programmes/courses/", 1)[1].split("/", 1)[0]
+        return ('<nav class="ng-related-actions" aria-label="Continue exploring your study options">'
+                '<a href="/programmes/universities/' + h(university) + '.html">'
+                '<strong>Explore more courses at this university →</strong>'
+                '<span>Compare its programmes, degree levels and finder-listed fees</span></a>'
+                '<a href="/programmes/find/"><strong>Search all university courses →</strong>'
+                '<span>Filter 1,182 programmes by study level, university and subject</span></a>'
+                '</nav>')
     src, alt = brand_photo(path)
     second = PHOTO_BASE + "/sections/servicePlacement.webp"
     if "servicePlacement" in src:
         second = PHOTO_BASE + "/sections/whyMalaysia.webp"
-    return ('<div class="ng-related-media" aria-label="NextGenz education imagery">'
+    return ('<nav class="ng-related-media" aria-label="Useful student links">'
+            '<a href="/programmes/find/" aria-label="Open the university course finder">'
             '<figure><img src="' + h(src) + '" alt="' + h(alt) +
             '" width="760" height="500" loading="lazy" decoding="async">'
-            '<figcaption>Explore universities and programmes in Malaysia</figcaption></figure>'
+            '<figcaption>Open the full university course finder →</figcaption></figure></a>'
+            '<a href="/guides/how-to-study-in-malaysia.html" aria-label="Read the student application guide">'
             '<figure><img src="' + h(second) +
             '" alt="University placement guidance for international students"'
             ' width="760" height="500" loading="lazy" decoding="async">'
-            '<figcaption>Browse programmes and request free guidance</figcaption></figure></div>')
+            '<figcaption>Read the international student application guide →</figcaption></figure></a></nav>')
+
 
 def wrap_page(head: str, main: str) -> str:
     # One H1 for SEO, with the homepage's Montserrat / Bangers
@@ -353,6 +370,17 @@ body{background:var(--ng-nude)!important;color:var(--ng-navy)}
 .catalog-grouped-note{margin-bottom:24px}
 @media(max-width:810px){.catalog-list{grid-template-columns:1fr 1fr}}
 @media(max-width:650px){.catalog-list{grid-template-columns:1fr}.catalog-list li{display:block;padding:17px}.catalog-list .fee{margin-top:13px}.catalog-facts{grid-template-columns:1fr}}
+
+.ng-related-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:28px 0}
+.ng-related-actions a{display:flex;flex-direction:column;gap:8px;justify-content:center;padding:22px;border:1px solid var(--ng-gold);background:var(--ng-nude-deep);color:var(--ng-navy)!important;border-radius:17px;text-decoration:none!important}
+.ng-related-actions a strong{font-size:.96rem;color:var(--ng-navy)!important}
+.ng-related-actions a span{font-size:.8rem;color:#503B24}
+.ng-related-actions a:hover{background:var(--ng-gold)}
+.ng-related-media a{display:block;text-decoration:none!important;color:var(--ng-navy)!important}
+.ng-related-media a figure{margin:0;background:var(--ng-nude-deep)!important;border:1px solid var(--ng-gold)}
+.ng-related-media a figcaption{background:var(--ng-nude-deep)!important;color:var(--ng-navy)!important;font-weight:800}
+.ng-related-media a:hover figcaption{background:var(--ng-gold)!important}
+@media(max-width:650px){.ng-related-actions{grid-template-columns:1fr}}
 
 .catalog-option-links{list-style:none;margin:14px 0 22px;padding:0!important}
 .catalog-option-links li{margin:9px 0!important;padding:12px 14px;background:var(--ng-nude-soft);border:1px solid var(--ng-gold);border-radius:12px}
@@ -491,7 +519,7 @@ def main() -> None:
         '<section class="hero"><div class="wrap"><span class="eyebrow">MALAYSIA ENGLISH LANGUAGE STUDY</span>'
         '<h1>English language courses in Malaysia: <span class="accent">compare language centres</span></h1>'
         '<p class="lead">Explore English study and IELTS preparation listings from seven language centres shown in the NextGenz Centre public institution directory. Compare listed course names, formats and potential pathways before verifying options with each provider.</p></div></section>'
-        '<section class="section"><div class="wrap"><div class="catalog-note">Select More beside a course to ask NextGenz for the fees and schedule for your intake.</div>'
+        '<section class="section"><div class="wrap"><div class="catalog-note">Finder-listed tuition amounts appear when recorded. Use Fee breakdown for the exact current charges and billing period.</div>'
         '<h2>Compare English language centres and their programmes</h2>'
     )
     english_count = 0
@@ -581,7 +609,7 @@ def main() -> None:
           '<h1>Study programmes at <span class="accent">' + h(name) + '</span></h1>'
           '<p class="lead">' + str(len(by_uni[name])) + ' programme titles from the NextGenz Centre finder, including university foundation, degree and postgraduate options where listed. Compare course names before checking admissions with the institution.</p>'
           '<div class="catalog-stats"><span>' + h(uni.get("type","University")) + ' university</span><span>' + h(uni.get("location","Malaysia")) + '</span><span>' + str(len(by_uni[name])) + ' programme listings</span></div></div></section>'
-          '<section class="section"><div class="wrap"><nav class="catalog-links" aria-label="Catalogue navigation"><a href="/programmes/">All universities</a><a href="/programmes/subjects/">Browse by subject</a></nav><div class="catalog-note">Ranges are shown where available. Select More beside a programme to request the billing period and full fee breakdown for your intake on WhatsApp.</div>'
+          '<section class="section"><div class="wrap"><nav class="catalog-links" aria-label="Catalogue navigation"><a href="/programmes/">All universities</a><a href="/programmes/subjects/">Browse by subject</a></nav><div class="catalog-note">Finder-listed tuition amounts are shown where supplied, with the original currency and billing period where recorded. These are reference figures, not verified current quotations. Use Fee breakdown for the official itemised schedule for your intake.</div>'
         )
         main += '<h2>Find a course at ' + h(name) + '</h2><label class="catalog-search-label" for="courseFilter">Search by programme name</label><input type="search" class="catalog-search" id="courseFilter" placeholder="Filter programme titles on this page..." aria-label="Filter programmes">'
         main += '<div class="catalog-links">'
@@ -695,9 +723,9 @@ def main() -> None:
           '<div class="catalog-fact"><strong>Institution</strong><span>' + h(e["uni"]) + '</span></div>'
           '<div class="catalog-fact"><strong>Study level grouping</strong><span>' + h(e["level"]) + ' (categorised from title)</span></div>'
           '<div class="catalog-fact"><strong>University location</strong><span>' + h(e["location"]) + '</span></div>'
-          '<div class="catalog-fact"><strong>Tuition range</strong><span>' + h(public_fee_note(e)) + ' · ' + fee_link(e['name'] + ' at ' + e['uni']) + '</span></div>'
+          '<div class="catalog-fact"><strong>Tuition fee (finder reference)</strong><span>' + h(public_fee_note(e)) + ' · ' + fee_link(e['name'] + ' at ' + e['uni']) + '</span></div>'
           '<div class="catalog-fact"><strong>Intake reference</strong><span>' + h(e["intakes"] or "Not listed") + '</span></div></div>'
-          '<div class="catalog-note">Select More to ask NextGenz for tuition, the billing period and additional charges for your intake.</div>'
+          '<div class="catalog-note">Finder-listed tuition is indicative and may not match the current international quote. Use Fee breakdown for the billing period, taxes and additional charges.</div>'
           '<h2>Is this programme right for you?</h2><p>' + h(level_note(e["level"])) + '</p><p>' + h(subject_note(e["name"])) + '</p>'
           + programme_applicant_guidance(e, checked) +
           '<h2>How to apply in Malaysia</h2><p>Compare eligibility and budget first, then collect the documents stated in the university’s current instructions. Review any written offer and payment schedule before committing. Visa and student pass procedures depend on your nationality and study level; use the official <a href="https://visa.educationmalaysia.gov.my/" target="_blank" rel="noopener noreferrer">EMGS website</a> for current information.</p>'
