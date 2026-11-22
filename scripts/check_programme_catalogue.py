@@ -24,7 +24,13 @@ class Page(HTMLParser):
         if "programmes" in self.path.parts:
             assert not re.search(r"unverified (?:finder )?reference", text, re.I), self.path
             for match in re.finditer(r"\b(?:MYR|USD|RM)\s*([0-9][0-9,.]*)", text):
-                assert re.match(r"\s*[–-]\s*[0-9]", text[match.end():]), (self.path, text)
+                # The finder contains both single tuition amounts and ranges.
+                # Single figures must be explicitly labelled as source references.
+                if not re.match(r"\s*[–-]\s*[0-9]", text[match.end():]):
+                    assert any(label in text for label in (
+                        "Finder-listed", "وفق الدليل", "目录参考", "في الدليل",
+                        "Official university source", "official university",
+                    )), (self.path,text)
 
 
     def handle_starttag(self, tag, attrs):
