@@ -258,6 +258,16 @@ def wrap_page(head: str, main: str) -> str:
         raise RuntimeError("SEO hero is missing from " + page_path)
     main = main.replace('</div></section>',
                         '</div>' + brand_media_panel(page_path) + '</section>', 1)
+    if page_path.startswith("/programmes/courses/"):
+        provider_slug = page_path.split("/programmes/courses/", 1)[1].split("/", 1)[0]
+        university_page = "/programmes/universities/" + provider_slug + ".html"
+        breadcrumb = ('<nav class="catalog-breadcrumb" aria-label="Course breadcrumb navigation">'
+                      '<a href="/">Home</a><span aria-hidden="true">›</span>'
+                      '<a href="/programmes/find/">Course finder</a><span aria-hidden="true">›</span>'
+                      '<a href="' + h(university_page) + '">University programmes</a>'
+                      '<span aria-hidden="true">›</span>'
+                      '<span aria-current="page">Programme details</span></nav>')
+        main = main.replace('</section>', '</section>' + breadcrumb, 1)
     if '<article class="article">' in main:
         gallery = brand_gallery(page_path)
         target = '<h2>Questions for international applicants</h2>'
@@ -382,6 +392,12 @@ body{background:var(--ng-nude)!important;color:var(--ng-navy)}
 .ng-related-media a:hover figcaption{background:var(--ng-gold)!important}
 @media(max-width:650px){.ng-related-actions{grid-template-columns:1fr}}
 
+.catalog-breadcrumb{display:flex;align-items:center;gap:10px;flex-wrap:wrap;max-width:1230px;margin:0 auto;padding:16px clamp(20px,4vw,44px);background:#F0E3D2;color:#0F1F38;font-size:.83rem;font-weight:750}
+.catalog-breadcrumb a{color:#71501B!important;text-decoration:underline;text-underline-offset:3px}
+.catalog-breadcrumb span[aria-current]{color:#0F1F38}
+.catalog-fact [data-ng-action="fee"],.catalog-list [data-ng-action="fee"]{display:inline-flex;align-items:center;border:1px solid #C5A059;background:#F7EBD9;color:#0F1F38!important;border-radius:8px;padding:4px 8px;font-weight:800}
+.catalog-fact [data-ng-action="fee"]:hover,.catalog-list [data-ng-action="fee"]:hover{background:#C5A059}
+@media(max-width:650px){.catalog-breadcrumb{gap:7px;font-size:.72rem;padding:12px 20px}}
 .catalog-option-links{list-style:none;margin:14px 0 22px;padding:0!important}
 .catalog-option-links li{margin:9px 0!important;padding:12px 14px;background:var(--ng-nude-soft);border:1px solid var(--ng-gold);border-radius:12px}
 .catalog-option-links a{color:var(--ng-navy)!important;text-decoration:underline;text-underline-offset:3px;line-height:1.6}
@@ -851,7 +867,12 @@ def main() -> None:
             e["name"] + " at " + e["uni"],
             description,
             dest,
-            {"@context":"https://schema.org","@type":"WebPage","name":e["name"]+" at "+e["uni"],"url":PUBLIC_BASE+dest,"about":{"@type":"EducationalOrganization","name":e["uni"]}}
+            {"@context":"https://schema.org","@type":"WebPage","name":e["name"]+" at "+e["uni"],"url":PUBLIC_BASE+dest,"about":{"@type":"EducationalOrganization","name":e["uni"]},
+             "breadcrumb":{"@type":"BreadcrumbList","itemListElement":[
+                 {"@type":"ListItem","position":1,"name":"Home","item":PUBLIC_BASE+"/"},
+                 {"@type":"ListItem","position":2,"name":"Course finder","item":PUBLIC_BASE+"/programmes/find/"},
+                 {"@type":"ListItem","position":3,"name":e["uni"],"item":PUBLIC_BASE+"/programmes/universities/"+e["uslug"]+".html"},
+                 {"@type":"ListItem","position":4,"name":e["name"],"item":PUBLIC_BASE+dest}]}}
         ),main),outputs)
 
     from programme_languages import publish
