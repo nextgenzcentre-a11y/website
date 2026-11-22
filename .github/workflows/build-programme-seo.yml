@@ -138,11 +138,14 @@ jobs:
         env:
           BEFORE_SHA: ${{ github.event.before }}
         run: node scripts/check_programme_layout.mjs
-      - name: Commit only generated programme content and sitemap
+      - name: Commit generated programme content and synchronized public HTML
         run: |
           git config user.name "nextgenzcentre-a11y"
           git config user.email "nextgenzcentre@gmail.com"
-          git add --all programmes/ sitemap.xml
+          # The site-shell sync also updates translated guides and shared
+          # public headers/footers. Include those generated HTML edits so
+          # rebase never fails because the working tree is dirty.
+          git add --all programmes/ sitemap.xml ar/ zh/ guides/ services/ about-nextgenz-centre.html why-malaysia.html
           if git diff --cached --quiet; then
             echo "No generated changes"
             exit 0
