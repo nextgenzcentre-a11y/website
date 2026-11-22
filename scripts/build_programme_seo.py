@@ -837,8 +837,12 @@ def main() -> None:
           '<a href="/guides/malaysia-student-visa-emgs-guide.html">Student visa guide</a>'
           '</nav>'
         )
-        main = main.replace('<article class="article"><h2>Programme details</h2>',
-                            '<article class="article">' + jump_links + '<h2>Programme details</h2>', 1)
+        # Insert before any grouped-specialisation notice as well as before
+        # the standard programme details heading.
+        if main.count('<article class="article">') != 1:
+            raise RuntimeError("Could not locate course article for " + e["name"])
+        main = main.replace('<article class="article">',
+                            '<article class="article">' + jump_links, 1)
         description = (checked or {}).get("summary") or (
             f'{e["name"]} at {e["uni"]}. '
             f'Check {e["level"].lower()} entry requirements, tuition and upcoming intakes before applying.'
