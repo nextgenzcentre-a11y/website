@@ -2985,7 +2985,7 @@ const NGCatalogueActions = ({topic, arabic = false}) => <span>
   <WhatsAppLink className="ng-gold-button font-bold" message={arabic ? 'أرغب في استشارة مجانية بخصوص ' + topic : "I'd like a free consultation about " + topic}>{arabic ? 'استشارة مجانية عبر واتساب' : 'Free Consultation on WhatsApp'}</WhatsAppLink>
   {' · '}<a className="font-bold" href={registrationHref(topic)}>{arabic ? 'قدّم الآن' : 'Apply Now'}</a>
 </span>;
-const NGFeeEnquiry = ({topic, arabic = false}) => <WhatsAppLink className="underline" aria-label={(arabic ? 'المزيد عن الرسوم عبر واتساب · ' : 'More about fees on WhatsApp · ') + topic} message={arabic ? 'أرجو إرسال تفاصيل الرسوم الدراسية لموعد التحاقي بخصوص ' + topic : "Please send me the exact tuition and fee breakdown for my intake for " + topic}>{arabic ? 'المزيد' : 'More'}</WhatsAppLink>;
+const NGFeeEnquiry = ({topic, arabic = false}) => <WhatsAppLink className="underline" aria-label={(arabic ? 'المزيد عن الرسوم عبر واتساب · ' : 'More about fees on WhatsApp · ') + topic} message={arabic ? 'أرجو إرسال تفاصيل الرسوم الدراسية لموعد التحاقي بخصوص ' + topic : "Please send me the exact tuition and fee breakdown for my intake for " + topic}>{arabic ? 'تفاصيل الرسوم' : 'Fee breakdown'}</WhatsAppLink>;
 const NGPublicProgrammeTeaser: React.FC<{initialUniversity?:string;initialLevel?:string;initialSearch?:string;onClose:()=>void}> = ({initialUniversity='',initialLevel='',initialSearch='',onClose}) => {
   const [university,setUniversity] = useState(initialUniversity);
   const [level,setLevel] = useState(initialLevel);
