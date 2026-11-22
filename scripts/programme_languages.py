@@ -140,7 +140,14 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
                             clipped = label_without_short[:budget].rstrip(' ·,')
                         seo_title = clipped + (' · ' + short if short else '') + suffix
             if seo_title in search_titles:
-                raise ValueError(f"Duplicate search title for {address} and {search_titles[seo_title]}: {seo_title}")
+                # Shortened multilingual course labels can collide for distinct
+                # finder entries. Keep the complete H1 and distinguish their
+                # search titles using a stable URL-derived suffix.
+                from hashlib import sha1
+                unique_tail = ' · ' + sha1(address.encode('utf-8')).hexdigest()[:8]
+                seo_title = seo_title[:60-len(unique_tail)].rstrip(' ·,') + unique_tail
+                if seo_title in search_titles:
+                    raise ValueError(f"Duplicate translated search title: {address}")
             search_titles[seo_title] = address
             # The full lead paragraph stays visible. Only the search
             # description is condensed when the original exceeds 160 chars.
