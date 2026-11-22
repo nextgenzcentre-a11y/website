@@ -54,10 +54,10 @@ def header_html(lang: str = "en", catalogue_path: str = "") -> str:
                 '<div class="ng-brand-language-list">' + languages + '</div></details>')
     advisory = ('<a class="ng-brand-advisory" href="https://wa.me/601167701210" '
                 'target="_blank" rel="noopener noreferrer">Free Advisory <span aria-hidden="true">↗</span></a>')
-    explore = ('<a class="ng-brand-explore" href="/programmes/" aria-label="Explore university programmes">'
+    explore = ('<a class="ng-brand-explore" href="/programmes/find/" aria-label="Find a university programme">'
                + SEARCH_ICON + 'Explore Programs</a>')
     mobile_links = (links +
-                    '<a href="/programmes/">Explore Programs</a>'
+                    '<a href="/programmes/find/">Explore Programs</a>'
                     '<a href="/programmes/subjects/">Find a Degree</a>'
                     '<a href="/guides/">Study guides</a>' +
                     '<div class="ng-mobile-lang">' + languages + '</div>' + advisory)
