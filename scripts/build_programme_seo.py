@@ -353,6 +353,10 @@ body{background:var(--ng-nude)!important;color:var(--ng-navy)}
 .catalog-grouped-note{margin-bottom:24px}
 @media(max-width:810px){.catalog-list{grid-template-columns:1fr 1fr}}
 @media(max-width:650px){.catalog-list{grid-template-columns:1fr}.catalog-list li{display:block;padding:17px}.catalog-list .fee{margin-top:13px}.catalog-facts{grid-template-columns:1fr}}
+
+.catalog-option-links{list-style:none;margin:14px 0 22px;padding:0!important}
+.catalog-option-links li{margin:9px 0!important;padding:12px 14px;background:var(--ng-nude-soft);border:1px solid var(--ng-gold);border-radius:12px}
+.catalog-option-links a{color:var(--ng-navy)!important;text-decoration:underline;text-underline-offset:3px;line-height:1.6}
 """
 
 def write(relative: str, data: str, output: set[str]) -> None:
@@ -732,6 +736,11 @@ def main() -> None:
             verified += '<p><a href="' + h(checked["source_url"]) + '" target="_blank" rel="noopener noreferrer">View original university programme source ↗</a></p>'
             if checked.get("second_source_url"):
                 verified += '<p><a href="' + h(checked["second_source_url"]) + '" target="_blank" rel="noopener noreferrer">' + h(checked["second_source_label"]) + ' ↗</a></p>'
+            if checked.get("choices"):
+                verified += '<h3>Choose the exact programme</h3><p>The finder label groups several official course options. Open the university page for the specific award before submitting an application.</p><ul class="catalog-option-links">'
+                for option_name, option_url in checked["choices"]:
+                    verified += '<li><a target="_blank" rel="noopener noreferrer" href="' + h(option_url) + '">Bachelor of Computer Science (' + h(option_name) + ') — official UM details ↗</a></li>'
+                verified += '</ul>'
             verified += '<p class="catalog-fact-date">Source reviewed ' + h(reviewed) + '. Check the university’s latest admissions and fee conditions before paying.</p></section>'
             marker = '<h2>Is this programme right for you?</h2>'
             if main.count(marker) != 1:

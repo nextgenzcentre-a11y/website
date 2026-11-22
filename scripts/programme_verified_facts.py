@@ -117,6 +117,13 @@ VERIFIED_PROGRAMMES = {
     "source_label": "UM Faculty of Computer Science and Information Technology: undergraduate programmes",
     "second_source_url": "https://study.um.edu.my/faculty-of-computer-science",
     "second_source_label": "UM university undergraduate Computer Science study options",
+    "choices": [
+      ("Artificial Intelligence", "https://fsktm.um.edu.my/bachelor-of-computer-science-artificial-intelligence"),
+      ("Software Engineering", "https://fsktm.um.edu.my/bachelor-of-computer-science-software-engineering.html"),
+      ("Computer System and Network", "https://fsktm.um.edu.my/bachelor-of-computer-science-computer-system-and-network"),
+      ("Information Systems", "https://fsktm.um.edu.my/bachelor-of-computer-science-information-systems"),
+      ("Multimedia Computing", "https://fsktm.um.edu.my/bachelor-of-computer-science-multimedia-computing"),
+    ],
     "reviewed": "22 November 2026",
     "summary": "UM offers distinct Bachelor of Computer Science programmes in artificial intelligence, software engineering, computer systems and networking, information systems and multimedia computing. Compare the exact award before applying.",
     "facts": [
