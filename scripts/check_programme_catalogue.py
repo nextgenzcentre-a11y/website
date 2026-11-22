@@ -42,7 +42,7 @@ class Page(HTMLParser):
 
 def main():
     urls = {e.text for e in ET.parse(ROOT/'sitemap.xml').findall('./{*}url/{*}loc')}
-    docs = [p for folder in ('programmes','guides','services','ar','zh') for p in (ROOT/folder).rglob('*.html')]
+    docs = [p for folder in ('programmes','guides','services','ar','zh','fr','ms') for p in (ROOT/folder).rglob('*.html')]
     pages = {p:Page(p) for p in docs}
     fees = 0
     for path, page in pages.items():
