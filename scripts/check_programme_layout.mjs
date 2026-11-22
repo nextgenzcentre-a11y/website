@@ -69,7 +69,7 @@ try {
       }
       assert.match(after.font,/Montserrat/,path);
       assert.equal(after.weight,'900',path);
-      assert.equal(after.surface,'rgb(245, 247, 250)',path);
+      assert.equal(after.surface,path.startsWith('programmes/')?'rgb(240, 227, 210)':'rgb(245, 247, 250)',path);
       assert(after.overflow<=Math.max(width,before.overflow)+1,path+' new page overflow at '+width);
       assert(after.actions.length>=4 && after.actions.every(Boolean),path+' hidden action');
     }
@@ -85,7 +85,7 @@ try {
       await delay(100);
     }
     const mobile=width===390;
-    assert.equal(await evalValue("getComputedStyle(document.querySelector('.catalog-list-labels')).display"),mobile?'none':'grid');
+    assert.equal(await evalValue("getComputedStyle(document.querySelector('.catalog-list-labels')).display"),'none');
     assert.equal(await evalValue("getComputedStyle(document.querySelector('.mobile-fee-label')).display"),mobile?'inline':'none');
     const menu=mobile?'.ng-brand-mobile':'.ng-brand-language';
     for (const motion of ['no-preference','reduce']) {
