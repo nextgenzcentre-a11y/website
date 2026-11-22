@@ -31,10 +31,13 @@ for uni in normalize_unis():
         eng=(ROOT/"programmes"/rel)
         assert eng.is_file(),eng
         html=eng.read_text(encoding="utf-8")
-        for marker in ("catalog-course-nav","catalog-fact","catalog-application-questions",
+        for marker in ("catalog-breadcrumb","catalog-course-nav","catalog-fact","catalog-application-questions",
                        "ng-related-actions","catalog-verified","data-ng-action=\"apply\""):
             assert marker in html,(eng,marker)
         assert "ng-related-media" not in html, f"Decorative gallery remains on {eng}"
+        assert '<a href="/programmes/find/">Course finder</a>' in html,(eng,"finder breadcrumb")
+        assert f'<a href="/programmes/universities/{university_slug}.html">University programmes</a>' in html,(eng,"university breadcrumb")
+        assert '"BreadcrumbList"' in html,(eng,"structured breadcrumb")
         expected=tuition_range(raw,uni.get("currency","MYR"))
         if expected != "Tuition not listed in finder":
             assert escape(expected,quote=True) in html,(eng,expected)
@@ -43,7 +46,7 @@ for uni in normalize_unis():
             mirror=ROOT/"programmes"/lang/rel
             assert mirror.is_file(),mirror
             localized=mirror.read_text(encoding="utf-8")
-            for marker in ("catalog-course-nav","catalog-fact","catalog-application-questions",
+            for marker in ("catalog-breadcrumb","catalog-course-nav","catalog-fact","catalog-application-questions",
                            "ng-related-actions","catalog-verified"):
                 assert marker in localized,(mirror,marker)
             assert localized.count('class="catalog-fact"') == html.count('class="catalog-fact"'),mirror

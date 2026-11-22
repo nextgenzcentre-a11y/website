@@ -86,6 +86,9 @@ def mirror_english_layout(path, title, description, lang, level, root):
         "ar": {
             "Finder-listed tuition is indicative and may not match the current international quote. Use Fee breakdown for the billing period, taxes and additional charges.": "رسوم الدليل هي أرقام مرجعية وليست عرضاً رسمياً محدثاً للطلاب الدوليين. اطلب تفاصيل الرسوم لمعرفة فترة السداد والضرائب والرسوم الإضافية.",
             "Programme details":"تفاصيل البرنامج",
+            "Home":"الرئيسية",
+            "Course finder":"البحث عن البرامج",
+            "University programmes":"برامج الجامعة",
             "Programme title in finder":"اسم البرنامج في الدليل",
             "Institution":"الجامعة",
             "Study level grouping":"المرحلة الدراسية",
@@ -117,6 +120,9 @@ def mirror_english_layout(path, title, description, lang, level, root):
         "zh": {
             "Finder-listed tuition is indicative and may not match the current international quote. Use Fee breakdown for the billing period, taxes and additional charges.": "目录学费仅供参考，不代表最新国际学生官方报价。请索取费用明细以确认计费周期、税费和其他必要费用。",
             "Programme details":"课程详情",
+            "Home":"首页",
+            "Course finder":"课程搜索",
+            "University programmes":"大学课程",
             "Programme title in finder":"目录中的课程名称",
             "Institution":"大学",
             "Study level grouping":"学历层次",
