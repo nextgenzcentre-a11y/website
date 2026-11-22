@@ -26,6 +26,7 @@ from programme_verified_facts import VERIFIED_PROGRAMMES
 from programme_level_subjects import FIELDS, LEVEL_LABELS, field_for, generate_level_subject_pages
 from programme_actions import tuition_range, add_page_actions, fee_link, labelled_catalogue
 from catalogue_search import catalogue_search
+from programme_applicant_guidance import programme_applicant_guidance
 from site_header import header_html
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -655,6 +656,7 @@ def main() -> None:
     # Detailed pages for the initial focused set.
     for e in selected.values():
         dest = e["detail"]
+        checked = VERIFIED_PROGRAMMES.get((e["short"], e["name"]))
         official_link = ('<a href="' + h(e["website"]) + '" target="_blank" rel="noopener noreferrer">Official university website ↗</a>' if e["website"] else 'Ask the institution for its official admissions website')
         main = (
           '<section class="hero"><div class="wrap"><span class="eyebrow">' + h(e["level"].upper()) + ' STUDIES IN MALAYSIA</span>'
@@ -671,12 +673,7 @@ def main() -> None:
           '<div class="catalog-fact"><strong>Intake reference</strong><span>' + h(e["intakes"] or "Not listed") + '</span></div></div>'
           '<div class="catalog-note">Select More to ask NextGenz for tuition, the billing period and additional charges for your intake.</div>'
           '<h2>Is this programme right for you?</h2><p>' + h(level_note(e["level"])) + '</p><p>' + h(subject_note(e["name"])) + '</p>'
-          '<h2>Questions to ask before you apply</h2><ol>'
-          '<li>Is <strong>' + h(e["name"]) + '</strong> still accepting international applicants for the next intake at ' + h(e["uni"]) + '?</li>'
-          '<li>What grades, prior qualifications and English-language evidence are required for this exact programme?</li>'
-          '<li>Which campus delivers the programme, what is the teaching mode, and what is the official award title?</li>'
-          '<li>Is the current quoted tuition per semester, academic year, or entire qualification? What additional deposits and official fees apply?</li>'
-          '<li>Which steps must be completed before a student visa application or entry to Malaysia?</li></ol>'
+          + programme_applicant_guidance(e, checked) +
           '<h2>How to apply in Malaysia</h2><p>Compare eligibility and budget first, then collect the documents stated in the university’s current instructions. Review any written offer and payment schedule before committing. Visa and student pass procedures depend on your nationality and study level; use the official <a href="https://visa.educationmalaysia.gov.my/" target="_blank" rel="noopener noreferrer">EMGS website</a> for current information.</p>'
           '<h2>University information and NextGenz assistance</h2><p>' + official_link + '. The NextGenz Centre team can help you understand programme comparisons and the application workflow. Our core university-placement advisory is free to students, but university and government charges remain separate. No programme availability, scholarship, admission or visa outcome is guaranteed.</p>'
           '<p><a href="/programmes/universities/' + e["uslug"] + '.html">View all programmes at ' + h(e["uni"]) + '</a> · '
@@ -686,7 +683,6 @@ def main() -> None:
         )
         # Independent source-check section. Finder's original amounts remain
         # unchanged, while up-to-date university facts appear with attribution.
-        checked = VERIFIED_PROGRAMMES.get((e["short"], e["name"]))
         if checked:
             reviewed = checked.get("reviewed", "15 November 2026")
             verified = '<section class="catalog-verified" aria-labelledby="verified-facts-heading"><div class="catalog-verified-eyebrow">Official university source · reviewed ' + h(reviewed) + '</div>'
