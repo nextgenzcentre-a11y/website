@@ -140,11 +140,11 @@ JS = r"""
 })();
 """
 
-def publish_find_page(records, universities, *, write, wrap_page, page_head, outputs, h):
+def publish_find_page(records, universities, *, write, wrap_page, page_head, outputs, h, fee_note):
     """Create direct-access catalogue search with intact university course links."""
     entries=[{
         "n":r["name"], "u":r["uni"], "s":r["short"], "l":r["level"],
-        "c":r["location"], "f":r["fee"], "d":r["detail"]
+        "c":r["location"], "f":fee_note(r), "d":r["detail"]
     } for r in records]
     data=json.dumps(entries,ensure_ascii=False,separators=(",",":")).replace("<","\\u003c")
     uni_options=''.join('<option value="'+h(u["shortName"])+'">'+h(u["university"])+'</option>' for u in universities)
