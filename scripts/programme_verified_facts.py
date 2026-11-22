@@ -111,6 +111,22 @@ VERIFIED_PROGRAMMES = {
     ],
     "advice": "Check that the Springhill campus and the exact programme's progression pathway match your degree plans."
   },
+  ("UM", "Bachelor of Computer Science (AI, SE, Sys & Network, Info Sys, Multimedia)"): {
+    "official_name": "Bachelor of Computer Science (AI, SE, Sys & Network, Info Sys, Multimedia)",
+    "source_url": "https://fsktm.um.edu.my/undergraduate",
+    "source_label": "UM Faculty of Computer Science and Information Technology: undergraduate programmes",
+    "second_source_url": "https://study.um.edu.my/faculty-of-computer-science",
+    "second_source_label": "UM university undergraduate Computer Science study options",
+    "reviewed": "22 November 2026",
+    "summary": "UM offers distinct Bachelor of Computer Science programmes in artificial intelligence, software engineering, computer systems and networking, information systems and multimedia computing. Compare the exact award before applying.",
+    "facts": [
+      ("Five separate awards", "UM lists Bachelor of Computer Science programmes in Artificial Intelligence, Software Engineering, Computer System and Network, Information Systems, and Multimedia Computing. The finder label groups these distinct degree options."),
+      ("Choosing a specialisation", "Artificial Intelligence focuses on intelligent systems, Software Engineering on software design and quality, Computer System and Network on systems and networking, Information Systems on organisational information solutions, and Multimedia Computing on multimedia technology."),
+      ("Course content and duration", "Each specialisation has its own official faculty programme page, modules and requirements. Review the specific degree curriculum and ask UM for the current duration and attendance arrangements for your intake."),
+      ("Admission and international fees", "Check the chosen degree's current academic prerequisites, English-language evidence, admission intake and written international tuition quotation. Requirements can differ between pathways."),
+    ],
+    "advice": "Choose one of the five exact UM Bachelor of Computer Science awards before applying. Do not use the grouped finder title as the official qualification name."
+  },
   ("UM", "Master of Business Administration (MBA)"): {
     "official_name": "Master of Business Administration (Coursework)",
     "source_url": "https://study.um.edu.my/master-of-business-administration-coursework",
