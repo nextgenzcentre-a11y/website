@@ -484,3 +484,60 @@ body main figcaption,body main button,body main input,
 body main label,body main select,body main textarea {
   font-family:var(--brand-type,Montserrat,Arial,sans-serif);
 }
+
+
+/* NEXTGENZ PUBLIC THEME CONTRACT — 2026-11-22
+   Public marketing, university, course, study guide and translated pages share
+   ONE material palette: nude surfaces, navy contrast, gold interaction.
+   The student/agent/admin application component styles are not imported here. */
+:root{
+ --ng-page-nude:#F0E3D2;--ng-card-nude:#F7EBD9;--ng-card-deep:#E2CFB3;
+ --ng-brand-navy:#0F1F38;--ng-brand-gold:#C5A059;
+ --surface:#F0E3D2;--navy:#0F1F38;--navy2:#0F1F38;--ink:#0F1F38;
+ --muted:#564B41;--line:#CAB18A;--gold-ink:#74501D;
+}
+html,body{background:#F0E3D2!important;color:#0F1F38}
+body main{background:#F0E3D2}
+body main .section,body main .section:nth-of-type(even),
+body main .section:nth-of-type(odd){background:#F0E3D2!important}
+body main :is(.article,.tile,.catalog-wide,.catalog-field-tile,.ng-why-card,
+ .ng-why-panel,.ng-why-stat,.ng-guide-card,.ng-related-media figure){
+  background:#F7EBD9!important;border-color:#C5A059!important;color:#0F1F38!important;
+}
+body main :is(.catalog-fact,.catalog-note,.notice,.catalog-verified,
+ .catalog-links a,.catalog-stats span,.catalog-table td,
+ .ng-why-content-card,.ng-why-destination-card){
+  background:#E2CFB3!important;border-color:#C5A059!important;color:#0F1F38!important;
+}
+body main :is(.article,.catalog-wide,.catalog-verified,.catalog-fact,.tile,
+ .ng-why-panel,.ng-why-card) :is(p,li,dt,dd,h2,h3,h4,strong,span){
+  color:#0F1F38;
+}
+body main :is(.article,.catalog-wide,.tile,.catalog-verified) a:not(.button){
+  color:#755119;text-underline-offset:3px;
+}
+body main :is(.article,.catalog-wide,.tile,.catalog-verified) a:not(.button):hover{
+  color:#0F1F38;
+}
+body main .hero{background:#0F1F38!important;color:#F0E3D2!important}
+body main .hero :is(h1,h2,p.lead,.ng-media-label,.eyebrow){color:#F0E3D2!important}
+body main .aside{background:#0F1F38!important;border:1px solid #C5A059!important}
+body main .aside :is(h2,h3,p,small,li){color:#F0E3D2!important}
+body main .aside a:not(.button){color:#E7C37B!important}
+body main .catalog-table th{background:#0F1F38!important;color:#F0E3D2!important}
+body main :is(input,select,textarea):not(.ng-skip-theme){
+  background:#F7EBD9;color:#0F1F38;border-color:#C5A059;
+}
+body main :is(.button:not(.secondary),button.button:not(.secondary)){
+ background:#C5A059!important;color:#0F1F38!important;
+}
+body main :is(.button.secondary,button.button.secondary){
+ background:#E2CFB3!important;color:#0F1F38!important;border:1px solid #C5A059!important;
+}
+body main .hero .button.secondary{background:#0F1F38!important;color:#F0E3D2!important}
+body main .foot,body #ng-site-footer,body #ng-site-footer footer{background:#081120!important}
+body main .ng-related-media figcaption{background:#E2CFB3!important;color:#0F1F38!important}
+body main .ng-related-media a:hover figcaption{background:#C5A059!important}
+.ng-brand-header{background:#0F1F38!important}
+.ng-brand-header .ng-brand-mobile-list,.ng-brand-header .ng-brand-language-list{background:#0F1F38!important}
+@media(prefers-reduced-motion:reduce){.ng-related-media a,.ng-related-actions a{transition:none!important}}
