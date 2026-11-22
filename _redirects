@@ -1,3 +1,10 @@
+/services/  /#services  301
+/visas/  /guides/malaysia-student-visa-emgs-guide.html  301
+/visas/malaysia-student-visa-emgs-guide.html  /guides/malaysia-student-visa-emgs-guide.html  301
+/universities/  /#universities  301
+/universities.html  /#universities  301
+/faq.html  /#faq  301
+
 # Each link serves the same app; the app reads the address and opens the right portal.
 /student            /index.html  200
 /studentportal      /index.html  200
