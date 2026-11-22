@@ -45,7 +45,14 @@ def header_html(lang: str = "en", catalogue_path: str = "") -> str:
              'alt="NextGenz Centre official crest" data-logo-locked="true">'
              '<span class="ng-brand-wordmark">NEXTGENZ <span>CENTRE</span></span>'
              '</a>')
-    options = LANG_OPTIONS if not catalogue_path else tuple((name, catalogue_path if code=="en" else catalogue_path.replace("/programmes/", "/programmes/"+code+"/", 1)) for (name,_),code in zip(LANG_OPTIONS, ("en","ar","zh")))
+    if catalogue_path == "/programmes/find/":
+        # The new interactive finder is English-only: language alternatives
+        # return to the real translated course directories, not 404 paths.
+        options = (("English", "/programmes/find/"),
+                   ("العربية", "/programmes/ar/"),
+                   ("中文", "/programmes/zh/"))
+    else:
+        options = LANG_OPTIONS if not catalogue_path else tuple((name, catalogue_path if code=="en" else catalogue_path.replace("/programmes/", "/programmes/"+code+"/", 1)) for (name,_),code in zip(LANG_OPTIONS, ("en","ar","zh")))
     languages = ''.join('<a href="' + escape(href, quote=True) +
                         '" lang="' + ("ar" if text == "العربية" else "zh-CN" if text == "中文" else "en") +
                         '">' + text + '</a>' for text, href in options)
