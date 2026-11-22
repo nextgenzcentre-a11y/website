@@ -64,6 +64,102 @@ def variants(path):
 def alternates(path):
     return ''.join(f'<link rel="alternate" hreflang="{k}" href="{BASE}{v}">' for k,v in variants(path).items())
 
+def mirror_english_layout(path, title, lang, level, root):
+    """Retain complete English page structure while localising navigation labels.
+
+    Avoid the old alternate one-card template which dropped verified course
+    facts, costs, comparisons, admissions questions and application guidance.
+    Official award names and university-source details remain unaltered.
+    """
+    english = (root / path.lstrip("/")).read_text(encoding="utf-8")
+    first, last = english.find("<main>"), english.rfind("</main>")
+    if first < 0 or last < first:
+        raise ValueError("Source page has no content: " + path)
+    main = english[first:last + len("</main>")]
+    translations = {
+        "ar": {
+            "Programme details":"تفاصيل البرنامج",
+            "Programme title in finder":"اسم البرنامج في الدليل",
+            "Institution":"الجامعة",
+            "Study level grouping":"المرحلة الدراسية",
+            "University location":"موقع الجامعة",
+            "Tuition fee (finder reference)":"الرسوم الدراسية (مرجع الدليل)",
+            "Intake reference":"مواعيد الالتحاق المرجعية",
+            "Is this programme right for you?":"هل هذا البرنامج مناسب لك؟",
+            "How to apply in Malaysia":"كيفية التقديم في ماليزيا",
+            "Questions to ask before you apply":"أسئلة يجب طرحها قبل التقديم",
+            "University confirmation required":"يلزم تأكيد الجامعة",
+            "Explore similar university options":"استكشف برامج جامعية مشابهة",
+            "Questions for international applicants":"أسئلة المتقدمين الدوليين",
+            "Entry guidance":"إرشادات القبول",
+            "Application questions":"أسئلة التقديم",
+            "University information":"معلومات الجامعة",
+            "Student visa guide":"دليل تأشيرة الطالب",
+            "Current information from":"معلومات حالية من",
+            "Current information to confirm with":"معلومات يجب تأكيدها مع",
+            "Official university website":"الموقع الرسمي للجامعة",
+            "Free Consultation on WhatsApp":"استشارة مجانية عبر واتساب",
+            "Apply Now":"قدّم الآن",
+            "Fee breakdown":"تفاصيل الرسوم",
+            "View programme details":"عرض تفاصيل البرنامج",
+            "Explore more courses at this university":"استكشف برامج أخرى في هذه الجامعة",
+            "Search all university courses":"ابحث في جميع البرامج الجامعية",
+            "Finder-listed ":"وفق الدليل ",
+            "Choose the exact programme":"اختر التخصص الدقيق",
+        },
+        "zh": {
+            "Programme details":"课程详情",
+            "Programme title in finder":"目录中的课程名称",
+            "Institution":"大学",
+            "Study level grouping":"学历层次",
+            "University location":"大学所在地",
+            "Tuition fee (finder reference)":"学费（目录参考）",
+            "Intake reference":"入学批次参考",
+            "Is this programme right for you?":"这项课程适合你吗？",
+            "How to apply in Malaysia":"如何申请马来西亚大学",
+            "Questions to ask before you apply":"申请前应确认的问题",
+            "University confirmation required":"需向大学核实",
+            "Explore similar university options":"探索类似大学课程",
+            "Questions for international applicants":"国际学生常见问题",
+            "Entry guidance":"入学指导",
+            "Application questions":"申请问题",
+            "University information":"大学信息",
+            "Student visa guide":"学生签证指南",
+            "Current information from":"大学最新资料：",
+            "Current information to confirm with":"需与大学确认的信息：",
+            "Official university website":"大学官方网站",
+            "Free Consultation on WhatsApp":"通过 WhatsApp 免费咨询",
+            "Apply Now":"立即申请",
+            "Fee breakdown":"费用明细",
+            "View programme details":"查看课程详情",
+            "Explore more courses at this university":"浏览这所大学的其他课程",
+            "Search all university courses":"搜索全部大学课程",
+            "Finder-listed ":"目录参考 ",
+            "Choose the exact programme":"选择准确的课程",
+        },
+    }
+    for source, translated in translations[lang].items():
+        # Only replace visible labels or explicit fee prefixes; never modify
+        # institution URLs or source citations.
+        if source.endswith(" "):
+            main = main.replace(source, translated)
+        else:
+            main = main.replace(">" + source + "<", ">" + translated + "<")
+    main = re.sub(r"<h1(?:\s[^>]*)?>.*?</h1>",
+                  "<h1>" + escape(title) + "</h1>", main, count=1,flags=re.S)
+    for category in ("courses/", "universities/", "levels/", "subjects/", "topics/",
+                     "english-language-centres.html"):
+        main = main.replace('href="/programmes/' + category,
+                            'href="/programmes/' + lang + '/' + category)
+    main = main.replace('href="/programmes/"',
+                        'href="/programmes/' + lang + '/"')
+    notice = ("<p class=\"ng-language-context-notice\" lang=\"ar\">تحتفظ معلومات الجامعة بأسماء الشهادات والتفاصيل الرسمية بلغتها الأصلية لضمان الدقة. انتقل إلى نفس الأقسام كما في الصفحة الإنجليزية.</p>"
+              if lang == "ar" else
+              "<p class=\"ng-language-context-notice\" lang=\"zh-CN\">为保持准确性，官方学位名称和大学来源信息保留原文。本页面与英文版具有相同的课程详情和申请部分。</p>")
+    main = main.replace('<article class="article">',
+                        '<article class="article">' + notice, 1)
+    return main
+
 def publish(records, centres, subjects, levels, outputs, root, write, head, photo):
     english=sorted('/'+p.removesuffix('index.html') for p in outputs if p.endswith('.html'))
     by_path={}
@@ -161,6 +257,19 @@ def publish(records, centres, subjects, levels, outputs, root, write, head, phot
             page=head(seo_title,seo_desc,address).replace('<html lang="en">','<html lang="'+tr('ar" dir="rtl','zh-CN')+'">')
             page=page.replace('<head>', '<head><!-- AUTO-GENERATED NEXTGENZ PROGRAMME DIRECTORY -->')
             page=page.replace('</head>',alternates(path)+'<script defer src="/assets/language-choice.js"></script></head>')
+            # Use the SAME full information architecture as the English
+            # university, course and guide page. Language changes do not
+            # switch to a truncated list-only template.
+            if path in english:
+                body = mirror_english_layout(path, label, lang, entries[0]['level'] if entries else '', root)
+                page += header_html(lang,path) + body + (
+                    '<footer class="foot"><div class="wrap">'
+                    + action('consult',label,lang) + ' ' + action('apply',label,lang)
+                    + '</div></footer></body></html>')
+                filename=address+('index.html' if address.endswith('/') else '')
+                write(filename, page, outputs)
+                by_path[path]=True
+                continue
             def actions(topic):return action('consult',topic,lang)+' '+action('apply',topic,lang)
             src,_=photo(path)
             page+=header_html(lang,path)+'<main><section class="hero"><div class="wrap"><span class="eyebrow">NEXTGENZ CENTRE</span><h1>'+escape(label)+'</h1><p class="lead">'+escape(desc)+'</p><p>'+actions(label)+'</p></div><div class="ng-hero-media"><img src="'+src+'" alt="'+escape(label)+'"></div></section><section class="section"><div class="wrap"><article class="article">'
