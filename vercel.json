@@ -48,6 +48,18 @@
   ],
   "rewrites": [
     {
+      "source": "/admin/accommodation.html",
+      "destination": "https://nextgenz-accommodation-portal.vercel.app/admin/accommodation.html"
+    },
+    {
+      "source": "/api/accommodation",
+      "destination": "https://nextgenz-accommodation-portal.vercel.app/api/accommodation"
+    },
+    {
+      "source": "/services/accommodation/:asset*",
+      "destination": "https://nextgenz-accommodation-portal.vercel.app/services/accommodation/:asset*"
+    },
+    {
       "source": "/student",
       "destination": "/portal-app.html"
     },
