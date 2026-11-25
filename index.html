@@ -3404,7 +3404,7 @@ const ServicesAndPortals: React.FC<ServicesAndPortalsProps> = ({ onOpenPortal })
 
 // ==== components/ProcessAndAgents.tsx ====
 interface ProcessAndAgentsProps {
-onRequestAccess: (req: Omit<AccessRequest, 'id' | 'status' | 'submittedAt'>) => void;
+onRequestAccess: (req: Omit<AccessRequest, 'id' | 'status' | 'submittedAt'>) => boolean;
 }
 const ProcessAndAgents: React.FC<ProcessAndAgentsProps> = ({ onRequestAccess }) => {
 const [agentFormSubmitted, setAgentFormSubmitted] = useState(false);
@@ -3421,6 +3421,13 @@ const whatsapp = String(data.get('WhatsApp') || '');
 const country = String(data.get('Country') || '');
 const volume = String(data.get('Expected Volume') || '');
 const message = String(data.get('Message') || '');
+if (!onRequestAccess({
+type: 'agent',
+name: contactPerson || agencyName,
+email,
+phone: whatsapp,
+extra: `Agent Application - Agency: ${agencyName || 'N/A'} | Country: ${country || 'N/A'} | Est. Volume: ${volume || 'N/A'}`
+})) { setSubmittingAgent(false); return; }
 const body = formatEmailBody({
 heading: `New Agent Partnership Application: ${agencyName || contactPerson}`,
 intro: `A new agent partnership application has been submitted through the website. Please review the details below.`,
@@ -3464,13 +3471,7 @@ senderName: 'NEXTGENZ CENTRE'
 }
 // Also add this to the Pending Requests queue so Admin can approve and generate portal
 // credentials for this agent directly - one unified place for every inbound application.
-onRequestAccess({
-type: 'agent',
-name: contactPerson || agencyName,
-email,
-phone: whatsapp,
-extra: `Agent Application - Agency: ${agencyName || 'N/A'} | Country: ${country || 'N/A'} | Est. Volume: ${volume || 'N/A'}`
-});
+
 setTimeout(() => {
 setSubmittingAgent(false);
 setAgentFormSubmitted(true);
@@ -3620,7 +3621,7 @@ className="w-full bg-[#C5A059] hover:bg-[#C5A059] text-[#0A1633] font-extrabold 
 
 // ==== components/FaqAndContact.tsx ====
 interface FaqAndContactProps {
-onRequestAccess: (req: Omit<AccessRequest, 'id' | 'status' | 'submittedAt'>) => void;
+onRequestAccess: (req: Omit<AccessRequest, 'id' | 'status' | 'submittedAt'>) => boolean;
 }
 const FaqAndContact: React.FC<FaqAndContactProps> = ({ onRequestAccess }) => {
 const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -3639,6 +3640,13 @@ const homeCountry = String(data.get('Home Country') || '');
 const studyCountry = String(data.get('Study Country') || '');
 const preferredUni = String(data.get('Preferred University') || '');
 const message = String(data.get('Message') || '');
+if (!onRequestAccess({
+type: 'student',
+name,
+email,
+phone: whatsapp,
+extra: `Advisory Inquiry - Study Level: ${studyLevel || 'N/A'} | Home Country: ${homeCountry || 'N/A'} | Target Country: ${studyCountry || 'N/A'}${preferredUni ? ' | Preferred University: ' + preferredUni : ''}`
+})) { setSubmittingContact(false); return; }
 const body = formatEmailBody({
 heading: `New Free Advisory Request: ${name}`,
 intro: `A prospective student has requested free advisory through the website. Please follow up as soon as possible.`,
@@ -3683,13 +3691,7 @@ senderName: 'NEXTGENZ CENTRE'
 }
 // Also add this to the Pending Requests queue so Admin can approve and create a portal
 // account for this prospective student directly - one unified place for every inbound lead.
-onRequestAccess({
-type: 'student',
-name,
-email,
-phone: whatsapp,
-extra: `Advisory Inquiry - Study Level: ${studyLevel || 'N/A'} | Home Country: ${homeCountry || 'N/A'} | Target Country: ${studyCountry || 'N/A'}${preferredUni ? ' | Preferred University: ' + preferredUni : ''}`
-});
+
 setTimeout(() => {
 setSubmittingContact(false);
 setContactSubmitted(true);
@@ -3885,7 +3887,7 @@ onClosePortal: () => void;
 portalIntent?: 'login' | 'request';
 onModeChange?: (mode: 'login' | 'request', type: 'student' | 'agent') => void;
 onLoginSubmit: (username: string, pass: string, portalType: 'student' | 'agent') => boolean;
-onRequestAccess: (req: Omit<AccessRequest, 'id' | 'status' | 'submittedAt'>) => void;
+onRequestAccess: (req: Omit<AccessRequest, 'id' | 'status' | 'submittedAt'>) => boolean;
 onAddStudent: (newStudent: Omit<StudentRecord, 'id' | 'createdAt' | 'status'>) => void;
 onUpdateDocumentLink: (studentId: string, docKey: string, docLabel: string, link: string) => void;
 onOpenStudentByEmail?: (email: string) => void;
@@ -6641,14 +6643,14 @@ setLoginError('Invalid username or password.');
 const handleRequestSubmit = (e: React.FormEvent) => {
 e.preventDefault();
 if (!reqName || !reqEmail || !reqPhone) return;
-onRequestAccess({
+if (!onRequestAccess({
 type: loginGateType,
 name: reqName,
 email: reqEmail,
 phone: reqPhone,
 extra: loginGateType === 'agent' ? reqExtra : '',
 ...(programmeInterest ? {programme: programmeInterest} : {})
-});
+})) return;
 setReqSuccess('Request submitted successfully! Credentials will be sent upon approval.');
 setTimeout(() => {
 setReqSuccess('');
@@ -9141,82 +9143,71 @@ const [firebaseReady, setFirebaseReady] = useState(false);
 const [firebaseError, setFirebaseError] = useState('');
 // Current authenticated Firebase admin user (null = not logged in as admin)
 const [adminAuthUser, setAdminAuthUser] = useState<any>(null);
-// True once we KNOW there's a live Firebase Auth session (anonymous or real admin) and the
-// Realtime Database connection has had a chance to pick it up. Data listeners (and therefore
-// every write-back effect, since those only run after a listener's initial snapshot arrives)
-// are held off until this is true - without this gate, a fast action right after page load
-// could send a write a moment before the auth token had actually reached the database
-// connection, and get rejected with PERMISSION_DENIED even though the rules were correct.
+// Public content renders independently of the Firebase session. Portal data may
+// only be read or changed once Firebase has supplied a valid ID token.
 const [authReady, setAuthReady] = useState(false);
-// Agent/Student portal logins are a plain app-level username+password check (see
-// handleLoginSubmit) - they never call firebase.auth(), so on their own that visitor has
-// NO Firebase Auth session at all. If the Realtime Database security rules require
-// "auth != null" to write (a very common default), every write an agent or student makes
-// - registering a student, submitting a request, sending a chat message - gets silently
-// rejected. The local screen still looks like it worked because React state updates first,
-// but nothing is actually saved, so it's gone on refresh and Admin never sees it either.
-// Signing everyone in anonymously (only if nobody is signed in yet) gives every visitor a
-// valid auth token to satisfy that rule, without changing how the app-level portal login
-// works. A real Admin sign-in later simply replaces this anonymous session.
+const authReadyRef = useRef(false);
+const [authError, setAuthError] = useState('');
 useEffect(() => {
 let cancelled = false;
-// A truthy currentUser only means a user OBJECT is cached locally - it does not guarantee
-// the ID token attached to it is fresh/valid yet. Explicitly fetching (and, if needed,
-// force-refreshing) the token before flipping authReady closes that gap: by the time any
-// database read/write is allowed to fire, we KNOW a verified token exists, not just an
-// object reference that looks logged in.
-const confirmReady = (user: any, forceRefresh: boolean) => {
-user.getIdToken(forceRefresh)
-.then(() => { if (!cancelled) setAuthReady(true); })
-.catch((err: any) => {
-console.error('Failed to obtain a valid auth token:', err);
-if (!cancelled) {
-setFirebaseError(
-'Could not verify the database session (' + (err && err.message ? err.message : 'unknown error') + '). Try reloading the page.'
-);
-setAuthReady(true);
-}
-});
+let generation = 0;
+let retryTimer: ReturnType<typeof setTimeout> | undefined;
+const auth = firebase.auth();
+const clearRetry = () => { if (retryTimer !== undefined) clearTimeout(retryTimer); retryTimer = undefined; };
+const isCurrent = (id: number) => !cancelled && generation === id;
+const resetReadiness = () => {
+authReadyRef.current = false;
+setAuthReady(false);
+setFirebaseReady(false);
+setIsAdminActive(false);
+usersLoadedRef.current = false;
+studentsLoadedRef.current = false;
+requestsLoadedRef.current = false;
+messagesLoadedRef.current = false;
+layoutLoadedRef.current = false;
 };
-const establishAnonymousSession = () => {
-firebase.auth().signInAnonymously()
-.then((cred: any) => confirmReady(cred.user, false))
-.catch((err: any) => {
-console.error('Anonymous auth failed:', err);
-if (!cancelled) {
-setFirebaseError(
-'Could not establish a database session (' + (err && err.message ? err.message : 'unknown error') +
-'). Changes made in this session may not be saved - please check Firebase Authentication has "Anonymous" sign-in enabled.'
-);
-// Still let the app proceed (in degraded, read-mostly mode) instead of hanging forever.
-setAuthReady(true);
+const verify = async (user: any, id: number, attempt: number) => {
+if (!isCurrent(id)) return;
+try {
+if (!user) {
+await auth.signInAnonymously();
+// onAuthStateChanged verifies the new session; do not race that callback.
+return;
 }
-});
-};
-// Single source of truth for the Firebase Auth session. This fires on initial load AND
-// every time the session changes afterward - critically including the moment Admin signs
-// out. Signing out (handleAdminSignOut -> firebase.auth().signOut()) tears down whatever
-// session is active, anonymous or not, leaving the tab with NO session at all. Without a
-// listener reacting to that "user is now null" transition, every write an agent/student
-// makes afterward gets rejected with PERMISSION_DENIED ("NOT signed in") because the old
-// one-time-on-mount sign-in effect never runs again. Re-establishing an anonymous session
-// here every time `user` comes back null (fresh load OR just signed out) closes that gap.
-//
-// isAdminActive is intentionally keyed off `!!user && !user.isAnonymous` rather than just
-// `!!user` - now that ordinary visitors also carry an anonymous Firebase session (needed to
-// satisfy the "auth != null" database rule), `!!user` alone would wrongly flag any signed-in
-// visitor - including anonymous ones - as Admin. Only a real (non-anonymous) sign-in counts.
-const unsubscribe = firebase.auth().onAuthStateChanged((user: any) => {
-if (cancelled) return;
+// Firebase refreshes an expired/nearly expired token automatically. Do not
+// force a network request for an otherwise valid cached token.
+await user.getIdToken(false);
+if (!isCurrent(id) || auth.currentUser?.uid !== user.uid) return;
+authReadyRef.current = true;
+setAuthError('');
+setAuthReady(true);
 setAdminAuthUser(user);
-setIsAdminActive(!!user && !user.isAnonymous);
-if (user) {
-confirmReady(user, true);
-} else {
-establishAnonymousSession();
+setIsAdminActive(!user.isAnonymous);
+} catch (err: any) {
+if (!isCurrent(id)) return;
+console.warn('Firebase session verification failed:', err?.code || err?.message);
+const transient = err?.code === 'auth/network-request-failed' || err?.code === 'auth/too-many-requests';
+setAuthError(transient
+? 'The portal cannot connect to the database right now. Reconnecting automatically…'
+: 'The portal could not establish a secure session. Please reload or contact support.');
+if (transient) {
+const delay = Math.min(30000, 1000 * Math.pow(2, Math.min(attempt, 5)));
+clearRetry();
+retryTimer = setTimeout(() => { verify(auth.currentUser, id, attempt + 1); }, delay);
 }
+}
+};
+const unsubscribe = auth.onAuthStateChanged((user: any) => {
+if (cancelled) return;
+const id = ++generation;
+clearRetry();
+resetReadiness();
+setAuthError('');
+setFirebaseError('');
+setAdminAuthUser(null);
+verify(user, id, 0);
 });
-return () => { cancelled = true; unsubscribe(); };
+return () => { cancelled = true; ++generation; clearRetry(); unsubscribe(); };
 }, []);
 useEffect(() => {
 if (!authReady) return;
@@ -9238,7 +9229,7 @@ if (cancelled) return;
 const val = snapshot.val();
 loadedRef.current = true;
 setter(val ?? seed);
-setFirebaseReady(true);
+setFirebaseReady(usersLoadedRef.current && studentsLoadedRef.current && requestsLoadedRef.current && messagesLoadedRef.current);
 },
 (err: any) => {
 console.error('Firebase read error on "' + path + '":', err);
@@ -9272,7 +9263,7 @@ setHiddenSections(val.hidden || []);
 return () => dbRef.off('value', listener);
 }, [authReady]);
 useEffect(() => {
-if (!layoutLoadedRef.current) return;
+if (!authReadyRef.current || !layoutLoadedRef.current) return;
 firebase
 .database()
 .ref('site_content/layout')
@@ -9400,6 +9391,7 @@ programMention: `${details.program} — ${details.universityShort}`
 
 // Keep a standing, admin-browsable record of every program interest submitted.
 try {
+if (!authReadyRef.current) return;
 firebase.database().ref('programInterests').push({
 requesterName,
 requesterEmail,
@@ -9408,8 +9400,8 @@ requesterRole,
 timestamp: new Date().toLocaleString('en-US', {
 year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
 })
-});
-} catch (e) { /* ignore - email + chat notification already sent */ }
+}).catch((err: any) => { console.error('Failed to save programme interest:', err); setFirebaseError('Could not save the programme interest to the database. Please contact support.'); });
+} catch (e) { /* email + chat notification already sent */ }
 };
 // Undo / Redo History States
 const [undoStack, setUndoStack] = useState<{ users: PortalUser[]; students: StudentRecord[]; requests: AccessRequest[]; messages: ChatMessage[] }[]>([]);
@@ -9436,28 +9428,28 @@ const u = firebase.auth().currentUser;
 return u ? `signed in as ${u.isAnonymous ? 'anonymous' : 'admin'} uid ${u.uid.slice(0, 8)}...` : 'NOT signed in';
 };
 useEffect(() => {
-if (!usersLoadedRef.current) return;
+if (!authReadyRef.current || !usersLoadedRef.current) return;
 firebase.database().ref('users').set(users).catch((err: any) => {
 console.error('Failed to save users:', err, '| auth state:', describeAuthState());
 setFirebaseError('Could not save an account change (' + (err && err.message ? err.message : 'unknown error') + ' - ' + describeAuthState() + '). Please try again or contact support.');
 });
 }, [users]);
 useEffect(() => {
-if (!studentsLoadedRef.current) return;
+if (!authReadyRef.current || !studentsLoadedRef.current) return;
 firebase.database().ref('students').set(students).catch((err: any) => {
 console.error('Failed to save students:', err, '| auth state:', describeAuthState());
 setFirebaseError('Could not save a student record (' + (err && err.message ? err.message : 'unknown error') + ' - ' + describeAuthState() + '). Please try again or contact support.');
 });
 }, [students]);
 useEffect(() => {
-if (!requestsLoadedRef.current) return;
+if (!authReadyRef.current || !requestsLoadedRef.current) return;
 firebase.database().ref('requests').set(requests).catch((err: any) => {
 console.error('Failed to save requests:', err, '| auth state:', describeAuthState());
 setFirebaseError('Could not save an access request (' + (err && err.message ? err.message : 'unknown error') + ' - ' + describeAuthState() + '). Please try again or contact support.');
 });
 }, [requests]);
 useEffect(() => {
-if (!messagesLoadedRef.current) return;
+if (!authReadyRef.current || !messagesLoadedRef.current) return;
 firebase.database().ref('messages').set(messages).catch((err: any) => {
 console.error('Failed to save messages:', err, '| auth state:', describeAuthState());
 setFirebaseError('Could not save a chat message (' + (err && err.message ? err.message : 'unknown error') + ' - ' + describeAuthState() + '). Please try again or contact support.');
@@ -9684,6 +9676,7 @@ return () => { window.removeEventListener('popstate', onPop); window.removeEvent
 }, []);
 // Login handler
 const handleLoginSubmit = (username: string, pass: string, portalType: 'student' | 'agent'): boolean => {
+if (!authReadyRef.current || !usersLoadedRef.current) return false;
 const found = users.find(
 (u) => u.type === portalType && u.username.toLowerCase() === username.toLowerCase() && u.password === pass
 );
@@ -9696,7 +9689,11 @@ return true;
 return false;
 };
 // Request Access handler
-const handleRequestAccess = (reqData: Omit<AccessRequest, 'id' | 'status' | 'submittedAt'>) => {
+const handleRequestAccess = (reqData: Omit<AccessRequest, 'id' | 'status' | 'submittedAt'>): boolean => {
+if (!authReadyRef.current || !requestsLoadedRef.current) {
+alert('The registration database is temporarily unavailable. Your request has not been submitted. Please try again shortly or contact us on WhatsApp.');
+return false;
+}
 pushStateToUndo();
 const newReq: AccessRequest = {
 ...reqData,
@@ -9715,6 +9712,7 @@ reqData.name,
 reqData.extra ? ` Additional notes: ${reqData.extra}` : ''
 }${reqData.programme ? ` Programme interest: ${reqData.programme}.` : ''}`
 );
+return true;
 };
 // Add Student handler (from Agent portal)
 const handleAddStudent = (newStudentData: Omit<StudentRecord, 'id' | 'createdAt' | 'status'>) => {
@@ -10251,9 +10249,9 @@ Chat with us!
 </div>
 </WhatsAppLink>
 {/* Live Database Connection Error Banner */}
-{firebaseError && (
-<div className="fixed top-0 left-0 w-full bg-red-700 text-white text-center py-2 z-[100001] font-semibold text-xs sm:text-sm shadow-lg">
-<i className="fa-solid fa-triangle-exclamation mr-1"></i> {firebaseError}
+{(activePortal || isAdminActive || showAdminAuthModal || new URLSearchParams(location.search).get('open') === 'admin') && (authError || firebaseError) && (
+<div role="alert" className="fixed top-0 left-0 w-full bg-red-700 text-white text-center py-2 z-[100001] font-semibold text-xs sm:text-sm shadow-lg">
+<i className="fa-solid fa-triangle-exclamation mr-1"></i> {authError || firebaseError}
 </div>
 )}
 {/* Floating Undo/Redo History Bar */}
@@ -10296,7 +10294,14 @@ title="Redo change (Ctrl+Y / Cmd+Shift+Z)"
 </div>
 )}
 {/* Student / Agent Portal Overlays & Login Modal */}
-<PortalOverlays
+{activePortal && (!authReady || !firebaseReady) ? (
+<div role="dialog" aria-modal="true" aria-label="Portal connection" className="fixed inset-0 z-[99999] flex items-center justify-center bg-[#0F1F38]/90 p-4">
+<div className="max-w-md rounded-2xl bg-[#0F1F38] border border-[#C5A059] p-6 text-white text-center">
+<h2 className="text-xl font-bold mb-3">Connecting to your portal</h2>
+<p role="status" className="mb-5">{authError || firebaseError || 'Please wait while we establish a secure database connection.'}</p>
+<button type="button" onClick={handleClosePortal} className="rounded-lg bg-[#C5A059] text-[#0F1F38] px-4 py-2 font-bold">Back to website</button>
+</div></div>
+) : <PortalOverlays
 activePortal={activePortal}
 portalIntent={portalIntent}
 onModeChange={handlePortalModeChange}
@@ -10325,15 +10330,16 @@ onUpdateStudentStatus={handleUpdateStudentStatus}
 onOpenEmailAlerts={() => setShowEmailAlertsModal(true)}
 emailAlertCount={emailAlerts.length}
 onProgramInterest={handleProgramInterest}
-/>
+/>}
 {/* Admin Mode Overlays & Registration Management */}
 <AdminOverlays
-isAdminActive={isAdminActive}
+isAdminActive={isAdminActive && firebaseReady}
 showAuthModal={showAdminAuthModal}
 onCloseAuthModal={() => setShowAdminAuthModal(false)}
 onAuthenticateAdmin={handleAuthenticateAdmin}
 onExitAdmin={handleAdminSignOut}
 onSaveChanges={() => {
+if (!authReadyRef.current) return;
 const ts = new Date().toISOString();
 localStorage.setItem('nextgenz_site_published', ts);
 firebase.database().ref('site_content/lastPublished').set(ts).catch((err: any) => console.error('Failed to record publish time:', err));
