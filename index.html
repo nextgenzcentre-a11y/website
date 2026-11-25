@@ -3386,7 +3386,7 @@ const ServicesAndPortals: React.FC<ServicesAndPortalsProps> = ({ onOpenPortal })
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10" id="student-accommodation">
     <article className="grid lg:grid-cols-2 rounded-[28px] overflow-hidden bg-[#0A1633] border border-[#C5A059]/35 shadow-xl">
       <div className="relative min-h-[240px] lg:min-h-[340px]"><img src="/assets/nextgenz-v7/sections/support.webp" alt="NextGenz Centre student arrival and advisory illustration" loading="lazy" className="absolute inset-0 w-full h-full object-cover"/><div className="absolute inset-0 bg-gradient-to-t from-[#0A1633]/70 to-transparent"></div></div>
-      <div className="p-7 sm:p-10"><span className="ng-eyebrow text-[#C5A059]">STAYS &amp; RESIDENCES</span><h3 className="font-heading font-extrabold text-white text-3xl sm:text-4xl mt-3 mb-4">A place to settle.<br/><span className="text-[#C5A059]">A better start in Malaysia.</span></h3><p className="text-slate-300 leading-relaxed text-sm">Explore furnished stay options for students, visiting families and clients. Ask us for apartment photos, a dated quotation and a welcome discount for your first weeks, subject to confirmation.</p><div className="flex flex-wrap gap-3 mt-6"><a href="/services/student-accommodation-malaysia.html" className="ng-gold-button bg-[#C5A059] text-[#0A1633] rounded-xl px-5 py-3 font-extrabold text-sm">Explore stay options <i className="fa-solid fa-arrow-right ml-1"></i></a><WhatsAppLink message="Hello NEXTGENZ CENTRE, please help me find accommodation and check a welcome discount for my first weeks." className="border border-white/35 text-white rounded-xl px-5 py-3 font-bold text-sm">Ask about your stay <i className="fa-brands fa-whatsapp ml-1 text-[#C5A059]"></i></WhatsAppLink></div></div>
+      <div className="p-7 sm:p-10"><span className="ng-eyebrow text-[#C5A059]">EXTRA SERVICES · COMING SOON</span><h3 className="font-heading font-extrabold text-white text-3xl sm:text-4xl mt-3 mb-4">Get Your Accommodation</h3><p className="text-slate-300 leading-relaxed text-sm">Planning a furnished stay in Malaysia? Our apartment catalogue is coming soon. Send us your dates and guest count for a current quote.</p><div className="flex flex-wrap gap-3 mt-6"><a href="/services/student-accommodation-malaysia.html" className="ng-gold-button bg-[#C5A059] text-[#0A1633] rounded-xl px-5 py-3 font-extrabold text-sm">Get your accommodation</a><WhatsAppLink message="Hello NextGenz Centre, I would like to book accommodation in Malaysia. Please check the live price and availability for my dates." className="border border-white/35 text-white rounded-xl px-5 py-3 font-bold text-sm">Book now on WhatsApp</WhatsAppLink></div></div>
     </article>
   </div>
 
@@ -8056,6 +8056,7 @@ className="bg-[#C5A059] text-[#0A1633] px-3.5 py-1 rounded-full text-xs font-ext
 >
 <i className="fa-solid fa-user-check mr-1"></i> Manage Registrations
 </button>
+<a contentEditable={false} href="/admin/accommodation.html" className="bg-[#0F1F38] text-[#F6F0E4] px-3.5 py-1 rounded-full text-xs font-bold">Accommodation</a>
 {onOpenEmailAlerts && (
 <button contentEditable={false} suppressContentEditableWarning
 onClick={onOpenEmailAlerts}
@@ -8441,6 +8442,7 @@ title="Browse the same program catalog students and agents see"
 <i className="fa-solid fa-magnifying-glass text-[#C5A059]"></i>
 <span>Find Your Program</span>
 </button>
+<a href="/admin/accommodation.html" className="px-5 py-3 font-bold text-sm text-[#0F1F38] flex items-center">Accommodation</a>
 {onOpenEmailAlerts && (
 <button contentEditable={false} suppressContentEditableWarning
 onClick={() => {
