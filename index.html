@@ -98,7 +98,7 @@
     }
   };
 </script>
-<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script async type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <style>
 @layer utilities {
@@ -1662,6 +1662,19 @@ return `https://lh3.googleusercontent.com/d/${trimmed}`;
 return trimmed;
 }
 
+// The advertising-enabled homepage never initializes a Firebase Authentication session,
+// loads private portal collections or reads stored portal email logs.
+const NG_PUBLIC_HOME = document.documentElement.hasAttribute('data-ng-public-home');
+async function ngReadPublicContent(key: 'imageOverrides' | 'textOverrides' | 'layout'): Promise<any> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 6000);
+  try {
+    const response = await fetch('https://nextgenz-centre-default-rtdb.asia-southeast1.firebasedatabase.app/site_content/' + key + '.json', { credentials: 'omit', signal: controller.signal });
+    if (!response.ok) return null;
+    return await response.json();
+  } catch { return null; }
+  finally { clearTimeout(timeout); }
+}
 // Image overrides now sync via Firebase like text overrides do — shared globally, not per-browser.
 let __imageOverridesCache: Record<string, string> = {};
 function readImageOverrides(): Record<string, string> {
@@ -1682,7 +1695,11 @@ function broadcastImageOverrides() {
 window.dispatchEvent(new CustomEvent('nextgenz-image-overrides', { detail: __imageOverridesCache }));
 }
 // Attach live Firebase listener at startup (before any component mounts) so we catch updates immediately.
-try {
+if (NG_PUBLIC_HOME) {
+  ngReadPublicContent('imageOverrides').then(val => {
+    if (val && typeof val === 'object') { __imageOverridesCache = val; broadcastImageOverrides(); }
+  });
+} else try {
 firebase.database().ref('site_content/imageOverrides').on('value', (snapshot: any) => {
 const val = snapshot.val() || {};
 if (JSON.stringify(val) !== JSON.stringify(__imageOverridesCache)) {
@@ -1697,6 +1714,7 @@ console.error('Could not attach live image-content listener:', e);
 // Saves an image override to Firebase and waits for confirmation before resolving.
 // Shows user feedback if the save fails.
 async function saveImageOverridesAsync(map: Record<string, string>): Promise<boolean> {
+if (NG_PUBLIC_HOME) return false;
 try {
 __imageOverridesCache = map;
 broadcastImageOverrides();
@@ -1946,7 +1964,11 @@ window.dispatchEvent(new CustomEvent('nextgenz-text-overrides', { detail: __text
 }
 // Start listening the moment this script loads (site_content is public-read, so this works
 // for every visitor, not just the admin) rather than waiting on any particular component to mount.
-try {
+if (NG_PUBLIC_HOME) {
+  ngReadPublicContent('textOverrides').then(val => {
+    if (val && typeof val === 'object') { __textOverridesCache = val; broadcastTextOverrides(); }
+  });
+} else try {
 firebase.database().ref('site_content/textOverrides').on('value', (snapshot: any) => {
 __textOverridesCache = snapshot.val() || {};
 broadcastTextOverrides();
@@ -1978,7 +2000,7 @@ function usePrimaryWhatsAppNumber(): string {
   }, []);
   return number;
 }
-const registrationHref = (topic = '') => (topic ? '/?programme=' + encodeURIComponent(topic) : '/') + '#/registerasstudent';
+const registrationHref = (topic = '') => '/registerasstudent' + (topic ? '?programme=' + encodeURIComponent(topic) : '');
 const WhatsAppLink: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement> & { message?: string }> = ({
   message, children, target = '_blank', rel = 'noopener noreferrer', ...rest
 }) => {
@@ -9150,6 +9172,7 @@ const [authReady, setAuthReady] = useState(false);
 const authReadyRef = useRef(false);
 const [authError, setAuthError] = useState('');
 useEffect(() => {
+if (NG_PUBLIC_HOME) return;
 let cancelled = false;
 let generation = 0;
 let retryTimer: ReturnType<typeof setTimeout> | undefined;
@@ -9245,8 +9268,9 @@ cancelled = true;
 refs.forEach((r) => r.off());
 };
 }, [authReady]);
-// Load the saved layout (section order + hidden sections) and keep it live-synced.
+// Load the saved layout (section order + hidden sections) and keep it live-synced in the portal app.
 useEffect(() => {
+if (NG_PUBLIC_HOME) return;
 if (!authReady) return;
 const dbRef = firebase.database().ref('site_content/layout');
 const listener = dbRef.on(
@@ -9264,6 +9288,16 @@ setHiddenSections(val.hidden || []);
 return () => dbRef.off('value', listener);
 }, [authReady]);
 useEffect(() => {
+if (!NG_PUBLIC_HOME) return;
+let cancelled = false;
+ngReadPublicContent('layout').then(val => {
+  if (cancelled || !val) return;
+  if (Array.isArray(val.order) && val.order.length) setSectionOrder(val.order.filter((id: string) => DEFAULT_SECTION_ORDER.includes(id)));
+  if (Array.isArray(val.hidden)) setHiddenSections(val.hidden);
+});
+return () => { cancelled = true; };
+}, []);
+useEffect(() => {
 if (!authReadyRef.current || !layoutLoadedRef.current) return;
 firebase
 .database()
@@ -9275,18 +9309,21 @@ setFirebaseError('Could not save the page layout (' + (err && err.message ? err.
 });
 }, [sectionOrder, hiddenSections]);
 const [emailAlerts, setEmailAlerts] = useState<EmailAlertLog[]>(() => {
+if (NG_PUBLIC_HOME) return [];
 const saved = localStorage.getItem('nextgenz_email_alerts');
 return saved ? JSON.parse(saved) : INITIAL_EMAIL_ALERTS;
 });
 const [activeToast, setActiveToast] = useState<EmailAlertLog | null>(null);
 const [showEmailAlertsModal, setShowEmailAlertsModal] = useState<boolean>(false);
 useEffect(() => {
+if (NG_PUBLIC_HOME) return;
 localStorage.setItem('nextgenz_email_alerts', JSON.stringify(emailAlerts));
 }, [emailAlerts]);
 // Listen for emails dispatched from components outside App's own state (e.g. the public
 // "Become an Agent" and "Free Advisory" forms), so the Email Dispatch Logs panel and the
 // live toast stay accurate no matter which part of the app sent the email.
 useEffect(() => {
+if (NG_PUBLIC_HOME) return;
 const onNewAlert = (e: any) => {
 const alertLog: EmailAlertLog = e.detail;
 setEmailAlerts((prev) => (prev.some((a) => a.id === alertLog.id) ? prev : [alertLog, ...prev]));
@@ -9421,7 +9458,7 @@ useEffect(() => {
 __adminModeActive = isAdminActive;
 window.dispatchEvent(new CustomEvent('nextgenz-admin-mode', { detail: isAdminActive }));
 }, [isAdminActive]);
-const [showAdminAuthModal, setShowAdminAuthModal] = useState(() => new URLSearchParams(location.search).get('open') === 'admin');
+const [showAdminAuthModal, setShowAdminAuthModal] = useState(() => !NG_PUBLIC_HOME && new URLSearchParams(location.search).get('open') === 'admin');
 // Sync state changes back up to Firebase (skipped until each collection's initial load
 // has completed, so we never clobber live data with the local default/starter arrays).
 const describeAuthState = () => {
@@ -9639,6 +9676,7 @@ registeragent: { type: 'agent', mode: 'request' }
 return map[key] || null;
 };
 const handleOpenPortal = (type: 'student' | 'agent') => {
+if (NG_PUBLIC_HOME) { window.location.assign('/' + type); return; }
 setPortalIntent('login');
 setActivePortal(type);
 goToPath('/' + type);
@@ -9648,7 +9686,8 @@ setActivePortal(null);
 setCurrentUser(null);
 setIsAdminPreview(false);
 setPortalIntent('login');
-goToPath('/');
+if (isAdminActive) goToPath('/portal-app.html?open=admin');
+else window.location.assign('/');
 };
 const handlePortalModeChange = (mode: 'login' | 'request', type: 'student' | 'agent') => {
 setPortalIntent(mode);
@@ -9657,6 +9696,7 @@ goToPath(mode === 'request' ? '/registeras' + type : '/' + type);
 // Open the right portal straight from the link, and follow the browser back/forward buttons.
 useEffect(() => {
 const applyRoute = (isInitial: boolean) => {
+if (NG_PUBLIC_HOME) return;
 const r = readRoute();
 if (r) {
 setPortalIntent(r.mode);
@@ -10228,6 +10268,7 @@ className="ng-market font-sans text-gray-800 antialiased bg-[#F5F7FA] overflow-x
 {/* Footer & Admin Toggle */}
 <Footer
 onOpenAdmin={() => {
+if (NG_PUBLIC_HOME) { window.location.assign('/portal-app.html?open=admin'); return; }
 if (isAdminActive) {
 handleAdminSignOut();
 } else {
@@ -10476,6 +10517,7 @@ const NGRouteTitle:React.FC<{page:string}> = ({page}) => {
 };
 
 function ngReadPageFromHash():string {
+ if (NG_PUBLIC_HOME) return 'home';
  const key=(window.location.hash||'').replace(/^#/,'').toLowerCase();
  const legal=['universities','why-malaysia','services','portals','process','agents','faq','contact','articles'];
  if(key==='about' || key==='why-malaysia') { location.replace(key==='about' ? '/about-nextgenz-centre.html' : '/why-malaysia.html'); return 'home'; }
@@ -10485,6 +10527,7 @@ function ngReadPageFromHash():string {
 // ==== bootstrap ====
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);
+document.documentElement.classList.remove('ng-boot');
 
 </script>
 

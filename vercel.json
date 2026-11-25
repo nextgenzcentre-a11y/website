@@ -49,27 +49,35 @@
   "rewrites": [
     {
       "source": "/student",
-      "destination": "/index.html"
+      "destination": "/portal-app.html"
     },
     {
       "source": "/studentportal",
-      "destination": "/index.html"
+      "destination": "/portal-app.html"
     },
     {
       "source": "/agent",
-      "destination": "/index.html"
+      "destination": "/portal-app.html"
     },
     {
       "source": "/agentportal",
-      "destination": "/index.html"
+      "destination": "/portal-app.html"
     },
     {
       "source": "/registerasstudent",
-      "destination": "/index.html"
+      "destination": "/portal-app.html"
     },
     {
       "source": "/registerasagent",
-      "destination": "/index.html"
+      "destination": "/portal-app.html"
+    },
+    {
+      "source": "/registerstudent",
+      "destination": "/portal-app.html"
+    },
+    {
+      "source": "/registeragent",
+      "destination": "/portal-app.html"
     }
   ],
   "buildCommand": "npm ci --prefix scripts/public-build --no-audit --no-fund && node scripts/public-build/build.cjs && node scripts/public-build/prepare-ads.cjs && rm -rf scripts/public-build/node_modules",
