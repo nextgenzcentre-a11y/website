@@ -68,10 +68,6 @@ edit(priority.law,s=>{
 for(const p of ['programmes/index.html','programmes/subjects/index.html','programmes/levels/bachelor.html','programmes/universities/um.html']){
  if(exists(p))edit(p,s=>addLink(s,priority.law,'Compare Bachelor of Law (LLB) programmes in Malaysia'),false);
 }
-for(const lang of ['ar','zh']){
- const p='programmes/'+lang+'/subjects/bachelor-law-malaysia.html';
- if(exists(p))edit(p,s=>insert(s,'<article class="article">',''),false); // actual alternate links are supplied below
-}
 // Target 2: retain the indexed camp guide and put the winter decision first.
 // Provider dates and ages are drawn from its existing, dated source section.
 edit(priority.camp,s=>{
@@ -150,7 +146,8 @@ for(const [url,p] of files){
    const t=s.match(/<title>([^<]+)<\/title>/)?.[1]||'';
    if(t.startsWith('Bachelor in ')){
     const title=decode(t).replace(/^Bachelor in /,'Bachelor of ');
-    s=meta(s,title,null).replace('>Bachelor in</span>','>Bachelor of</span>').replaceAll('Bachelor in ','Bachelor of ').replaceAll('Bachelor%20in%20','Bachelor%20of%20');
+    s=meta(s,title,null).replace('>Bachelor in</span>','>Bachelor of</span>');
+    s=schema(s,d=>{if(d['@type']==='CollectionPage'&&typeof d.name==='string')d.name=d.name.replace(/^Bachelor in /,'Bachelor of ');});
     subjectTitles++;changed.add(p);
    }
  }
