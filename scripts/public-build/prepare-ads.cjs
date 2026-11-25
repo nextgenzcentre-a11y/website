@@ -12,7 +12,9 @@ if (!bundle.includes('Reconnecting automatically') || /Could not (?:establish|ve
   throw Error('Firebase bundle is stale; stop publishing');
 }
 if (!index.includes(meta) || /<script[^>]+src=["'][^"']*adsbygoogle\.js/i.test(index)) throw Error('Expected clean source document');
-const privateDoc = index.replace('<meta name="robots" content="index,follow,max-image-preview:large">','<meta name="robots" content="noindex,nofollow">');
+const documentHtml = index.replace(/<script type="text\/plain" id="app-source">[\s\S]*?<\/script>/, '');
+if (documentHtml.length >= index.length || documentHtml.includes('id="app-source"')) throw Error('Could not strip duplicate app source from deployed HTML');
+const privateDoc = documentHtml.replace('<meta name="robots" content="index,follow,max-image-preview:large">','<meta name="robots" content="noindex,nofollow">');
 if (!privateDoc.includes('content="noindex,nofollow"')) throw Error('Missing portal robots directive');
 fs.writeFileSync(path.join(root,'portal-app.html'),privateDoc);
 // Old links from the static catalogue and Google results remain functional.
@@ -30,7 +32,7 @@ const router = `<script>(function(){
   }
   route();window.addEventListener('hashchange',route);
 })();</script>`;
-let home=index.replace('<html lang="en" class="scroll-smooth">','<html lang="en" class="scroll-smooth" data-ng-public-home>')
+let home=documentHtml.replace('<html lang="en" class="scroll-smooth">','<html lang="en" class="scroll-smooth" data-ng-public-home>')
   .replace('<script>document.documentElement.classList.add(\'ng-boot\'); setTimeout(function(){document.documentElement.classList.remove(\'ng-boot\')},8000)</script>','')
 const firebaseStart=home.indexOf('<!-- Firebase (Auth + Realtime Database) -->');
 const translateStart=home.indexOf('<!-- Google Translate Script -->',firebaseStart);
@@ -66,4 +68,4 @@ for (const file of pages) {
   published++;
 }
 if (published<100) throw Error('Unexpectedly few public pages: '+published);
-console.log('AdSense public HTML pages: '+published+'; private/shared pages skipped: '+skipped+'; Firebase compiled bundle verified.');
+console.log('AdSense public HTML pages: '+(published+1)+'; private/shared pages skipped: '+skipped+'; Firebase compiled bundle verified.');
