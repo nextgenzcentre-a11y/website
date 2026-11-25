@@ -1217,7 +1217,8 @@ if (sweeps > 40) clearInterval(interval);
 <section class="hero-first"><p style="color:#edc675;font-size:12px;letter-spacing:.15em;font-weight:800">NEXTGENZ CENTRE · STUDY IN MALAYSIA</p><h1>Study in Malaysia for international students</h1>
 <p class="lead-first">NextGenz Centre helps international students choose Malaysian universities and programmes, prepare admission applications, explore English language courses, and understand the EMGS student visa process. Our core university placement advice is free; official university and third-party charges still apply.</p>
 <a class="cta-first" data-ng-action="consult" href="https://wa.me/601167701210?text=I%27d%20like%20a%20free%20consultation%20about%20studying%20in%20Malaysia." target="_blank" rel="noopener noreferrer">Free Consultation on WhatsApp</a> <a class="cta-first cta-outline-first" data-ng-action="apply" href="/#/registerasstudent">Apply Now</a></section>
-<section class="detail-first" aria-labelledby="support-heading"><h2 id="support-heading">University admission and study guidance in Malaysia</h2><div class="grids-first">
+<section id="services" class="detail-first" aria-labelledby="support-heading"><h2 id="support-heading">University admission and study guidance in Malaysia</h2><div class="grids-first">
+<article class="card-first"><h3><a href="/services/student-accommodation-malaysia.html">Get Your Accommodation</a></h3><p>Coming soon. Ask NextGenz on WhatsApp about prices and availability for your stay in Malaysia.</p></article>
 <article class="card-first"><h3>University and programme matching</h3><p>Explore diploma, bachelor's, master's and PhD pathways. Compare degree requirements, universities, study locations, tuition structures, intakes and your qualification level.</p><p><a href="/programmes/levels/bachelor.html">Browse bachelor’s programmes across Malaysian universities</a> · <a href="/guides/how-to-study-in-malaysia.html">How to apply to university in Malaysia</a></p><p><a href="/services/free-university-placement-malaysia.html">Free university placement in Malaysia</a></p></article>
 <article class="card-first"><h3>Application and EMGS visa guidance</h3><p>Understand admission documents, offer-letter conditions and official student pass procedures. We explain the process; admission and visa decisions are made by the relevant institutions and authorities.</p><p><a href="/guides/malaysia-student-visa-emgs-guide.html">Malaysia student visa guide</a></p></article>
 <article class="card-first"><h3>English language course pathways</h3><p>Compare English language courses and English centre admission routes in Malaysia, including programme duration, English requirements and possible progression to university.</p><p><a href="/guides/english-courses-in-malaysia.html">English courses in Malaysia</a></p></article>
@@ -3363,6 +3364,7 @@ const AboutAndWhyMalaysia: React.FC = () => (
 );
 
 // ==== components/ServicesAndPortals.tsx ====
+const NG_ACCOMMODATION_HREF = '/services/student-accommodation-malaysia.html';
 interface ServicesAndPortalsProps {
 onOpenPortal: (type: 'student' | 'agent') => void;
 }
@@ -3371,6 +3373,18 @@ const ServicesAndPortals: React.FC<ServicesAndPortalsProps> = ({ onOpenPortal })
 <section id="services" className="ng-services-section py-20 lg:py-28 bg-[#F5F7FA]">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="ng-section-heading text-center max-w-3xl mx-auto mb-11"><span className="ng-eyebrow">STUDENT SUPPORT SERVICES</span><h2 className="ng-display-title font-heading font-extrabold text-[#0A1633] mt-4 mb-4">Everything you need to <span className="text-[#8B6B32]">get started.</span></h2><p className="text-slate-600 leading-relaxed">100% FREE university placement and English language centre admissions, backed by dedicated EMGS visa guidance from 15% to 100% progress. Standard university and government charges are separate.</p></div>
+    <article id="student-accommodation" className="mb-6 flex flex-col gap-5 rounded-2xl bg-[#0F1F38] p-6 text-[#F6F0E4] sm:p-8 lg:flex-row lg:items-center lg:justify-between">
+      <div>
+        <p className="text-xs font-bold uppercase tracking-widest text-[#C5A059]">Extra services · Coming soon</p>
+        <h3 className="mt-2 text-2xl font-bold sm:text-3xl">
+          <a href={NG_ACCOMMODATION_HREF} className="underline decoration-[#C5A059] decoration-1 underline-offset-4 hover:decoration-2">Get Your Accommodation</a>
+        </h3>
+        <p className="mt-3 max-w-xl">Need a furnished stay in Malaysia? Send us your dates and guest count for a current price and availability.</p>
+      </div>
+      <WhatsAppLink message="Hello NextGenz Centre, I would like to book accommodation in Malaysia. Please check the live price and availability for my dates." className="ng-gold-button inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 self-start rounded-xl bg-[#C5A059] px-5 py-3 text-sm font-bold text-[#0F1F38] lg:self-center">
+        <i className="fa-brands fa-whatsapp" aria-hidden="true"></i> Book now on WhatsApp
+      </WhatsAppLink>
+    </article>
     <div className="grid md:grid-cols-3 gap-6">
       {[
         {id:'service-university-placement',badge:'100% FREE PLACEMENT',title:'University placement',icon:'fa-building-columns',alt:'Students comparing university programmes with a study advisor',src:NG_VISUALS.servicePlacement,copy:'Find suitable institutions and programmes for your qualifications and goals.',bullets:['Course shortlisting','Application documents','Offer-letter coordination'],waMessage:'Hi NEXTGENZ CENTRE! I am interested in your University Placement service.',cta:'Explore placements'},
@@ -3381,13 +3395,6 @@ const ServicesAndPortals: React.FC<ServicesAndPortalsProps> = ({ onOpenPortal })
         <div className="p-6 flex flex-col flex-1"><h3 className="font-heading font-bold text-[#0A1633] text-xl mb-2">{service.title}</h3><p className="text-slate-600 text-sm leading-relaxed mb-5">{service.copy}</p><ul className="space-y-2 mb-6">{service.bullets.map(item => <li className="flex gap-2.5 text-slate-700 text-sm" key={item}><i className="fa-solid fa-check text-[#8B6B32] mt-1"></i>{item}</li>)}</ul><WhatsAppLink message={service.waMessage} className="mt-auto text-[#0A1633] font-bold text-sm inline-flex items-center gap-2 hover:text-[#8B6B32]">{service.cta}<i className="fa-solid fa-arrow-right"></i></WhatsAppLink></div>
       </article>)}
     </div>
-  </div>
-
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10" id="student-accommodation">
-    <article className="grid lg:grid-cols-2 rounded-[28px] overflow-hidden bg-[#0A1633] border border-[#C5A059]/35 shadow-xl">
-      <div className="relative min-h-[240px] lg:min-h-[340px]"><img src="/assets/nextgenz-v7/sections/support.webp" alt="NextGenz Centre student arrival and advisory illustration" loading="lazy" className="absolute inset-0 w-full h-full object-cover"/><div className="absolute inset-0 bg-gradient-to-t from-[#0A1633]/70 to-transparent"></div></div>
-      <div className="p-7 sm:p-10"><span className="ng-eyebrow text-[#C5A059]">EXTRA SERVICES · COMING SOON</span><h3 className="font-heading font-extrabold text-white text-3xl sm:text-4xl mt-3 mb-4">Get Your Accommodation</h3><p className="text-slate-300 leading-relaxed text-sm">Planning a furnished stay in Malaysia? Our apartment catalogue is coming soon. Send us your dates and guest count for a current quote.</p><div className="flex flex-wrap gap-3 mt-6"><a href="/services/student-accommodation-malaysia.html" className="ng-gold-button bg-[#C5A059] text-[#0A1633] rounded-xl px-5 py-3 font-extrabold text-sm">Get your accommodation</a><WhatsAppLink message="Hello NextGenz Centre, I would like to book accommodation in Malaysia. Please check the live price and availability for my dates." className="border border-white/35 text-white rounded-xl px-5 py-3 font-bold text-sm">Book now on WhatsApp</WhatsAppLink></div></div>
-    </article>
   </div>
 
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
@@ -10495,7 +10502,7 @@ const NGRouteTitle:React.FC<{page:string}> = ({page}) => {
  const names:any={
    universities:['DISCOVER UNIVERSITIES','Find the right course, campus and future direction in Malaysia.',NG_VISUALS.universities],
    'why-malaysia':['WHY STUDY IN MALAYSIA','Global education, unforgettable experiences and opportunities to grow.',NG_VISUALS.whyMalaysia],
-   services:['SUPPORT THAT MOVES YOU FORWARD','University admission, English courses and EMGS support—made simple.',NG_VISUALS.services],
+   services:['SUPPORT THAT MOVES YOU FORWARD','Get help with university admission, English courses, your student visa and a place to stay in Malaysia.',NG_VISUALS.services],
    portals:['YOUR DIGITAL STUDY HUB','Everything you need to manage your next chapter.',NG_VISUALS.portals],
    process:['YOUR ADMISSION JOURNEY','From your first enquiry to your arrival in Malaysia.',NG_VISUALS.process],
    agents:['PARTNER WITH NEXTGENZ','Build education opportunities together, across borders.',NG_VISUALS.agents],
@@ -10512,7 +10519,16 @@ const NGRouteTitle:React.FC<{page:string}> = ({page}) => {
       <span className="ng-gold-eyebrow mt-8 block">YOUR NEXTGENZ CENTRE JOURNEY</span>
       <h1 className="ng-page-title mt-4">{item[0]}</h1>
       <p className="ng-page-description mt-4 leading-relaxed">{item[1]}</p>
-      <div className="ng-page-highlights mt-7 flex flex-wrap gap-2.5"><span><i className="fa-solid fa-circle-check"></i> Personal guidance</span><span><i className="fa-solid fa-location-dot"></i> Study in Malaysia</span><span><i className="fa-solid fa-comment-dots"></i> FREE consultation</span></div>
+      {page === 'services' ? (
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <a href={NG_ACCOMMODATION_HREF} className="ng-gold-button inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-[#C5A059] px-5 py-3 text-sm font-extrabold text-[#0F1F38]">
+            Get Your Accommodation <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </a>
+          <span className="rounded-full bg-[#0F1F38] px-3 py-1 text-xs font-bold text-[#F6F0E4]">Coming soon</span>
+        </div>
+      ) : (
+        <div className="ng-page-highlights mt-7 flex flex-wrap gap-2.5"><span><i className="fa-solid fa-circle-check"></i> Personal guidance</span><span><i className="fa-solid fa-location-dot"></i> Study in Malaysia</span><span><i className="fa-solid fa-comment-dots"></i> FREE consultation</span></div>
+      )}
     </div>
     <div className="ng-wide-page-bottom-glow" aria-hidden="true"></div>
   </section>;
