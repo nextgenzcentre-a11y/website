@@ -2476,7 +2476,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenAdmin, isAdminActive }) => (
           <nav aria-label="Footer quick navigation" className="grid gap-3.5">
             {[
               ['Universities', '#universities'], ['Why Malaysia', '/why-malaysia.html'], ['Our Services', '#services'],
-              ['Student & Agent Portals', '#portals'], ['Admissions Process', '#process'],
+              ['Student accommodation in Malaysia', '/services/student-accommodation-malaysia.html'], ['Student & Agent Portals', '#portals'], ['Admissions Process', '#process'],
               ['Become an Agent', '#agents'], ['Study Articles & News', '#articles'], ['Frequently Asked Questions', '#faq'],
               ['All Malaysia University Programmes', '/programmes/'], ['MBA University Comparison', '/programmes/topics/mba-malaysia.html'], ['Foundation in Science Malaysia', '/programmes/topics/foundation-in-science-malaysia.html'], ['Computer Science Degrees', '/programmes/topics/computer-science-degree-malaysia.html'], ['Nursing Degrees Malaysia', '/programmes/topics/nursing-degree-malaysia.html'], ['Education Consultant in Malaysia', '/services/education-consultant-malaysia.html'], ['University Comparison Guide', '/guides/compare-universities-malaysia.html'], ['Free University Placement', '/services/free-university-placement-malaysia.html'], ['About NextGenz Centre', '/about-nextgenz-centre.html']
             ].map(([label,href]) => <a contentEditable={false} suppressContentEditableWarning key={href} href={href}
@@ -3379,7 +3379,7 @@ const ServicesAndPortals: React.FC<ServicesAndPortalsProps> = ({ onOpenPortal })
         <h3 className="mt-2 text-2xl font-bold sm:text-3xl">
           <a href={NG_ACCOMMODATION_HREF} className="underline decoration-[#C5A059] decoration-1 underline-offset-4 hover:decoration-2">Get Your Accommodation</a>
         </h3>
-        <p className="mt-3 max-w-xl">Need a furnished stay in Malaysia? Send us your dates and guest count for a current price and availability.</p>
+        <p className="mt-3 max-w-xl">Explore NaiBnb apartments in Kuala Lumpur, Bandar Sunway and Genting Highlands. Browse room photos and ask us for a live price.</p>
       </div>
       <WhatsAppLink message="Hello NextGenz Centre, I would like to book accommodation in Malaysia. Please check the live price and availability for my dates." className="ng-gold-button inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 self-start rounded-xl bg-[#C5A059] px-5 py-3 text-sm font-bold text-[#0F1F38] lg:self-center">
         <i className="fa-brands fa-whatsapp" aria-hidden="true"></i> Book now on WhatsApp
@@ -10492,6 +10492,7 @@ const NGHomePreview:React.FC<{sectionId:string}> = ({sectionId}) => {
           <p>{c.copy}</p>
           <div className="ng-preview-benefits" aria-label="Key information">{c.items.map((item:string)=><span key={item}><i className="fa-solid fa-check" aria-hidden="true"></i>{item}</span>)}</div>
           <a href={c.href} className="ng-preview-action">{c.button} <i className="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          {sectionId === 'services' && <a className="ng-preview-action" href={NG_ACCOMMODATION_HREF}>Explore student accommodation</a>}
         </div>
       </div>
     </div>

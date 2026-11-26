@@ -1,6 +1,11 @@
 {
   "redirects": [
     {
+      "source": "/accommodation",
+      "destination": "/services/student-accommodation-malaysia.html",
+      "permanent": true
+    },
+    {
       "source": "/services",
       "destination": "/#services",
       "permanent": true
@@ -48,6 +53,10 @@
   ],
   "rewrites": [
     {
+      "source": "/accommodation-images/:id.jpg",
+      "destination": "https://nextgenz-accommodation-portal.vercel.app/api/accommodation?part=published-image&id=:id"
+    },
+    {
       "source": "/admin/accommodation.html",
       "destination": "https://nextgenz-accommodation-portal.vercel.app/admin/accommodation.html"
     },
@@ -92,6 +101,6 @@
       "destination": "/portal-app.html"
     }
   ],
-  "buildCommand": "npm ci --prefix scripts/public-build --no-audit --no-fund && node scripts/public-build/build.cjs && node scripts/public-build/search-intent.cjs && node scripts/public-build/prepare-ads.cjs && rm -rf scripts/public-build/node_modules",
+  "buildCommand": "npm ci --prefix scripts/public-build --no-audit --no-fund && npm run --prefix scripts/public-build build && rm -rf scripts/public-build/node_modules",
   "outputDirectory": "."
 }

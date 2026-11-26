@@ -1,0 +1,247 @@
+{
+  "klang-valley": {
+    "name": "Klang Valley",
+    "intro": "A morning at a Sunway campus, an exhibition at the World Trade Centre and dinner in Bukit Bintang lead to three different choices of apartment. Compare central Kuala Lumpur with Bandar Sunway and Damansara in Petaling Jaya before choosing where to stay.",
+    "advice": "Start with the address you need to reach most often. For a week of classes, try your morning journey in the Rapid KL planner. For a family visit, choose the district where you want to spend your evenings.",
+    "places": [
+      {
+        "name": "Bukit Bintang",
+        "detail": "Set aside an evening for food on Jalan Alor. Pavilion Kuala Lumpur is a useful landmark on Jalan Bukit Bintang when arranging to meet family.",
+        "url": "https://www.malaysia.travel/explore/bukit-bintang"
+      },
+      {
+        "name": "Chow Kit and Jalan Sultan Ismail",
+        "detail": "Look around the market district in Chow Kit or meet at Quill City Mall. Medan Tuanku monorail station serves the mall on Jalan Sultan Ismail.",
+        "url": "https://quillcitymall.com.my/getting-here/"
+      },
+      {
+        "name": "Bandar Sunway",
+        "detail": "Sunway University and Monash University Malaysia bring many visiting families to this part of Selangor. The Sunway BRT is useful when planning a campus day.",
+        "url": "https://www.monash.edu.my/student-life/living-in-bandar-sunway/getting-around"
+      },
+      {
+        "name": "Bandar Utama, Petaling Jaya",
+        "detail": "If your plans are on the Damansara side of the valley, Bandar Utama MRT and the adjoining 1 Utama shopping centre make an easy-to-identify meeting point.",
+        "url": "https://www.1utama.com.my/getting-here/"
+      }
+    ],
+    "photos": [],
+    "projects": [
+      {
+        "name": "Agile Bukit Bintang",
+        "locality": "Bukit Bintang, Kuala Lumpur",
+        "note": "A Jalan Bukit Bintang base for Pavilion, TRX and central Kuala Lumpur.",
+        "projectStatus": "catalogue",
+        "sourceUrl": "https://www.naibnb.com/agilebukitbintang",
+        "slug": "agile-bukit-bintang"
+      },
+      {
+        "name": "Axon Bukit Bintang",
+        "locality": "Jalan Walter Granier, Bukit Bintang",
+        "note": "A Jalan Walter Granier address for families exploring Bukit Bintang.",
+        "projectStatus": "catalogue",
+        "sourceUrl": "https://stay.naibnb.com/properties/axon-bukit-bintang",
+        "slug": "axon-bukit-bintang"
+      },
+      {
+        "name": "Quill Residences",
+        "locality": "Jalan Sultan Ismail, Kuala Lumpur",
+        "note": "An apartment option on the Medan Tuanku side of Jalan Sultan Ismail.",
+        "projectStatus": "catalogue",
+        "sourceUrl": "https://stay.naibnb.com/properties/quill-residences",
+        "slug": "quill-residences"
+      },
+      {
+        "name": "The Colony by Infinitum",
+        "locality": "Chow Kit, Kuala Lumpur",
+        "note": "A Chow Kit apartment on Jalan Dewan Sultan Sulaiman.",
+        "projectStatus": "catalogue",
+        "sourceUrl": "https://stay.naibnb.com/properties/the-colony-by-infinitum",
+        "slug": "the-colony-by-infinitum"
+      },
+      {
+        "name": "Regalia Residence",
+        "locality": "Chow Kit, Kuala Lumpur",
+        "note": "A Chow Kit stay for the World Trade Centre and Jalan Putra district.",
+        "projectStatus": "catalogue",
+        "sourceUrl": "https://stay.naibnb.com/properties/regalia-residence",
+        "slug": "regalia-residence"
+      },
+      {
+        "name": "Yolo Signature Suites",
+        "locality": "Bandar Sunway, Petaling Jaya",
+        "note": "Bandar Sunway apartments for visits to Sunway University and Monash Malaysia.",
+        "projectStatus": "catalogue",
+        "sourceUrl": "https://ocrbhd.com/press-releases/ocr-tops-up-yolo-signature-suites-socialtainment-project/",
+        "slug": "yolo-signature-suites"
+      },
+      {
+        "name": "Skyline Embassy",
+        "locality": "Jalan Ampang, Kuala Lumpur",
+        "note": "An Embassy Row project on Jalan Ampang. Ask about future guest stays.",
+        "projectStatus": "enquiry",
+        "sourceUrl": "https://www.tslawland.com/en/our-projects/skyline-embassy",
+        "slug": "skyline-embassy"
+      },
+      {
+        "name": "Cappella Embassy",
+        "locality": "Ampang Hilir, Kuala Lumpur",
+        "note": "An Ampang Hilir project on the Jalan Nipah side of the embassy district.",
+        "projectStatus": "enquiry",
+        "sourceUrl": "https://www.capellaembassy.com.my/",
+        "slug": "cappella-embassy"
+      },
+      {
+        "name": "Grand Damansara",
+        "locality": "Petaling Jaya, Selangor",
+        "note": "A Petaling Jaya project on the Damansara side of the Klang Valley.",
+        "projectStatus": "enquiry",
+        "sourceUrl": "https://granddamansara.com/",
+        "slug": "grand-damansara"
+      },
+      {
+        "name": "Regia",
+        "locality": "Klang Valley",
+        "note": "A future project listed by Nai Hospitality. Building details and first stay dates are to be announced.",
+        "projectStatus": "upcoming",
+        "sourceUrl": null,
+        "slug": "regia"
+      }
+    ],
+    "status": "catalogue"
+  },
+  "genting-highlands": {
+    "name": "Genting Highlands",
+    "intro": "Genting works well as a short hill break around a university visit to Kuala Lumpur. The mid-hill bus and cable-car area and the attractions at the peak are different arrival points. Decide where you will leave your luggage before setting off for the day.",
+    "advice": "Ask for the apartment lobby pin before choosing a drop-off. If you plan to use the cable car, check the operator’s service notice for your travel date and plan the final journey back to the apartment.",
+    "places": [
+      {
+        "name": "Awana SkyWay",
+        "detail": "Ride between the mid-hill Sky Sentral station and the peak. The operator publishes current service updates, including alternative arrangements during maintenance.",
+        "url": "https://www.rwgenting.com/en/getting-here/cable-car.html"
+      },
+      {
+        "name": "Chin Swee Caves Temple",
+        "detail": "The cable car has an intermediate station for a temple visit. Allow time for the trip from the station and for the onward ride.",
+        "url": "https://www.rwgenting.com/en/getting-here/cable-car.html"
+      },
+      {
+        "name": "SkyAvenue",
+        "detail": "Browse the dining directory before going up to the resort so everyone can choose a meeting place indoors after sightseeing.",
+        "url": "https://www.rwgenting.com/content/rw-genting/web/en/things-to-do/shopping/skyavenue-complex.html"
+      }
+    ],
+    "photos": [],
+    "projects": [
+      {
+        "name": "Antara Genting",
+        "locality": "Genting Highlands, Pahang",
+        "note": "A Genting Highlands option for visits centred on the peak.",
+        "projectStatus": "catalogue",
+        "sourceUrl": "https://www.naibnb.com/antara-genting",
+        "slug": "antara-genting"
+      }
+    ],
+    "status": "catalogue"
+  },
+  "johor-bahru": {
+    "name": "Johor Bahru",
+    "intro": "Mount Austin, Tampoi and the centre of Johor Bahru suit different trips. A family visiting Sunway College Johor Bahru may want to start in Mount Austin. If you are arriving via JB Sentral, first check how far your next appointment is from the city centre.",
+    "advice": "The projects below feature in Nai Hospitality’s Johor plans. Share your campus or meeting address if you want launch news for a particular neighbourhood. Room galleries and first stay dates are still to be confirmed.",
+    "places": [
+      {
+        "name": "Mount Austin",
+        "detail": "Sunway College Johor Bahru publishes a campus location guide. Use that pin when comparing an arrival from the city centre with a stay around Austin Heights.",
+        "url": "https://sunway.edu.my/jb/campus/location"
+      },
+      {
+        "name": "Tampoi",
+        "detail": "Angsana Johor Bahru Mall is on Jalan Skudai in Pusat Bandar Tampoi. It is a recognisable place for shopping or arranging a pickup in the district.",
+        "url": "https://www.udamalls.com.my/angsana-johor-bahru-mall/getting-here"
+      },
+      {
+        "name": "Johor Bahru city centre",
+        "detail": "Johor Bahru City Square sits on Jalan Wong Ah Fook. Pair a city-centre appointment with a visit to the Chinese Heritage Museum on Jalan Ibrahim.",
+        "url": "https://downtownjb.my/en/merchant/97/johor-bahru-chinese-heritage-museum"
+      }
+    ],
+    "photos": [],
+    "projects": [
+      {
+        "name": "Aliva Mount Austin",
+        "locality": "Mount Austin, Johor Bahru",
+        "note": "A Mount Austin project for future enquiries around the college district.",
+        "projectStatus": "upcoming",
+        "sourceUrl": "https://www.alivamountaustin.com/",
+        "slug": "aliva-mount-austin"
+      },
+      {
+        "name": "Arden at One Bukit Senyum",
+        "locality": "One Bukit Senyum, Johor Bahru",
+        "note": "A future city-centre project at One Bukit Senyum.",
+        "projectStatus": "upcoming",
+        "sourceUrl": "https://arden-obs.com/",
+        "slug": "arden-one-bukit-senyum"
+      },
+      {
+        "name": "Amora Park",
+        "locality": "Tampoi, Johor Bahru",
+        "note": "A future Tampoi project for visits on the Skudai side of Johor Bahru.",
+        "projectStatus": "upcoming",
+        "sourceUrl": "https://theedgemalaysia.com/node/823660",
+        "slug": "amora-park-tampoi"
+      }
+    ],
+    "status": "planned"
+  },
+  "putrajaya": {
+    "name": "Putrajaya",
+    "intro": "Putrajaya is an upcoming destination. Putra Mosque and the surrounding lakeside precinct make a good starting point for a first visit. For an appointment, ask which precinct it is in before choosing your transport.",
+    "advice": "Share your appointment address, arrival station and dates when asking about future stays. The accommodation location and opening date have yet to be announced.",
+    "places": [
+      {
+        "name": "Putra Mosque and Dataran Putra",
+        "detail": "Visit the pink mosque beside the lake and the adjoining square. Consult the mosque’s visitor information when choosing a time to go.",
+        "url": "https://www.malaysia.travel/index.php/explore/putra-mosque"
+      },
+      {
+        "name": "Lake Putrajaya",
+        "detail": "Sightseeing boats depart from Jeti Putra in Precinct 1. Check the operator’s departure details before building a lake trip into a short visit.",
+        "url": "https://www.cruisetasikputrajaya.com/perahu_sightseeing.html"
+      },
+      {
+        "name": "Putrajaya Sentral",
+        "detail": "KLIA Transit and the MRT give travellers a route between the airport and Putrajaya. Allow for the onward journey from the station to your precinct.",
+        "url": "https://www.kliaekspres.com/plan-your-trip/plan/mrt-to-airport/"
+      }
+    ],
+    "photos": [],
+    "projects": [],
+    "status": "upcoming"
+  },
+  "sarawak": {
+    "name": "Sarawak",
+    "intro": "Sarawak is a state on the island of Borneo. Kuching’s riverfront makes an enjoyable first stop, while a campus appointment may take you to Kota Samarahan or to Miri. Start with the city named on your invitation when planning a family trip.",
+    "advice": "The Sarawak accommodation destination is upcoming. A specific property and town have yet to be announced. Send the city and campus you plan to visit so we can follow up with relevant updates.",
+    "places": [
+      {
+        "name": "Kuching Waterfront",
+        "detail": "Walk the promenade along the Sarawak River for views across the water. It is a good introduction to Kuching if you have an evening in the city.",
+        "url": "https://www.sarawaktourism.com/web/things-to-do/thing-view/nature/scenic-routes-and-botanical-gardens-and-lakes/kuching-waterfront"
+      },
+      {
+        "name": "Borneo Cultures Museum",
+        "detail": "Beside Padang Merdeka in central Kuching, the museum offers an indoor outing focused on Borneo and its people. Check visitor times before setting out.",
+        "url": "https://museum.sarawak.gov.my/web/subpage/webpage_view/169"
+      },
+      {
+        "name": "Sarawak university campuses",
+        "detail": "Look up the institution before booking intercity travel. The state’s education tourism directory includes university contacts for Kuching, Kota Samarahan and Miri.",
+        "url": "https://edutourism.sarawaktourism.com/contacts/"
+      }
+    ],
+    "photos": [],
+    "projects": [],
+    "status": "upcoming"
+  }
+}
