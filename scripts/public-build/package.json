@@ -4,5 +4,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwindcss": "^3.4.17"
+  },
+  "scripts": {
+    "build": "node build.cjs && node search-intent.cjs && node ../stays/build.cjs && node prepare-ads.cjs"
   }
 }
