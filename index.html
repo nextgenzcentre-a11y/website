@@ -636,6 +636,7 @@ display: none !important;
 .ng-market-nav.ng-nav-scrolled .ng-nav-shell{min-height:66px;}
 .ng-market-nav .ng-desktop-nav a{transition:color .2s;white-space:nowrap;}
 .ng-market-nav .ng-desktop-nav a:hover{color:#C5A059;}
+.ng-market-nav .ng-mobile-drawer{max-height:calc(100vh - 68px);max-height:calc(100dvh - 68px);overflow-y:auto;overscroll-behavior:contain;}
 .ng-market-nav .ng-nav-cta,.ng-market .ng-solid-button,.ng-market .ng-gold-button {transition:transform .24s ease,box-shadow .24s ease,background .24s ease;}
 .ng-market-nav .ng-nav-cta:hover,.ng-market .ng-solid-button:hover,.ng-market .ng-gold-button:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(15,31,56,.18);}
 .ng-market-nav a:focus-visible,.ng-market-nav button:focus-visible,.ng-market button:focus-visible,.ng-market a:focus-visible,.ng-market input:focus-visible,.ng-market select:focus-visible{outline:3px solid #C5A059;outline-offset:3px;}
@@ -1212,13 +1213,13 @@ if (sweeps > 40) clearInterval(interval);
 })();
 </script>
 <div id="root"><div id="ng-start"><img src="/assets/brand/nextgenz-official-crest-fallback.png" width="76" height="76" alt=""><strong>NEXTGENZ <span style="color:#c5a059">CENTRE</span></strong></div><div class="ng-crawl-first">
-<header class="nav-first"><a href="/" class="brand-first">NEXTGENZ CENTRE</a><nav class="links-first" aria-label="Main navigation"><a href="/services/free-university-placement-malaysia.html">Free university placement</a><a href="/programmes/">University programmes</a><a href="/services/education-consultant-malaysia.html">Education consultant</a><a href="/guides/">Study guides</a><a href="/guides/malaysia-student-visa-emgs-guide.html">EMGS visa guide</a><a href="/guides/english-courses-in-malaysia.html">English courses</a></nav></header>
+<header class="nav-first"><a href="/" class="brand-first">NEXTGENZ CENTRE</a><nav class="links-first" aria-label="Main navigation"><a href="/services/free-university-placement-malaysia.html">Free university placement</a><a href="/programmes/">University programmes</a><a href="/services/education-consultant-malaysia.html">Education consultant</a><a href="/guides/">Study guides</a><a href="/guides/malaysia-student-visa-emgs-guide.html">EMGS visa guide</a><a href="/guides/english-courses-in-malaysia.html">English courses</a><a href="/services/student-accommodation-malaysia.html">Student accommodation</a></nav></header>
 <main><p><a lang="ar" href="/programmes/ar/">دليل التخصصات بالعربية</a> · <a lang="zh-CN" href="/programmes/zh/">简体中文专业目录</a></p>
 <section class="hero-first"><p style="color:#edc675;font-size:12px;letter-spacing:.15em;font-weight:800">NEXTGENZ CENTRE · STUDY IN MALAYSIA</p><h1>Study in Malaysia for international students</h1>
 <p class="lead-first">NextGenz Centre helps international students choose Malaysian universities and programmes, prepare admission applications, explore English language courses, and understand the EMGS student visa process. Our core university placement advice is free; official university and third-party charges still apply.</p>
 <a class="cta-first" data-ng-action="consult" href="https://wa.me/601167701210?text=I%27d%20like%20a%20free%20consultation%20about%20studying%20in%20Malaysia." target="_blank" rel="noopener noreferrer">Free Consultation on WhatsApp</a> <a class="cta-first cta-outline-first" data-ng-action="apply" href="/#/registerasstudent">Apply Now</a></section>
 <section id="services" class="detail-first" aria-labelledby="support-heading"><h2 id="support-heading">University admission and study guidance in Malaysia</h2><div class="grids-first">
-<article class="card-first"><h3><a href="/services/student-accommodation-malaysia.html">Get Your Accommodation</a></h3><p>Explore furnished apartments and short stays across Malaysia. Browse the accommodation directory and enquire for current rates.</p></article>
+<article class="card-first"><h3><a href="/services/student-accommodation-malaysia.html">Student and family accommodation in Malaysia</a></h3><p>Book furnished NaiBnb apartments through NextGenz Centre for 30% off each night’s room rate during the current promotion. Fees and taxes are shown at checkout.</p><a href="/services/student-accommodation-malaysia.html#how-to-book">How to book your apartment</a></article>
 <article class="card-first"><h3>University and programme matching</h3><p>Explore diploma, bachelor's, master's and PhD pathways. Compare degree requirements, universities, study locations, tuition structures, intakes and your qualification level.</p><p><a href="/programmes/levels/bachelor.html">Browse bachelor’s programmes across Malaysian universities</a> · <a href="/guides/how-to-study-in-malaysia.html">How to apply to university in Malaysia</a></p><p><a href="/services/free-university-placement-malaysia.html">Free university placement in Malaysia</a></p></article>
 <article class="card-first"><h3>Application and EMGS visa guidance</h3><p>Understand admission documents, offer-letter conditions and official student pass procedures. We explain the process; admission and visa decisions are made by the relevant institutions and authorities.</p><p><a href="/guides/malaysia-student-visa-emgs-guide.html">Malaysia student visa guide</a></p></article>
 <article class="card-first"><h3>English language course pathways</h3><p>Compare English language courses and English centre admission routes in Malaysia, including programme duration, English requirements and possible progression to university.</p><p><a href="/guides/english-courses-in-malaysia.html">English courses in Malaysia</a></p></article>
@@ -2413,8 +2414,10 @@ return (
     <div id="public-mobile-menu" className="ng-mobile-drawer lg:hidden bg-[#0A1633] border-t border-[#C5A059]/20 shadow-2xl">
       <div className="px-5 py-5 grid grid-cols-2 gap-2 text-white/90 text-sm font-semibold">
         {[
-          ['Universities','#universities'],['Why Malaysia','/why-malaysia.html'],['About Us','/about-nextgenz-centre.html'],['Services','#services'],['Portals','#portals'],['How it works','#process'],['Agents','#agents'],['Journal','#articles'],['FAQ','#faq'],['Free Advisory','#contact']
-        ].map(([label,href]) => <a key={href} contentEditable={false} suppressContentEditableWarning href={href} onClick={() => setMobileMenuOpen(false)} className="rounded-xl border border-white/10 bg-white/5 px-3 py-3 hover:text-[#C5A059]">{label}</a>)}
+          ['Universities','#universities'],['Why Malaysia','/why-malaysia.html'],['About Us','/about-nextgenz-centre.html'],['Services','#services'],['Accommodation',NG_ACCOMMODATION_HREF],['Portals','#portals'],['How it works','#process'],['Agents','#agents'],['Journal','#articles'],['FAQ','#faq'],['Free Advisory','#contact']
+        ].map(([label,href]) => <a key={href} contentEditable={false} suppressContentEditableWarning href={href} onClick={() => setMobileMenuOpen(false)} className={href === NG_ACCOMMODATION_HREF
+          ? 'col-span-2 flex items-center justify-between gap-3 rounded-xl border border-[#C5A059]/60 bg-white/5 px-3 py-3 hover:text-[#C5A059]'
+          : 'rounded-xl border border-white/10 bg-white/5 px-3 py-3 hover:text-[#C5A059]'}>{label}{href === NG_ACCOMMODATION_HREF && <span className="text-xs font-semibold text-[#E8C989]">30% nightly offer</span>}</a>)}
         <button contentEditable={false} suppressContentEditableWarning onClick={() => {setMobileMenuOpen(false);window.dispatchEvent(new CustomEvent('ng-open-program-finder', {detail:{}}));}} className="col-span-2 text-[#0A1633] bg-[#C5A059] rounded-xl font-bold py-3">Browse Programs</button>
         <button contentEditable={false} suppressContentEditableWarning onClick={() => {setMobileMenuOpen(false);onOpenPortal('student');}} className="bg-white/10 border border-white/15 rounded-xl py-3">Student Login</button>
         <button contentEditable={false} suppressContentEditableWarning onClick={() => {setMobileMenuOpen(false);onOpenPortal('agent');}} className="bg-white/10 border border-white/15 rounded-xl py-3">Agent Login</button>
@@ -3365,6 +3368,7 @@ const AboutAndWhyMalaysia: React.FC = () => (
 
 // ==== components/ServicesAndPortals.tsx ====
 const NG_ACCOMMODATION_HREF = '/services/student-accommodation-malaysia.html';
+const NG_STAY_BOOKING_HREF = 'https://stay.naibnb.com/book/nextgenz-centr-bh3jec';
 interface ServicesAndPortalsProps {
 onOpenPortal: (type: 'student' | 'agent') => void;
 }
@@ -3373,27 +3377,35 @@ const ServicesAndPortals: React.FC<ServicesAndPortalsProps> = ({ onOpenPortal })
 <section id="services" className="ng-services-section py-20 lg:py-28 bg-[#F5F7FA]">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="ng-section-heading text-center max-w-3xl mx-auto mb-11"><span className="ng-eyebrow">STUDENT SUPPORT SERVICES</span><h2 className="ng-display-title font-heading font-extrabold text-[#0A1633] mt-4 mb-4">Everything you need to <span className="text-[#8B6B32]">get started.</span></h2><p className="text-slate-600 leading-relaxed">100% FREE university placement and English language centre admissions, backed by dedicated EMGS visa guidance from 15% to 100% progress. Standard university and government charges are separate.</p></div>
-    <article id="student-accommodation" className="mb-6 flex flex-col gap-5 rounded-2xl bg-[#0F1F38] p-6 text-[#F6F0E4] sm:p-8 lg:flex-row lg:items-center lg:justify-between">
-      <div>
-        <p className="text-xs font-bold uppercase tracking-widest text-[#C5A059]">Extra services · Accommodation directory</p>
-        <h3 className="mt-2 text-2xl font-bold sm:text-3xl">
-          <a href={NG_ACCOMMODATION_HREF} className="underline decoration-[#C5A059] decoration-1 underline-offset-4 hover:decoration-2">Get Your Accommodation</a>
-        </h3>
-        <p className="mt-3 max-w-xl">Explore NaiBnb apartments in Kuala Lumpur, Bandar Sunway and Genting Highlands. Browse room photos and ask us for a live price.</p>
-      </div>
-      <WhatsAppLink message="Hello NextGenz Centre, I would like to book accommodation in Malaysia. Please check the live price and availability for my dates." className="ng-gold-button inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 self-start rounded-xl bg-[#C5A059] px-5 py-3 text-sm font-bold text-[#0F1F38] lg:self-center">
-        <i className="fa-brands fa-whatsapp" aria-hidden="true"></i> Book now on WhatsApp
-      </WhatsAppLink>
-    </article>
-    <div className="grid md:grid-cols-3 gap-6">
+    <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
       {[
+        {id:'student-accommodation',badge:'30% NIGHTLY OFFER',title:'Student & family accommodation in Malaysia',icon:'fa-bed',alt:'Living room in a furnished Agile Bukit Bintang apartment in Kuala Lumpur',src:'/assets/stays/rooms/agile-bukit-bintang.webp',copy:'Book through NextGenz Centre and NaiBnb for 30% off each night’s room rate during the current promotion.',bullets:['Compare apartments and room photos','Choose dates and see the live rate','Review fees and payment options at checkout'],href:NG_ACCOMMODATION_HREF,cta:'Explore apartments'},
         {id:'service-university-placement',badge:'100% FREE PLACEMENT',title:'University placement',icon:'fa-building-columns',alt:'Students comparing university programmes with a study advisor',src:NG_VISUALS.servicePlacement,copy:'Find suitable institutions and programmes for your qualifications and goals.',bullets:['Course shortlisting','Application documents','Offer-letter coordination'],waMessage:'Hi NEXTGENZ CENTRE! I am interested in your University Placement service.',cta:'Explore placements'},
         {id:'service-english-centres',badge:'FREE ADMISSION HELP',title:'English language centres',icon:'fa-language',alt:'International students learning English together in a classroom',src:NG_VISUALS.serviceEnglish,copy:'Compare language study options based on your current level and next step.',bullets:['CEFR/IELTS pathways','English course comparison','Centre admissions guidance'],waMessage:'Hi NEXTGENZ CENTRE! I am interested in taking an English Language Test.',cta:'Explore English courses'},
         {id:'service-visa-flight',badge:'EMGS SUPPORT',title:'Visa & arrival guidance',icon:'fa-passport',alt:'International student arriving in Malaysia with travel documents',src:NG_VISUALS.serviceVisa,copy:'Understand EMGS stages, approval steps and your arrival checklist.',bullets:['EMGS process guidance','eVisa & MDAC information','Pre-arrival checklist'],waMessage:'Hi NEXTGENZ CENTRE! I need assistance with my Visa and Arrival Process.',cta:'Get visa guidance'}
-      ].map((service) => <article key={service.id} className="ng-service-card bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm group flex flex-col">
-        <div className="relative h-[185px] overflow-hidden">{service.id === 'service-university-placement' ? <EditableImage id="service-university-placement" wrapperClassName="absolute inset-0 w-full h-full" imgClassName="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={service.src} alt={service.alt}/> : service.id === 'service-english-centres' ? <EditableImage id="service-english-centres" wrapperClassName="absolute inset-0 w-full h-full" imgClassName="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={service.src} alt={service.alt}/> : <EditableImage id="service-visa-flight" wrapperClassName="absolute inset-0 w-full h-full" imgClassName="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={service.src} alt={service.alt}/> }<div className="absolute inset-0 bg-gradient-to-t from-[#0A1633]/65 to-transparent pointer-events-none"></div><span className="absolute top-4 right-4 bg-[#C5A059] text-[#0A1633] px-3 py-1.5 rounded-lg text-[10px] font-extrabold shadow-md">{service.badge}</span><span className="absolute bottom-4 left-5 w-11 h-11 bg-white text-[#0A1633] rounded-xl grid place-items-center shadow-md"><i className={`fa-solid ${service.icon} text-xl`}></i></span></div>
-        <div className="p-6 flex flex-col flex-1"><h3 className="font-heading font-bold text-[#0A1633] text-xl mb-2">{service.title}</h3><p className="text-slate-600 text-sm leading-relaxed mb-5">{service.copy}</p><ul className="space-y-2 mb-6">{service.bullets.map(item => <li className="flex gap-2.5 text-slate-700 text-sm" key={item}><i className="fa-solid fa-check text-[#8B6B32] mt-1"></i>{item}</li>)}</ul><WhatsAppLink message={service.waMessage} className="mt-auto text-[#0A1633] font-bold text-sm inline-flex items-center gap-2 hover:text-[#8B6B32]">{service.cta}<i className="fa-solid fa-arrow-right"></i></WhatsAppLink></div>
-      </article>)}
+      ].map(service => {
+        const isStay = service.id === 'student-accommodation';
+        const actionClass = 'font-bold text-sm inline-flex items-center gap-2 hover:text-[#8B6B32]';
+        return <article key={service.id} id={isStay ? service.id : undefined} className="ng-service-card bg-[#F7ECDA] border border-slate-200 rounded-2xl overflow-hidden shadow-sm group flex flex-col">
+          <div className="relative h-[185px] overflow-hidden">
+            {isStay
+              ? <a href={service.href} aria-label="Explore student and family apartments in Malaysia" className="absolute inset-0"><img src={service.src} alt={service.alt} width="800" height="500" loading="lazy" className="w-full h-full object-cover"/></a>
+              : <EditableImage id={service.id} wrapperClassName="absolute inset-0 w-full h-full" imgClassName="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={service.src} alt={service.alt}/>}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0A1633]/65 to-transparent pointer-events-none"></div>
+            <span className="absolute top-4 right-4 bg-[#C5A059] text-[#0A1633] px-3 py-1.5 rounded-lg text-[10px] font-extrabold shadow-md pointer-events-none">{service.badge}</span>
+            <span className="absolute bottom-4 left-5 w-11 h-11 bg-[#F7ECDA] text-[#0A1633] rounded-xl grid place-items-center shadow-md pointer-events-none"><i className={`fa-solid ${service.icon} text-xl`} aria-hidden="true"></i></span>
+          </div>
+          <div className="p-6 flex flex-col flex-1">
+            <h3 className="font-heading font-bold text-[#0A1633] text-xl mb-2">{isStay ? <a href={service.href}>{service.title}</a> : service.title}</h3>
+            <p className="text-slate-600 text-sm leading-relaxed mb-5">{service.copy}</p>
+            <ul className="space-y-2 mb-6">{service.bullets.map(item => <li className="flex gap-2.5 text-slate-700 text-sm" key={item}><i className="fa-solid fa-check text-[#8B6B32] mt-1" aria-hidden="true"></i>{item}</li>)}</ul>
+            {isStay ? <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 text-[#0A1633]">
+              <a className={actionClass} href={service.href}>{service.cta}</a>
+              <a className="font-bold text-sm underline underline-offset-4" href={NG_STAY_BOOKING_HREF} target="_blank" rel="sponsored noopener noreferrer">Choose dates and book</a>
+            </div> : <WhatsAppLink message={service.waMessage} className={'mt-auto text-[#0A1633] '+actionClass}>{service.cta}<i className="fa-solid fa-arrow-right" aria-hidden="true"></i></WhatsAppLink>}
+          </div>
+        </article>;
+      })}
     </div>
   </div>
 
@@ -10525,7 +10537,7 @@ const NGRouteTitle:React.FC<{page:string}> = ({page}) => {
           <a href={NG_ACCOMMODATION_HREF} className="ng-gold-button inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-[#C5A059] px-5 py-3 text-sm font-extrabold text-[#0F1F38]">
             Get Your Accommodation <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
           </a>
-          <span className="rounded-full bg-[#0F1F38] px-3 py-1 text-xs font-bold text-[#F6F0E4]">Explore locations</span>
+          <a href={NG_ACCOMMODATION_HREF+'#how-to-book'} className="rounded-full bg-[#0F1F38] px-4 py-2 text-sm font-bold text-[#F6F0E4] underline underline-offset-4">How to book the 30% nightly offer</a>
         </div>
       ) : (
         <div className="ng-page-highlights mt-7 flex flex-wrap gap-2.5"><span><i className="fa-solid fa-circle-check"></i> Personal guidance</span><span><i className="fa-solid fa-location-dot"></i> Study in Malaysia</span><span><i className="fa-solid fa-comment-dots"></i> FREE consultation</span></div>
