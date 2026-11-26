@@ -1,0 +1,382 @@
+{
+  "agile-bukit-bintang": {
+    "name": "Agile Bukit Bintang",
+    "area": "klang-valley",
+    "locality": "Bukit Bintang, Kuala Lumpur",
+    "intro": "Agile is on Jalan Bukit Bintang, on the city side of a stay that can combine Pavilion Kuala Lumpur, The Exchange TRX and dinner on Jalan Alor. It is a useful base for families fitting sightseeing around an appointment in central KL.",
+    "advice": "If several people are travelling together, tell us how many separate sleeping spaces you need. Use the lobby address for your airport pickup and the venue’s own entrance for your appointment.",
+    "places": [
+      {
+        "name": "The Exchange TRX",
+        "detail": "For a shopping break or a return trip by train, the complex has access to Tun Razak Exchange MRT. Its visitor guide shows the entrances.",
+        "url": "https://www.theexchange.my/visit/getting-here/"
+      },
+      {
+        "name": "Pavilion Kuala Lumpur",
+        "detail": "Meet at the mall on Jalan Bukit Bintang before exploring the shopping district. Save the entrance name if your group is taking separate cars.",
+        "url": "https://www.pavilion-kl.com/our-location/"
+      },
+      {
+        "name": "Jalan Alor",
+        "detail": "Head to Bukit Bintang’s food street for an evening meal. Groups can choose a common meeting place before exploring the stalls.",
+        "url": "https://www.malaysia.travel/explore/bukit-bintang"
+      }
+    ],
+    "sourceUrl": "https://www.naibnb.com/agilebukitbintang",
+    "projectStatus": "catalogue",
+    "note": "A Jalan Bukit Bintang base for Pavilion, TRX and central Kuala Lumpur.",
+    "aliases": [
+      "Agile BB"
+    ],
+    "sourceNote": ""
+  },
+  "axon-bukit-bintang": {
+    "name": "Axon Bukit Bintang",
+    "area": "klang-valley",
+    "locality": "Jalan Walter Granier, Bukit Bintang",
+    "intro": "Axon’s address is on Jalan Walter Granier in Bukit Bintang. Families sharing one apartment can use the district as a meeting point while some head to appointments and others explore the shops or the food streets.",
+    "advice": "Compare the bedrooms and bed arrangement in the individual apartment gallery. When arriving by rail with luggage, use the correct station exit and save the lobby street name for your final approach.",
+    "places": [
+      {
+        "name": "Pavilion Bukit Bintang MRT",
+        "detail": "The Kajang Line station is at the intersection of Jalan Bukit Bintang and Jalan Sultan Ismail. The station guide is useful for planning a trip with luggage.",
+        "url": "https://www.mymrt.com.my/projects/kajang-line/stations/bukit-bintang/"
+      },
+      {
+        "name": "Jalan Alor",
+        "detail": "Plan an evening around the district’s food stalls and a walk back through Bukit Bintang. Choose a meeting point in advance if everyone orders separately.",
+        "url": "https://www.malaysia.travel/explore/bukit-bintang"
+      },
+      {
+        "name": "Pavilion Kuala Lumpur",
+        "detail": "Use the mall’s location guide for its entrances and parking arrangements if relatives are driving into the city to meet you.",
+        "url": "https://www.pavilion-kl.com/our-location/"
+      }
+    ],
+    "sourceUrl": "https://stay.naibnb.com/properties/axon-bukit-bintang",
+    "projectStatus": "catalogue",
+    "note": "A Jalan Walter Granier address for families exploring Bukit Bintang.",
+    "aliases": [],
+    "sourceNote": ""
+  },
+  "quill-residences": {
+    "name": "Quill Residences",
+    "area": "klang-valley",
+    "locality": "Jalan Sultan Ismail, Kuala Lumpur",
+    "intro": "Quill Residences is on Jalan Sultan Ismail beside the Quill City Mall area. Medan Tuanku is the useful monorail stop to remember for days when family members want to go into central Kuala Lumpur separately.",
+    "advice": "Save both the residential lobby and your meeting place in the mall. If you need to be on campus early, check your first connection from Medan Tuanku before you decide on the apartment.",
+    "places": [
+      {
+        "name": "Quill City Mall",
+        "detail": "The mall’s arrival guide gives routes by road and by monorail. Choose a named mall entrance if someone is dropping you off for a meal.",
+        "url": "https://quillcitymall.com.my/getting-here/"
+      },
+      {
+        "name": "Medan Tuanku monorail",
+        "detail": "Start a Rapid KL route search from Medan Tuanku for journeys towards the city centre or connections to other lines.",
+        "url": "https://jp-web.myrapid.com.my/"
+      },
+      {
+        "name": "Chow Kit market district",
+        "detail": "Plan a daytime outing around Pasar Raja Bot and the food stalls in Chow Kit, with a break for a local meal.",
+        "url": "https://www.tourism.gov.my/news/trade/view/discover-kuala-lumpur-from-the-heart-of-chow-kit"
+      }
+    ],
+    "sourceUrl": "https://stay.naibnb.com/properties/quill-residences",
+    "projectStatus": "catalogue",
+    "note": "An apartment option on the Medan Tuanku side of Jalan Sultan Ismail.",
+    "aliases": [
+      "Quill"
+    ],
+    "sourceNote": ""
+  },
+  "the-colony-by-infinitum": {
+    "name": "The Colony by Infinitum",
+    "area": "klang-valley",
+    "locality": "Chow Kit, Kuala Lumpur",
+    "intro": "The Colony is on Jalan Dewan Sultan Sulaiman in Chow Kit. Choose it if you like the idea of picking up breakfast around the market streets, with Quill City Mall as an indoor place to meet later in the day.",
+    "advice": "When sharing your arrival details, use the building name and the street together. Ask which entrance is used for your chosen apartment, particularly if different members of the family arrive separately.",
+    "places": [
+      {
+        "name": "Pasar Raja Bot and Chow Kit",
+        "detail": "Tourism Malaysia identifies the market and nearby hawker areas as stops for local food. Make time for breakfast or lunch while exploring the neighbourhood.",
+        "url": "https://www.tourism.gov.my/news/trade/view/discover-kuala-lumpur-from-the-heart-of-chow-kit"
+      },
+      {
+        "name": "Quill City Mall",
+        "detail": "Its Jalan Sultan Ismail address gives you an alternative to the market streets for a meal or a sheltered pickup point.",
+        "url": "https://quillcitymall.com.my/getting-here/"
+      },
+      {
+        "name": "KLCC Park",
+        "detail": "For a separate outing into the city centre, the landscaped park at Suria KLCC offers an outdoor break by the towers.",
+        "url": "https://www.suriaklcc.com.my/attractions/klcc-park/"
+      }
+    ],
+    "sourceUrl": "https://stay.naibnb.com/properties/the-colony-by-infinitum",
+    "projectStatus": "catalogue",
+    "note": "A Chow Kit apartment on Jalan Dewan Sultan Sulaiman.",
+    "aliases": [],
+    "sourceNote": ""
+  },
+  "regalia-residence": {
+    "name": "Regalia Residence",
+    "area": "klang-valley",
+    "locality": "Chow Kit, Kuala Lumpur",
+    "intro": "Regalia is on Jalan Anjung Putra, off Jalan Sultan Ismail. It is worth comparing if you are coming to the World Trade Centre Kuala Lumpur for a ceremony or event and want a family apartment on the Jalan Putra side of Chow Kit.",
+    "advice": "For a graduation or exhibition, share the hall name and the time guests need to arrive. Supplement the venue directions with the apartment’s own lobby pin for the return journey.",
+    "places": [
+      {
+        "name": "World Trade Centre Kuala Lumpur",
+        "detail": "Check the venue entrance written on your event invitation. Universiti Kuala Lumpur’s visitor guide includes public transport options for the convention centre.",
+        "url": "https://convo.unikl.edu.my/gettingwtckl/"
+      },
+      {
+        "name": "Sunway Putra Mall",
+        "detail": "The mall on Jalan Putra lists parking and rail approaches. It makes a useful place for a family meal around an event.",
+        "url": "https://www.sunwayputramall.com/getting-here"
+      },
+      {
+        "name": "Putra KTM and PWTC LRT",
+        "detail": "These are distinct rail stops in the district. Compare the route from the one that fits your arrival or onward journey.",
+        "url": "https://www.sunwayputramall.com/getting-here"
+      }
+    ],
+    "sourceUrl": "https://stay.naibnb.com/properties/regalia-residence",
+    "projectStatus": "catalogue",
+    "note": "A Chow Kit stay for the World Trade Centre and Jalan Putra district.",
+    "aliases": [
+      "Regalia"
+    ],
+    "sourceNote": ""
+  },
+  "yolo-signature-suites": {
+    "name": "Yolo Signature Suites",
+    "area": "klang-valley",
+    "locality": "Bandar Sunway, Petaling Jaya",
+    "intro": "Yolo is on Jalan PJS 8/9 in Bandar Sunway, Petaling Jaya. Families visiting Sunway University or Monash University Malaysia can check this address against their campus gate before considering an apartment in central Kuala Lumpur.",
+    "advice": "For orientation or a campus tour, tell us which university and building you need. Look up the final walk from the BRT stop as well as the bus journey when deciding how to travel with luggage.",
+    "places": [
+      {
+        "name": "Sunway University",
+        "detail": "The university’s visitor guide covers its Bandar Sunway campus and public transport. Use the appointment or open-day entrance when planning your morning.",
+        "url": "https://sunwayuniversity.edu.my/getting-sunway-city"
+      },
+      {
+        "name": "Monash University Malaysia",
+        "detail": "The campus guide describes the Sunway BRT and the SunU–Monash stop. Check the campus map for the final leg to your meeting.",
+        "url": "https://www.monash.edu.my/student-life/living-in-bandar-sunway/getting-around"
+      },
+      {
+        "name": "Sunway Pyramid",
+        "detail": "The shopping centre is served by the Sunway Lagoon BRT stop. It gives family members a place to spend time during a campus appointment.",
+        "url": "https://www.sunwaypyramid.com/getting-here"
+      }
+    ],
+    "sourceUrl": "https://ocrbhd.com/press-releases/ocr-tops-up-yolo-signature-suites-socialtainment-project/",
+    "projectStatus": "catalogue",
+    "note": "Bandar Sunway apartments for visits to Sunway University and Monash Malaysia.",
+    "aliases": [
+      "YOLO Signature Suites"
+    ],
+    "sourceNote": ""
+  },
+  "antara-genting": {
+    "name": "Antara Genting",
+    "area": "genting-highlands",
+    "locality": "Genting Highlands, Pahang",
+    "intro": "Antara is a hilltop base for a Genting Highlands visit. Its covered connection towards the resort is useful when family members want to split a day between the attractions at the peak and the shops and cafés indoors.",
+    "advice": "Confirm the apartment lobby for arrival and ask about the walking route if anyone has reduced mobility. A coach or cable-car booking can have a different arrival point from the property drop-off.",
+    "places": [
+      {
+        "name": "SkyAvenue",
+        "detail": "Plan a meal or an indoor meeting place from the resort’s directory. This is the peak-side part of the trip.",
+        "url": "https://www.rwgenting.com/content/rw-genting/web/en/things-to-do/shopping/skyavenue-complex.html"
+      },
+      {
+        "name": "Chin Swee Caves Temple",
+        "detail": "Break the Awana SkyWay journey at the Chin Swee station to visit the temple grounds. Check the operator’s service status for the day.",
+        "url": "https://www.rwgenting.com/en/getting-here/cable-car.html"
+      },
+      {
+        "name": "Genting Highlands Premium Outlets",
+        "detail": "The outlet centre is a separate mid-hill shopping stop. Its directions help you choose the right drop-off before continuing up to the resort.",
+        "url": "https://www.premiumoutlets.com.my/genting-highlands-premium-outlets/directions"
+      }
+    ],
+    "sourceUrl": "https://www.naibnb.com/antara-genting",
+    "projectStatus": "catalogue",
+    "note": "A Genting Highlands option for visits centred on the peak.",
+    "aliases": [
+      "Antara"
+    ],
+    "sourceNote": ""
+  },
+  "skyline-embassy": {
+    "name": "Skyline Embassy",
+    "area": "klang-valley",
+    "locality": "Jalan Ampang, Kuala Lumpur",
+    "intro": "Skyline Embassy is a separate Jalan Ampang project in Kuala Lumpur’s Embassy Row district. It may suit a trip built around an appointment along Jalan Ampang. The date of a guest stay needs confirmation.",
+    "advice": "Send the specific embassy or office address and your preferred dates when asking about this project. Confirm the first guest dates before making travel arrangements.",
+    "places": [
+      {
+        "name": "Ampang Hilir Lake Park",
+        "detail": "This public lakeside park offers a place for a walk in the wider Ampang district.",
+        "url": "https://www.dbkl.gov.my/en/fasiliti-awam/taman-awam/taman-tasik-ampang-hilir"
+      },
+      {
+        "name": "KLCC Park",
+        "detail": "Consider the park for a separate city-centre outing after your appointment along Jalan Ampang.",
+        "url": "https://www.suriaklcc.com.my/attractions/klcc-park/"
+      }
+    ],
+    "sourceUrl": "https://www.tslawland.com/en/our-projects/skyline-embassy",
+    "projectStatus": "enquiry",
+    "note": "An Embassy Row project on Jalan Ampang. Ask about future guest stays.",
+    "aliases": [],
+    "sourceNote": ""
+  },
+  "cappella-embassy": {
+    "name": "Cappella Embassy",
+    "area": "klang-valley",
+    "locality": "Ampang Hilir, Kuala Lumpur",
+    "intro": "Cappella Embassy is in the Ampang Hilir embassy district. Travellers checking an appointment address should use the project name and Jalan Nipah together when looking at this part of Kuala Lumpur.",
+    "advice": "Some material spells the name Capella Embassy. Send the building name when asking about this project so the team can distinguish it from Skyline Embassy on Jalan Ampang.",
+    "places": [
+      {
+        "name": "Ampang Hilir Lake Park",
+        "detail": "Allow time for a walk around this municipal recreation area if your visit leaves an afternoon free.",
+        "url": "https://www.dbkl.gov.my/en/fasiliti-awam/taman-awam/taman-tasik-ampang-hilir"
+      },
+      {
+        "name": "Lake Symphony at KLCC",
+        "detail": "Plan a separate evening stop at the esplanade outside Suria KLCC for the lakeside setting.",
+        "url": "https://www.suriaklcc.com.my/attractions/esplanade-lake-symphony/"
+      }
+    ],
+    "sourceUrl": "https://www.capellaembassy.com.my/",
+    "projectStatus": "enquiry",
+    "note": "An Ampang Hilir project on the Jalan Nipah side of the embassy district.",
+    "aliases": [
+      "Capella Embassy"
+    ],
+    "sourceNote": ""
+  },
+  "grand-damansara": {
+    "name": "Grand Damansara",
+    "area": "klang-valley",
+    "locality": "Petaling Jaya, Selangor",
+    "intro": "Grand Damansara is in the PJU 6A area of Petaling Jaya, off the Sprint Highway. It is a different base from the central KL apartments if much of your visit will be spent around Damansara or Bandar Utama.",
+    "advice": "For an early appointment, share the destination building, the time you need to arrive and whether you plan to drive. Ask for confirmation of guest inventory for your travel dates.",
+    "places": [
+      {
+        "name": "1 Utama and Bandar Utama MRT",
+        "detail": "The mall’s directions explain how its entrances connect to Bandar Utama MRT. Choose an entrance before arranging a pickup.",
+        "url": "https://www.1utama.com.my/getting-here/"
+      },
+      {
+        "name": "Kiara Forest Park",
+        "detail": "If you have time for an outing across to the Taman Tun Dr Ismail area, check the city council’s information for this public park.",
+        "url": "https://www.dbkl.gov.my/en/fasiliti-awam/taman-awam/taman-rimba-kiara"
+      }
+    ],
+    "sourceUrl": "https://granddamansara.com/",
+    "projectStatus": "enquiry",
+    "note": "A Petaling Jaya project on the Damansara side of the Klang Valley.",
+    "aliases": [],
+    "sourceNote": ""
+  },
+  "regia": {
+    "name": "Regia",
+    "area": "klang-valley",
+    "locality": "Klang Valley",
+    "intro": "Nai Hospitality lists Regia as an upcoming Klang Valley project. A guest address, first stay dates and room designs are still to be announced.",
+    "advice": "Ask for a launch update if you have flexibility. For fixed travel dates, compare the published Klang Valley apartment galleries and send the reference for the one that suits you.",
+    "places": [],
+    "sourceUrl": null,
+    "projectStatus": "upcoming",
+    "note": "A future project listed by Nai Hospitality. Building details and first stay dates are to be announced.",
+    "aliases": [],
+    "sourceNote": "Nai Hospitality corporate partner project sheet supplied to NextGenz Centre."
+  },
+  "aliva-mount-austin": {
+    "name": "Aliva Mount Austin",
+    "area": "johor-bahru",
+    "locality": "Mount Austin, Johor Bahru",
+    "intro": "Aliva is a Mount Austin development in Johor Bahru. The same district is home to Sunway College Johor Bahru, making this a useful area to investigate for orientation, family visits or appointments around Austin Heights.",
+    "advice": "This project has no published guest gallery here yet. For an enquiry, include the date of the campus visit and whether you are arriving at Senai Airport or from central Johor Bahru.",
+    "places": [
+      {
+        "name": "Sunway College Johor Bahru",
+        "detail": "The college publishes directions for its campus in Mount Austin. Start with your visit or orientation location before selecting a neighbourhood.",
+        "url": "https://sunway.edu.my/jb/campus/location"
+      },
+      {
+        "name": "AEON Mall Tebrau City",
+        "detail": "This mall in the Tebrau area provides a shopping and dining outing when you have time around the campus visit.",
+        "url": "https://aeonmallmy.com/page/mall/aeon-mall-tebrau-city"
+      }
+    ],
+    "sourceUrl": "https://www.alivamountaustin.com/",
+    "projectStatus": "upcoming",
+    "note": "A Mount Austin project for future enquiries around the college district.",
+    "aliases": [
+      "Aliva",
+      "Aliva, Mount Austin"
+    ],
+    "sourceNote": ""
+  },
+  "arden-one-bukit-senyum": {
+    "name": "Arden at One Bukit Senyum",
+    "area": "johor-bahru",
+    "locality": "One Bukit Senyum, Johor Bahru",
+    "intro": "Arden is a planned serviced residence at One Bukit Senyum in Johor Bahru city centre. It is a project to follow for a future city stay. Its developer has announced a future completion date.",
+    "advice": "If your visit is already scheduled, send the date and city-centre meeting address so we can tell you whether an alternative is available. First guest dates for Arden have yet to be announced.",
+    "places": [
+      {
+        "name": "Johor Bahru City Square",
+        "detail": "Use the Jalan Wong Ah Fook address to meet family in the shopping district or to orient yourself after arriving in town.",
+        "url": "https://citysqjb.com/about/getting-here"
+      },
+      {
+        "name": "Johor Bahru Chinese Heritage Museum",
+        "detail": "The museum on Jalan Ibrahim is a city-centre stop for learning about Johor Bahru’s Chinese community between appointments.",
+        "url": "https://downtownjb.my/en/merchant/97/johor-bahru-chinese-heritage-museum"
+      }
+    ],
+    "sourceUrl": "https://arden-obs.com/",
+    "projectStatus": "upcoming",
+    "note": "A future city-centre project at One Bukit Senyum.",
+    "aliases": [
+      "Arden, OBS",
+      "Arden @ One Bukit Senyum"
+    ],
+    "sourceNote": ""
+  },
+  "amora-park-tampoi": {
+    "name": "Amora Park",
+    "area": "johor-bahru",
+    "locality": "Tampoi, Johor Bahru",
+    "intro": "Amora Park is a planned development in Tampoi, on the Johor Bahru side of the Skudai corridor. Use Tampoi as the starting point if your proposed visit is centred on this district.",
+    "advice": "Share a campus or office pin with your enquiry so we can check which district fits your visit. Apartment galleries and opening dates for guest stays at Amora Park are still to be released.",
+    "places": [
+      {
+        "name": "Angsana Johor Bahru Mall",
+        "detail": "The mall is in Pusat Bandar Tampoi. Its directions are useful for planning a shopping stop or a pickup in the area.",
+        "url": "https://www.udamalls.com.my/angsana-johor-bahru-mall/getting-here"
+      },
+      {
+        "name": "Hutan Bandar Johor Bahru",
+        "detail": "For a separate outing, the city council describes a recreation park at the junction of Jalan Tasek Utara and Jalan Yahya Awal.",
+        "url": "https://www.mbjb.gov.my/index.php/en/citizens/services/sports-recreations"
+      }
+    ],
+    "sourceUrl": "https://theedgemalaysia.com/node/823660",
+    "projectStatus": "upcoming",
+    "note": "A future Tampoi project for visits on the Skudai side of Johor Bahru.",
+    "aliases": [
+      "Amora Park, Tampoi"
+    ],
+    "sourceNote": ""
+  }
+}
