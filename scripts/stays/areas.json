@@ -1,6 +1,7 @@
 {
   "klang-valley": {
     "name": "Klang Valley",
+    "searchTitle": "Short-Stay Apartments in Kuala Lumpur & the Klang Valley | NextGenz",
     "intro": "A morning at a Sunway campus, an exhibition at the World Trade Centre and dinner in Bukit Bintang lead to three different choices of apartment. Compare central Kuala Lumpur with Bandar Sunway and Damansara in Petaling Jaya before choosing where to stay.",
     "advice": "Start with the address you need to reach most often. For a week of classes, try your morning journey in the Rapid KL planner. For a family visit, choose the district where you want to spend your evenings.",
     "places": [
@@ -112,6 +113,7 @@
   },
   "genting-highlands": {
     "name": "Genting Highlands",
+    "searchTitle": "Genting Highlands Apartments for Families | NextGenz",
     "intro": "Genting works well as a short hill break around a university visit to Kuala Lumpur. The mid-hill bus and cable-car area and the attractions at the peak are different arrival points. Decide where you will leave your luggage before setting off for the day.",
     "advice": "Ask for the apartment lobby pin before choosing a drop-off. If you plan to use the cable car, check the operator’s service notice for your travel date and plan the final journey back to the apartment.",
     "places": [
