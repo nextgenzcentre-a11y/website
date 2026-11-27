@@ -541,3 +541,45 @@ body main .ng-related-media a:hover figcaption{background:#C5A059!important}
 .ng-brand-header{background:#0F1F38!important}
 .ng-brand-header .ng-brand-mobile-list,.ng-brand-header .ng-brand-language-list{background:#0F1F38!important}
 @media(prefers-reduced-motion:reduce){.ng-related-media a,.ng-related-actions a{transition:none!important}}
+
+
+/* Dedicated course pages: display existing campus artwork at a native-size,
+   aspect-preserving panel instead of an enlarged full-bleed background.
+   Scoped by public-course-quality.cjs; no portal or guide styles affected. */
+body.ng-course-quality main .hero{
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ align-items:center!important;min-height:0!important;max-height:none!important;
+ padding:clamp(24px,3vw,48px) max(20px,calc((100vw - 1220px)/2))!important;gap:clamp(18px,3vw,42px);
+}
+body.ng-course-quality main .hero>.wrap{
+ grid-column:auto!important;grid-row:auto!important;position:relative!important;
+ max-width:none!important;width:100%!important;padding:0!important;margin:0!important;
+}
+body.ng-course-quality main .hero .ng-hero-media{
+ grid-column:auto!important;grid-row:auto!important;position:relative!important;
+ inset:auto!important;width:100%!important;height:auto!important;min-height:0!important;
+ max-width:740px!important;padding:0!important;margin:0!important;z-index:0!important;
+}
+body.ng-course-quality main .hero .ng-hero-media img{
+ position:relative!important;inset:auto!important;width:100%!important;
+ height:auto!important;max-height:none!important;aspect-ratio:auto!important;
+ object-fit:contain!important;object-position:center!important;border-radius:16px!important;
+ filter:none!important;
+}
+body.ng-course-quality main .hero .ng-hero-media:before{display:none!important}
+body.ng-course-quality main .hero :is(h1,.ng-seo-headline){
+ font-size:clamp(1.9rem,3.3vw,3.25rem)!important;line-height:1.2!important;overflow-wrap:anywhere;
+}
+body.ng-course-quality main .hero .lead{margin-bottom:14px!important}
+body.ng-course-quality main .article h2{margin-block:26px 12px}
+body.ng-course-quality main .article :is(p,li){line-height:1.75!important}
+html[dir=rtl] body.ng-course-quality main :is(h1,h2,h3,.button,.eyebrow){letter-spacing:normal!important}
+html[dir=rtl] body.ng-course-quality main ol{padding-inline-start:1.5rem;padding-inline-end:0}
+html[dir=rtl] body.ng-course-quality [lang=en][dir=ltr]{text-align:start;unicode-bidi:isolate}
+@media(max-width:760px){
+ body.ng-course-quality main .hero{grid-template-columns:minmax(0,1fr)!important;padding:26px 18px!important;gap:18px}
+ body.ng-course-quality main .hero :is(h1,.ng-seo-headline){font-size:clamp(1.7rem,6.8vw,2.35rem)!important}
+ body.ng-course-quality main .hero .ng-hero-media{max-width:100%!important}
+ body.ng-course-quality main .article{padding:18px!important}
+ body.ng-course-quality main .section{padding-block:26px!important}
+}
