@@ -6,6 +6,6 @@
     "tailwindcss": "^3.4.17"
   },
   "scripts": {
-    "build": "node build.cjs && node search-intent.cjs && node ../stays/build.cjs && node prepare-ads.cjs"
+    "build": "node build.cjs && node search-intent.cjs && node ../stays/build.cjs && node prepare-ads.cjs && node public-course-quality.cjs"
   }
 }
