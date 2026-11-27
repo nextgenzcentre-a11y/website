@@ -1,6 +1,7 @@
 {
   "agile-bukit-bintang": {
     "name": "Agile Bukit Bintang",
+    "searchTitle": "Agile Bukit Bintang Apartments near The Exchange TRX | NextGenz",
     "area": "klang-valley",
     "locality": "Bukit Bintang, Kuala Lumpur",
     "intro": "Agile is on Jalan Bukit Bintang, on the city side of a stay that can combine Pavilion Kuala Lumpur, The Exchange TRX and dinner on Jalan Alor. It is a useful base for families fitting sightseeing around an appointment in central KL.",
@@ -32,6 +33,7 @@
   },
   "axon-bukit-bintang": {
     "name": "Axon Bukit Bintang",
+    "searchTitle": "Axon Bukit Bintang Apartments near Pavilion Kuala Lumpur | NextGenz",
     "area": "klang-valley",
     "locality": "Jalan Walter Granier, Bukit Bintang",
     "intro": "Axon’s address is on Jalan Walter Granier in Bukit Bintang. Families sharing one apartment can use the district as a meeting point while some head to appointments and others explore the shops or the food streets.",
@@ -61,6 +63,7 @@
   },
   "quill-residences": {
     "name": "Quill Residences",
+    "searchTitle": "Quill Residences Apartments near Medan Tuanku Monorail | NextGenz",
     "area": "klang-valley",
     "locality": "Jalan Sultan Ismail, Kuala Lumpur",
     "intro": "Quill Residences is on Jalan Sultan Ismail beside the Quill City Mall area. Medan Tuanku is the useful monorail stop to remember for days when family members want to go into central Kuala Lumpur separately.",
@@ -92,6 +95,7 @@
   },
   "the-colony-by-infinitum": {
     "name": "The Colony by Infinitum",
+    "searchTitle": "The Colony by Infinitum Apartments in Chow Kit, Kuala Lumpur | NextGenz",
     "area": "klang-valley",
     "locality": "Chow Kit, Kuala Lumpur",
     "intro": "The Colony is on Jalan Dewan Sultan Sulaiman in Chow Kit. Choose it if you like the idea of picking up breakfast around the market streets, with Quill City Mall as an indoor place to meet later in the day.",
@@ -121,6 +125,7 @@
   },
   "regalia-residence": {
     "name": "Regalia Residence",
+    "searchTitle": "Regalia Residence Apartments near Sunway Putra Mall | NextGenz",
     "area": "klang-valley",
     "locality": "Chow Kit, Kuala Lumpur",
     "intro": "Regalia is on Jalan Anjung Putra, off Jalan Sultan Ismail. It is worth comparing if you are coming to the World Trade Centre Kuala Lumpur for a ceremony or event and want a family apartment on the Jalan Putra side of Chow Kit.",
@@ -152,6 +157,7 @@
   },
   "yolo-signature-suites": {
     "name": "Yolo Signature Suites",
+    "searchTitle": "Yolo Signature Suites near Sunway University, Bandar Sunway | NextGenz",
     "area": "klang-valley",
     "locality": "Bandar Sunway, Petaling Jaya",
     "intro": "Yolo is on Jalan PJS 8/9 in Bandar Sunway, Petaling Jaya. Families visiting Sunway University or Monash University Malaysia can check this address against their campus gate before considering an apartment in central Kuala Lumpur.",
@@ -183,6 +189,7 @@
   },
   "antara-genting": {
     "name": "Antara Genting",
+    "searchTitle": "Antara Genting Highlands Apartments and Short Stays | NextGenz",
     "area": "genting-highlands",
     "locality": "Genting Highlands, Pahang",
     "intro": "Antara is a hilltop base for a Genting Highlands visit. Its covered connection towards the resort is useful when family members want to split a day between the attractions at the peak and the shops and cafés indoors.",

@@ -33,3 +33,66 @@
 @media(max-width:470px){.wrap{width:calc(100% - 2rem)}.bar nav a:nth-child(2){display:none}.brand{font-size:.9rem}.brand img{width:30px}.brand small{font-size:.62rem}.bar nav{gap:.55rem}.nav-contact{padding:.4rem .65rem}.cards{grid-template-columns:1fr}.local-images{grid-template-columns:1fr}.local-images img,.local-images figure:nth-child(2) img{aspect-ratio:1.9}.unit>summary,.unit-body{padding-inline:.8rem}.hero-sub .portrait .main-pic{height:210px}.lightbox{width:96vw}.viewer-bar button{font-size:.87rem}}
 .destination-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,205px),1fr));gap:1.1rem;margin:1.8rem 0 0}.destination-links .route{align-content:start;height:100%}.network-frame{width:100%;border:0;display:block;height:780px}.booking .partner-link{background:transparent;color:var(--paper);border-color:var(--gold)}.booking .partner-link:hover{background:#20384e}.booking p.rate-note{font-size:.9rem;margin-top:.6rem}.faq{border-bottom:1px solid var(--line);padding:1rem 0;max-width:75ch}.faq summary{font-weight:650}.faq p{margin-top:.5rem}.faq:first-of-type{margin-top:1rem}
 @media(max-width:750px){.network-frame{height:1250px}}@media(max-width:470px){.destination-links{grid-template-columns:1fr;gap:.1rem}}
+
+.text-action {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--brass);
+  font-weight: 700;
+}
+
+.booking-guide {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 260px);
+  gap: clamp(1.6rem, 6vw, 5rem);
+  align-items: center;
+  margin-top: 1.25rem;
+}
+
+.booking-steps {
+  display: grid;
+  gap: 1.2rem;
+  padding-inline-start: 1.75rem;
+}
+
+.booking-steps li {
+  border-top: 1px solid var(--line);
+  padding: .8rem 0 0 .3rem;
+}
+
+.booking-steps li::marker {
+  color: var(--brass);
+  font-weight: 700;
+}
+
+.booking-steps h3 {
+  margin: 0 0 .4rem;
+  font-size: 1.45rem;
+}
+
+.booking-steps p {
+  max-width: 64ch;
+}
+
+.booking-flyer {
+  width: min(100%, 260px);
+  margin-inline: auto;
+}
+
+.booking-flyer a {
+  display: block;
+}
+
+.booking-flyer img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: .65rem;
+}
+
+@media (max-width: 650px) {
+  .booking-guide {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
