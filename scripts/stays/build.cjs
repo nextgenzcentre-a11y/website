@@ -95,7 +95,7 @@ function frame({url, title, description, crumbs, photo, body, credits=[], map=fa
 <meta property="og:type" content="website"><meta property="og:site_name" content="NextGenz Centre"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${origin+url}"><meta property="og:image" content="${origin+photo}"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0f1f38">
 <link rel="icon" href="/assets/brand/nextgenz-official-crest-fallback.png"><link rel="stylesheet" href="${assets}guide.css"><script defer src="${assets}guide.js"></script><script type="application/ld+json">${structured}</script></head>
 <body><a class="skip" href="#main">Skip to content</a><header class="sitebar"><div class="wrap bar"><a class="brand" href="/"><img src="/assets/brand/nextgenz-official-crest-fallback.png" alt="" width="38" height="42"><span>NextGenz Centre<small>STAYS IN MALAYSIA</small></span></a><nav aria-label="Accommodation navigation"><a href="${hub}#destinations">Destinations</a><a href="${hub}#apartments">Apartments</a><a class="nav-contact" href="${contact('Hi NextGenz Centre, I would like help finding accommodation in Malaysia.')}" target="_blank" rel="noopener noreferrer">WhatsApp</a></nav></div></header>
-<main id="main">${body}</main><footer class="wrap"><div class="foot"><strong>NextGenz Centre</strong><nav aria-label="Footer"><a href="${hub}">Malaysia stays</a><a href="/portal-app.html#services">All services</a><a href="/programmes/">Study programmes</a><a href="/privacy-policy.html">Privacy</a></nav></div>${photographCredits(credits,map)}</footer></body></html>`;
+<main id="main">${body}</main><footer class="wrap"><div class="foot"><strong>NextGenz Centre</strong><nav aria-label="Footer"><a href="${hub}">Malaysia stays</a><a href="/#services">All services</a><a href="/programmes/">Study programmes</a><a href="/privacy-policy.html">Privacy</a></nav></div>${photographCredits(credits,map)}</footer></body></html>`;
   const target = path.join(root,url.slice(1));
   fs.mkdirSync(path.dirname(target),{recursive:true});
   fs.writeFileSync(target,page);
@@ -160,14 +160,15 @@ function filteredList(cards, id, controls) {
 }
 function renderHub() {
   const crumbs=[homeCrumb,stayCrumb], pic=landmarkUrl('kuala-lumpur');
-  const body=hero({crumbs,eyebrow:'NextGenz Centre × NaiBnb',heading:'Student &amp; family accommodation <em>in Malaysia.</em>',intro:'Find furnished apartments in Kuala Lumpur, Bandar Sunway and Genting Highlands. '+nightlyOffer,actions:partnerLink()+link('#apartments','Explore apartments','btn outline')+link('#how-to-book','How to book','text-action'),image:pic,alt:landmarks['kuala-lumpur'].caption,caption:'Kuala Lumpur skyline and an Agile Bukit Bintang apartment.',inset:roomCover(buildings.get('agile-bukit-bintang')),insetAlt:buildings.get('agile-bukit-bintang').coverAlt})
+  const body=hero({crumbs,eyebrow:'NextGenz Centre × NaiBnb',heading:'Student &amp; family accommodation <em>in Malaysia.</em>',intro:'Find furnished short-stay apartments in Kuala Lumpur, Bandar Sunway and Genting Highlands for students, families and visitors. Compare room photos and sleeping arrangements, then check prices for your dates. '+nightlyOffer,actions:partnerLink()+link('#apartments','Explore apartments','btn outline')+link('#how-to-book','How to book','text-action'),image:pic,alt:landmarks['kuala-lumpur'].caption,caption:'Kuala Lumpur skyline and an Agile Bukit Bintang apartment.',inset:roomCover(buildings.get('agile-bukit-bintang')),insetAlt:buildings.get('agile-bukit-bintang').coverAlt})
     +section('destinations','Destination guide','Where would you like to stay?',`<div class="destination-links">${Object.entries(regions).map(([id,r])=>`<a class="route" href="${regionUrl(id)}"><img src="${landmarkUrl(regionMedia[id][0])}" width="54" height="54" loading="lazy" alt=""><span><strong>${esc(regionNames[id])}</strong><small>${regionStatus[r.status]}</small></span></a>`).join('')}</div>`)
     +section('apartments','The apartment collection','Explore the apartments',`<p class="section-lead">Choose a building to compare room layouts and see photos for each apartment. For a campus visit, start with the neighbourhood closest to your appointments.</p>`+filteredList(catalogue.map(p=>propertyCard(p,true)).join(''),'property-cards',`<label>Property or neighbourhood<input type="search" placeholder="e.g. Quill or Bandar Sunway"></label><label>Destination<select><option value="">All apartment destinations</option>${Object.keys(regions).filter(id=>regions[id].status==='catalogue').map(id=>`<option value="${id}">${esc(regionNames[id])}</option>`).join('')}</select></label>`))
+    +section('compare-stays','Choose by location','Compare short-stay apartments by neighbourhood',`<p class="section-lead">For a central Kuala Lumpur visit, compare <a href="${propertyUrl('agile-bukit-bintang')}">Agile Bukit Bintang apartments near TRX</a> and <a href="${propertyUrl('axon-bukit-bintang')}">Axon Bukit Bintang apartments near Pavilion</a>. Around Jalan Sultan Ismail and Chow Kit, explore <a href="${propertyUrl('quill-residences')}">Quill Residences</a>, <a href="${propertyUrl('regalia-residence')}">Regalia Residence</a> and <a href="${propertyUrl('the-colony-by-infinitum')}">The Colony by Infinitum</a>. For campus visits in Bandar Sunway, see <a href="${propertyUrl('yolo-signature-suites')}">Yolo Signature Suites</a>. For a hill-resort break, see <a href="${propertyUrl('antara-genting')}">Antara Genting apartments</a>. Compare the exact lobby, sleeping arrangements and live rate before booking.</p>`)
     +section('network','Nai Hospitality projects','Our accommodation network',`<p class="section-lead">Explore the project map for Peninsular Malaysia and Sarawak. Each destination guide shows which buildings have apartment galleries and which are planned.</p><iframe id="ng-map" class="network-frame" src="/assets/accommodation-network/network.html" title="Interactive map of Nai Hospitality projects in Malaysia" loading="lazy"></iframe><noscript><img src="${assets}destination-map.webp" width="1320" height="600" alt="Destination map of Peninsular Malaysia and Sarawak"></noscript>`)
     +bookingGuide()
     +section('arrival','For students and visiting families','Plan your first weeks',`<div class="related">${link('/guides/first-weeks-accommodation-malaysia.html','Your first weeks in Malaysia','pill')}${link('/guides/choosing-student-apartment-malaysia.html','How to choose a student apartment','pill')}${link('/guides/furnished-apartments-for-students-malaysia.html','What a furnished apartment includes','pill')}</div><details class="faq"><summary>Do the photos show the apartment I choose?</summary><p>Each design has its own NG reference and gallery. Include that reference when booking so we can check the same apartment for your dates.</p></details><details class="faq"><summary>Can I check prices before I travel?</summary><p>Yes. Enter your dates on the NextGenz partner booking page, or send them on WhatsApp with the guest count and your preferred apartment.</p></details>`)
     +booking('an apartment in Malaysia');
-  frame({url:hub,title:'Student Accommodation in Malaysia | NextGenz 30% Nightly Offer',description:'Book furnished student and family apartments in Kuala Lumpur, Bandar Sunway and Genting Highlands. Save 30% on nightly room rates during the NextGenz and NaiBnb promotion.',crumbs,photo:pic,body,credits:['kuala-lumpur',...Object.values(regionMedia).map(a=>a[0])],map:true,entity:{'@type':'ItemList',name:'Apartment guides in Malaysia',itemListElement:catalogue.map((p,i)=>({'@type':'ListItem',position:i+1,name:p.name,url:origin+propertyUrl(p.slug)}))}});
+  frame({url:hub,title:'Student Accommodation in Malaysia | NextGenz 30% Nightly Offer',description:'Book furnished short-stay apartments in Kuala Lumpur, Bandar Sunway and Genting Highlands for students and families. Save 30% on room rates during the promotion.',crumbs,photo:pic,body,credits:['kuala-lumpur',...Object.values(regionMedia).map(a=>a[0])],map:true,entity:{'@type':'ItemList',name:'Apartment guides in Malaysia',itemListElement:catalogue.map((p,i)=>({'@type':'ListItem',position:i+1,name:p.name,url:origin+propertyUrl(p.slug)}))}});
 }
 function renderRegion(id,r) {
   const name=regionNames[id], url=regionUrl(id), crumbs=[homeCrumb,stayCrumb,regionCrumb(id)];
@@ -185,16 +186,24 @@ function renderProperty(id,g) {
   const p=buildings.get(id),url=propertyUrl(id),crumbs=[homeCrumb,stayCrumb,regionCrumb(g.area),[g.name,url]];
   const photos=localMedia[id]||regionMedia[g.area],pic=p?roomCover(p):landmarkUrl(photos[0]);
   const listing = p ? partnerLink()+link('#rooms','Browse room types','btn outline') : link('#local-guide','Explore the area');
-  let body=hero({crumbs,eyebrow:p?g.locality:statusLabel[g.projectStatus],heading:esc(g.name),intro:g.intro,image:pic,alt:p?p.coverAlt:landmarks[photos[0]].caption,caption:p?`${g.name} · ${g.locality}`:landmarks[photos[0]].caption,actions:listing,facts:p?[plural(p.configurations.length,'room type'),g.locality]:[g.locality]});
+  let body=hero({crumbs,eyebrow:p?g.locality:statusLabel[g.projectStatus],heading:esc(g.name)+(p?' <em>short-stay apartments</em>':''),intro:g.intro,image:pic,alt:p?p.coverAlt:landmarks[photos[0]].caption,caption:p?`${g.name} · ${g.locality}`:landmarks[photos[0]].caption,actions:listing,facts:p?[plural(p.configurations.length,'room type'),g.locality]:[g.locality]});
   if(p) {
+    const layouts=[...new Set(p.configurations.map(c=>c.bedrooms).filter(Number.isInteger))].sort((a,b)=>a-b).map(bedLabel);
+    const capacities=p.configurations.flatMap(c=>c.units).map(u=>u.guests).filter(n=>Number.isFinite(n)&&n>0);
+    const capacity=capacities.length?` The listed designs accommodate ${Math.min(...capacities)===Math.max(...capacities)?Math.max(...capacities):Math.min(...capacities)+'–'+Math.max(...capacities)} guests, depending on the apartment.`:'';
+    body+=section('booking-options','Compare before booking','Short-stay options at '+g.name,`<p class="section-lead">${esc(g.name)} in ${esc(g.locality)} has ${plural(p.configurations.length,'room type')} in our published apartment catalogue${layouts.length?': '+esc(layouts.join(', ')):''}.${esc(capacity)} Browse the individual room pages for photographs and bed arrangements. Available units and nightly prices depend on your dates.</p><p>${esc(nightlyOffer)} Cleaning fees and applicable taxes are calculated separately. Use the partner booking page to check your dates, guest count and final total.</p><div class="actions">${partnerLink('Check live apartment rates')}${link(hub+'#how-to-book','Booking instructions','btn outline')}</div>`);
     const cards=p.configurations.map(c=>`<article class="card" data-stay-card data-search="${esc(c.name.toLowerCase())}" data-region="${c.bedrooms}"><a href="${c.url}"><img src="${roomCover(c)}" alt="${esc(c.coverAlt)}" width="800" height="500" loading="lazy"><small>${esc(bedLabel(c.bedrooms))} · ${plural(c.units.length,'apartment design')}</small><h3>${esc(c.displayName)}</h3><p>${esc(roomSummary(c).join(' · '))}</p></a></article>`).join('');
     const controls=p.configurations.length>4?`<label>Room type<input type="search" placeholder="e.g. studio"></label><label>Bedrooms<select><option value="">Any layout</option>${[...new Set(p.configurations.map(c=>c.bedrooms))].sort((a,b)=>a-b).map(n=>`<option value="${n}">${bedLabel(n)}</option>`).join('')}</select></label>`:'';
     body+=section('rooms','The collection','Room types at '+p.name,controls?filteredList(cards,'room-cards',controls):`<div class="cards">${cards}</div>`);
   }
   body+=g.places.length?localSection('What to do around '+g.name,g.advice,g.places,photos):section('local-guide',g.locality,'Plan for the opening',`<p class="section-lead">${esc(g.advice)}</p>${link(regionUrl(g.area),'See current Klang Valley apartments','btn outline')}`);
+  if(p){
+    const alternatives=catalogue.filter(q=>q.slug!==id&&guides[q.slug].area===g.area);
+    if(alternatives.length)body+=section('nearby-alternatives','Compare locations','Other short-stay apartments in '+regionNames[g.area],`<div class="related">${alternatives.map(q=>link(propertyUrl(q.slug),q.name+' — '+guides[q.slug].locality,'pill')).join('')}</div>`);
+  }
   body+=booking(g.name,g.projectStatus);
   const entity=p?{'@type':'ApartmentComplex',name:p.name,url:origin+url,description:g.intro,image:origin+pic,address:{'@type':'PostalAddress',addressLocality:g.locality,addressCountry:'MY'}}:undefined;
-  frame({url,title:g.searchTitle || `${g.name} Project Guide in ${g.locality} | NextGenz`,description:g.intro,crumbs,photo:pic,body,credits:g.places.length?photos:[],entity});
+  frame({url,title:id==='agile-bukit-bintang'?'Agile Bukit Bintang Short-Stay Apartments near TRX, KL | NextGenz':g.searchTitle || `${g.name} Project Guide in ${g.locality} | NextGenz`,description:p?`${g.name}, ${g.locality}: compare ${plural(p.configurations.length,'room type')}, apartment photos and sleeping arrangements. Check live nightly rates through NextGenz and NaiBnb.`:g.intro,crumbs,photo:pic,body,credits:g.places.length?photos:[],entity});
 }
 function unitGallery(p,c,u,index) {
   const media = u.photos.map((id,i)=>`<figure><img data-enlarge src="/accommodation-images/${id}.jpg" alt="${esc(`${p.name}, ${c.name}, apartment ${u.code}, photo ${i+1}`)}" width="640" height="426" loading="lazy" decoding="async"></figure>`);
@@ -220,6 +229,31 @@ renderHub();
 for(const [id,r] of Object.entries(regions))renderRegion(id,r);
 for(const [id,g] of Object.entries(guides))renderProperty(id,g);
 for(const p of catalogue)for(const c of p.configurations)renderRoom(p,c);
+// Add contextual backlinks from existing student-arrival articles.
+const guideLinks={
+ 'first-weeks-accommodation-malaysia.html':[['klang-valley','Kuala Lumpur and Klang Valley short-stay apartments'],['agile-bukit-bintang','Agile Bukit Bintang near TRX']],
+ 'choosing-student-apartment-malaysia.html':[['agile-bukit-bintang','Agile Bukit Bintang room types'],['quill-residences','Quill Residences apartments'],['regalia-residence','Regalia Residence apartments']],
+ 'furnished-apartments-for-students-malaysia.html':[['agile-bukit-bintang','Agile Bukit Bintang furnished apartments'],['yolo-signature-suites','Yolo Signature Suites in Bandar Sunway']]
+};
+for(const [file,items] of Object.entries(guideLinks)){
+ const target=path.join(root,'guides',file);
+ let html=fs.readFileSync(target,'utf8');
+ const marker='id="ng-stays-location-links"';
+ if(html.includes(marker))continue;
+ if(!html.includes('</article>'))throw Error('Missing guide article: '+file);
+ const links=items.map(([id,label])=>{
+   const url=regions[id]?regionUrl(id):propertyUrl(id);
+   if(!urls.has(url))throw Error('Unknown accommodation guide link '+url);
+   return link(url,label,'');
+ }).join(' · ');
+ html=html.replace('</article>','<section '+marker+'><h2>Compare named apartment buildings</h2><p>Use the building guides to compare location and room layouts before checking the current rate for your dates.</p><p>'+links+'</p></section></article>');
+ fs.writeFileSync(target,html);
+}
+// Check all generated canonicals, crawl directives and intended public navigation.
+for(const url of urls.keys()){
+ const html=fs.readFileSync(path.join(root,url.slice(1)),'utf8');
+ if(!html.includes('<link rel="canonical" href="'+origin+url+'">')||!html.includes('name="robots" content="index,follow,max-image-preview:large"')||html.includes('href="/portal-app.html#services"'))throw Error('Accommodation SEO check failed '+url);
+}
 const sitemapFile=path.join(root,'sitemap.xml');
 let sitemap=fs.readFileSync(sitemapFile,'utf8').replace(/<url>([\s\S]*?)<\/url>/g,(match,inside)=>{
   const loc=inside.match(/<loc>([^<]*)<\/loc>/)?.[1];
